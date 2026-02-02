@@ -2,6 +2,7 @@
 title: Introduction
 subtitle: "Cours 1" 
 bibliography: references.bib
+auto-stretch: false
 ---
 
 ## À propos de moi
@@ -49,7 +50,7 @@ Mêmes données, équipes différentes [@camerer2018]
 ## Approche
 
 -   Accent sur les statistiques appliquées et modernes
--   Analyses « ordonnées » (plus sur cela plus tard)
+-   Analyses « tidy » (plus sur cela plus tard)
 -   Travail avec de vraies données
 -   Les modèles statistiques comme cadre unifié
 
