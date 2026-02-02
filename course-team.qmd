@@ -2,9 +2,34 @@
 title: "Équipe d'enseignement"
 ---
 
+::: {.grid}
+
+::: {.g-col-12 .g-col-md-6}
+
 ## Alexandre Merciere
 
+![](images/am.png){width="200px" style="border-radius: 50%; display: block; margin: 0 auto 1.5rem;"}
 
+### Background
+
+Ingénieur de recherche au CRIOBE
+
+📧 [alexandre.merciere@vacataire.upf.pf](mailto:alexandre.merciere@vacataire.upf.pf)
+
+:::
+
+::: {.g-col-12 .g-col-md-6}
 
 ## Andreas Eich
 
+![](images/ae.png){width="200px" style="border-radius: 50%; display: block; margin: 0 auto 1.5rem;"}
+
+### Background
+
+Doctorant à EPHE (France), CRIOBE, et Universté Laval (Canada)
+
+📧 [eich.andreas@gmail.com](mailto:eich.andreas@gmail.com)
+
+:::
+
+:::

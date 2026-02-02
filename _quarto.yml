@@ -30,18 +30,12 @@ website:
     collapse-level: 1
 
     contents:
-        - href: course-overview.qmd
-          text: Aperçu
-        - href: course-team.qmd
-          text: Équipe d'enseignement
         - href: index.qmd
           text: Calendrier
+        - href: course-team.qmd
+          text: Équipe d'enseignement
         - href: course-links.qmd
           text: Liens utiles
-        - href: computing/computing-access.qmd
-          text: Accès
-        - href: computing/computing-cheatsheets.qmd
-          text: Aide-mémoires
 
   page-footer:
     right: "Cette page est créée avec 🤍 et [Quarto](https://quarto.org/)."
