@@ -4,7 +4,7 @@
     "href": "index.html",
     "title": "UE 6.7: Biostatistiques 2",
     "section": "",
-    "text": "SESSION\nGROUP 1\nGROUP 2\nTOPIC\nPREPARE\nSLIDES\nTP\nHELP\n\n\n\n\n1\n1 janv. 2026\n2 janv. 2026\nIntroduction: statistics, RStudio, Quarto\nBe prepared! Read this\n🖥️ 01\n📝 01\n❓01\n\n\n2\n1 févr. 2026\n2 févr. 2026\nExploratory analysis: Read & Visualise data\nBe prepared! Read this\n🖥️ 02\n📝 02\n❓02",
+    "text": "SESSION\nGROUP 1\nGROUP 2\nTOPIC\nSLIDES\nTP\nHELP\n\n\n\n\n1\n1 janv. 2026\n2 janv. 2026\nIntroduction: statistics, RStudio, Quarto\n🖥️ 01\n📝 01\n❓01\n\n\n2\n1 févr. 2026\n2 févr. 2026\nExploratory analysis: Read & Visualise data\n🖥️ 02\n📝 02\n❓02",
     "crumbs": [
       "Calendrier"
     ]
@@ -21,7 +21,7 @@
     "href": "course-links.html",
     "title": "Liens utiles",
     "section": "",
-    "text": "Posit Cloud\n🔗 Posit Cloud\n\n\n\nManuels\n🔗 Introduction to Modern Statistics, 2nd Edition\n🔗 R for Data Science, 2nd Edition\n🔗 Statistical Inference via Data Science\n\n\n\nDocumentation paquets\n🔗 tidyverse: tidyverse.org\n\n\n\nVisualisation\n🔗 Fundamentals of Data Visualization\n\n\n\nStatistiques Bayesiennes | 🔗 Statistical Rethinking\n\n\n\n\nCode reproductible\n🔗 Reproducible Code in Ecology and Evolution",
+    "text": "Posit Cloud\n🔗 Posit Cloud\n\n\nManuels\n🔗 Introduction to Modern Statistics, 2nd Edition\n🔗 R for Data Science, 2nd Edition\n🔗 Statistical Inference via Data Science\n\n\nDocumentation paquets\n🔗 tidyverse: tidyverse.org\n\n\nVisualisation\n🔗 Fundamentals of Data Visualization\n\n\nBayes\n🔗 Statistical Rethinking\n\n\nCode reproductible\n🔗 Reproducible Code in Ecology and Evolution",
     "crumbs": [
       "Liens utiles"
     ]
