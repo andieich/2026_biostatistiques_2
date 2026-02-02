@@ -15,7 +15,7 @@ title: "Liens utiles"
 +-----------------------+----------------------------------------------------------------------------------------------------------------------------------------------------------------------+
 | Visualisation         | 🔗 [Fundamentals of Data Visualization](https://clauswilke.com/dataviz/){target="_blank"}                                                                            |
 +-----------------------+----------------------------------------------------------------------------------------------------------------------------------------------------------------------+
-| Statistiques Bayesiennes | 🔗 [Statistical Rethinking](https://github.com/rmcelreath/stat_rethinking_2023){target="_blank"}                                                                     |
+| Bayes                 | 🔗 [Statistical Rethinking](https://github.com/rmcelreath/stat_rethinking_2023){target="_blank"}                                                                     |
 +-----------------------+----------------------------------------------------------------------------------------------------------------------------------------------------------------------+
 | Code reproductible    | 🔗 [Reproducible Code in Ecology and Evolution](https://www.britishecologicalsociety.org/wp-content/uploads/2017/12/guide-to-reproducible-code.pdf){target="_blank"} |
 +-----------------------+----------------------------------------------------------------------------------------------------------------------------------------------------------------------+
