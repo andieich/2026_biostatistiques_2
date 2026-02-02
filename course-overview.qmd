@@ -1,0 +1,11 @@
+---
+title: "Aperçu du cours"
+date: 2025-10-07
+date-format: "MM.DD.YYYY"
+author: Andreas Eich
+language:
+  fr:
+    title-block-published: "Mis à jour"
+lang: fr
+---
+BLAH
