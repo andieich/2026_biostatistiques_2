@@ -1,0 +1,86 @@
+[
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "UE 6.7: Biostatistiques 2",
+    "section": "",
+    "text": "SESSION\nGROUP 1\nGROUP 2\nTOPIC\nPREPARE\nSLIDES\nTP\nHELP\n\n\n\n\n1\n1 janv. 2026\n2 janv. 2026\nIntroduction: statistics, RStudio, Quarto\nBe prepared! Read this\n🖥️ 01\n📝 01\n❓01\n\n\n2\n1 févr. 2026\n2 févr. 2026\nExploratory analysis: Read & Visualise data\nBe prepared! Read this\n🖥️ 02\n📝 02\n❓02",
+    "crumbs": [
+      "Calendrier"
+    ]
+  },
+  {
+    "objectID": "hints/hints_01/hints_01.html",
+    "href": "hints/hints_01/hints_01.html",
+    "title": "Indications pour TP 01",
+    "section": "",
+    "text": "Here I give you some help in case you struggle solving the tasks. Please try to solve the tasks first without these hints, all information you need is in the .qmd document I shared with you.\nTask 1\nUse the R code chunk below and replace ____ with the name of the data frame (penguins). When you run the chunk, you will see the first rows:\n\nhead(____)\n\n\n\n\n\n\n\nShow Hint\n\n\n\n\n\nhead() is a function. To use it, you put the name of the data set inside the parentheses. The name of the dataset is penguins, so you want to replace ____ with that name.\n\n\n\nLearning Check 1\nWhat does each row in penguins contain?\n\nData for all penguins at a specific island, e.g. Biscoe\nData for all penguins of a species, e.g. Adelie\nData for only one penguin\n\n\n\n\n\n\n\nShow Hint\n\n\n\n\n\nTry to imagine how the researchers entered the data. What would be the natural unit of observation for field biologists?\n\n\n\nTask 2\nSelect the column bill_length_mm from the penguins data:\n\n____$____\n\n\n\n\n\n\n\nShow Hint\n\n\n\n\n\nThe name of the dataset is penguins, and you want to access a column called bill_length_mm. So first, you tell R the name of the data, then, that you want to access a column ($), and then you give the name of the column (bill_length_mm).\n\n\n\nTask 3\nCalculate the minimum, maximum, and mean value for bill_length_mm:\n\nmin(____$____)\nmax(____$____)\nmean(____$____)\n\n\n\n\n\n\n\nShow Hint\n\n\n\n\n\nAbove, you learned how to access a column in a data frame with the $ operator. Use the same method here, i.e. Insert in each function first the name of the data frame (penguins), then use $ to access the bill_length_mm column.\n\n\n\nTask 4\nGroup the data by species and sex before calculating the mean of bill_length_mm:\n\npenguins %&gt;% # 1. Take the penguins dataset\n  group_by(species, ____) %&gt;% # 2. Group it by species and sex\n  summarize(mean_bill_length_mm = mean(bill_length_mm)) # 3. create a new column called \"mean_bill_length_mm\" and assign the mean values of each group\n\n\n\n\n\n\n\nShow Hint\n\n\n\n\n\ngroup_by() works with multiple grouping variables. You can just add sex to group the data additionally by sex. The mean (step 3) will then be calculated for the combinations of both groups.\n\n\n\nTask 5\nGroup the data by species and sex and additionally to the mean and minimum value of bill_length_mm, calculate the maximum value. Hint: If you create columns in R, they cannot contain spaces or minuses -.\n\npenguins %&gt;% # 1. Take the penguins dataset\n  group_by(species, ____) %&gt;% # 2. Group it by species and sex\n  summarize(\n    mean_bill_length_mm = mean(bill_length_mm), # 3.1. create a new column called \"mean_bill_length_mm\" and assign the mean values of each group\n    min_bill_length_mm = min(bill_length_mm), # 3.2. create a new column called \"min_bill_length_mm\" and assign the minimum values of each group\n    ____ = ____(____) # 3.3. create a new column called \"max_bill_length_mm\" and assign the maximum values of each group\n  )\n\n\n\n\n\n\n\nShow Hint\n\n\n\n\n\nAs in Task 4, group the data additionally by sex. In step 3.3, you can now calculate the maximum value of bill_length_mm. The name on the left of = is the name of the new column you will create. Call this column max_bill_length_mm. Remember, you create a new column before the =. Then use the max() function to calculate the maximum value of bill_length_mm.\n\n\n\nLearning Check 2\nWhy do you think it is dangerous to do the following:\n\npenguins &lt;- penguins %&gt;%\n  filter(species == \"Adelie\")\n\n\n\n\n\n\n\nShow Hint\n\n\n\n\n\nWith the filter function you only retain a subset of the data. You would overwrite the entire dataset with only one species. Think about what would happen in later tasks.\n\n\n\nTask 6\nCreate a new subset of the data. Use a reasonable name for the new data set. Filter to exclude Adelie penguins (with !=, see above), and a body_mass_g smaller or equal to 4000 g:\n\n____ &lt;- ____ %&gt;%\n  filter(____, ____)\n\n\n\n\n\n\n\nShow Hint\n\n\n\n\n\nFirst, select a reasonable name for the new subset of data you are creating. This name should reflect how you filtered the original data. penguins_chinstrap_entoo_light, peng_not_adelie_below4kg, etc. would work.\nNext (after the &lt;-), you have to give the data set you want to filter (penguins).\nIn the filter function, you want to first exclude all Adelie penguins. Think about this as “entries in column species is not equal to (!=) Adelie”. Remember that text in R needs to be wrapped with \"\".\nAs the second filtering step, only keep penguins below or equal to 4000 g. Think about this as “entries in column body_mass_g is smaller or equal to (&lt;=) 4000 g”. Remember that numbers don’t need to be wrapped with \"\".\nRemember that each condition inside filter() is separated by a comma.\n\n\n\nTask 7\nUse str() for the penguins data set:\n\nstr(____)\n\n\n\n\n\n\n\nShow Hint\n\n\n\n\n\nstr() shows the structure of a data frame: variable types, lengths, etc. You have to insert the name of the data set (penguins) into the str() function.\n\n\n\nTask 8\nUse levels() below, to see the levels of penguins$island:\n\nlevels(____$____)\n\n\n\n\n\n\n\nShow Hint\n\n\n\n\n\nlevels() shows all possible categories in a factor. This is useful before plotting or modelling categorical variables. You have to insert the name of the data set and of the column into the levels() function. Remember that you can access a column with the $ operator."
+  },
+  {
+    "objectID": "course-overview.html",
+    "href": "course-overview.html",
+    "title": "Aperçu du cours",
+    "section": "",
+    "text": "BLAH",
+    "crumbs": [
+      "Aperçu"
+    ]
+  },
+  {
+    "objectID": "computing/computing-cheatsheets.html",
+    "href": "computing/computing-cheatsheets.html",
+    "title": "Aide-mémoires R",
+    "section": "",
+    "text": "Les aide-mémoires suivants proviennent de https://posit.co/resources/cheatsheets. Nous n’avons pas couvert toutes les fonctions et fonctionnalités listées, mais vous pourriez les trouver utiles comme références.",
+    "crumbs": [
+      "Aide-mémoires"
+    ]
+  },
+  {
+    "objectID": "computing/computing-access.html",
+    "href": "computing/computing-access.html",
+    "title": "Accès à RStudio",
+    "section": "",
+    "text": "Pour accéder à RStudio dans le navigateur, allez à l’espace Posit Cloud pour ce cours.\nBLAH",
+    "crumbs": [
+      "Accès"
+    ]
+  },
+  {
+    "objectID": "course-links.html",
+    "href": "course-links.html",
+    "title": "Liens utiles",
+    "section": "",
+    "text": "Posit Cloud\n🔗 Posit Cloud\n\n\n\nManuels\n🔗 Introduction to Modern Statistics, 2nd Edition\n🔗 R for Data Science, 2nd Edition\n🔗 Statistical Inference via Data Science\n\n\n\nDocumentation paquets\n🔗 tidyverse: tidyverse.org\n\n\n\nVisualisation\n🔗 Fundamentals of Data Visualization\n\n\n\nStatistiques Bayesiennes | 🔗 Statistical Rethinking\n\n\n\n\nCode reproductible\n🔗 Reproducible Code in Ecology and Evolution",
+    "crumbs": [
+      "Liens utiles"
+    ]
+  },
+  {
+    "objectID": "course-team.html",
+    "href": "course-team.html",
+    "title": "Équipe d’enseignement",
+    "section": "",
+    "text": "test",
+    "crumbs": [
+      "Équipe d'enseignement"
+    ]
+  },
+  {
+    "objectID": "course-team.html#enseignant",
+    "href": "course-team.html#enseignant",
+    "title": "Équipe d’enseignement",
+    "section": "",
+    "text": "test",
+    "crumbs": [
+      "Équipe d'enseignement"
+    ]
+  },
+  {
+    "objectID": "hints/hints_02/hints_02.html",
+    "href": "hints/hints_02/hints_02.html",
+    "title": "Indications pour TP 02",
+    "section": "",
+    "text": "Here I give you some help in case you struggle solving the tasks. Please try to solve the tasks first without these hints, all information you need is in the .qmd document I shared with you.\nTask 1\nUse different themes for the plot we created just above. Here is a list of standard themes but there are many R packages that extend your choice:\n\nggplot(\n  data = penguins,\n  aes(x = bill_length_mm, y = body_mass_g, colour = species)\n) +\n  geom_point() +\n  labs(x = \"Bill length (mm)\", y = \"Body mass (g)\") +\n  ____\n\n\n\n\n\n\n\nShow Hint\n\n\n\n\n\nReplace the ____ part with one of the themes in the list I gave you.\n\n\n\nTask 2\nReplace the ____ below with a colour scale of your choice.\n\nggplot(\n  data = penguins,\n  aes(x = bill_length_mm, y = body_mass_g, colour = species)\n) +\n  geom_point() +\n  labs(x = \"Bill length (mm)\", y = \"Body mass (g)\") +\n  ____\n\n\n\n\n\n\n\nShow Hint\n\n\n\n\n\nReplace the ____ part with one of the colour scale examples I gave you, e.g. scale_colour_colourblind().\nIf you want to use the “fully manual” colour scale, you could adapt it to something prettier like: scale_colour_manual(values = c(\"darkorange\", \"darkgreen\",\"aquamarine2\"))\n\n\n\nTask 3\nTake the plot we made above. Addditionally to different colours, use also different point shapes for the different species. Replace the ____ with the appropriate column name:\n\nggplot(\n  data = penguins,\n  aes(x = bill_length_mm, y = body_mass_g, colour = species, shape = ____)\n) +\n  geom_point() +\n  labs(x = \"Bill length (mm)\", y = \"Body mass (g)\") +\n  theme_classic()\n\n\n\n\n\n\n\nShow Hint\n\n\n\n\n\nThink about how you want to plot the data. As you have already used the species column to define the colour of the data points, you can use it in a similar way to define the shape of the data points. Just replace ____ with species.\n\n\n\nTask 4\nSo far, we used categorical data for the different colours. What happens if you use a numerical variable to define the different colours? Replace the ____ below with a numeric column, e.g. flipper_length_mm. Remember to also update the labels used for the colour. Chnage the ____ in labs() for something useful. Remember that any text needs to be wrapped with \"\".\n\nggplot(\n  data = penguins,\n  aes(x = bill_length_mm, y = body_mass_g, colour = ____, shape = species)\n) +\n  geom_point() +\n  labs(x = \"Bill length (mm)\", y = \"Body mass (g)\", colour = ____) +\n  scale_colour_viridis_c() +\n  theme_classic()\n\n\n\n\n\n\n\nShow Hint\n\n\n\n\n\nAbove, you used the column spiecies for different colours, now, you are supposed to use the column flipper_length_mm. As a name for the legend (in labs()), you could use for example \"Flipper length (mm)\".\n\n\n\nTask 5\nTake a look at the plot you just made. What is the relationship between the bill length, body mass, and flipper length?\n\n\n\n\n\n\n\nShow Hint\n\n\n\n\n\nFirst, look only at the scatter plot. Try to understand how the values on one axis impact the values at the other axis. In the big picture, have penguins with a large bill length also a high body mass? Now, try to include the colour coded flipper length. Are there any patterns in the colours of the points that are related either to the x or y axis? More explicit, does the flipper lenght increase with the bill lenght and/or the body mass?\n\n\n\nTask 6\nYou can change the width of the bars. This can be useful, because each bar represents the frequency of a range of values (e.g. 5 mm steps). You can do this with the bins argument. Try out different values below and see what happens:\n\nggplot(data = penguins, aes(x = bill_length_mm)) +\n  geom_histogram(bins = ____) +\n  theme_classic()\n\n\n\n\n\n\n\nShow Hint\n\n\n\n\n\nWhat happens if you only use 1 or 2 bins? What happens if you use 100? 500? Replace the ____ with different values and see how the plot changes.\n\n\n\nTask 7\nNow plot in a similar way the island at which the penguins were observed. Use the island column.\n\nggplot(data = penguins, aes(x = ____)) +\n  geom_bar(stat = \"count\") +\n  theme_classic()\n\n\n\n\n\n\n\nShow Hint\n\n\n\n\n\nAgain, think what you want to plot. You want to show a barplot with the frequency of islands on the y axis (calculated automatically) and the level of the island (e.g. Torgersen or Biscoe) on the x axis. Therefore, you have to give island as the x-axis.\n\n\n\nTask 8\nIn this plot, the point represents the mean, and the line the standard deviation. Doing this for data grouped by island is not very useful. Adapt the plot below so that it shows the flipper length grouped by species:\n\nggplot(data = penguins, aes(x = ____, y = flipper_length_mm)) +\n  geom_pointrange(stat = \"summary\", fun.data = mean_sdl) +\n  theme_classic()\n\n\n\n\n\n\n\nShow Hint\n\n\n\n\n\nReplace the ____ with species.\n\n\n\nTask 9\nWhat happens if you don’t use geom_jitter() but the “standard” geom_point()? Try it out below:\n\nggplot(data = penguins, aes(x = species, y = flipper_length_mm)) +\n  ____(alpha = .4) +\n  geom_pointrange(stat = \"summary\", fun.data = mean_sdl) +\n  theme_classic()\n\n\n\n\n\n\n\nShow Hint\n\n\n\n\n\nYou want to use a “normal” geom_point(). The second line will be: geom_point(alpha = .4) +.\nIs the resulting plot useful? Why? How could it be improved?\n\n\n\nTask 10\nAs a last step, try to customise the plot so that you archive something similar as this one. Think about which column is used for what.\n\nHere is the “base” plot as a starting point:\n\nggplot(data = penguins, aes(x = species, y = flipper_length_mm)) +\n  geom_jitter(alpha = .4) +\n  geom_pointrange(stat = \"summary\", fun.data = mean_sdl) +\n  theme_classic()\n\n\n\n\n\n\n\nShow Hint\n\n\n\n\n\nOne possible solution is this:\n\nggplot(\n  data = penguins,\n  aes(x = species, y = flipper_length_mm, fill = species),\n) +\n  geom_jitter(alpha = .75, shape = 21) +\n  geom_pointrange(\n    stat = \"summary\",\n    fun.data = mean_sdl,\n    show.legend = F,\n    shape = 21\n  ) +\n  labs(\n    x = \"Species\",\n    y = \"Flipper length (mm)\"\n  ) +\n  scale_color_colorblind() +\n  scale_fill_colorblind() +\n  theme_classic(base_size = 20) +\n  theme(legend.position = \"none\")"
+  }
+]
