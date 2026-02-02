@@ -1,8 +1,6 @@
 project:
   output-dir: output
-  preview:
-    port: 6789
-footer: "[WEBSITE](https://link/)"
+footer: "[WEBSITE](https://andieich.github.io/2026_biostatistiques_2/)"
 institute: "Université de la Polynésie française <br> UE 6.7 Biostatistiques 2"
 author: "Andreas Eich"
 format:

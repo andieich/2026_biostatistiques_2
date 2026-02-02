@@ -55,3 +55,5 @@ format:
     code-copy: true
     code-overflow: wrap
     mainfont: "Atkinson Hyperlegible"
+publish:
+  - type: gh-pages    
