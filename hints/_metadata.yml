@@ -1,0 +1,12 @@
+render: false
+format:
+  html:
+    code-link: true
+    theme: hints.scss
+author: "Andreas Eich"   
+date-format: "MM.DD.YYYY"
+
+language:
+  fr:
+    title-block-published: "Mis à jour"
+lang: fr

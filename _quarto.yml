@@ -1,0 +1,57 @@
+project:
+  type: website
+  preview:
+    port: 3333
+    browser: true
+    watch-inputs: false
+    navigate: true
+
+  render: 
+    - "**/*.qmd"
+    - "!TP/"
+    - "!lectures/"
+  resources:
+    - "lectures/output"
+
+website:
+  page-navigation: true
+  title: "Biostatistiques 2"
+  description: "Page d'accueil pour UE 6.7 - Biostatistiques 2"
+  favicon: "images/logo.png"
+  open-graph: true
+
+  sidebar:
+    background: "#005871"
+    logo: "images/logo.png"
+    pinned: true
+    align: center
+    style: docked
+    search: false
+    collapse-level: 1
+
+    contents:
+        - href: course-overview.qmd
+          text: Aperçu
+        - href: course-team.qmd
+          text: Équipe d'enseignement
+        - href: index.qmd
+          text: Calendrier
+        - href: course-links.qmd
+          text: Liens utiles
+        - href: computing/computing-access.qmd
+          text: Accès
+        - href: computing/computing-cheatsheets.qmd
+          text: Aide-mémoires
+
+  page-footer:
+    right: "Cette page est créée avec 🤍 et [Quarto](https://quarto.org/)."
+    left: "&copy; Droits d'auteur 2026, Andreas Eich"
+    background: "#005871"
+
+format:
+  html:
+    theme: [cosmo, style/style.scss]
+    toc: true
+    code-copy: true
+    code-overflow: wrap
+    mainfont: "Atkinson Hyperlegible"

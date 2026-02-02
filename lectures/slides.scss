@@ -1,0 +1,139 @@
+/*-- scss:defaults --*/
+
+// fonts
+@import url('https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible&display=swap');
+@import url('https://fonts.googleapis.com/css?family=Source+Code+Pro&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Gochi+Hand&display=swap');
+
+
+$font-family-sans-serif: "Atkinson Hyperlegible", sans-serif;
+$font-family-monospace: "Source Code Pro", monospace;
+$presentation-heading-color: #005871;
+$presentation-title-slide-text-align: "left";
+$link-color: #005871;
+$code-color: #005871;
+$code-block-font-size: 0.6em;
+$presentation-h2-font-size: 1.2em !default;
+$presentation-h3-font-size: 1em !default;
+$presentation-font-size-root: 45px !default;
+
+/*-- scss:rules --*/
+
+/* Default code font size for revealjs presentations */
+.reveal pre code {
+  font-size: 0.8em;
+}
+
+.reveal pre.sourceCode code {
+  font-size: 0.8em;
+}
+
+.reveal .callout {
+  margin-top: 0px !important;
+  font-size: 1em !important;
+  /* Remove extra top space */
+}
+
+details>summary {
+  font-size: 0.75em;
+}
+
+#title-slide .subtitle {
+  color: #005871;
+  font-weight: bold;
+  text-align: left;
+}
+
+#title-slide .title {
+  text-align: left;
+  color: #005871;
+}
+
+#title-slide .institute {
+  text-align: left;
+}
+
+.reveal #title-slide .author {
+  text-align: left;
+}
+
+.center-align {
+  text-align: center;
+}
+
+.huge {
+  font-size: 4em;
+}
+
+.medium {
+  font-size: 0.8em;
+}
+
+.small {
+  font-size: 0.75em;
+}
+
+.small-output .cell-output {
+  font-size: 0.75em;
+}
+
+.xsmall {
+  font-size: 0.6em;
+}
+
+.xxsmall {
+  font-size: 0.5em;
+}
+
+.xxxsmall {
+  font-size: 0.4em;
+}
+
+.tiny {
+  font-size: 0.3em;
+}
+
+
+.reveal .slide .question {
+  border-left: 3px solid #005871;
+  padding-left: 0.5em;
+  padding-top: 0.25em;
+  padding-bottom: 0.25em;
+  background: #00587150;
+}
+
+
+.reveal .slide .task {
+  border-left: 3px solid #d1805f;
+  margin-top: 0.5em;
+  margin-bottom: 0.5em;
+  padding: 0.5em;
+  background: #d1805f50;
+}
+
+.exercise {
+  padding-right: 10px;
+  padding-left: 10px;
+  padding-top: 3px;
+  padding-bottom: 3px;
+  margin-bottom: 6px;
+  margin-top: 6px;
+  border-left: solid 5px #798b93;
+  background-color: #798b9350;
+}
+
+.small-space {
+  height: 10px;
+  /* Adjust this for smaller spacing */
+}
+
+.med-space {
+  height: 25px;
+  /* Adjust this for smaller spacing */
+}
+
+.project {
+  padding: .3em;
+  border: 1pt dotted #000000ff;
+  // background: #89b2bd50;
+}
