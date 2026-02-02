@@ -27,26 +27,6 @@
     ]
   },
   {
-    "objectID": "computing/computing-cheatsheets.html",
-    "href": "computing/computing-cheatsheets.html",
-    "title": "Aide-mémoires R",
-    "section": "",
-    "text": "Les aide-mémoires suivants proviennent de https://posit.co/resources/cheatsheets. Nous n’avons pas couvert toutes les fonctions et fonctionnalités listées, mais vous pourriez les trouver utiles comme références.",
-    "crumbs": [
-      "Aide-mémoires"
-    ]
-  },
-  {
-    "objectID": "computing/computing-access.html",
-    "href": "computing/computing-access.html",
-    "title": "Accès à RStudio",
-    "section": "",
-    "text": "Pour accéder à RStudio dans le navigateur, allez à l’espace Posit Cloud pour ce cours.\nBLAH",
-    "crumbs": [
-      "Accès"
-    ]
-  },
-  {
     "objectID": "course-links.html",
     "href": "course-links.html",
     "title": "Liens utiles",
@@ -61,17 +41,27 @@
     "href": "course-team.html",
     "title": "Équipe d’enseignement",
     "section": "",
-    "text": "test",
+    "text": "Ingénieur de recherche au CRIOBE\n📧 alexandre.merciere@vacataire.upf.pf\n\n\n\n\n\n\n\nDoctorant à EPHE (France), CRIOBE, et Universté Laval (Canada)\n📧 eich.andreas@gmail.com",
     "crumbs": [
       "Équipe d'enseignement"
     ]
   },
   {
-    "objectID": "course-team.html#enseignant",
-    "href": "course-team.html#enseignant",
+    "objectID": "course-team.html#alexandre-merciere",
+    "href": "course-team.html#alexandre-merciere",
     "title": "Équipe d’enseignement",
     "section": "",
-    "text": "test",
+    "text": "Ingénieur de recherche au CRIOBE\n📧 alexandre.merciere@vacataire.upf.pf",
+    "crumbs": [
+      "Équipe d'enseignement"
+    ]
+  },
+  {
+    "objectID": "course-team.html#andreas-eich",
+    "href": "course-team.html#andreas-eich",
+    "title": "Équipe d’enseignement",
+    "section": "",
+    "text": "Doctorant à EPHE (France), CRIOBE, et Universté Laval (Canada)\n📧 eich.andreas@gmail.com",
     "crumbs": [
       "Équipe d'enseignement"
     ]
