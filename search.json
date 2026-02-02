@@ -4,7 +4,7 @@
     "href": "index.html",
     "title": "UE 6.7: Biostatistiques 2",
     "section": "",
-    "text": "SESSION\nENV 01\nENV 02\nBIO 01\nBIO 02\nTOPIC\nSLIDES\nTP\nHELP\n\n\n\n\n1\n06.02.26\n03.02.26\n04.02.26\n05.02.26\nIntroduction: statistics, RStudio, Quarto\n🖥️ 01\n📝 01\n❓01\n\n\n2\n10.02.26\n12.02.26\n11.02.26\n13.02.26\nExploratory analysis: Read & Visualise data\n🖥️ 02\n📝 02\n❓02\n\n\n3\n10.02.26\n12.02.26\n11.02.26\n13.02.26\nExploratory analysis: Read & Visualise data\n🖥️ 03\n📝 02\n❓02",
+    "text": "SESSION\nENV 01\nENV 02\nBIO 01\nBIO 02\nTOPIC\nSLIDES\nTP\nHELP\n\n\n\n\n1\n06.02.26\n03.02.26\n04.02.26\n05.02.26\nIntroduction: Statistiques, RStudio, Quarto\n🖥️ 01\n📝 01\n❓01\n\n\n2\n10.02.26\n12.02.26\n11.02.26\n13.02.26\nVisualisations: ggplot, représentation des données\n\n\n\n\n\n\n\n\n3\n10.02.26\n12.02.26\n11.02.26\n13.02.26\nModèles Statistiques: Regression, ANOVA",
     "crumbs": [
       "Calendrier"
     ]
