@@ -28,7 +28,7 @@ d %>%
   fmt_date(`group 1`, date_style = "day_m_year", locale = "fr") %>%
   fmt_date(`group 2`, date_style = "day_m_year", locale = "fr") %>%
   sub_missing(
-    columns = c(session, topic, prepare, slides, TP, help),
+    columns = c(session, topic, slides, TP, help),
     missing_text = ""
   ) %>%
   cols_align(
@@ -41,7 +41,7 @@ d %>%
   ) %>%
   cols_align(
     align = "left",
-    columns = c(topic, prepare, slides, TP, help)
+    columns = c(topic, slides, TP, help)
   ) %>%
   tab_style(
     style = cell_borders(
@@ -50,18 +50,17 @@ d %>%
       style = "solid"
     ),
     locations = cells_body(
-      columns = c(session, `group 2`, topic, prepare, slides, TP, help)
+      columns = c(session, `group 2`, topic, slides, TP, help)
     )
   ) %>%
   fmt_markdown(
-    columns = c(topic, prepare, slides, TP, help)
+    columns = c(topic, slides, TP, help)
   ) %>%
   cols_width(
     session ~ px(75),
     `group 1` ~ px(100),
     `group 2` ~ px(100),
     topic ~ px(300),
-    prepare ~ px(200),
     slides ~ px(75),
     TP ~ px(75),
     help ~ px(75)
