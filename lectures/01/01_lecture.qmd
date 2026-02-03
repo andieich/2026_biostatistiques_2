@@ -19,7 +19,7 @@ auto-stretch: false
 ::: med-space
 :::
 
--   8 × 1,5 heures
+-   7 × 1,5 heures
 -   Env. 30 minutes d'introduction (présentation), 1 heure d'exercices
 -   Toutes les informations du cours sur le site du cours (diapositives, dates, annonces, etc.)
 -   2 examens, 1,5 heure chacun, plus une deuxième chance

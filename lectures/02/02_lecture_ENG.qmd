@@ -1,6 +1,6 @@
 ---
-title: Visualisations
-subtitle: Cours 2 
+title: Visualizations
+subtitle: Lecture 2 
 ---
 
 ```{r}
@@ -15,57 +15,48 @@ penguins <- penguins %>%
   na.omit()
 ```
 
-## Résumé du cours précédent
+## Summary last lecture
 
--   Introduction à R
--   Qu'est-ce que les objets et les fonctions ?
--   Résumés de base des données
--   Différents types de données
+-   Introduction to R
+-   What are objects and functions?
+-   Basic summaries of data
+-   Different data types
 
-## Données tidy {.small}
-
-
--   Une **variable** est une quantité, qualité ou propriété que vous pouvez mesurer. 
-*Exemple : Longueur des nageoires*
+## Tidy data {.small}
 
 ::: incremental
 
-
--   Une **valeur** est l'état d'une variable lorsque vous la mesurez. La valeur d'une variable peut changer d'une mesure à l'autre. *Exemple : Longueur des nageoires du pingouin 1 = 181 mm*
-
-:::
-
-## Données tidy {.small}
+-   A **variable** is a quantity, quality, or property that you can measure. 
+*Example: Flipper lenght*
 
 
+-   A **value** is the state of a variable when you measure it. The value of a variable may change from measurement to measurement. *Example: Flipper lenght penguin 1 = 181 mm*
 
--   Une **observation** est un ensemble de mesures faites dans des conditions similaires. Une observation contiendra plusieurs valeurs, chacune associée à une variable différente. *Exemple : une ligne de données de pingouin pour la longueur du bec, la longueur des nageoires, la masse corporelle, etc. d'un pingouin*
+-   An **observation** is a set of measurements made under similar conditions. An observation will contain several values, each associated with a different variable. *Example: one row in penguin data for bill length, flipper length, body mass, etc. of one penguin*
 
-::: incremental
-
--   Les **données tabulaires** sont un ensemble de valeurs, chacune associée à une variable et à une observation. Les données tabulaires sont soignées si chaque valeur est placée dans sa propre « cellule », chaque variable dans sa propre colonne et chaque observation dans sa propre ligne.
+-   **Tabular data** is a set of values, each associated with a variable and an observation. Tabular data is tidy if each value is placed in its own “cell”, each variable in its own column, and each observation in its own row.
 :::
 
 
 
-## Données tidy {.small}
+## Tidy data {.small}
 
 ::: incremental
 
-1.  Chaque variable doit avoir sa propre colonne
+1.  Each variable must have its own column
 
-2.  Chaque observation doit avoir sa propre ligne
+2.  Each observation must have its own row
 
-3.  Chaque valeur doit avoir sa propre cellule
+3.  Each value must have its own cell
 
 ![](images/tidy_data.png){.fragment}
 
 
 :::
 
-## Fonctions R
+## R functions
 
-Les fonctions prennent des *arguments* en entrée. Ils peuvent être nommés :
+Functions take *arguments* as input. They can be named:
 
 ```{r}
 #| echo: true
@@ -77,7 +68,7 @@ mean(x = penguins$bill_length_mm)
 ::: med-space
 :::
 
-Ou sans nom :
+Or unnamed:
 
 ```{r}
 #| echo: true
@@ -86,7 +77,7 @@ mean(penguins$bill_length_mm)
 
 ```
 
-## Fonctions R
+## R functions
 
 ::: med-space
 :::
@@ -94,7 +85,7 @@ mean(penguins$bill_length_mm)
 ::::: {.columns .small}
 :::: column
 ::: project
-Certaines fonctions prennent plusieurs arguments
+Some functions take multiple arguments
 
 ```{r}
 #| echo: true
@@ -108,7 +99,7 @@ seq(from = 1, to = 5)
 ::::: column
 :::: {.fragment fragment-index="2"}
 ::: project
-L'ordre peut être changé avec des arguments nommés
+Order can be changed with named arguments
 
 ```{r}
 #| echo: true
@@ -128,7 +119,7 @@ seq(to = 5, from = 1)
 ::::: column
 :::: {.fragment fragment-index="1"}
 ::: project
-Si non nommés, l'ordre par défaut est supposé
+If not named, default order assumed
 
 ```{r}
 #| echo: true
@@ -143,7 +134,7 @@ seq(1, 5)
 ::::: column
 :::: {.fragment fragment-index="3"}
 ::: project
-Maintenant, R comprend : Séquence de 5 à 1 :
+But now, R understands: Sequence from 5 to 1:
 
 ```{r}
 #| echo: true
@@ -163,16 +154,16 @@ seq(5, 1)
 ::::: {.fragment fragment-index="4"}
 :::: question
 ::: xsmall
-Utilisez des arguments nommés pour rendre le code plus clair
+Use named arguments to make code clearer
 :::
 ::::
 :::::
 
-## Fonctions R
+## R functions
 
 ::::: columns
 ::: {.column .small width="40%"}
-Lisez la documentation d'une fonction en exécutant\
+Read the documentation of a function by running\
 `?function_name`
 
 ```{r}
@@ -189,14 +180,14 @@ Lisez la documentation d'une fonction en exécutant\
 :::
 :::::
 
-## Pourquoi visualiser ?
+## Why visualize?
 
 ::: med-space
 :::
 
 ::::: columns
 ::: column
-### Données brutes
+### Raw Data
 
 ```{r}
 datasaurus_dozen %>%
@@ -209,7 +200,7 @@ datasaurus_dozen %>%
 :::
 
 ::: column
-### Résumé
+### Summary
 
 ```{r} 
 datasaurus_dozen_dino <- datasaurus_dozen %>%
@@ -243,11 +234,11 @@ c(
 :::
 :::::
 
-## Pourquoi visualiser ?
+## Why visualize?
 
 ![](images/DinoSequentialSmaller.gif)
 
-## « Grammaire des graphiques »
+## "Grammar of Graphics"
 
 ::: med-space
 :::
@@ -258,18 +249,18 @@ c(
 :::
 
 ::: {.column width="70%"}
-### Esthétique
+### Aesthetic
 
--   Propriété visuelle d'un graphique
--   Position, forme, couleur, etc.
+-   Visual property of a plot
+-   Position, shape, color, etc.
 
-### Données
+### Data
 
--   Une colonne dans un ensemble de données
+-   A column in a dataset
 :::
 :::::
 
-## Mapper les données aux esthétiques
+## Mapping data to aesthetics
 
 ::: med-space
 :::
@@ -298,9 +289,7 @@ penguins %>%
 :::
 :::::
 
-## Mapper les données aux esthétiques {auto-animate="true" auto-animate-easing="ease-in-out"}
-
-## Mapper les données aux esthétiques {auto-animate="true" auto-animate-easing="ease-in-out"}
+## Mapping data to aesthetics {auto-animate="true" auto-animate-easing="ease-in-out"}
 
 ::: med-space
 :::
@@ -323,7 +312,7 @@ penguins %>%
 :::
 :::::
 
-## Mapper les données aux esthétiques
+## Mapping data to aesthetics
 
 ::: med-space
 :::
@@ -331,11 +320,11 @@ penguins %>%
 :::::: columns
 :::: {.column width="60%"}
 ::: xsmall
-| Données       | Esthétique       | Géométrie |
-|---------------|------------------|----------|
-| Longueur du bec | Position (axe x) | Point    |
-| Masse corporelle   | Position (axe y) | Point    |
-| Espèce     | Couleur            | Point    |
+| Data        | Aesthetic         | Geometry |
+|-------------|-------------------|----------|
+| Bill length | Position (x-axis) | Point    |
+| Body mass   | Position (y-axis) | Point    |
+| Species     | Colour            | Point    |
 :::
 ::::
 
@@ -353,7 +342,7 @@ penguins %>%
 :::
 ::::::
 
-## Mapper les données aux esthétiques
+## Mapping data to aesthetics
 
 ::: med-space
 :::
@@ -361,8 +350,8 @@ penguins %>%
 :::::: columns
 :::: {.column width="60%"}
 ::: xsmall
-| Données             | `aes()`  | `geom`         |
-|------------------|----------|-------------|
+| Data             | `aes()`  | `geom`         |
+|------------------|----------|----------------|
 | `bill_length_mm` | `x`      | `geom_point()` |
 | `body_mass_g`    | `y`      | `geom_point()` |
 | `species`        | `colour` | `geom_point()` |
@@ -391,7 +380,7 @@ penguins %>%
 ::::::: columns
 ::::: column
 ::: small
-Configurez les données et les esthétiques
+Set up data and aesthetics
 :::
 
 ::: small
@@ -433,7 +422,7 @@ ggplot(
 ::::::: columns
 ::::: column
 ::: small
-Ajouter une « geom »
+Add "geom"
 :::
 
 ::: small
@@ -479,7 +468,7 @@ ggplot(
 ::::::: columns
 ::::: column
 ::: small
-Utiliser des couleurs personnalisées
+Use custom colors
 :::
 
 ::: small
@@ -530,7 +519,7 @@ ggplot(
 ::::::: columns
 ::::: column
 ::: small
-Utiliser des couleurs personnalisées
+Use custom colors
 :::
 
 ::: small
@@ -579,7 +568,7 @@ ggplot(
 ::::::: columns
 ::::: column
 ::: small
-Étiquettes
+Labels
 :::
 
 ::: small
@@ -789,12 +778,8 @@ ggplot(
 ::::::: column
 ::::: small
 ::: small
-::::::::: columns
-::::::: column
-::::: small
-::: small
-| Données             | `aes()`  | `geom`         |
-|------------------|----------|-------------|
+| Data             | `aes()`  | `geom`         |
+|------------------|----------|----------------|
 | `bill_length_mm` | `x`      | `geom_point()` |
 | `body_mass_g`    | `y`      | `geom_point()` |
 | `species`        | `colour` | `geom_point()` |
@@ -857,7 +842,7 @@ ggplot(
 :::
 :::::::::
 
-## Autres visualisations
+## Other visualisations
 
 ::: med-space
 :::
@@ -866,7 +851,7 @@ ggplot(
 ::::::: column
 ::::: small
 ::: small
-| Données          | `aes()`  | `geom`           |
+| Data          | `aes()`  | `geom`           |
 |---------------|----------|------------------|
 | `species`     | `x`      | `geom_boxplot()` |
 | `body_mass_g` | `y`      | `geom_boxplot()` |
@@ -921,7 +906,7 @@ ggplot(
 :::
 :::::::::
 
-## Autres visualisations
+## Other visualisations
 
 ::: med-space
 :::
@@ -929,7 +914,7 @@ ggplot(
 ::::::: columns
 ::::: column
 ::: small
-Combiner des graphiques
+Combine plots
 :::
 
 ::: small
@@ -977,7 +962,7 @@ ggplot(
 :::
 :::::::
 
-## Autres visualisations
+## Other visualisations
 
 ::: med-space
 :::
@@ -985,7 +970,7 @@ ggplot(
 ::::::: columns
 ::::: column
 ::: small
-Combiner des graphiques
+Combine plots
 :::
 
 ::: small
@@ -1041,15 +1026,24 @@ ggplot(
 
 :::
 :::::::
-:::::::
 
 
 
-## Exemples : Uniquement des valeurs numériques
+## Examples: Only numeric values
+
+```{r}
+penguins %>%
+  ggplot(aes(x = bill_length_mm)) +
+  geom_histogram() +
+  labs(
+    x = "Bill Length (mm)",
+    y = "Frequency"
+  ) +
+  theme_classic(base_size = 20)
+```
 
 
-
-## Exemples : Uniquement des valeurs numériques
+## Examples: Only numeric values
 
 ::: med-space
 :::
@@ -1066,7 +1060,7 @@ penguins %>%
   theme_classic(base_size = 20)
 ```
 
-## Exemples : Uniquement des valeurs catégoriques
+## Examples: Only categorical values
 
 ::: med-space
 :::
@@ -1083,7 +1077,7 @@ penguins %>%
 ```
 
 
-## Exemples : Valeurs numériques et catégoriques
+## Examples: Numerical and categorical values
 
 ::: med-space
 :::
@@ -1099,9 +1093,7 @@ penguins %>%
   theme_classic(base_size = 20)
 ```
 
-## Exemples : Valeurs numériques et catégoriques
-
-## Exemples : Valeurs numériques et catégoriques
+## Examples: Numerical and categorical values
 
 ::: med-space
 :::
