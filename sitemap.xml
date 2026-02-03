@@ -1,23 +1,27 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>https://andieich.github.io/2026_biostatistiques_2/index.html</loc>
-    <lastmod>2026-02-03T01:07:39.273Z</lastmod>
+    <loc>https://andieich.github.io/2026_biostatistiques_2/posit_cloud_access.html</loc>
+    <lastmod>2026-02-03T02:17:10.057Z</lastmod>
   </url>
   <url>
-    <loc>https://andieich.github.io/2026_biostatistiques_2/hints/hints_01/hints_01.html</loc>
-    <lastmod>2026-02-02T23:58:59.305Z</lastmod>
-  </url>
-  <url>
-    <loc>https://andieich.github.io/2026_biostatistiques_2/course-links.html</loc>
-    <lastmod>2026-02-03T00:52:18.806Z</lastmod>
+    <loc>https://andieich.github.io/2026_biostatistiques_2/hints/hints_02/hints_02.html</loc>
+    <lastmod>2026-02-03T00:03:30.833Z</lastmod>
   </url>
   <url>
     <loc>https://andieich.github.io/2026_biostatistiques_2/course-team.html</loc>
     <lastmod>2026-02-02T23:05:50.966Z</lastmod>
   </url>
   <url>
-    <loc>https://andieich.github.io/2026_biostatistiques_2/hints/hints_02/hints_02.html</loc>
-    <lastmod>2026-02-03T00:03:30.833Z</lastmod>
+    <loc>https://andieich.github.io/2026_biostatistiques_2/course-links.html</loc>
+    <lastmod>2026-02-03T00:52:18.806Z</lastmod>
+  </url>
+  <url>
+    <loc>https://andieich.github.io/2026_biostatistiques_2/hints/hints_01/hints_01.html</loc>
+    <lastmod>2026-02-02T23:58:59.305Z</lastmod>
+  </url>
+  <url>
+    <loc>https://andieich.github.io/2026_biostatistiques_2/index.html</loc>
+    <lastmod>2026-02-03T02:17:12.773Z</lastmod>
   </url>
 </urlset>
