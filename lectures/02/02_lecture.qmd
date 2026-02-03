@@ -51,12 +51,11 @@ penguins <- penguins %>%
 :::
 
 
-
 ## Données ordonnées {.small}
 ::: med-space
 :::
 
-::: incremental
+
 
 1.  Chaque variable doit avoir sa propre colonne
 
@@ -64,10 +63,10 @@ penguins <- penguins %>%
 
 3.  Chaque valeur doit avoir sa propre cellule
 
-![](images/tidy_data.png){.fragment}
+![](images/tidy_data.png)
 
 
-:::
+
 
 ## Fonctions R
 
