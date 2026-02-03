@@ -4,7 +4,7 @@
     "href": "index.html",
     "title": "UE 6.7: Biostatistiques 2",
     "section": "",
-    "text": "SESSION\nENV 01\nENV 02\nBIO 01\nBIO 02\nTOPIC\nSLIDES\nTP\nHELP\n\n\n\n\n1\n06.02.26\n03.02.26\n04.02.26\n05.02.26\nIntroduction: Statistiques, RStudio, Quarto\n🖥️ 01\n📝 01\n❓01\n\n\n2\n10.02.26\n12.02.26\n11.02.26\n13.02.26\nVisualisations: ggplot2, représentation des données\n\n\n\n\n\n\n\n\n3\n10.02.26\n12.02.26\n11.02.26\n13.02.26\nModèles Statistiques: Regression, ANOVA",
+    "text": "SESSION\nENV 01\nENV 02\nBIO 01\nBIO 02\nSUJET\nPRESENTATION\nTP\nAIDE\n\n\n\n\n1\n06.02.26\n03.02.26\n04.02.26\n05.02.26\nIntroduction: Statistiques, RStudio, Quarto\n🖥️ 01\n📝 01\n❓01\n\n\n2\n10.02.26\n12.02.26\n11.02.26\n13.02.26\nVisualisations: ggplot2, représentation des données\n\n\n\n\n\n\n\n\n3\n17.02.26\n19.02.26\n18.02.26\n20.02.26\nModèles Statistiques: Regression, ANOVA\n\n\n\n\n\n\n\n\n4\n25.02.26\n26.02.26\n24.02.26\n27.02.26\nTests Post-Hoc: Tukey, groups, visualisations\n\n\n\n\n\n\n\n\n5\n04.03.26\n04.03.26\n03.03.26\n03.03.26\nGLMs Partie 1: Distributions statistiques alternatives\n\n\n\n\n\n\n\n\nCC1\n26.03.26\n27.03.26\n24.03.26\n25.03.26\n\n\n\n\n\n\n\n\n\n\n6\n01.04.26\n02.04.26\n30.03.26\n31.03.26\nGLMs Partie 2: Évaluation du modèle\n\n\n\n\n\n\n\n\n7\n08.04.26\n09.04.26\n07.04.26\n01.04.26\nStatistiques Multivariées: Introduction, indices, PCA\n\n\n\n\n\n\n\n\nCC2/ET\n30.04.26\n27.04.26\n29.04.26\n28.04.26\n\n\n\n\n\n\n\n\n\n\n2e chance\n18.05.26\n22.05.26\n20.05.26\n21.05.26",
     "crumbs": [
       "Calendrier"
     ]
