@@ -32,7 +32,7 @@ d %>%
     fns = function(x) format(x, "%d.%m.%y")
   ) %>%
   sub_missing(
-    columns = c(session, sujet, présentation, TP, aide),
+    columns = c(session, sujet, slides, TP, aide),
     missing_text = ""
   ) %>%
   cols_align(
@@ -45,7 +45,7 @@ d %>%
   ) %>%
   cols_align(
     align = "left",
-    columns = c(sujet, présentation, TP, aide)
+    columns = c(sujet, slides, TP, aide)
   ) %>%
   tab_style(
     style = cell_borders(
@@ -61,25 +61,25 @@ d %>%
         `BIO-01`,
         `BIO-02`,
         sujet,
-        présentation,
+        slides,
         TP,
         aide
       )
     )
   ) %>%
   fmt_markdown(
-    columns = c(sujet, présentation, TP, aide)
+    columns = c(sujet, slides, TP, aide)
   ) %>%
   cols_width(
-    session ~ px(100),
-    `ENV-01` ~ px(100),
-    `ENV-02` ~ px(100),
-    `BIO-01` ~ px(100),
-    `BIO-02` ~ px(100),
-    sujet ~ px(300),
-    présentation ~ px(85),
-    TP ~ px(85),
-    aide ~ px(85)
+    session ~ px(70),
+    `ENV-01` ~ px(80),
+    `ENV-02` ~ px(80),
+    `BIO-01` ~ px(80),
+    `BIO-02` ~ px(80),
+    sujet ~ px(400),
+    slides ~ px(120),
+    TP ~ px(120),
+    aide ~ px(120)
   ) %>%
   cols_label_with(fn = function(x) {
     janitor::make_clean_names(x, case = "title") %>%

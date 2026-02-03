@@ -89,7 +89,7 @@ Mêmes données, équipes différentes [@camerer2018]
 -   Considère « tout » comme une date
 -   20 % des articles de génétique contiennent des erreurs dues au formatage Excel [@ziemann2016]
 -   Les gènes ont été renommés parce que c'est plus facile que de gérer Excel
--   Format de fichier propriétaire (c.-à-d. propriété de Microsoft) → Vous devez acheter le programme pour l'ouvrir, problèmes de compatibilité
+-   Format de fichier propriétaire (Microsoft) → Vous devez acheter le programme pour l'ouvrir, problèmes de compatibilité
 -   Utile pour entrer des données (mais envisager Google Sheets, OpenOffice, etc.)
 
 ::: question
