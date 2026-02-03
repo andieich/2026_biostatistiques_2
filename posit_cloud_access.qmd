@@ -15,6 +15,10 @@ Pour créer un compte et devenir membre des groupes dans lesquels je partage les
 
 Quand vous avez déjà un compte, suivez [ce lien](https://posit.cloud/spaces/728718){target="_blank"} pour accéder à l'espace pour ces TP.
 
+
+
+Si vous rencontrez des problèmes, veuillez envoyer un e-mail à [andreas.eich@vacataire.upf.pf](mailto:andreas.eich@vacataire.upf.pf)
+
 ::: {.callout-important}
 ## Important
 
