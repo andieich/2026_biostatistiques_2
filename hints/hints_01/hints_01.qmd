@@ -1,16 +1,16 @@
 ---
 title: "Indications pour TP 01"
 format: html
-date: 2025-12-01
+date: 2025-02-02
 ---
 
-Here I give you some help in case you struggle solving the tasks. Please try to solve the tasks first without these hints, all information you need is in the `.qmd` document I shared with you.
+Je vous donne ici de l'aide au cas où vous auriez du mal à résoudre les tâches. Veuillez d'abord essayer de résoudre les tâches sans ces indications. Toutes les informations dont vous avez besoin se trouvent dans le document `.qmd` que je vous ai partagé.
 
 
 :::: project
-### Task 1
+### Tâche 1
 
-Use the R code chunk below and replace `____` with the name of the data frame (`penguins`). When you run the chunk, you will see the first rows:
+Utilisez le chunk de code R ci-dessous et remplacez `____` par le nom du cadre de données (`penguins`). Lorsque vous exécutez le chunk, vous verrez les premières lignes :
 
 ```{r}
 #| eval: false
@@ -19,31 +19,31 @@ Use the R code chunk below and replace `____` with the name of the data frame (`
 head(____)
 ```
 
-::: {.callout-tip collapse="true" title="Show Hint"}
-`head()` is a function. To use it, you put the name of the data set inside the parentheses. The name of the dataset is `penguins`, so you want to replace `____` with that name.
+::: {.callout-tip collapse="true" title="Afficher l'indice"}
+`head()` est une fonction. Pour l'utiliser, vous mettez le nom de l'ensemble de données entre les parenthèses. Le nom de l'ensemble de données est `penguins`, donc vous voulez remplacer `____` par ce nom.
 :::
 ::::
 
 :::: project
-### Learning Check 1
+### Vérification d'apprentissage 1
 
-**What does each row in `penguins` contain?**
+**Que contient chaque ligne dans `penguins` ?**
 
-A.  Data for all penguins at a specific island, e.g. Biscoe
+A.  Données pour tous les manchots sur une île spécifique, par exemple Biscoe
 
-B.  Data for all penguins of a species, e.g. Adelie
+B.  Données pour tous les manchots d'une espèce, par exemple Adélie
 
-C.  Data for only one penguin
+C.  Données pour un seul manchot
 
-::: {.callout-tip collapse="true" title="Show Hint"}
-Try to imagine how the researchers entered the data. What would be the natural unit of observation for field biologists?
+::: {.callout-tip collapse="true" title="Afficher l'indice"}
+Essayez d'imaginer comment les chercheurs ont entré les données. Quelle serait l'unité d'observation naturelle pour les biologistes de terrain ?
 :::
 ::::
 
 :::: project
-### Task 2
+### Tâche 2
 
-Select the column `bill_length_mm` from the `penguins` data:
+Sélectionnez la colonne `bill_length_mm` du cadre de données `penguins` :
 
 ```{r}
 #| eval: false
@@ -52,15 +52,15 @@ Select the column `bill_length_mm` from the `penguins` data:
 ____$____
 ```
 
-::: {.callout-tip collapse="true" title="Show Hint"}
-The name of the dataset is `penguins`, and you want to access a column called `bill_length_mm`. So first, you tell R the name of the data, then, that you want to access a column (`$`), and then you give the name of the column (`bill_length_mm`).
+::: {.callout-tip collapse="true" title="Afficher l'indice"}
+Le nom de l'ensemble de données est `penguins`, et vous voulez accéder à une colonne appelée `bill_length_mm`. Ainsi, d'abord, vous dites à R le nom des données, puis, que vous voulez accéder à une colonne (`$`), et ensuite vous donnez le nom de la colonne (`bill_length_mm`).
 :::
 ::::
 
 :::: project
-### Task 3
+### Tâche 3
 
-Calculate the minimum, maximum, and mean value for `bill_length_mm`:
+Calculez les valeurs minimale, maximale et moyenne pour `bill_length_mm` :
 
 ```{r}
 #| eval: false
@@ -71,57 +71,57 @@ max(____$____)
 mean(____$____)
 ```
 
-::: {.callout-tip collapse="true" title="Show Hint"}
-Above, you learned how to access a column in a data frame with the `$` operator. Use the same method here, i.e. Insert in each function first the name of the data frame (`penguins`), then use `$` to access the `bill_length_mm` column.
+::: {.callout-tip collapse="true" title="Afficher l'indice"}
+Ci-dessus, vous avez appris comment accéder à une colonne dans un cadre de données avec l'opérateur `$`. Utilisez la même méthode ici, c.-à-d. Insérez dans chaque fonction d'abord le nom du cadre de données (`penguins`), puis utilisez `$` pour accéder à la colonne `bill_length_mm`.
 :::
 ::::
 
 :::: project
-### Task 4
+### Tâche 4
 
-Group the data by `species` and `sex` before calculating the mean of `bill_length_mm`:
+Regroupez les données par `species` et `sex` avant de calculer la moyenne de `bill_length_mm` :
 
 ```{r}
 #| eval: false
 #| echo: true
 
-penguins %>% # 1. Take the penguins dataset
-  group_by(species, ____) %>% # 2. Group it by species and sex
-  summarize(mean_bill_length_mm = mean(bill_length_mm)) # 3. create a new column called "mean_bill_length_mm" and assign the mean values of each group
+penguins %>% # 1. Prendre l'ensemble de données des manchots
+  group_by(species, ____) %>% # 2. Le regrouper par espèce et sexe
+  summarize(mean_bill_length_mm = mean(bill_length_mm)) # 3. créer une nouvelle colonne appelée "mean_bill_length_mm" et attribuer les valeurs moyennes de chaque groupe
 ```
 
-::: {.callout-tip collapse="true" title="Show Hint"}
-`group_by()` works with multiple grouping variables. You can just add `sex` to group the data additionally by sex. The mean (step 3) will then be calculated for the combinations of both groups.
+::: {.callout-tip collapse="true" title="Afficher l'indice"}
+`group_by()` fonctionne avec plusieurs variables de regroupement. Vous pouvez simplement ajouter `sex` pour regrouper les données également par sexe. La moyenne (étape 3) sera ensuite calculée pour les combinaisons des deux groupes.
 :::
 ::::
 
 :::: project
-### Task 5
+### Tâche 5
 
-Group the data by `species` and `sex` and additionally to the mean and minimum value of `bill_length_mm`, calculate the maximum value. **Hint:** If you create columns in R, they cannot contain spaces or minuses `-`.
+Regroupez les données par `species` et `sex` et en plus de la valeur moyenne et minimale de `bill_length_mm`, calculez la valeur maximale. **Indice :** Si vous créez des colonnes en R, elles ne peuvent pas contenir d'espaces ni de traits d'union `-`.
 
 ```{r}
 #| eval: false
 #| echo: true
 
-penguins %>% # 1. Take the penguins dataset
-  group_by(species, ____) %>% # 2. Group it by species and sex
+penguins %>% # 1. Prendre l'ensemble de données des manchots
+  group_by(species, ____) %>% # 2. Le regrouper par espèce et sexe
   summarize(
-    mean_bill_length_mm = mean(bill_length_mm), # 3.1. create a new column called "mean_bill_length_mm" and assign the mean values of each group
-    min_bill_length_mm = min(bill_length_mm), # 3.2. create a new column called "min_bill_length_mm" and assign the minimum values of each group
-    ____ = ____(____) # 3.3. create a new column called "max_bill_length_mm" and assign the maximum values of each group
+    mean_bill_length_mm = mean(bill_length_mm), # 3.1. créer une nouvelle colonne appelée "mean_bill_length_mm" et attribuer les valeurs moyennes de chaque groupe
+    min_bill_length_mm = min(bill_length_mm), # 3.2. créer une nouvelle colonne appelée "min_bill_length_mm" et attribuer les valeurs minimales de chaque groupe
+    ____ = ____(____) # 3.3. créer une nouvelle colonne appelée "max_bill_length_mm" et attribuer les valeurs maximales de chaque groupe
   )
 ```
 
-::: {.callout-tip collapse="true" title="Show Hint"}
-As in Task 4, group the data additionally by `sex`. In step 3.3, you can now calculate the maximum value of `bill_length_mm`. The name on the left of `=` is the name of the new column you will create. Call this column `max_bill_length_mm`. Remember, you create a new column before the `=`. Then use the `max()` function to calculate the maximum value of `bill_length_mm`.
+::: {.callout-tip collapse="true" title="Afficher l'indice"}
+Comme dans la Tâche 4, regroupez les données également par `sex`. À l'étape 3.3, vous pouvez maintenant calculer la valeur maximale de `bill_length_mm`. Le nom à gauche de `=` est le nom de la nouvelle colonne que vous allez créer. Appelez cette colonne `max_bill_length_mm`. Souvenez-vous que vous créez une nouvelle colonne avant le `=`. Utilisez ensuite la fonction `max()` pour calculer la valeur maximale de `bill_length_mm`.
 :::
 ::::
 
 :::: project
-### Learning Check 2
+### Vérification d'apprentissage 2
 
-Why do you think it is dangerous to do the following:
+Pourquoi pensez-vous qu'il est dangereux de faire ce qui suit :
 
 ```{r}
 #| eval: false
@@ -131,15 +131,15 @@ penguins <- penguins %>%
   filter(species == "Adelie")
 ```
 
-::: {.callout-tip collapse="true" title="Show Hint"}
-With the filter function you only retain a subset of the data. You would overwrite the entire dataset with only one species. Think about what would happen in later tasks.
+::: {.callout-tip collapse="true" title="Afficher l'indice"}
+Avec la fonction filter, vous ne conservez qu'un sous-ensemble des données. Vous remplaceriez l'ensemble de données entier par une seule espèce. Pensez à ce qui se passerait dans les tâches ultérieures.
 :::
 ::::
 
 :::: project
-### Task 6
+### Tâche 6
 
-Create a new subset of the data. Use a reasonable name for the new data set. Filter to exclude Adelie penguins (with `!=`, see above), and a `body_mass_g` smaller or equal to 4000 g:
+Créez un nouveau sous-ensemble des données. Utilisez un nom raisonnable pour le nouvel ensemble de données. Filtrez pour exclure les manchots Adélie (avec `!=`, voir ci-dessus), et un `body_mass_g` inférieur ou égal à 4000 g :
 
 ```{r}
 #| eval: false
@@ -149,24 +149,24 @@ ____ <- ____ %>%
   filter(____, ____)
 ```
 
-::: {.callout-tip collapse="true" title="Show Hint"}
-First, select a reasonable name for the new subset of data you are creating. This name should reflect how you filtered the original data. `penguins_chinstrap_entoo_light`, `peng_not_adelie_below4kg`, etc. would work.
+::: {.callout-tip collapse="true" title="Afficher l'indice"}
+D'abord, sélectionnez un nom raisonnable pour le nouveau sous-ensemble de données que vous créez. Ce nom devrait refléter la façon dont vous avez filtré les données originales. `penguins_chinstrap_entoo_light`, `peng_not_adelie_below4kg`, etc. fonctionneraient.
 
-Next (after the `<-`), you have to give the data set you want to filter (`penguins`).
+Ensuite (après `<-`), vous devez donner l'ensemble de données que vous voulez filtrer (`penguins`).
 
-In the filter function, you want to first exclude all Adelie penguins. Think about this as "entries in column `species` is not equal to (`!=`) Adelie". Remember that text in R needs to be wrapped with `""`.
+Dans la fonction filter, vous voulez d'abord exclure tous les manchots Adélie. Pensez à cela comme « les entrées dans la colonne `species` ne sont pas égales à (`!=`) Adélie ». Rappelez-vous que le texte en R doit être enveloppé avec `""`.
 
-As the second filtering step, only keep penguins below or equal to 4000 g. Think about this as "entries in column `body_mass_g` is smaller or equal to (`<=`) 4000 g". Remember that numbers don't need to be wrapped with `""`.
+Comme deuxième étape de filtrage, conservez uniquement les manchots en dessous ou égaux à 4000 g. Pensez à cela comme « les entrées dans la colonne `body_mass_g` sont plus petites ou égales à (`<=`) 4000 g ». Rappelez-vous que les nombres n'ont pas besoin d'être enveloppés avec `""`.
 
-Remember that each condition inside `filter()` is separated by a comma.
+Rappelez-vous que chaque condition à l'intérieur de `filter()` est séparée par une virgule.
 
 :::
 ::::
 
 :::: project
-### Task 7
+### Tâche 7
 
-Use `str()` for the `penguins` data set:
+Utilisez `str()` pour l'ensemble de données `penguins` :
 
 ```{r}
 #| eval: false
@@ -175,15 +175,15 @@ Use `str()` for the `penguins` data set:
 str(____)
 ```
 
-::: {.callout-tip collapse="true" title="Show Hint"}
-`str()` shows the structure of a data frame: variable types, lengths, etc. You have to insert the name of the data set (`penguins`) into the `str()` function.
+::: {.callout-tip collapse="true" title="Afficher l'indice"}
+`str()` montre la structure d'un cadre de données : types de variables, longueurs, etc. Vous devez insérer le nom de l'ensemble de données (`penguins`) dans la fonction `str()`.
 :::
 ::::
 
 ::: project
-### Task 8
+### Tâche 8
 
-Use `levels()` below, to see the levels of `penguins$island`:
+Utilisez `levels()` ci-dessous, pour voir les niveaux de `penguins$island` :
 
 ```{r}
 #| eval: false
@@ -192,8 +192,8 @@ Use `levels()` below, to see the levels of `penguins$island`:
 levels(____$____)
 ```
 
-::: {.callout-tip collapse="true" title="Show Hint"}
-`levels()` shows all possible categories in a factor. This is useful before plotting or modelling categorical variables. You have to insert the name of the data set and of the column into the `levels()` function. Remember that you can access a column with the `$` operator.
+::: {.callout-tip collapse="true" title="Afficher l'indice"}
+`levels()` affiche toutes les catégories possibles dans un facteur. Ceci est utile avant de tracer ou de modéliser des variables catégoriques. Vous devez insérer le nom de l'ensemble de données et de la colonne dans la fonction `levels()`. Rappelez-vous que vous pouvez accéder à une colonne avec l'opérateur `$`.
 :::
 :::
 

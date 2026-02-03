@@ -1,15 +1,15 @@
 ---
 title: "Indications pour TP 02"
 format: html
-date: 2025-12-01
+date: 2026-02-02
 ---
 
-Here I give you some help in case you struggle solving the tasks. Please try to solve the tasks first without these hints, all information you need is in the `.qmd` document I shared with you.
+Je vous donne ici de l'aide au cas où vous auriez du mal à résoudre les tâches. Veuillez d'abord essayer de résoudre les tâches sans ces indications. Toutes les informations dont vous avez besoin se trouvent dans le document `.qmd` que je vous ai partagé.
 
 :::: project
-### Task 1
+### Tâche 1
 
-Use different themes for the plot we created just above. Here is a list of standard themes but there are many R packages that extend your choice:
+Utilisez différents thèmes pour le graphique que nous venons de créer ci-dessus. Voici une liste de thèmes standard, mais il existe de nombreux packages R qui élargissent vos choix :
 
 ```{r}
 #| eval: false
@@ -24,15 +24,15 @@ ggplot(
   ____
 ```
 
-::: {.callout-tip collapse="true" title="Show Hint"}
-Replace the `____` part with one of the themes in the list I gave you.
+::: {.callout-tip collapse="true" title="Afficher l'indice"}
+Remplacez la partie `____` par l'un des thèmes de la liste que je vous ai donnée.
 :::
 ::::
 
 :::: project
-### Task 2
+### Tâche 2
 
-Replace the `____` below with a colour scale of your choice.
+Remplacez le `____` ci-dessous par une échelle de couleur de votre choix.
 
 ```{r}
 #| eval: false
@@ -47,17 +47,17 @@ ggplot(
   ____
 ```
 
-::: {.callout-tip collapse="true" title="Show Hint"}
-Replace the `____` part with one of the colour scale examples I gave you, e.g. `scale_colour_colourblind()`.
+::: {.callout-tip collapse="true" title="Afficher l'indice"}
+Remplacez la partie `____` par l'un des exemples d'échelle de couleur que je vous ai donnés, par exemple `scale_colour_colourblind()`.
 
-If you want to use the "fully manual" colour scale, you could adapt it to something prettier like: `scale_colour_manual(values = c("darkorange", "darkgreen","aquamarine2"))`
+Si vous voulez utiliser l'échelle de couleur « entièrement manuelle », vous pouvez l'adapter à quelque chose de plus beau comme : `scale_colour_manual(values = c("darkorange", "darkgreen","aquamarine2"))`
 :::
 ::::
 
 :::: project
-### Task 3
+### Tâche 3
 
-Take the plot we made above. Addditionally to different colours, use also different point shapes for the different species. Replace the `____` with the appropriate column name:
+Prenez le graphique que nous avons créé ci-dessus. En plus des différentes couleurs, utilisez également différentes formes de points pour les différentes espèces. Remplacez le `____` par le nom de colonne approprié :
 
 ```{r}
 #| eval: false
@@ -72,15 +72,15 @@ ggplot(
   theme_classic()
 ```
 
-::: {.callout-tip collapse="true" title="Show Hint"}
-Think about how you want to plot the data. As you have already used the species column to define the colour of the data points, you can use it in a similar way to define the shape of the data points. Just replace `____` with `species`.
+::: {.callout-tip collapse="true" title="Afficher l'indice"}
+Pensez à comment vous voulez tracer les données. Puisque vous avez déjà utilisé la colonne species pour définir la couleur des points de données, vous pouvez l'utiliser de la même manière pour définir la forme des points de données. Remplacez simplement `____` par `species`.
 :::
 ::::
 
 :::: project
-### Task 4
+### Tâche 4
 
-So far, we used categorical data for the different colours. What happens if you use a numerical variable to define the different colours? Replace the `____` below with a numeric column, e.g. `flipper_length_mm`. Remember to also update the labels used for the colour. Chnage the `____` in `labs()` for something useful. Remember that any text needs to be wrapped with `""`.
+Jusqu'à présent, nous avons utilisé des données catégoriques pour les différentes couleurs. Que se passe-t-il si vous utilisez une variable numérique pour définir les différentes couleurs ? Remplacez le `____` ci-dessous par une colonne numérique, par ex. `flipper_length_mm`. N'oubliez pas de mettre à jour également les étiquettes utilisées pour la couleur. Changez le `____` dans `labs()` pour quelque chose d'utile. N'oubliez pas que tout texte doit être enveloppé avec `""`.
 
 ```{r}
 #| eval: false
@@ -96,27 +96,27 @@ ggplot(
   theme_classic()
 ```
 
-::: {.callout-tip collapse="true" title="Show Hint"}
-Above, you used the column `spiecies` for different colours, now, you are supposed to use the column `flipper_length_mm`. As a name for the legend (in `labs()`), you could use for example `"Flipper length (mm)"`.
+::: {.callout-tip collapse="true" title="Afficher l'indice"}
+Ci-dessus, vous avez utilisé la colonne `species` pour les différentes couleurs, maintenant, vous êtes censé utiliser la colonne `flipper_length_mm`. Comme nom pour la légende (dans `labs()`), vous pouvez utiliser par exemple `"Flipper length (mm)"`.
 :::
 ::::
 
 :::: project
-### Task 5
+### Tâche 5
 
-Take a look at the plot you just made. What is the relationship between the bill length, body mass, and flipper length?
+Regardez le graphique que vous venez de créer. Quel est la relation entre la longueur du bec, la masse corporelle et la longueur des nageoires ?
 
 ![](images/paste-1.png){width="400" height="250"}
 
-::: {.callout-tip collapse="true" title="Show Hint"}
-First, look only at the scatter plot. Try to understand how the values on one axis impact the values at the other axis. In the big picture, have penguins with a large bill length also a high body mass? Now, try to include the colour coded flipper length. Are there any patterns in the colours of the points that are related either to the x or y axis? More explicit, does the flipper lenght increase with the bill lenght and/or the body mass?
+::: {.callout-tip collapse="true" title="Afficher l'indice"}
+D'abord, regardez uniquement le nuage de points. Essayez de comprendre comment les valeurs d'un axe impactent les valeurs de l'autre axe. Dans l'ensemble, les manchots avec une longueur de bec importante ont-ils aussi une masse corporelle élevée ? Maintenant, essayez d'inclure la longueur des nageoires codée par couleur. Y a-t-il des motifs dans les couleurs des points qui sont liés à l'un ou l'autre axe ? Plus explicitement, la longueur des nageoires augmente-t-elle avec la longueur du bec et/ou la masse corporelle ?
 :::
 ::::
 
 :::: project
-### Task 6
+### Tâche 6
 
-You can change the width of the bars. This can be useful, because each bar represents the frequency of a range of values (e.g. 5 mm steps). You can do this with the `bins` argument. Try out different values below and see what happens:
+Vous pouvez modifier la largeur des barres. Cela peut être utile, car chaque barre représente la fréquence d'une plage de valeurs (par exemple, des étapes de 5 mm). Vous pouvez le faire avec l'argument `bins`. Essayez différentes valeurs ci-dessous et voyez ce qui se passe :
 
 ```{r}
 #| eval: false
@@ -127,15 +127,15 @@ ggplot(data = penguins, aes(x = bill_length_mm)) +
   theme_classic()
 ```
 
-::: {.callout-tip collapse="true" title="Show Hint"}
-What happens if you only use 1 or 2 bins? What happens if you use 100? 500? Replace the `____` with different values and see how the plot changes.
+::: {.callout-tip collapse="true" title="Afficher l'indice"}
+Que se passe-t-il si vous n'utilisez que 1 ou 2 barres ? Que se passe-t-il si vous utilisez 100 ? 500 ? Remplacez le `____` par différentes valeurs et voyez comment le graphique change.
 :::
 ::::
 
 :::: project
-### Task 7
+### Tâche 7
 
-Now plot in a similar way the island at which the penguins were observed. Use the `island` column.
+Maintenant, tracez de la même manière l'île où les manchots ont été observés. Utilisez la colonne `island`.
 
 ```{r}
 #| eval: false
@@ -146,15 +146,15 @@ ggplot(data = penguins, aes(x = ____)) +
   theme_classic()
 ```
 
-::: {.callout-tip collapse="true" title="Show Hint"}
-Again, think what you want to plot. You want to show a barplot with the frequency of islands on the y axis (calculated automatically) and the level of the island (e.g. Torgersen or Biscoe) on the x axis. Therefore, you have to give `island` as the x-axis.
+::: {.callout-tip collapse="true" title="Afficher l'indice"}
+Encore une fois, pensez à ce que vous voulez tracer. Vous voulez afficher un graphique en barres avec la fréquence des îles sur l'axe y (calculée automatiquement) et le niveau de l'île (par ex. Torgersen ou Biscoe) sur l'axe x. Par conséquent, vous devez donner `island` comme l'axe x.
 :::
 ::::
 
 :::: project
-### Task 8
+### Tâche 8
 
-In this plot, the point represents the mean, and the line the standard deviation. Doing this for data grouped by island is not very useful. Adapt the plot below so that it shows the flipper length grouped by species:
+Dans ce graphique, le point représente la moyenne et la ligne l'écart-type. Faire cela pour les données groupées par île n'est pas très utile. Adaptez le graphique ci-dessous pour qu'il affiche la longueur des nageoires groupée par espèce :
 
 ```{r}
 #| eval: false
@@ -165,15 +165,15 @@ ggplot(data = penguins, aes(x = ____, y = flipper_length_mm)) +
   theme_classic()
 ```
 
-::: {.callout-tip collapse="true" title="Show Hint"}
-Replace the `____` with `species`.
+::: {.callout-tip collapse="true" title="Afficher l'indice"}
+Remplacez le `____` par `species`.
 :::
 ::::
 
 :::: project
-### Task 9
+### Tâche 9
 
-What happens if you don't use `geom_jitter()` but the "standard" `geom_point()`? Try it out below:
+Que se passe-t-il si vous n'utilisez pas `geom_jitter()` mais le `geom_point()` "standard" ? Essayez ci-dessous :
 
 ```{r}
 #| eval: false
@@ -185,21 +185,21 @@ ggplot(data = penguins, aes(x = species, y = flipper_length_mm)) +
   theme_classic()
 ```
 
-::: {.callout-tip collapse="true" title="Show Hint"}
-You want to use a "normal" `geom_point()`. The second line will be: `geom_point(alpha = .4) +`.
+::: {.callout-tip collapse="true" title="Afficher l'indice"}
+Vous voulez utiliser un "normal" `geom_point()`. La deuxième ligne sera : `geom_point(alpha = .4) +`.
 
-Is the resulting plot useful? Why? How could it be improved?
+Le graphique résultant est-il utile ? Pourquoi ? Comment pourrait-il être amélioré ?
 :::
 ::::
 
 :::: project
-### Task 10
+### Tâche 10
 
-As a last step, try to customise the plot so that you archive something similar as this one. Think about which column is used for what.
+En dernière étape, essayez de personnaliser le graphique pour que vous réalisiez quelque chose de similaire à celui-ci. Pensez à quelle colonne est utilisée pour quoi.
 
 ![](images/paste-2.png){width="400"}
 
-Here is the "base" plot as a starting point:
+Voici le graphique "base" comme point de départ :
 
 ```{r}
 #| eval: false
@@ -211,8 +211,8 @@ ggplot(data = penguins, aes(x = species, y = flipper_length_mm)) +
   theme_classic()
 ```
 
-::: {.callout-tip collapse="true" title="Show Hint"}
-One possible solution is this:
+::: {.callout-tip collapse="true" title="Afficher l'indice"}
+Une solution possible est :
 
 ```{r}
 #| eval: false
