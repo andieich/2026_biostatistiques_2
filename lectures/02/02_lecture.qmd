@@ -1,6 +1,6 @@
 ---
 title: Visualisations
-subtitle: Cours 2 
+subtitle: Lecture 2 
 ---
 
 ```{r}
@@ -22,33 +22,39 @@ penguins <- penguins %>%
 -   Résumés de base des données
 -   Différents types de données
 
-## Données tidy {.small}
+## Données ordonnées {.small}
+
+::: med-space
+:::
 
 
--   Une **variable** est une quantité, qualité ou propriété que vous pouvez mesurer. 
-*Exemple : Longueur des nageoires*
+-   Une **variable** est une quantité, une qualité ou une propriété que vous pouvez mesurer. *Exemple : Longueur de la nageoire*
 
 ::: incremental
 
 
--   Une **valeur** est l'état d'une variable lorsque vous la mesurez. La valeur d'une variable peut changer d'une mesure à l'autre. *Exemple : Longueur des nageoires du pingouin 1 = 181 mm*
-
+-   Une **valeur** est l'état d'une variable lorsque vous la mesurez. La valeur d'une variable peut changer d'une mesure à l'autre. *Exemple : longueur des nageoires du pingouin 1 = 181 mm*
 :::
 
-## Données tidy {.small}
+
+## Données ordonnées {.small}
+
+::: med-space
+:::
 
 
-
--   Une **observation** est un ensemble de mesures faites dans des conditions similaires. Une observation contiendra plusieurs valeurs, chacune associée à une variable différente. *Exemple : une ligne de données de pingouin pour la longueur du bec, la longueur des nageoires, la masse corporelle, etc. d'un pingouin*
+-   Une **observation** est un ensemble de mesures effectuées dans des conditions similaires. Une observation contient plusieurs valeurs, chacune étant associée à une variable différente. *Example: une ligne dans les données des manchots pour la longueur du bec, la longueur de la nageoire, la masse corporelle, etc. d'un manchot*
 
 ::: incremental
 
--   Les **données tabulaires** sont un ensemble de valeurs, chacune associée à une variable et à une observation. Les données tabulaires sont soignées si chaque valeur est placée dans sa propre « cellule », chaque variable dans sa propre colonne et chaque observation dans sa propre ligne.
+-   Les **données tabulaires** sont un ensemble de valeurs, chacune étant associée à une variable et à une observation. Les données tabulaires sont ordonnées si chaque valeur est placée dans sa propre « cellule », chaque variable dans sa propre colonne et chaque observation dans sa propre ligne.
 :::
 
 
 
-## Données tidy {.small}
+## Données ordonnées {.small}
+::: med-space
+:::
 
 ::: incremental
 
@@ -77,7 +83,7 @@ mean(x = penguins$bill_length_mm)
 ::: med-space
 :::
 
-Ou sans nom :
+Ou non nommés :
 
 ```{r}
 #| echo: true
@@ -108,7 +114,7 @@ seq(from = 1, to = 5)
 ::::: column
 :::: {.fragment fragment-index="2"}
 ::: project
-L'ordre peut être changé avec des arguments nommés
+L'ordre peut être modifié avec des arguments nommés
 
 ```{r}
 #| echo: true
@@ -143,7 +149,7 @@ seq(1, 5)
 ::::: column
 :::: {.fragment fragment-index="3"}
 ::: project
-Maintenant, R comprend : Séquence de 5 à 1 :
+Mais maintenant, R comprend : Séquence de 5 à 1 :
 
 ```{r}
 #| echo: true
@@ -172,7 +178,7 @@ Utilisez des arguments nommés pour rendre le code plus clair
 
 ::::: columns
 ::: {.column .small width="40%"}
-Lisez la documentation d'une fonction en exécutant\
+Read the documentation of a function by running\
 `?function_name`
 
 ```{r}
@@ -196,6 +202,7 @@ Lisez la documentation d'une fonction en exécutant\
 
 ::::: columns
 ::: column
+
 ### Données brutes
 
 ```{r}
@@ -247,7 +254,7 @@ c(
 
 ![](images/DinoSequentialSmaller.gif)
 
-## « Grammaire des graphiques »
+## "Grammaire des graphiques"
 
 ::: med-space
 :::
@@ -265,11 +272,11 @@ c(
 
 ### Données
 
--   Une colonne dans un ensemble de données
+-   Une colonne dans un jeu de données
 :::
 :::::
 
-## Mapper les données aux esthétiques
+## Associer les données aux esthétiques
 
 ::: med-space
 :::
@@ -298,9 +305,7 @@ penguins %>%
 :::
 :::::
 
-## Mapper les données aux esthétiques {auto-animate="true" auto-animate-easing="ease-in-out"}
-
-## Mapper les données aux esthétiques {auto-animate="true" auto-animate-easing="ease-in-out"}
+## Associer les données aux esthétiques {auto-animate="true" auto-animate-easing="ease-in-out"}
 
 ::: med-space
 :::
@@ -323,7 +328,7 @@ penguins %>%
 :::
 :::::
 
-## Mapper les données aux esthétiques
+## Associer les données aux esthétiques
 
 ::: med-space
 :::
@@ -331,11 +336,11 @@ penguins %>%
 :::::: columns
 :::: {.column width="60%"}
 ::: xsmall
-| Données       | Esthétique       | Géométrie |
-|---------------|------------------|----------|
-| Longueur du bec | Position (axe x) | Point    |
-| Masse corporelle   | Position (axe y) | Point    |
-| Espèce     | Couleur            | Point    |
+| Données           | Esthétique        | Géométrie |
+|-------------|-------------------|----------|
+| Longueur du bec   | Position (axe-x)  | Point    |
+| Masse corporelle  | Position (axe-y)  | Point    |
+| Espèce            | Couleur           | Point    |
 :::
 ::::
 
@@ -353,7 +358,7 @@ penguins %>%
 :::
 ::::::
 
-## Mapper les données aux esthétiques
+## Associer les données aux esthétiques
 
 ::: med-space
 :::
@@ -361,8 +366,8 @@ penguins %>%
 :::::: columns
 :::: {.column width="60%"}
 ::: xsmall
-| Données             | `aes()`  | `geom`         |
-|------------------|----------|-------------|
+| Data             | `aes()`  | `geom`         |
+|------------------|----------|----------------|
 | `bill_length_mm` | `x`      | `geom_point()` |
 | `body_mass_g`    | `y`      | `geom_point()` |
 | `species`        | `colour` | `geom_point()` |
@@ -391,7 +396,7 @@ penguins %>%
 ::::::: columns
 ::::: column
 ::: small
-Configurez les données et les esthétiques
+Configurer les données et les esthétiques
 :::
 
 ::: small
@@ -433,7 +438,7 @@ ggplot(
 ::::::: columns
 ::::: column
 ::: small
-Ajouter une « geom »
+Ajouter "geom"
 :::
 
 ::: small
@@ -595,9 +600,9 @@ ggplot(data = penguins,
                      color = species)) + 
   geom_point() +
   scale_color_viridis_d() + 
-  labs(x = "Bill Length (mm)", 
-       y = "Body Mass (g)", 
-       colour = "Species")
+  labs(x = "Longueur du bec (mm)", 
+       y = "Masse corporelle (g)", 
+       colour = "Espèce")
 ```
 
 :::
@@ -615,7 +620,11 @@ ggplot(
   geom_point() +
   theme_grey(base_size = 20) +
   scale_color_viridis_d() +
-  labs(x = "Bill Length (mm)", y = "Body Mass (g)", colour = "Species") +
+  labs(
+    x = "Longueur du bec (mm)",
+    y = "Masse corporelle (g)",
+    colour = "Espèce"
+  ) +
   theme_grey(base_size = 20)
 ```
 
@@ -630,7 +639,7 @@ ggplot(
 ::::::: columns
 ::::: column
 ::: small
-Change style
+Changer le style
 :::
 
 ::: small
@@ -646,9 +655,9 @@ ggplot(data = penguins,
                      color = species)) +
   geom_point() + 
   scale_color_viridis_d() + 
-  labs(x = "Bill Length (mm)", 
-       y = "Body Mass (g)", 
-       colour = "Species") + 
+  labs(x = "Longueur du bec (mm)", 
+       y = "Masse corporelle (g)", 
+       colour = "Espèce") + 
   theme_light()
 ```
 
@@ -666,7 +675,11 @@ ggplot(
 ) +
   geom_point() +
   scale_color_viridis_d() +
-  labs(x = "Bill Length (mm)", y = "Body Mass (g)", colour = "Species") +
+  labs(
+    x = "Longueur du bec (mm)",
+    y = "Masse corporelle (g)",
+    colour = "Espèce"
+  ) +
   theme_light(base_size = 20)
 
 ```
@@ -682,7 +695,7 @@ ggplot(
 ::::::: columns
 ::::: column
 ::: small
-Change style
+Changer le style
 :::
 
 ::: small
@@ -698,9 +711,9 @@ ggplot(data = penguins,
                      color = species)) +
   geom_point() + 
   scale_color_viridis_d() + 
-  labs(x = "Bill Length (mm)", 
-       y = "Body Mass (g)", 
-       colour = "Species") + 
+  labs(x = "Longueur du bec (mm)", 
+       y = "Masse corporelle (g)", 
+       colour = "Espèce") + 
   theme_classic()
 ```
 
@@ -718,7 +731,11 @@ ggplot(
 ) +
   geom_point() +
   scale_color_viridis_d() +
-  labs(x = "Bill Length (mm)", y = "Body Mass (g)", colour = "Species") +
+  labs(
+    x = "Longueur du bec (mm)",
+    y = "Masse corporelle (g)",
+    colour = "Espèce"
+  ) +
   theme_classic(base_size = 20)
 
 ```
@@ -734,7 +751,7 @@ ggplot(
 ::::::: columns
 ::::: column
 ::: small
-Change style
+Changer le style
 :::
 
 ::: small
@@ -750,9 +767,9 @@ ggplot(data = penguins,
                      color = species)) +
   geom_point() + 
   scale_color_viridis_d() + 
-  labs(x = "Bill Length (mm)", 
-       y = "Body Mass (g)", 
-       colour = "Species") + 
+  labs(x = "Longueur du bec (mm)", 
+       y = "Masse corporelle (g)", 
+       colour = "Espèce") + 
   theme_classic() + 
   theme(legend.position = "bottom")
 ```
@@ -771,7 +788,11 @@ ggplot(
 ) +
   geom_point() +
   scale_color_viridis_d() +
-  labs(x = "Bill Length (mm)", y = "Body Mass (g)", colour = "Species") +
+  labs(
+    x = "Longueur du bec (mm)",
+    y = "Masse corporelle (g)",
+    colour = "Espèce"
+  ) +
   theme_classic(base_size = 20) +
   theme(legend.position = "bottom")
 
@@ -789,12 +810,8 @@ ggplot(
 ::::::: column
 ::::: small
 ::: small
-::::::::: columns
-::::::: column
-::::: small
-::: small
-| Données             | `aes()`  | `geom`         |
-|------------------|----------|-------------|
+| Data             | `aes()`  | `geom`         |
+|------------------|----------|----------------|
 | `bill_length_mm` | `x`      | `geom_point()` |
 | `body_mass_g`    | `y`      | `geom_point()` |
 | `species`        | `colour` | `geom_point()` |
@@ -819,10 +836,10 @@ ggplot(data = penguins,
                      shape = species)) + 
   geom_point() + 
   scale_color_viridis_d() + 
-  labs(x = "Bill Length (mm)", 
-       y = "Body Mass (g)", 
-       colour = "Species",
-       shape = "Species") + 
+  labs(x = "Longueur du bec (mm)", 
+       y = "Masse corporelle (g)", 
+       colour = "Espèce",
+       shape = "Espèce") + 
   theme_classic()
 ```
 
@@ -846,10 +863,10 @@ ggplot(
   geom_point() +
   scale_color_viridis_d() +
   labs(
-    x = "Bill Length (mm)",
-    y = "Body Mass (g)",
-    colour = "Species",
-    shape = "Species"
+    x = "Longueur du bec (mm)",
+    y = "Masse corporelle (g)",
+    colour = "Espèce",
+    shape = "Espèce"
   ) +
   theme_classic(base_size = 20)
 ```
@@ -866,7 +883,7 @@ ggplot(
 ::::::: column
 ::::: small
 ::: small
-| Données          | `aes()`  | `geom`           |
+| Data          | `aes()`  | `geom`           |
 |---------------|----------|------------------|
 | `species`     | `x`      | `geom_boxplot()` |
 | `body_mass_g` | `y`      | `geom_boxplot()` |
@@ -890,9 +907,9 @@ ggplot(data = penguins,
                      color = species)) + 
   geom_boxplot() + 
   scale_color_viridis_d() + 
-  labs(x = "Bill Length (mm)", 
-       y = "Body Mass (g)", 
-       colour = "Species") + 
+  labs(x = "Longueur du bec (mm)", 
+       y = "Masse corporelle (g)", 
+       colour = "Espèce") + 
   theme_classic() + 
   theme(legend.position = "bottom")
 ```
@@ -912,7 +929,11 @@ ggplot(
 ) +
   geom_boxplot() +
   scale_color_viridis_d() +
-  labs(x = "Bill Length (mm)", y = "Body Mass (g)", colour = "Species") +
+  labs(
+    x = "Longueur du bec (mm)",
+    y = "Masse corporelle (g)",
+    colour = "Espèce"
+  ) +
   theme_classic(base_size = 20) +
   theme(legend.position = "bottom")
 
@@ -929,7 +950,7 @@ ggplot(
 ::::::: columns
 ::::: column
 ::: small
-Combiner des graphiques
+Combiner les graphiques
 :::
 
 ::: small
@@ -946,9 +967,9 @@ ggplot(data = penguins,
   geom_boxplot() + 
   geom_jitter() + 
   scale_color_viridis_d() + 
-  labs(x = "Bill Length (mm)", 
-       y = "Body Mass (g)", 
-       colour = "Species") + 
+  labs(x = "Longueur du bec (mm)", 
+       y = "Masse corporelle (g)", 
+       colour = "Espèce") + 
   theme_classic() + 
   theme(legend.position = "bottom")
 ```
@@ -968,7 +989,11 @@ ggplot(
   geom_boxplot() +
   geom_jitter() +
   scale_color_viridis_d() +
-  labs(x = "Bill Length (mm)", y = "Body Mass (g)", colour = "Species") +
+  labs(
+    x = "Longueur du bec (mm)",
+    y = "Masse corporelle (g)",
+    colour = "Espèce"
+  ) +
   theme_classic(base_size = 20) +
   theme(legend.position = "bottom")
 
@@ -985,7 +1010,7 @@ ggplot(
 ::::::: columns
 ::::: column
 ::: small
-Combiner des graphiques
+Combiner les graphiques
 :::
 
 ::: small
@@ -1004,10 +1029,10 @@ ggplot(data = penguins,
   geom_violin(alpha = .5) +
   scale_color_viridis_d() +
   scale_fill_viridis_d() +
-  labs(x = "Bill Length (mm)", 
-       y = "Body Mass (g)", 
-       colour = "Species",
-       fill = "Species") + 
+  labs(x = "Longueur du bec (mm)", 
+       y = "Masse corporelle (g)", 
+       colour = "Espèce",
+       fill = "Espèce") + 
   theme_classic() + 
   theme(legend.position = "bottom")
 ```
@@ -1030,10 +1055,10 @@ ggplot(
   scale_color_viridis_d() +
   scale_fill_viridis_d() +
   labs(
-    x = "Bill Length (mm)",
-    y = "Body Mass (g)",
-    colour = "Species",
-    fill = "Species"
+    x = "Longueur du bec (mm)",
+    y = "Masse corporelle (g)",
+    colour = "Espèce",
+    fill = "Espèce"
   ) +
   theme_classic(base_size = 20) +
   theme(legend.position = "bottom")
@@ -1041,12 +1066,21 @@ ggplot(
 
 :::
 :::::::
-:::::::
 
 
 
 ## Exemples : Uniquement des valeurs numériques
 
+```{r}
+penguins %>%
+  ggplot(aes(x = bill_length_mm)) +
+  geom_histogram() +
+  labs(
+    x = "Longueur du bec (mm)",
+    y = "Fréquence"
+  ) +
+  theme_classic(base_size = 20)
+```
 
 
 ## Exemples : Uniquement des valeurs numériques
@@ -1060,13 +1094,13 @@ penguins %>%
   ggplot(aes(x = bill_length_mm)) +
   geom_density() +
   labs(
-    x = "Bill Length (mm)",
-    y = "Density"
+    x = "Longueur du bec (mm)",
+    y = "Densité"
   ) +
   theme_classic(base_size = 20)
 ```
 
-## Exemples : Uniquement des valeurs catégoriques
+## Exemples : Uniquement des valeurs catégorielles
 
 ::: med-space
 :::
@@ -1076,14 +1110,14 @@ penguins %>%
   ggplot(aes(x = species)) +
   geom_bar(stat = "count") +
   labs(
-    x = "Species",
-    y = "Count"
+    x = "Espèce",
+    y = "Nombre"
   ) +
   theme_classic(base_size = 20)
 ```
 
 
-## Exemples : Valeurs numériques et catégoriques
+## Exemples : Valeurs numériques et catégorielles
 
 ::: med-space
 :::
@@ -1093,15 +1127,13 @@ penguins %>%
   ggplot(aes(x = species, y = flipper_length_mm)) +
   geom_bar(stat = "summary", fun = "mean") +
   labs(
-    x = "Species",
-    y = "Flipper length (mm)"
+    x = "Espèce",
+    y = "Longueur de la nageoire (mm)"
   ) +
   theme_classic(base_size = 20)
 ```
 
-## Exemples : Valeurs numériques et catégoriques
-
-## Exemples : Valeurs numériques et catégoriques
+## Exemples : Valeurs numériques et catégorielles
 
 ::: med-space
 :::
@@ -1122,8 +1154,8 @@ penguins %>%
     shape = 21
   ) +
   labs(
-    x = "Species",
-    y = "Flipper length (mm)"
+    x = "Espèce",
+    y = "Longueur de la nageoire (mm)"
   ) +
   scale_color_colorblind() +
   scale_fill_colorblind() +
