@@ -32,6 +32,8 @@ website:
     contents:
         - href: index.qmd
           text: Calendrier
+        - href: posit_cloud_access.qmd
+          text: Accéder à Posit Cloud
         - href: course-team.qmd
           text: Équipe d'enseignement
         - href: course-links.qmd

@@ -1,0 +1,27 @@
+---
+title: "Accéder à Posit Cloud"
+subtitle: "La version en ligne de RStudio et R"
+toc: false
+---
+
+
+### Créer un compte
+
+Je vous fournirai les exercices à résoudre pour les TP dans Posit Cloud, qui est une version en ligne de RStudio, l'éditeur le plus couramment utilisé pour R.
+
+Pour créer un compte et devenir membre des groupes dans lesquels je partage les exercices, veuillez suivre [ce lien](https://posit.cloud/spaces/728718/join?access_code=IWhgcNxbNqK6AKp_k1lbz76w4TjGZP4bqAgwLblC){target="_blank"}.
+
+### Accéder à l'espace TP
+
+Quand vous avez déjà un compte, suivez [ce lien](https://posit.cloud/spaces/728718){target="_blank"} pour accéder à l'espace pour ces TP.
+
+::: {.callout-important}
+## Important
+
+L'utilisation gratuite de Posit Cloud est limitée à 25 heures par mois. Cela devrait être plus que suffisant pour ces TP, mais veuillez vous assurer de toujours vous déconnecter de votre compte ou de fermer l'onglet du navigateur une fois que vous avez terminé votre exercice ou créé votre compte.
+:::
+
+
+
+
+
