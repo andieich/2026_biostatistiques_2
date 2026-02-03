@@ -5,27 +5,36 @@ bibliography: references.bib
 auto-stretch: false
 ---
 
-## À propos de moi
+## À propos de moi {.smaller}
+
+::: med-space
+:::
 
 -   Doctorant à l'EPHE (Paris), CRIOBE (Mo'orea), et Université Laval (Canada)
 -   Travail sur les motifs moléculaires responsables des différences de tolérance thermique du corail
 -   Toujours en train d'apprendre le français, soyez patients
 
-## Format du cours
+## Format du cours {.smaller}
+
+::: med-space
+:::
 
 -   8 × 1,5 heures
 -   Env. 30 minutes d'introduction (présentation), 1 heure d'exercices
 -   Toutes les informations du cours sur le site du cours (diapositives, dates, annonces, etc.)
 -   2 examens, 1,5 heure chacun, plus une deuxième chance
 
-## Statistiques
+## Statistiques {.smaller}
+
+::: med-space
+:::
 
 -   Transformez les données brutes en compréhension, aperçu et connaissances
 -   Aide à comprendre la variation
 -   Partie importante d'un bon flux de travail scientifique, de la documentation et de la communication
 -   Nécessaire pour tous les domaines de la biologie
 
-## Crise de la réplication
+## Crise de la réplication {.smaller}
 
 ::: med-space
 :::
@@ -40,21 +49,31 @@ Mêmes données, équipes différentes [@camerer2018]
 :::
 :::::
 
-## Objectif
+## Objectif {.smaller}
+
+::: med-space
+:::
 
 -   Comprendre et **appliquer** les méthodes statistiques pour analyser vos données (mémoires de BSc & MSc)
 -   Comprendre les idées principales des analyses dans les publications scientifiques
 -   Rendre les analyses ouvertes et reproductibles
 -   **Pensée statistique :** Comprendre les causes biologiques de la variation dans les données, plutôt que de se concentrer sur les valeurs p et des dizaines de tests
 
-## Approche
+## Approche {.smaller}
+
+::: med-space
+:::
 
 -   Accent sur les statistiques appliquées et modernes
 -   Analyses « tidy » (plus sur cela plus tard)
 -   Travail avec de vraies données
 -   Les modèles statistiques comme cadre unifié
 
-## Pourquoi analyser avec du code ?
+## Pourquoi analyser avec du code ? {.smaller}
+
+::: med-space
+:::
+
 
 -   Les scripts documentent toutes les étapes effectuées
 -   Les programmes à clics (par ex. Excel) cachent le flux de travail → Non reproductible
@@ -62,6 +81,10 @@ Mêmes données, équipes différentes [@camerer2018]
 -   Les programmes automatiques cachent ce qui se passe réellement
 
 ## Éviter Excel {.small}
+
+::: med-space
+:::
+
 
 -   Considère « tout » comme une date
 -   20 % des articles de génétique contiennent des erreurs dues au formatage Excel [@ziemann2016]
@@ -73,7 +96,11 @@ Mêmes données, équipes différentes [@camerer2018]
 Excel est excellent pour entrer des données, mais pas pour l'analyse
 :::
 
-## Pourquoi R ?
+## Pourquoi R ?  {.smaller}
+
+::: med-space
+:::
+
 
 -   Gratuit
 -   Conçu pour les statistiques
@@ -82,7 +109,10 @@ Excel est excellent pour entrer des données, mais pas pour l'analyse
 -   Communauté en ligne et bon support
 -   Standard en biologie
 
-## Travailler en R
+## Travailler en R  {.smaller}
+
+::: med-space
+:::
 
 -   Vous n'avez pas besoin de mémoriser tout le code
 -   Les messages d'erreur et les avertissements sont normaux et font partie du processus d'apprentissage
@@ -130,6 +160,9 @@ Combine le texte, le code et la sortie (graphiques, tableaux, ...)
 
 ## Aperçu de R {.small}
 
+::: med-space
+:::
+
 ```{r}
 #| echo: false
 
@@ -172,15 +205,24 @@ penguins %>% # prendre les données
 
 `#` introduit un commentaire
 
-## Visite rapide de RStudio
+## Visite rapide de RStudio  {.smaller}
+
+::: med-space
+:::
 
 ![](images/rstudio_ov.png)
 
-## Visite rapide de RStudio
+## Visite rapide de RStudio  {.smaller}
+
+::: med-space
+:::
 
 ![](images/r_studio_annot.png)
 
-## Visite rapide de RStudio
+## Visite rapide de RStudio {.smaller}
+
+::: med-space
+:::
 
 -   Installation très facile (mais pas sur les ordinateurs UPF)
 -   Utilisez « Posit Cloud », une version en ligne de RStudio (fonctionne aussi sur les tablettes)
@@ -188,17 +230,26 @@ penguins %>% # prendre les données
 -   25 heures/mois gratuitement → fermez la session après utilisation
 -   Si vous voulez utiliser votre propre ordinateur, parlez-moi
 
-## Aperçu de Quarto
+## Aperçu de Quarto {.smaller}
 
+::: med-space
+:::
+ 
 -   Permet de combiner du texte (expliquant l'analyse, les étapes que vous avez prises, etc.), du code et la sortie (graphiques, tableaux, etc.)
 -   Peut être exporté en HTML (site web), PDF, document MS Word
 -   Très bon pour documenter votre travail et rendre les analyses reproductibles
 
-## Aperçu de Quarto
+## Aperçu de Quarto {.smaller}
+
+::: med-space
+:::
 
 ![](images/quarto_example.png)
 
 ## Paquets {.small}
+
+::: med-space
+:::
 
 Collection de fonctions qui étendent R
 
@@ -211,10 +262,10 @@ Collection de fonctions qui étendent R
 
 -   `readxl` pour lire les fichiers Excel
 -   `googlesheets4` pour lire Google Sheets
--   `tidyverse` collection de paquets utiles
 :::
 
 :::: {.column width="50%"}
+::: fragment 
 ### Installation
 
 ```{r}
@@ -225,9 +276,11 @@ install.packages("tidyverse")
 ```
 
 Vous installez un paquet une seule fois
-
+:::
 ::: med-space
 :::
+
+::: fragment 
 
 ### Chargement
 
@@ -239,10 +292,14 @@ library(tidyverse)
 ```
 
 Vous le chargez (`library()`) chaque fois que vous démarrez R
+:::
 ::::
 ::::::
 
-## À vous de jouer
+## À vous de jouer  {.smaller}
+
+::: med-space
+:::
 
 1.  Allez sur le site du cours
 2.  Allez au calendrier
