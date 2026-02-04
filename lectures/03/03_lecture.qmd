@@ -242,7 +242,7 @@ $\sigma$ = `{r} sprintf("%.2f", sd(peng_sub$wgt))` kg
 ::: med-space
 :::
 
-::: question
+:::  question
 Mais, alors quoi? Quel est l'avantage de connaître cela?
 :::
 
@@ -284,7 +284,7 @@ Le bruit n'est pas complètement aléatoire : la plupart des valeurs sont proche
 ::: med-space
 :::
 
-::: question
+:::  question
 Mais, alors quoi? Quel est l'avantage de connaître cela?
 :::
 
@@ -323,7 +323,7 @@ ggplot(data.frame(dev = deviations), aes(x = dev)) +
 :::
 
 ::: column
-Noise is not completely random, most close to mean, few points deviate further
+Le bruit n'est pas complètement aléatoire : la plupart des valeurs sont proches de la moyenne, peu s'écartent davantage.
 
 De nombreux processus biologiques suivent une **distribution normale**
 :::
@@ -356,7 +356,7 @@ De nombreux processus biologiques suivent une **distribution normale**
 
 ::: med-space
 :::
-::: question
+:::  question
 De nombreux processus biologiques peuvent être considérés comme des **accumulations de nombreux petits effets aléatoires**
 :::
 
@@ -367,7 +367,7 @@ De nombreux processus biologiques peuvent être considérés comme des **accumul
 ::: {.columns}
 ::: {.column}
 ::: fragment
-### Plant Growth
+### Croissance des plantes
 
 -   Tête : Obtenir la lumière et l'eau
 -   Queue : Être couvert par une autre feuille ou mangé par un insecte
@@ -378,7 +378,7 @@ De nombreux processus biologiques peuvent être considérés comme des **accumul
 ::: {.column}
 
 ::: fragment
-### Polygenic Traits
+### Caractères polygéniques
 
 -  Chaque gène hérité pour une taille grande ou petite
 
@@ -442,9 +442,9 @@ ggplot(df, aes(x, y)) +
 
 Peut être décrit avec
 
--  Mean $\mu$ and 
+-  Moyenne $\mu$ et 
 
--  Standard deviation $\sigma$
+-  Écart type  $\sigma$
 
 :::
 ::: 
@@ -489,11 +489,11 @@ ggplot(data.frame(mean = peng_wgt), aes(x = peng_wgt)) +
 
 ::: column
 
--  Connaître la distribution nous permet d'en savoir plus sur les données (i.e. different from 0 or not?)
+-  Connaître la distribution nous permet d'en savoir plus sur les données (c.-à-d. différent de 0 ou non ?)
 
 -  Nous pouvons également simuler de nouvelles données
 
--  This is a **statistical model**!
+-  Il s'agit d'un **modèle statistique** !
 
 :::
 :::::
@@ -503,13 +503,13 @@ ggplot(data.frame(mean = peng_wgt), aes(x = peng_wgt)) +
 ::: med-space
 :::
 
-Can be expressed as
+Peut être exprimé comme suit
 
 $$
-\mathrm{Poids}_i \sim \mathrm{Normal(\mu}_i,~\mathrm{\sigma)}
+\mathrm{Weight}_i \sim \mathrm{Normal(\mu}_i,~\mathrm{\sigma)}
 $$
 
-In `R`, this is equivalent to:
+Dans `R`, cela équivaut à :
 
 ```{r}
 #| echo: true
@@ -530,7 +530,7 @@ summary(lm(weight ~ 1))
 
 #### Commencer par le modèle
 
-Nous supposons que les données proviennent d'une population décrite par des paramètres (e.g. mean $\mu$ and standard deviation $\sigma$).
+Nous supposons que les données proviennent d'une population décrite par des paramètres (par exemple, moyenne $\mu$ et écart type $\sigma$).
 
 ::: med-space
 :::
@@ -538,13 +538,13 @@ Nous supposons que les données proviennent d'une population décrite par des pa
 ::: fragment
 #### Hypothèses nulles et alternatives
 
--   **Hypothèse nulle $H_0$**: the reference assumption - no effect, no difference, or a specific value, 
+-   **Hypothèse nulle $H_0$** : l'hypothèse de référence - aucun effet, aucune différence, ou une valeur spécifique, 
 
-    *e.g. $\mu = 0$, no difference between groups, slope = 0*
+    *par exemple $\mu = 0$, aucune différence entre les groupes, pente = 0*
 
--   **Hypothèse alternative $H_1$**: what we would conclude if $H_0$ seems incompatible with the data
+-  **Hypothèse alternative $H_1$** : ce que nous conclurions si $H_0$ semblait incompatible avec les données
 
-    *e.g. $\mu \neq 0$*
+   *par exemple $\mu \neq 0$*
 :::
 
 ## Test d'hypothèse {.smaller}
@@ -575,16 +575,16 @@ en supposant que $H_0$ est vrai.
 
 #### Definition
 
-> Si la vraie masse corporelle moyenne de cette population de manchots était 0 kg, quelle est la probabilité que nous observions une moyenne d'échantillon au moins aussi extrême as the one we obtained (in absolute value), uniquement en raison de la variabilité d'échantillonnage aléatoire?
+> Si la vraie masse corporelle moyenne de cette population de manchots était 0 kg, quelle est la probabilité que nous observions une moyenne d'échantillon au moins aussi extrême que celle que nous avons obtenue (en valeur absolue), uniquement en raison de la variabilité d'échantillonnage aléatoire?
 
 ::: med-space
 :::
 
-#### Or shorter
+#### Ou plus court
 
-> La valeur p est la probabilité d'observer une moyenne éloignée de 0 (or farther), en supposant que la vraie moyenne était en fait 0.
+> La valeur p est la probabilité d'observer une moyenne éloignée de 0 (ou plus loin), en supposant que la vraie moyenne était en fait 0.
 
-## Penguin Poids {.smaller}
+## Poids des manchots {.smaller}
 
 ::: med-space
 :::
@@ -627,7 +627,7 @@ ggplot(data.frame(mean = peng_wgt), aes(x = peng_wgt)) +
 ::: {.column}
 ::: fragment
 ::: {.smaller}
-**Non! Mais**
+**Non ! Mais**
 
 -   Relation entre la longueur et le poids
 
@@ -635,13 +635,13 @@ ggplot(data.frame(mean = peng_wgt), aes(x = peng_wgt)) +
 
 -   Différence de relation entre longueur et poids 
 
-sont biologiquement plus intéressants!
+sont biologiquement plus intéressants !
 :::
 :::
 :::
 ::: 
 
-## Poids and Length {.smaller}
+## Poids et Longueur {.smaller}
 ::: med-space
 :::
 
@@ -662,24 +662,22 @@ ggplot(
   coord_cartesian(ylim = c(NA, 6400)) +
   geom_point() +
   scale_color_viridis_d() +
-  labs(x = "Longueur du bec (mm)", y = "Body Mass (g)", colour = "Espèce") +
+  labs(
+    x = "Longueur du bec (mm)",
+    y = "Masse corporelle (g)",
+    colour = "Espèce"
+  ) +
   theme_classic(base_size = 20) +
   theme(legend.position = "bottom")
 ```
 
 
-
 :::
 ::: {.column}
-
-
-
 :::
 ::: 
 
-
-
-## Poids and Length {.smaller}
+## Poids et Longueur {.smaller}
 ::: med-space
 :::
 
@@ -707,7 +705,11 @@ ggplot(
   geom_smooth(se = F, method = "lm", size = 1) +
   scale_color_viridis_d() +
   coord_cartesian(ylim = c(NA, 6400)) +
-  labs(x = "Longueur du bec (mm)", y = "Body Mass (g)", colour = "Espèce") +
+  labs(
+    x = "Longueur du bec (mm)",
+    y = "Masse corporelle (g)",
+    colour = "Espèce"
+  ) +
   theme_classic(base_size = 20) +
   theme(legend.position = "bottom")
 ```
@@ -723,7 +725,7 @@ ggplot(
 ::: 
 
 
-## Poids and Length {.smaller}
+## Poids et Longueur {.smaller}
 ::: med-space
 :::
 
@@ -751,7 +753,11 @@ ggplot(
   coord_cartesian(ylim = c(NA, 6400)) +
   geom_smooth(se = F, method = "lm", size = 1) +
   scale_color_viridis_d() +
-  labs(x = "Longueur du bec (mm)", y = "Body Mass (g)", colour = "Espèce") +
+  labs(
+    x = "Longueur du bec (mm)",
+    y = "Masse corporelle (g)",
+    colour = "Espèce"
+  ) +
   theme_classic(base_size = 20) +
   theme(legend.position = "bottom")
 ```
@@ -760,7 +766,7 @@ ggplot(
 :::
 ::: {.column}
 
-**Un tel modèle pourrait être utile pour:**
+Un tel modèle pourrait être utile pour
 
 -   Tester si cette relation est statistiquement significative
 
@@ -769,7 +775,7 @@ ggplot(
 :::
 ::: 
 
-## Poids and Length {.smaller}
+## Poids et Longueur {.smaller}
 
 ::: med-space
 :::
@@ -791,7 +797,11 @@ penguins %>%
     aes(group = species)
   ) +
   geom_smooth(se = F, method = "lm", size = 1, col = "#FDE724") +
-  labs(x = "Longueur du bec (mm)", y = "Body Mass (g)", colour = "Espèce") +
+  labs(
+    x = "Longueur du bec (mm)",
+    y = "Masse corporelle (g)",
+    colour = "Espèce"
+  ) +
   theme_classic(base_size = 20) +
   theme(legend.position = "none")
 ```
@@ -799,46 +809,48 @@ penguins %>%
 :::
 ::: {.column}
 
-But step by step! 
 
-Model relationship for Gentoo penguins
+
+Mais pas à pas !
+
+Modèle de relation pour les manchots Gentoo
 
 :::
 :::
 ::: {.columns}
 ::: {.column}
 ::: fragment
-#### Before
+#### Avant
 
 $$
-\mathrm{Poids}_i \sim \mathrm{Normal(\mu}_i,~\mathrm{\sigma)} \\
+\mathrm{Weight}_i \sim \mathrm{Normal(\mu}_i,~\mathrm{\sigma)} \\
 $$
 
 :::
 :::
 ::: {.column}
 ::: fragment
-#### After
+#### Après
 
 $$
 \begin{align}
-\mathrm{Poids}_i \sim \mathrm{Normal(\mu}_i,~\mathrm{\sigma)} \\
+\mathrm{Weight}_i \sim \mathrm{Normal(\mu}_i,~\mathrm{\sigma)} \\
 \mu_i = a + b \cdot \mathrm{billlength}_i
 \end{align}
 $$
 
 ::: fragment
 ::: {.small}
-$a$ is the y-intercept
+$a$ est l'ordonnée à l'origine
 
-$b$ is the slope
+$b$ est la pente
 :::
 :::
 :::
 :::
 :::
 
-## Poids and Length {.smaller}
+## Poids et Longueur {.smaller}
 
 ::: med-space
 :::
@@ -846,7 +858,7 @@ $b$ is the slope
 
 ::: {.columns}
 ::: {.column}
-In `R`:
+En `R`:
 
 ```{r}
 data_gentoo <- penguins %>%
@@ -868,7 +880,7 @@ m_gentoo <- lm(body_mass_g ~ bill_length_mm,
 ::: med-space
 :::
 
-To display coefficients:
+Pour afficher les coefficients :
 
 ::: small-output
 ```{r}
@@ -883,7 +895,7 @@ summary(m_gentoo)
 ::: fragment
 $$
 \begin{align}
-\mathrm{Poids}_i \sim \mathrm{Normal(\mu}_i,~\mathrm{\sigma)} \\
+\mathrm{Weight}_i \sim \mathrm{Normal(\mu}_i,~\mathrm{\sigma)} \\
 \mu_i = a + b \cdot \mathrm{billlength}_i\\
 \mu_i = -27.9 + 107.6 \cdot \mathrm{billlength}_i
 \end{align}
@@ -894,13 +906,13 @@ $$
 ::: 
 
 
-## Poids and Length {.smaller}
+## Poids et Longueur {.smaller}
 
 ::: med-space
 :::
 
-::: question
-Do you know another name for this type of model?
+:::  question
+Connaissez-vous un autre nom pour ce type de modèle ?
 :::
 ::: med-space
 :::
@@ -920,7 +932,11 @@ penguins %>%
     aes(group = species)
   ) +
   geom_smooth(se = F, method = "lm", size = 1, col = "#FDE724") +
-  labs(x = "Longueur du bec (mm)", y = "Body Mass (g)", colour = "Espèce") +
+  labs(
+    x = "Longueur du bec (mm)",
+    y = "Masse corporelle (g)",
+    colour = "Espèce"
+  ) +
   theme_classic(base_size = 20) +
   theme(legend.position = "none")
 ```
@@ -931,7 +947,7 @@ penguins %>%
 ::: small
 $$
 \begin{align}
-\mathrm{Poids}_i \sim \mathrm{Normal(\mu}_i,~\mathrm{\sigma)} \\
+\mathrm{Weight}_i \sim \mathrm{Normal(\mu}_i,~\mathrm{\sigma)} \\
 \mu_i = a + b \cdot \mathrm{billlength}_i\\
 \mu_i = -27.9 + 107.6 \cdot \mathrm{billlength}_i
 \end{align}
@@ -942,19 +958,19 @@ $$
 ::: 
 
 ::: fragment
-A linear model, with a numeric explanatory variable, is equivalent to a **regression**!
+Un modèle linéaire, avec une variable explicative numérique, est équivalent à une **régression** !
 :::
 
-## Difference in Poids {.smaller}
+## Différence de poids {.smaller}
 ::: med-space
 :::
 
 ::: {.columns}
 ::: {.column}
 
--   Positive relationship between weight and bill length is biologically not surprising
+-   Une relation positive entre le poids et la longueur du bec n'est pas biologiquement surprenante
 
--   Better: Test differences in weight between penguin species
+-   Mieux : Tester les différences de poids entre les espèces de manchots
 
 :::
 ::: {.column}
@@ -975,7 +991,7 @@ plot_wgt_spec <- penguins %>%
   ) +
   labs(
     x = NULL,
-    y = "Body mass (g)"
+    y = "Masse corporelle (g)"
   ) +
   scale_color_colorblind() +
   scale_fill_colorblind() +
@@ -993,17 +1009,17 @@ plot_wgt_spec
 #### Model
 $$
 \begin{align}
-\mathrm{Poids}_i \sim \mathrm{Normal(\mu}_i,~\mathrm{\sigma)} \\
+\mathrm{Weight}_i \sim \mathrm{Normal(\mu}_i,~\mathrm{\sigma)} \\
 \mu_i = \mu_{\text{species}[i]}
 \end{align}
 $$
 
 ::: smaller
-*, where ${\mathrm{species}[i]}$ is species of penguin $i$ and $\mu_\text{species}$ is the mean weight of that species.*
+*, où ${\mathrm{species}[i]}$ est l'espèce du manchot $i$ et $\mu_\text{species}$ est le poids moyen de cette espèce.*
 :::
 :::
 
-## Difference in Poids {.smaller}
+## Différence de poids {.smaller}
 
 ::: {.columns}
 ::: {.column}
@@ -1029,7 +1045,7 @@ plot_wgt_spec
 :::
 ::: {.column}
 ::: fragment
-Voir les coefficients:
+Voir les coefficients :
 
 ::: small-output
 ```{r}
@@ -1047,7 +1063,7 @@ summary(m_spec)
 ::: fragment
 ::: xsmall
 
-| Espèce   | Moyenne réelle | Calcul avec coefficients|
+| Espèce   | Moyenne réelle | Calcul avec coefficients |
 |-----------|-------------|-----------------------------|
 | Adelie    | 3701        | 3700.66                     |
 | Chinstrap | 3733        | 3700.66 + 32.43 = 3733.09   |
@@ -1056,12 +1072,12 @@ summary(m_spec)
 :::
 
 
-## Difference in Poids {.smaller}
+## Différence de poids {.smaller}
 
 ::: med-space
 :::
 
-Pour voir l'impact de l'espèce sur le poids:
+Pour voir l'impact de l'espèce sur le poids :
 
 
 ```{r}
@@ -1073,28 +1089,28 @@ anova(m_spec)
 ::: med-space
 :::
 
-ANOVA peut être considérée comme une régression sans pentes!
+ANOVA peut être considérée comme une régression sans pentes !
 
 ::: med-space
 :::
 
-Mais comment les groupes diffèrent-ils? Quelle espèce est plus lourde que les autres?
+Mais comment les groupes diffèrent-ils ? Quelle espèce est plus lourde que les autres ?
 
-Attendez la semaine prochaine: **Tests post-hoc**
+Attendez la semaine prochaine : **Tests post-hoc**
 
-## Modèle statistiques and Tests {.smaller}
-
-::: med-space
-:::
-
-Les tests statistiques que vous connaissez peuvent être unifiés dans le cadre de modèles statistiques linéaires!
+## Modèles statistiques et Tests {.smaller}
 
 ::: med-space
 :::
 
-| Nom du test | Cadre du modèle linéaire                              |
+Les tests statistiques que vous connaissez peuvent être unifiés dans le cadre de modèles statistiques linéaires !
+
+::: med-space
+:::
+
+| Nom du test | Cadre du modèle linéaire |
 |--------------|-----------------------------------------------------|
-| Regression   | 1 variable explicative numérique                      |
-| test t       | 1 variable explicative catégorique avec 2 niveaux    |
-| ANOVA        | 1 categorical explanatory variable with \> 2 levels |
+| Régression | 1 variable explicative numérique |
+| Test t | 1 variable explicative catégorique avec 2 niveaux |
+| ANOVA        | 1 variable explicative catégorielle avec > 2 niveaux |
 

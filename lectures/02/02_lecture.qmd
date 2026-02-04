@@ -33,7 +33,7 @@ penguins <- penguins %>%
 ::: incremental
 
 
--   Une **valeur** est l'état d'une variable lorsque vous la mesurez. La valeur d'une variable peut changer d'une mesure à l'autre. *Exemple : longueur des nageoires du pingouin 1 = 181 mm*
+-   Une **valeur** est l'état d'une variable lorsque vous la mesurez. La valeur d'une variable peut changer d'une mesure à l'autre. *Exemple : longueur des nageoires du manchot 1 = 181 mm*
 :::
 
 

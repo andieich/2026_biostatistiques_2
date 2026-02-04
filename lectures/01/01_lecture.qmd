@@ -305,6 +305,5 @@ Vous le chargez (`library()`) chaque fois que vous démarrez R
 2.  Allez au calendrier
 3.  Cliquez sur `TP1`
 4.  Connectez-vous à Posit Cloud
-5.  Modifiez les paramètres pour économiser les heures de calcul
 
 ## Références
