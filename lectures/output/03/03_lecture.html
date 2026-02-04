@@ -368,7 +368,7 @@ Andreas Eich
 </div>
 </div>
 </div><div class="column">
-<p>Noise is not completely random, most close to mean, few points deviate further</p>
+<p>Le bruit n’est pas complètement aléatoire : la plupart des valeurs sont proches de la moyenne, peu s’écartent davantage.</p>
 <p>De nombreux processus biologiques suivent une <strong>distribution normale</strong></p>
 </div></div>
 </section>
@@ -406,7 +406,7 @@ Andreas Eich
 <div class="columns">
 <div class="column">
 <div class="fragment">
-<h3 id="plant-growth">Plant Growth</h3>
+<h3 id="croissance-des-plantes">Croissance des plantes</h3>
 <ul>
 <li>Tête : Obtenir la lumière et l’eau</li>
 <li>Queue : Être couvert par une autre feuille ou mangé par un insecte</li>
@@ -415,7 +415,7 @@ Andreas Eich
 </div>
 </div><div class="column">
 <div class="fragment">
-<h3 id="polygenic-traits">Polygenic Traits</h3>
+<h3 id="caractères-polygéniques">Caractères polygéniques</h3>
 <ul>
 <li>Chaque gène hérité pour une taille grande ou petite</li>
 </ul>
@@ -448,8 +448,8 @@ Andreas Eich
 </div><div class="column">
 <p>Peut être décrit avec</p>
 <ul>
-<li><p>Mean <span class="math inline">\(\mu\)</span> and</p></li>
-<li><p>Standard deviation <span class="math inline">\(\sigma\)</span></p></li>
+<li><p>Moyenne <span class="math inline">\(\mu\)</span> et</p></li>
+<li><p>Écart type <span class="math inline">\(\sigma\)</span></p></li>
 </ul>
 </div></div>
 </section>
@@ -471,9 +471,9 @@ Andreas Eich
 </div>
 </div><div class="column">
 <ul>
-<li><p>Connaître la distribution nous permet d’en savoir plus sur les données (i.e.&nbsp;different from 0 or not?)</p></li>
+<li><p>Connaître la distribution nous permet d’en savoir plus sur les données (c.-à-d.&nbsp;différent de 0 ou non ?)</p></li>
 <li><p>Nous pouvons également simuler de nouvelles données</p></li>
-<li><p>This is a <strong>statistical model</strong>!</p></li>
+<li><p>Il s’agit d’un <strong>modèle statistique</strong> !</p></li>
 </ul>
 </div></div>
 </section>
@@ -482,11 +482,11 @@ Andreas Eich
 <div class="med-space">
 
 </div>
-<p>Can be expressed as</p>
+<p>Peut être exprimé comme suit</p>
 <p><span class="math display">\[
-\mathrm{Poids}_i \sim \mathrm{Normal(\mu}_i,~\mathrm{\sigma)}
+\mathrm{Weight}_i \sim \mathrm{Normal(\mu}_i,~\mathrm{\sigma)}
 \]</span></p>
-<p>In <code>R</code>, this is equivalent to:</p>
+<p>Dans <code>R</code>, cela équivaut à :</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">lm</span>(weight <span class="sc">~</span> <span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
@@ -516,17 +516,17 @@ Residual standard error: 0.3725 on 22 degrees of freedom</code></pre>
 
 </div>
 <h4 id="commencer-par-le-modèle">Commencer par le modèle</h4>
-<p>Nous supposons que les données proviennent d’une population décrite par des paramètres (e.g.&nbsp;mean <span class="math inline">\(\mu\)</span> and standard deviation <span class="math inline">\(\sigma\)</span>).</p>
+<p>Nous supposons que les données proviennent d’une population décrite par des paramètres (par exemple, moyenne <span class="math inline">\(\mu\)</span> et écart type <span class="math inline">\(\sigma\)</span>).</p>
 <div class="med-space">
 
 </div>
 <div class="fragment">
 <h4 id="hypothèses-nulles-et-alternatives">Hypothèses nulles et alternatives</h4>
 <ul>
-<li><p><strong>Hypothèse nulle <span class="math inline">\(H_0\)</span></strong>: the reference assumption - no effect, no difference, or a specific value,</p>
-<p><em>e.g.&nbsp;<span class="math inline">\(\mu = 0\)</span>, no difference between groups, slope = 0</em></p></li>
-<li><p><strong>Hypothèse alternative <span class="math inline">\(H_1\)</span></strong>: what we would conclude if <span class="math inline">\(H_0\)</span> seems incompatible with the data</p>
-<p><em>e.g.&nbsp;<span class="math inline">\(\mu \neq 0\)</span></em></p></li>
+<li><p><strong>Hypothèse nulle <span class="math inline">\(H_0\)</span></strong> : l’hypothèse de référence - aucun effet, aucune différence, ou une valeur spécifique,</p>
+<p><em>par exemple <span class="math inline">\(\mu = 0\)</span>, aucune différence entre les groupes, pente = 0</em></p></li>
+<li><p><strong>Hypothèse alternative <span class="math inline">\(H_1\)</span></strong> : ce que nous conclurions si <span class="math inline">\(H_0\)</span> semblait incompatible avec les données</p>
+<p><em>par exemple <span class="math inline">\(\mu \neq 0\)</span></em></p></li>
 </ul>
 </div>
 </section>
@@ -555,18 +555,18 @@ Residual standard error: 0.3725 on 22 degrees of freedom</code></pre>
 </div>
 <h4 id="definition">Definition</h4>
 <blockquote>
-<p>Si la vraie masse corporelle moyenne de cette population de manchots était 0 kg, quelle est la probabilité que nous observions une moyenne d’échantillon au moins aussi extrême as the one we obtained (in absolute value), uniquement en raison de la variabilité d’échantillonnage aléatoire?</p>
+<p>Si la vraie masse corporelle moyenne de cette population de manchots était 0 kg, quelle est la probabilité que nous observions une moyenne d’échantillon au moins aussi extrême que celle que nous avons obtenue (en valeur absolue), uniquement en raison de la variabilité d’échantillonnage aléatoire?</p>
 </blockquote>
 <div class="med-space">
 
 </div>
-<h4 id="or-shorter">Or shorter</h4>
+<h4 id="ou-plus-court">Ou plus court</h4>
 <blockquote>
-<p>La valeur p est la probabilité d’observer une moyenne éloignée de 0 (or farther), en supposant que la vraie moyenne était en fait 0.</p>
+<p>La valeur p est la probabilité d’observer une moyenne éloignée de 0 (ou plus loin), en supposant que la vraie moyenne était en fait 0.</p>
 </blockquote>
 </section>
-<section id="penguin-poids" class="slide level2 smaller">
-<h2>Penguin Poids</h2>
+<section id="poids-des-manchots" class="slide level2 smaller">
+<h2>Poids des manchots</h2>
 <div class="med-space">
 
 </div>
@@ -587,19 +587,19 @@ Residual standard error: 0.3725 on 22 degrees of freedom</code></pre>
 </div><div class="column">
 <div class="fragment">
 <div class="smaller">
-<p><strong>Non! Mais</strong></p>
+<p><strong>Non ! Mais</strong></p>
 <ul>
 <li><p>Relation entre la longueur et le poids</p></li>
 <li><p>Différence de poids entre les espèces</p></li>
 <li><p>Différence de relation entre longueur et poids</p></li>
 </ul>
-<p>sont biologiquement plus intéressants!</p>
+<p>sont biologiquement plus intéressants !</p>
 </div>
 </div>
 </div></div>
 </section>
-<section id="poids-and-length" class="slide level2 smaller">
-<h2>Poids and Length</h2>
+<section id="poids-et-longueur" class="slide level2 smaller">
+<h2>Poids et Longueur</h2>
 <div class="med-space">
 
 </div>
@@ -622,8 +622,8 @@ Residual standard error: 0.3725 on 22 degrees of freedom</code></pre>
 
 </div></div>
 </section>
-<section id="poids-and-length-1" class="slide level2 smaller">
-<h2>Poids and Length</h2>
+<section id="poids-et-longueur-1" class="slide level2 smaller">
+<h2>Poids et Longueur</h2>
 <div class="med-space">
 
 </div>
@@ -646,8 +646,8 @@ Residual standard error: 0.3725 on 22 degrees of freedom</code></pre>
 
 </div></div>
 </section>
-<section id="poids-and-length-2" class="slide level2 smaller">
-<h2>Poids and Length</h2>
+<section id="poids-et-longueur-2" class="slide level2 smaller">
+<h2>Poids et Longueur</h2>
 <div class="med-space">
 
 </div>
@@ -667,15 +667,15 @@ Residual standard error: 0.3725 on 22 degrees of freedom</code></pre>
 </div>
 </div>
 </div><div class="column">
-<p><strong>Un tel modèle pourrait être utile pour:</strong></p>
+<p>Un tel modèle pourrait être utile pour</p>
 <ul>
 <li><p>Tester si cette relation est statistiquement significative</p></li>
 <li><p>Estimer le poids en fonction de la taille</p></li>
 </ul>
 </div></div>
 </section>
-<section id="poids-and-length-3" class="slide level2 smaller">
-<h2>Poids and Length</h2>
+<section id="poids-et-longueur-3" class="slide level2 smaller">
+<h2>Poids et Longueur</h2>
 <div class="med-space">
 
 </div>
@@ -691,43 +691,43 @@ Residual standard error: 0.3725 on 22 degrees of freedom</code></pre>
 </div>
 </div>
 </div><div class="column">
-<p>But step by step!</p>
-<p>Model relationship for Gentoo penguins</p>
+<p>Mais pas à pas !</p>
+<p>Modèle de relation pour les manchots Gentoo</p>
 </div></div>
 <div class="columns">
 <div class="column">
 <div class="fragment">
-<h4 id="before">Before</h4>
+<h4 id="avant">Avant</h4>
 <p><span class="math display">\[
-\mathrm{Poids}_i \sim \mathrm{Normal(\mu}_i,~\mathrm{\sigma)} \\
+\mathrm{Weight}_i \sim \mathrm{Normal(\mu}_i,~\mathrm{\sigma)} \\
 \]</span></p>
 </div>
 </div><div class="column">
 <div class="fragment">
-<h4 id="after">After</h4>
+<h4 id="après">Après</h4>
 <p><span class="math display">\[
 \begin{align}
-\mathrm{Poids}_i \sim \mathrm{Normal(\mu}_i,~\mathrm{\sigma)} \\
+\mathrm{Weight}_i \sim \mathrm{Normal(\mu}_i,~\mathrm{\sigma)} \\
 \mu_i = a + b \cdot \mathrm{billlength}_i
 \end{align}
 \]</span></p>
 <div class="fragment">
 <div class="small">
-<p><span class="math inline">\(a\)</span> is the y-intercept</p>
-<p><span class="math inline">\(b\)</span> is the slope</p>
+<p><span class="math inline">\(a\)</span> est l’ordonnée à l’origine</p>
+<p><span class="math inline">\(b\)</span> est la pente</p>
 </div>
 </div>
 </div>
 </div></div>
 </section>
-<section id="poids-and-length-4" class="slide level2 smaller">
-<h2>Poids and Length</h2>
+<section id="poids-et-longueur-4" class="slide level2 smaller">
+<h2>Poids et Longueur</h2>
 <div class="med-space">
 
 </div>
 <div class="columns">
 <div class="column">
-<p>In <code>R</code>:</p>
+<p>En <code>R</code>:</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co"># fmt: skip</span></span>
 <span id="cb3-2"><a href="" aria-hidden="true" tabindex="-1"></a>m_gentoo <span class="ot">&lt;-</span> <span class="fu">lm</span>(body_mass_g <span class="sc">~</span> bill_length_mm,</span>
@@ -737,7 +737,7 @@ Residual standard error: 0.3725 on 22 degrees of freedom</code></pre>
 <div class="med-space">
 
 </div>
-<p>To display coefficients:</p>
+<p>Pour afficher les coefficients :</p>
 <div class="small-output">
 <div class="cell">
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(m_gentoo)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -769,7 +769,7 @@ F-statistic: 98.12 on 1 and 121 DF,  p-value: &lt; 2.2e-16</code></pre>
 <div class="fragment">
 <p><span class="math display">\[
 \begin{align}
-\mathrm{Poids}_i \sim \mathrm{Normal(\mu}_i,~\mathrm{\sigma)} \\
+\mathrm{Weight}_i \sim \mathrm{Normal(\mu}_i,~\mathrm{\sigma)} \\
 \mu_i = a + b \cdot \mathrm{billlength}_i\\
 \mu_i = -27.9 + 107.6 \cdot \mathrm{billlength}_i
 \end{align}
@@ -777,13 +777,13 @@ F-statistic: 98.12 on 1 and 121 DF,  p-value: &lt; 2.2e-16</code></pre>
 </div>
 </div></div>
 </section>
-<section id="poids-and-length-5" class="slide level2 smaller">
-<h2>Poids and Length</h2>
+<section id="poids-et-longueur-5" class="slide level2 smaller">
+<h2>Poids et Longueur</h2>
 <div class="med-space">
 
 </div>
 <div class="question">
-<p>Do you know another name for this type of model?</p>
+<p>Connaissez-vous un autre nom pour ce type de modèle ?</p>
 </div>
 <div class="med-space">
 
@@ -803,7 +803,7 @@ F-statistic: 98.12 on 1 and 121 DF,  p-value: &lt; 2.2e-16</code></pre>
 <div class="small">
 <p><span class="math display">\[
 \begin{align}
-\mathrm{Poids}_i \sim \mathrm{Normal(\mu}_i,~\mathrm{\sigma)} \\
+\mathrm{Weight}_i \sim \mathrm{Normal(\mu}_i,~\mathrm{\sigma)} \\
 \mu_i = a + b \cdot \mathrm{billlength}_i\\
 \mu_i = -27.9 + 107.6 \cdot \mathrm{billlength}_i
 \end{align}
@@ -811,19 +811,19 @@ F-statistic: 98.12 on 1 and 121 DF,  p-value: &lt; 2.2e-16</code></pre>
 </div>
 </div></div>
 <div class="fragment">
-<p>A linear model, with a numeric explanatory variable, is equivalent to a <strong>regression</strong>!</p>
+<p>Un modèle linéaire, avec une variable explicative numérique, est équivalent à une <strong>régression</strong> !</p>
 </div>
 </section>
-<section id="difference-in-poids" class="slide level2 smaller">
-<h2>Difference in Poids</h2>
+<section id="différence-de-poids" class="slide level2 smaller">
+<h2>Différence de poids</h2>
 <div class="med-space">
 
 </div>
 <div class="columns">
 <div class="column">
 <ul>
-<li><p>Positive relationship between weight and bill length is biologically not surprising</p></li>
-<li><p>Better: Test differences in weight between penguin species</p></li>
+<li><p>Une relation positive entre le poids et la longueur du bec n’est pas biologiquement surprenante</p></li>
+<li><p>Mieux : Tester les différences de poids entre les espèces de manchots</p></li>
 </ul>
 </div><div class="column">
 <div class="cell">
@@ -840,17 +840,17 @@ F-statistic: 98.12 on 1 and 121 DF,  p-value: &lt; 2.2e-16</code></pre>
 <h4 id="model">Model</h4>
 <p><span class="math display">\[
 \begin{align}
-\mathrm{Poids}_i \sim \mathrm{Normal(\mu}_i,~\mathrm{\sigma)} \\
+\mathrm{Weight}_i \sim \mathrm{Normal(\mu}_i,~\mathrm{\sigma)} \\
 \mu_i = \mu_{\text{species}[i]}
 \end{align}
 \]</span></p>
 <div class="smaller">
-<p><em>, where <span class="math inline">\({\mathrm{species}[i]}\)</span> is species of penguin <span class="math inline">\(i\)</span> and <span class="math inline">\(\mu_\text{species}\)</span> is the mean weight of that species.</em></p>
+<p><em>, où <span class="math inline">\({\mathrm{species}[i]}\)</span> est l’espèce du manchot <span class="math inline">\(i\)</span> et <span class="math inline">\(\mu_\text{species}\)</span> est le poids moyen de cette espèce.</em></p>
 </div>
 </div>
 </section>
-<section id="difference-in-poids-1" class="slide level2 smaller">
-<h2>Difference in Poids</h2>
+<section id="différence-de-poids-1" class="slide level2 smaller">
+<h2>Différence de poids</h2>
 <div class="columns">
 <div class="column">
 <p>Modèle en <code>R</code>:</p>
@@ -873,7 +873,7 @@ F-statistic: 98.12 on 1 and 121 DF,  p-value: &lt; 2.2e-16</code></pre>
 </div>
 </div><div class="column">
 <div class="fragment">
-<p>Voir les coefficients:</p>
+<p>Voir les coefficients :</p>
 <div class="small-output">
 <div class="cell">
 <div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(m_spec)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -937,12 +937,12 @@ F-statistic: 343.6 on 2 and 339 DF,  p-value: &lt; 2.2e-16</code></pre>
 </div>
 </div>
 </section>
-<section id="difference-in-poids-2" class="slide level2 smaller">
-<h2>Difference in Poids</h2>
+<section id="différence-de-poids-2" class="slide level2 smaller">
+<h2>Différence de poids</h2>
 <div class="med-space">
 
 </div>
-<p>Pour voir l’impact de l’espèce sur le poids:</p>
+<p>Pour voir l’impact de l’espèce sur le poids :</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">anova</span>(m_spec)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
@@ -959,19 +959,19 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
 <div class="med-space">
 
 </div>
-<p>ANOVA peut être considérée comme une régression sans pentes!</p>
+<p>ANOVA peut être considérée comme une régression sans pentes !</p>
 <div class="med-space">
 
 </div>
-<p>Mais comment les groupes diffèrent-ils? Quelle espèce est plus lourde que les autres?</p>
-<p>Attendez la semaine prochaine: <strong>Tests post-hoc</strong></p>
+<p>Mais comment les groupes diffèrent-ils ? Quelle espèce est plus lourde que les autres ?</p>
+<p>Attendez la semaine prochaine : <strong>Tests post-hoc</strong></p>
 </section>
-<section id="modèle-statistiques-and-tests" class="slide level2 smaller">
-<h2>Modèle statistiques and Tests</h2>
+<section id="modèles-statistiques-et-tests" class="slide level2 smaller">
+<h2>Modèles statistiques et Tests</h2>
 <div class="med-space">
 
 </div>
-<p>Les tests statistiques que vous connaissez peuvent être unifiés dans le cadre de modèles statistiques linéaires!</p>
+<p>Les tests statistiques que vous connaissez peuvent être unifiés dans le cadre de modèles statistiques linéaires !</p>
 <div class="med-space">
 
 </div>
@@ -984,16 +984,16 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
 </thead>
 <tbody>
 <tr class="odd">
-<td>Regression</td>
+<td>Régression</td>
 <td>1 variable explicative numérique</td>
 </tr>
 <tr class="even">
-<td>test t</td>
+<td>Test t</td>
 <td>1 variable explicative catégorique avec 2 niveaux</td>
 </tr>
 <tr class="odd">
 <td>ANOVA</td>
-<td>1 categorical explanatory variable with &gt; 2 levels</td>
+<td>1 variable explicative catégorielle avec &gt; 2 niveaux</td>
 </tr>
 </tbody>
 </table>
