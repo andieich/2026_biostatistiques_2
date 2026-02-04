@@ -306,4 +306,13 @@ Vous le chargez (`library()`) chaque fois que vous démarrez R
 3.  Cliquez sur `TP1`
 4.  Connectez-vous à Posit Cloud
 
+::: huge
+::: center-align
+
+[andieich.github.io/2026_biostatistiques_2](andieich.github.io/2026_biostatistiques_2)
+
+:::
+:::
+
+
 ## Références
