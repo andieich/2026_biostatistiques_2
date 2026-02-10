@@ -1,0 +1,374 @@
+---
+title: "Indications pour TP 03"
+format: html
+date: 2026-02-09
+---
+
+:::: project
+### Task 1
+
+The data frame `dat_change_coral` contains the coral mortality due to the bleaching event at each site on the map above with the corresponding maximum accumulated heat stress. Plot the column `max_ahs` (i.e. the maximum intensity of accumulated heat stress) on the x-axis, and `perc_mort` (i.e. coral mortality in percent) on the y-axis and draw a scatter plot. Remember TP 02, you should be able to complete this task.
+
+```{r}
+#| eval: false
+#| echo: true
+
+ggplot(data = ____, aes(x = ____, y = ____)) +
+  geom_point() +
+  labs(
+    x = expression(DWH[max]),
+    y = expression(Mortality ~ "(%)")
+  ) +
+  theme_light()
+```
+
+::: {.callout-tip collapse="true" title="Afficher l'indice"}
+You want to plot the `dat_change_coral` data frame, use it accordingly in `ggplot(data = )`. in `aes()`, you want to plot `max_ahs` on the x and `perc_mort` on the y axis.
+:::
+::::
+
+------------------------------------------------------------------------
+
+::: project
+### Task 2
+
+$$
+\begin{align}
+\mathrm{Mortality}_i \sim \mathrm{Normal(\mu}_i,~\mathrm{\sigma)} \\
+\mu_i = a + b \cdot \mathrm{heatstess}_i
+\end{align}
+$$
+
+, where $\mathrm{Mortality}_i$ is the coral mortality at site $i$ (`perc_mort`), and $\mathrm{heat stess}_i$ the maximum accumulated heat stress at that site (`max_ahs`).
+
+Translate this model into the R's `lm()` and as always, replace the `____`. Keep in mind, that you want to investigate how coral mortality (`perc_mort`) is impacted by the maximum accumulated heat stress (`max_ahs`).
+
+```{r}
+#| eval: false
+#| echo: true
+
+m_cor_mort <- lm(____ ~ ____, data = dat_change_coral)
+```
+
+:::
+
+::: {.callout-tip collapse="true" title="Afficher l'indice"}
+What is the explanatory variable? What is the reposonse variable? Remember, that in the model, you want to understand how `
+perc_mort
+` is impacted by `
+max_ahs
+`. Remember as well, that `
+lm()
+` works as follows: 1. You give the response variable 2. You add a ` ~ ` 3. You give the explanatory variable(s)
+:::
+
+------------------------------------------------------------------------
+
+::::: project
+### Task 3
+
+```{r}
+#| eval: true
+#| echo: false
+#| warning: false
+
+library(tidyverse)
+library(here)
+library(modelbased)
+dat_change_coral <- read.csv(here("TP/TP_03/data/coral_mortality.csv"))
+m_cor_mort <- lm(perc_mort ~ max_ahs, data = dat_change_coral)
+```
+
+
+```{r}
+summary(m_cor_mort)
+```
+
+**What does this tell you?**
+
+Think of the linear equation for the association between heat stress and coral mortality. What is the expected increase (or decrease?) in mortality for each increase in one unit of `max_ahs`? What is the $R2$ values? Is the relationship of heat stress on mortality statistically significant of or not?
+
+:::: {.callout-tip collapse="true" title="Afficher l'indice"}
+Is the slope (the `Estimate` for `max_ahs`) positive or negative?
+
+For a scientific publication, you could describe the results as follows:
+
+::: justify
+> The intensity of the heat stress, measured as the maximum accumulated heat stress in 2019 (AHS~max~), significantly impacted coral mortality (t(11) = 5.052, p \< .001, adj. R^2^ = 0.67). The expected mortality increased by 90.5% ± 18.0% (SE) per unit of $\mathrm{ahs_{max}}$.
+:::
+::::
+:::::
+
+------------------------------------------------------------------------
+
+:::: project
+### Task 4
+
+```{r}
+#| eval: true
+#| echo: false
+
+pred_cor_mort <- estimate_relation(m_cor_mort)
+
+ggplot(data = dat_change_coral, aes(x = max_ahs, y = perc_mort)) +
+  geom_point() +
+  labs(
+    x = expression(DWH[max]),
+    y = expression(Mortality ~ "(%)")
+  ) +
+  geom_ribbon(
+    data = pred_cor_mort,
+    aes(ymin = CI_low, ymax = CI_high, x = max_ahs, y = NULL),
+    alpha = 0.2,
+    color = NA
+  ) +
+  geom_line(data = pred_cor_mort, aes(x = max_ahs, y = Predicted)) +
+  theme_light()
+```
+
+Have a look at each line of code I used for this plot:
+
+```{r}
+#| eval: false
+#| echo: true
+ggplot(data = dat_change_coral, aes(x = max_ahs, y = perc_mort)) +
+  geom_point() +
+  labs(
+    x = expression(DWH[max]),
+    y = expression(Mortality ~ "(%)")
+  ) +
+  geom_ribbon(
+    data = pred_cor_mort,
+    aes(ymin = CI_low, ymax = CI_high, x = max_ahs, y = NULL),
+    alpha = 0.2,
+    color = NA
+  ) +
+  geom_line(data = pred_cor_mort, aes(x = max_ahs, y = Predicted)) +
+  theme_light()
+```
+
+Have a look at each line of code I used for this plot.
+
+1.  Do you understand how it works? What do you think which part is plotted first, the points (raw data), the regression line, or the grey area?
+2.  Do you have an idea why the grey area has this "bow tie" shape?
+
+::: {.callout-tip collapse="true" title="Afficher l'indice"}
+1.  In `ggplot`, the layers are drawn as they appear in the code. Here, the raw data (`geom_point()`) is plotted below, above comes the uncertainty band (`geom_ribbon()`), and on top, the regression line (`geom_line`).
+2.  The model is more confident to predict the coral mortality when it has more heat stress data, as for medium values for heat stress. Towards both ends of the plot, less data exists, so the model is less confident and the uncertainty band wider.
+:::
+::::
+
+------------------------------------------------------------------------
+
+::: project
+### Task 5
+
+It seems that the coral cover depends on the coastal orientation! Let's do an ANOVA to test this. We want to test the impact of `coast` on `percent_cover`:
+
+```{r}
+#| eval: false
+#| echo: true
+
+m_cor_cover <- lm(____ ~ ____, data = dat_coral_cover)
+```
+
+::: {.callout-tip collapse="true" title="Afficher l'indice"}
+Have a look at my hint for Task 2. In this case, what is the response variable, what is the explanatory variable?
+:::
+
+
+:::
+
+
+
+------------------------------------------------------------------------
+
+::: project
+### Task 6
+
+```{r}
+#| eval: true
+#| echo: false
+#| fig-width: 5
+#| fig-height: 3
+
+dat_coral_cover <- read.csv(here("TP/TP_03/data/coral_cover.csv"))
+m_cor_cover <- lm(percent_cover ~ coast, data = dat_coral_cover)
+pred_cor_cover <- estimate_relation(m_cor_cover)
+ggplot(data = dat_coral_cover, aes(x = coast, y = percent_cover, col = coast)) +
+  geom_point(position = position_jitter(width = .1)) +
+  geom_pointrange(
+    data = pred_cor_cover,
+    aes(x = coast, y = Predicted, ymin = CI_low, ymax = CI_high)
+  ) +
+  labs(
+    x = "Coastal Orientation",
+    y = "Coral Cover (%)"
+  ) +
+  theme_light() +
+  theme(legend.position = "none")
+```
+
+Do you have any idea that might explain these differences biologically? Consider, that the reefs in Moorea were completely destroyed in 2010 due to an outbreak of Crown-of-thorns starfish, a coral predator, followed by a cyclone in 2010. The recovery afterwards until 2019 was very fast compared to other reefs. We also know that the cyclone hit the North and West harder than the East of Moorea. Why could this have been an advantage for the recovery at those sites?
+
+What other factors might have impacted the recovery after 2010?
+:::
+
+::: {.callout-tip collapse="true" title="Afficher l'indice"}
+It could be that the recovery was faster in the North and West than in the east because the cyclone cleared the substrate and made space for new recruits. At the outer reef in Moorea, we currently have the problem that there are many dead skeletons left after the 2019 bleaching event that break apart in the swell. This is a very unstable substrate for new coral recruits and may hinder recovery. No cyclone occurred after the 2019 bleaching event. So before, the faster recovery in the North and West of Moorea might have let to the higher coral cover observed at these sites.
+
+But of course also other factors may have impacted coral recruitment and cover, as for example sedimentation, nutrient input, herbivorous fish biomass (coral compete with algae for space, algae remain more common when there are less herbivorous fish).
+:::
+
+------------------------------------------------------------------------
+
+::: project
+### Task 7
+
+As always, first visualise the data.  Produce a scatter plot with `body_mass_g` on the x axis, `flipper_length_mm` on the y axis, and colour the points according to `species`. Write your own R code below:
+
+::: {.callout-tip collapse="true" title="Afficher l'indice"}
+
+Here is the basic stucture of the plot
+```{r}
+#| eval: false
+#| echo: true
+
+ggplot(
+  data = ____,
+  aes(x = ____, y = ____, col = ____)
+) +
+  geom_point() +
+  labs(x = "Body Mass (g)", y = "Flipper Length (mm)") +
+  theme_light()
+```
+
+Remember that:
+-   You want to plot the `penguins` data
+
+-   You want to plot the `body_mass_g` on the x axis
+
+-   and the `flipper_length_mm` on the y axis
+
+-   and use `species` for the colous (`col =`)
+
+:::
+:::
+
+
+------------------------------------------------------------------------
+
+### Task 8
+
+
+::: project
+#### Model
+Now, you will build your own model. Use the `lm()` function to test the impact of `body_mass_g` and `species` on `flipper_length_mm`. Here, use the additive effecte, this means that both explanatory variables (`body_mass_g` and `species`) are spearated by a `+`. Write your own R code below and give the model a reasonable name:
+
+::: {.callout-tip collapse="true" title="Afficher l'indice"}
+:::
+
+```{r}
+#| eval: false
+#| echo: true
+
+____ <- lm(____ ~ ____ + ____, data = ____)
+
+```
+
+
+The first `____` is the name of the model. Chose it as you want
+What is the resposne variable? Remember that in `lm()`, it comes before the `~`
+What are the two explanatory variables? Separate them with a `+``
+You want to use the `penguins` data
+
+:::
+
+------------------------------------------------------------------------
+
+::: project
+#### Assess Model
+
+Use the `summary()` and `anova()` to understant what the model thinks:
+
+
+```{r}
+#| eval: false
+#| echo: true
+
+summary(____)
+```
+
+Use the name of the model you defined above for `____`.
+
+```{r}
+#| eval: false
+#| echo: true
+
+anova(____)
+```
+
+Use the name of the model you defined above for `____`.
+
+
+::: {.callout-tip collapse="true" title="Afficher l'indice"}
+:::
+:::
+
+------------------------------------------------------------------------
+
+::: project
+#### Plot Model
+
+Now, use `ggplot()` and `estimate_relation()` to plot the raw data and model outcome. Have a look at the code in Task 4 for a start!
+
+::: {.callout-tip collapse="true" title="Afficher l'indice"}
+#### Predict Data
+
+First, predict data based on the model, adapt the `estimate_relation()` code you have seen now a couple of times for the model you created: 
+
+```{r}
+#| eval: false
+#| echo: true
+
+____ <- estimate_relation(____)
+
+```
+
+The first `____` is the name of the data frame that will contain the predicted data. Chose it at you want.
+Use the name of the model you defined above for the `____` in `estimate_relation()`.
+
+**Hints:**
+
+-   The first `____` is the name of the data frame you are creating that will contain the predicted values. Chose it on your own!
+
+-   The second `____` is the name model you created above
+
+#### Plot Data
+Here is the structure of ggplot code you could use.
+```{r}
+#| eval: false
+#| echo: true
+
+ggplot(data = ____, aes(x = ____, y = ____, col = ____)) + #<1>
+  geom_point() +
+  labs(x = "Body Mass (g)", y = "Flipper Length (mm)") +
+  geom_ribbon(
+    data = ___, #<2>
+    aes(ymin = CI_low, ymax = CI_high, y = NULL, col = NULL, fill = ____), #<3>
+    alpha = 0.2,
+  ) +
+  geom_line(data = ___, aes(x = ___, y = ___)) + #<4>
+  theme_light()
+```
+
+1.  Take the `penguins` data, plot `body_mass_g` on the x axis and `flipper_length_mm` on the y axis. Use `species` for the colous (`col =`).
+2.  Here, use the name of the data frame you created with the predicted values (previous step)
+3.  Another hint: In ggplot, when you fill an area, you have to use `fill =`, and not colour (as for points and lines). Also use `species` for the fill.
+4.  Plot the regression lines. Use again the data frame with the predicted data. Plot `body_mass_g` on the x axis and `Predicted` on the y axis
+
+:::
+:::
+
+
+

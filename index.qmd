@@ -23,12 +23,11 @@ d %>%
   mutate(
     `ENV-01` = as.Date(`ENV-01`),
     `ENV-02` = as.Date(`ENV-02`),
-    `BIO-01` = as.Date(`BIO-01`),
-    `BIO-02` = as.Date(`BIO-02`)
+    `BIO` = as.Date(`BIO`)
   ) %>%
   gt() %>%
   fmt(
-    columns = c(`ENV-01`, `ENV-02`, `BIO-01`, `BIO-02`),
+    columns = c(`ENV-01`, `ENV-02`, `BIO`),
     fns = function(x) format(x, "%d.%m.%y")
   ) %>%
   sub_missing(
@@ -37,15 +36,11 @@ d %>%
   ) %>%
   cols_align(
     align = "center",
-    columns = c(session)
-  ) %>%
-  cols_align(
-    align = "right",
-    columns = c(`ENV-01`, `ENV-02`, `BIO-01`, `BIO-02`)
+    columns = c(session, `ENV-01`, `ENV-02`, `BIO`, slides, TP, aide)
   ) %>%
   cols_align(
     align = "left",
-    columns = c(sujet, slides, TP, aide)
+    columns = c(sujet)
   ) %>%
   tab_style(
     style = cell_borders(
@@ -58,8 +53,7 @@ d %>%
         session,
         `ENV-01`,
         `ENV-02`,
-        `BIO-01`,
-        `BIO-02`,
+        `BIO`,
         sujet,
         slides,
         TP,
@@ -74,8 +68,7 @@ d %>%
     session ~ px(70),
     `ENV-01` ~ px(80),
     `ENV-02` ~ px(80),
-    `BIO-01` ~ px(80),
-    `BIO-02` ~ px(80),
+    `BIO` ~ px(80),
     sujet ~ px(400),
     slides ~ px(120),
     TP ~ px(120),

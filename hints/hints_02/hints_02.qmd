@@ -38,17 +38,15 @@ Remplacez le `____` ci-dessous par une échelle de couleur de votre choix.
 #| eval: false
 #| echo: true
 
-ggplot(
-  data = penguins,
-  aes(x = bill_length_mm, y = body_mass_g, colour = species)
-) +
-  geom_point() +
-  labs(x = "Bill length (mm)", y = "Body mass (g)") +
-  ____
+ggplot(data = penguins, aes(x = bill_length_mm, y = body_mass_g, colour = species)) +
+    geom_point() + 
+    labs(x = "Bill length (mm)", y = "Body mass (g)") +
+    ___ +
+    theme_minimal()
 ```
 
 ::: {.callout-tip collapse="true" title="Afficher l'indice"}
-Remplacez la partie `____` par l'un des exemples d'échelle de couleur que je vous ai donnés, par exemple `scale_colour_colourblind()`.
+Remplacez la partie `____` par l'un des exemples d'échelle de couleur que je vous ai donnés, par exemple `scale_colour_colourblind()` et `scale_colour_viridis_d()`.
 
 Si vous voulez utiliser l'échelle de couleur « entièrement manuelle », vous pouvez l'adapter à quelque chose de plus beau comme : `scale_colour_manual(values = c("darkorange", "darkgreen","aquamarine2"))`
 :::

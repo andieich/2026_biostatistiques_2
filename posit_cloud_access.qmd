@@ -13,8 +13,7 @@ Pour créer un compte et devenir membre des groupes dans lesquels je partage les
 
 ### Accéder à l'espace TP
 
-Quand vous avez déjà un compte, suivez [ce lien](https://posit.cloud/spaces/728718){target="_blank"} pour accéder à l'espace pour ces TP.
-
+Si vous avez déjà un compte et êtes déjà membre de l'espace « Biostatistiques 2 », vous pouvez accéder à cet espace [ici](https://posit.cloud/spaces/728718){target="_blank"}.
 
 
 Si vous rencontrez des problèmes, veuillez envoyer un e-mail à [andreas.eich@vacataire.upf.pf](mailto:andreas.eich@vacataire.upf.pf)

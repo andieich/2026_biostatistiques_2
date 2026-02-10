@@ -309,7 +309,7 @@ Vous le chargez (`library()`) chaque fois que vous démarrez R
 ::: huge
 ::: center-align
 
-[andieich.github.io/2026_biostatistiques_2](andieich.github.io/2026_biostatistiques_2)
+[andieich.github.io/2026_biostatistiques_2](https://andieich.github.io/2026_biostatistiques_2/)
 
 :::
 :::

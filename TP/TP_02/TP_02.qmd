@@ -155,7 +155,7 @@ ggplot(data = penguins, aes(x = bill_length_mm)) +
 
 Notez que seule une variable `x` doit être donnée dans `aes()`. L'axe y représente la fréquence de chaque valeur et est directement calculé par `ggplot()`.
 
-Vous pouvez modifier la largeur des barres. Cela peut être utile, car chaque barre représente la fréquence d'une plage de valeurs (par exemple, des étapes de 5 mm). Vous pouvez le faire avec l'argument `bins`. Essayez différentes valeurs ci-dessous et voyez ce qui se passe :
+Vous pouvez modifier la largeur des barres. Cela peut être utile, car chaque barre représente la fréquence d'une plage de valeurs (par exemple, des étapes de 5 mm). Vous pouvez le faire avec l'argument `bins`. Essayez différentes valeurs (integers = nombres entiers) ci-dessous et voyez ce qui se passe :
 
 ```{r}
 ggplot(data = penguins, aes(x = bill_length_mm)) + 

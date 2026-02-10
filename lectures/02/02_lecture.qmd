@@ -22,36 +22,40 @@ penguins <- penguins %>%
 -   Résumés de base des données
 -   Différents types de données
 
-## Données ordonnées {.small}
+## Données « tidy » {.small}
 
 ::: med-space
 :::
 
-
--   Une **variable** est une quantité, une qualité ou une propriété que vous pouvez mesurer. *Exemple : Longueur de la nageoire*
+-   Une **variable** est une quantité, une qualité ou une propriété que vous pouvez mesurer. 
+    
+    *Exemple : Longueur de la nageoire*
 
 ::: incremental
 
 
--   Une **valeur** est l'état d'une variable lorsque vous la mesurez. La valeur d'une variable peut changer d'une mesure à l'autre. *Exemple : longueur des nageoires du manchot 1 = 181 mm*
+-   Une **valeur** est l'état d'une variable lorsque vous la mesurez. La valeur d'une variable peut changer d'une mesure à l'autre. 
+    
+    *Exemple : longueur des nageoires du manchot 1 = 181 mm*
 :::
 
 
-## Données ordonnées {.small}
-
+## Données « tidy » {.small}
 ::: med-space
 :::
 
 
--   Une **observation** est un ensemble de mesures effectuées dans des conditions similaires. Une observation contient plusieurs valeurs, chacune étant associée à une variable différente. *Example: une ligne dans les données des manchots pour la longueur du bec, la longueur de la nageoire, la masse corporelle, etc. d'un manchot*
+-   Une **observation** est un ensemble de mesures effectuées dans des conditions similaires. Une observation contient plusieurs valeurs, chacune étant associée à une variable différente. 
+    
+    *Exemple: une ligne dans les données des manchots pour la longueur du bec, la longueur de la nageoire, la masse corporelle, etc. d'un manchot*
 
 ::: incremental
 
--   Les **données tabulaires** sont un ensemble de valeurs, chacune étant associée à une variable et à une observation. Les données tabulaires sont ordonnées si chaque valeur est placée dans sa propre « cellule », chaque variable dans sa propre colonne et chaque observation dans sa propre ligne.
+-   Les **données tabulaires** sont un ensemble de valeurs, chacune étant associée à une variable et à une observation. Les données tabulaires sont « tidy » si chaque valeur est placée dans sa propre « cellule », chaque variable dans sa propre colonne et chaque observation dans sa propre ligne.
 :::
 
 
-## Données ordonnées {.small}
+## Données « tidy » {.small}
 ::: med-space
 :::
 
@@ -64,8 +68,6 @@ penguins <- penguins %>%
 3.  Chaque valeur doit avoir sa propre cellule
 
 ![](images/tidy_data.png)
-
-
 
 
 ## Fonctions R
@@ -1161,3 +1163,21 @@ penguins %>%
   theme_classic(base_size = 20) +
   theme(legend.position = "none")
 ```
+
+## À vous de jouer  {.smaller}
+
+::: med-space
+:::
+
+1.  Allez sur le site du cours
+2.  Allez au calendrier
+3.  Cliquez sur `TP 02`
+4.  Connectez-vous à Posit Cloud
+
+::: huge
+::: center-align
+
+[andieich.github.io/2026_biostatistiques_2](https://andieich.github.io/2026_biostatistiques_2/)
+
+:::
+:::
