@@ -23,3 +23,6 @@
 # Misc
 .vscode/
 *.log
+
+#exam folders
+exam/

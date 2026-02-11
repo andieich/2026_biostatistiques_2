@@ -1,5 +1,5 @@
 ---
-title: Tests post-hoc & Assumptions
+title: Post-hoc Tests & Assumptions
 subtitle: Lecture 4 
 ---
 
@@ -17,14 +17,14 @@ penguins <- penguins %>%
   na.omit()
 ```
 
-## Résumé du cours précédent
+## Summary from last lecture
 
--   Modèles linéaires comme cadre unifié
--   Régression : variable explicative numérique
--   ANOVA : variable explicative catégorique
--   Les deux sont des modèles linéaires !
+-   Linear models as a unified framework
+-   Regression: numeric explanatory variable
+-   ANOVA: categorical explanatory variable
+-   Both are linear models!
 
-## Le problème avec l'ANOVA {.smaller}
+## The problem with ANOVA {.smaller}
 
 ::: med-space
 :::
@@ -41,14 +41,14 @@ penguins %>%
   ) +
   labs(
     x = NULL,
-    y = "Masse corporelle (g)"
+    y = "Body mass (g)"
   ) +
   scale_fill_viridis_d() +
   theme_classic(base_size = 20) +
   theme(legend.position = "none")
 ```
 
-## Le problème avec l'ANOVA {.smaller}
+## The problem with ANOVA {.smaller}
 
 ::: med-space
 :::
@@ -64,17 +64,17 @@ anova(m_spec)
 :::
 
 ::: question
-L'ANOVA nous dit : « **Il y a une différence** entre les espèces »
+ANOVA tells us: "**There is a difference** between species"
 
-Mais **quelle** espèce diffère de quelle autre ?
+But **which** species differs from which other?
 :::
 
-## Comparaisons multiples {.smaller}
+## Multiple comparisons {.smaller}
 
 ::: med-space
 :::
 
-Pour 3 espèces, nous avons 3 comparaisons possibles :
+For 3 species, we have 3 possible comparisons:
 
 -   Adelie vs. Chinstrap
 -   Adelie vs. Gentoo
@@ -85,33 +85,33 @@ Pour 3 espèces, nous avons 3 comparaisons possibles :
 
 ::: fragment
 ::: question
-Pourquoi ne pas simplement faire 3 tests t ?
+Why not just do 3 t-tests?
 :::
 :::
 
-## Inflation de l'erreur alpha {.smaller}
+## Alpha error inflation {.smaller}
 
 ::: med-space
 :::
 
 ::::: columns
 ::: column
-Chaque test a un risque d'erreur de 5% (α = 0.05)
+Each test has a 5% error risk (α = 0.05)
 
 ::: fragment
-**Probabilité de ne pas faire d'erreur dans 1 test :**
+**Probability of making no error in 1 test:**
 
 0.95
 :::
 
 ::: fragment
-**Probabilité de ne faire aucune erreur dans 3 tests :**
+**Probability of making no error in 3 tests:**
 
 $0.95 \times 0.95 \times 0.95 = 0.857$
 :::
 
 ::: fragment
-**Probabilité de faire au moins 1 erreur :**
+**Probability of making at least 1 error:**
 
 $1 - 0.857 = 0.143 = 14.3\%$
 :::
@@ -133,8 +133,8 @@ data.frame(
   geom_hline(yintercept = 0.05, linetype = "dashed") +
   scale_y_continuous(labels = scales::percent) +
   labs(
-    x = "Nombre de comparaisons",
-    y = "Probabilité d'au moins 1 erreur"
+    x = "Number of comparisons",
+    y = "Probability of at least 1 error"
   ) +
   theme_classic(base_size = 20)
 ```
@@ -143,17 +143,17 @@ data.frame(
 :::
 :::::
 
-## Taux d'erreur familial {.smaller}
+## Family-wise error rate {.smaller}
 
 ::: med-space
 :::
 
-**Family-Wise Error Rate (FWER)** : La probabilité de faire au moins une erreur de type I dans un ensemble de tests
+**Family-Wise Error Rate (FWER)**: The probability of making at least one type I error in a set of tests
 
 ::: med-space
 :::
 
-| Nombre de groupes | Nombre de comparaisons | FWER (sans correction) |
+| Number of groups | Number of comparisons | FWER (no correction) |
 |-------------------|------------------------|------------------------|
 | 2                 | 1                      | 5.0%                   |
 | 3                 | 3                      | 14.3%                  |
@@ -165,36 +165,36 @@ data.frame(
 :::
 
 ::: question
-Nous avons besoin d'ajuster nos valeurs p pour contrôler le FWER
+We need to adjust our p-values to control the FWER
 :::
 
-## Correction de Bonferroni {.smaller}
+## Bonferroni correction {.smaller}
 
 ::: med-space
 :::
 
-La méthode la plus simple : diviser α par le nombre de tests
+The simplest method: divide α by the number of tests
 
 $$
-\alpha_{\text{ajusté}} = \frac{\alpha}{m}
+\alpha_{\text{adjusted}} = \frac{\alpha}{m}
 $$
 
-où $m$ est le nombre de comparaisons
+where $m$ is the number of comparisons
 
 ::: med-space
 :::
 
 ::: fragment
-**Exemple avec 3 comparaisons :**
+**Example with 3 comparisons:**
 
 $$
-\alpha_{\text{ajusté}} = \frac{0.05}{3} = 0.0167
+\alpha_{\text{adjusted}} = \frac{0.05}{3} = 0.0167
 $$
 
-On rejette $H_0$ seulement si $p < 0.0167$
+We reject $H_0$ only if $p < 0.0167$
 :::
 
-## Calcul : Correction de Bonferroni {.smaller}
+## Calculation: Bonferroni correction {.smaller}
 
 ::: med-space
 :::
@@ -202,7 +202,7 @@ On rejette $H_0$ seulement si $p < 0.0167$
 ```{r}
 #| echo: true
 
-# Comparaisons par paires sans correction
+# Pairwise comparisons without correction
 pairwise.t.test(
   penguins$body_mass_g,
   penguins$species,
@@ -210,7 +210,7 @@ pairwise.t.test(
 )
 ```
 
-## Calcul : Correction de Bonferroni {.smaller}
+## Calculation: Bonferroni correction {.smaller}
 
 ::: med-space
 :::
@@ -218,7 +218,7 @@ pairwise.t.test(
 ```{r}
 #| echo: true
 
-# Comparaisons par paires avec Bonferroni
+# Pairwise comparisons with Bonferroni
 pairwise.t.test(
   penguins$body_mass_g,
   penguins$species,
@@ -226,77 +226,77 @@ pairwise.t.test(
 )
 ```
 
-## Le problème avec Bonferroni {.smaller}
+## The problem with Bonferroni {.smaller}
 
 ::: med-space
 :::
 
-Bonferroni est **trop conservateur** → perte de puissance statistique
+Bonferroni is **too conservative** → loss of statistical power
 
 ::: med-space
 :::
 
 ::::: columns
 ::: column
-**Avantages**
+**Advantages**
 
--   Simple à comprendre
--   Contrôle bien le FWER
--   Fonctionne toujours
+-   Simple to understand
+-   Controls FWER well
+-   Always works
 
 :::
 
 ::: column
-**Inconvénients**
+**Disadvantages**
 
--   Trop strict avec beaucoup de comparaisons
--   Augmente les erreurs de type II (faux négatifs)
--   Ignore la structure des données
+-   Too strict with many comparisons
+-   Increases type II errors (false negatives)
+-   Ignores data structure
 :::
 :::::
 
-## Autres méthodes d'ajustement {.smaller}
+## Other adjustment methods {.smaller}
 
 ::: med-space
 :::
 
-| Méthode              | Description                                | Quand l'utiliser           |
+| Method              | Description                                | When to use           |
 |----------------------|--------------------------------------------|----------------------------|
-| **Bonferroni**       | Divise α par nombre de tests              | Simple, peu de tests       |
-| **Holm-Bonferroni**  | Bonferroni séquentiel (moins strict)      | Alternative à Bonferroni   |
-| **Tukey HSD**        | Tient compte de toutes les comparaisons   | Comparaisons multiples     |
-| **Benjamini-Hochberg** | Contrôle le taux de fausses découvertes | Beaucoup de tests          |
+| **Bonferroni**       | Divides α by number of tests              | Simple, few tests       |
+| **Holm-Bonferroni**  | Sequential Bonferroni (less strict)      | Alternative to Bonferroni   |
+| **Tukey HSD**        | Accounts for all comparisons   | Multiple comparisons     |
+| **Benjamini-Hochberg** | Controls false discovery rate | Many tests          |
 
 ::: med-space
 :::
 
 ::: question
-Mais les valeurs p ne racontent qu'une partie de l'histoire...
+But p-values only tell part of the story...
 :::
 
-## Pourquoi préférer les intervalles de confiance ? {.smaller}
+## Why prefer confidence intervals? {.smaller}
 
 ::: med-space
 :::
 
 ::::: columns
 ::: column
-**Valeurs p**
+**P-values**
 
--   Binaire (significatif ou non)
--   Ne donne pas la magnitude de l'effet
--   Dépend de la taille de l'échantillon
--   Ne donne pas l'incertitude
+-   Binary (significant or not)
+-   Don't give effect magnitude
+-   Depend on sample size
+-   Don't give uncertainty
 
 :::
 
 ::: column
-**Intervalles de confiance**
+**Confidence intervals**
 
--   Montrent la magnitude de l'effet
--   Montrent l'incertitude
--   Permettent une interprétation biologique
--   Facilitent la comparaison
+-   Show effect magnitude
+-   Show uncertainty
+-   Allow biological interpretation
+-   Facilitate comparison
 :::
 :::::
 
@@ -305,11 +305,11 @@ Mais les valeurs p ne racontent qu'une partie de l'histoire...
 
 ::: fragment
 ::: question
-Les IC nous disent : « La vraie différence est probablement dans cette plage »
+CIs tell us: "The true difference is probably in this range"
 :::
 :::
 
-## Différences par paires avec IC {.smaller}
+## Pairwise differences with CIs {.smaller}
 
 ::: med-space
 :::
@@ -317,13 +317,13 @@ Les IC nous disent : « La vraie différence est probablement dans cette plage �
 ```{r}
 #| echo: true
 
-# Calculer les moyennes estimées et comparaisons
+# Calculate estimated means and comparisons
 emm <- emmeans(m_spec, ~species)
 pairs_result <- pairs(emm)
 pairs_result
 ```
 
-## Visualiser les différences par paires {.smaller}
+## Visualizing pairwise differences {.smaller}
 
 ::: med-space
 :::
@@ -345,7 +345,7 @@ pairs(emm) %>%
   coord_flip() +
   labs(
     x = NULL,
-    y = "Différence de masse (g)"
+    y = "Mass difference (g)"
   ) +
   theme_classic(base_size = 18)
 ```
@@ -367,7 +367,7 @@ pairs(emm) %>%
   coord_flip() +
   labs(
     x = NULL,
-    y = "Différence de masse (g)"
+    y = "Mass difference (g)"
   ) +
   theme_classic(base_size = 18)
 ```
@@ -375,7 +375,7 @@ pairs(emm) %>%
 :::
 :::::
 
-## Utiliser `modelbased` pour les contrastes {.smaller}
+## Using `modelbased` for contrasts {.smaller}
 
 ::: med-space
 :::
@@ -388,7 +388,7 @@ pairs(emm) %>%
 
 library(modelbased)
 
-# Estimer les moyennes
+# Estimate means
 estimate_means(m_spec)
 ```
 
@@ -399,7 +399,7 @@ estimate_means(m_spec)
 #| echo: true
 #| eval: false
 
-# Estimer les contrastes
+# Estimate contrasts
 estimate_contrasts(m_spec)
 ```
 
@@ -425,7 +425,7 @@ estimate_contrasts(m_spec)
 :::
 :::::
 
-## Visualiser avec `modelbased` {.smaller}
+## Visualizing with `modelbased` {.smaller}
 
 ::: med-space
 :::
@@ -436,7 +436,7 @@ estimate_contrasts(m_spec)
 #| echo: true
 #| eval: false
 
-# Moyennes avec IC
+# Means with CIs
 plot(estimate_means(m_spec))
 ```
 
@@ -447,7 +447,7 @@ plot(estimate_means(m_spec))
 #| echo: true
 #| eval: false
 
-# Contrastes avec IC
+# Contrasts with CIs
 plot(estimate_contrasts(m_spec))
 ```
 
@@ -460,7 +460,7 @@ estimate_means(m_spec) %>%
   ggplot(aes(x = species, y = Mean)) +
   geom_pointrange(aes(ymin = CI_low, ymax = CI_high)) +
   theme_classic(base_size = 16) +
-  labs(y = "Masse corporelle (g)", x = "Espèce")
+  labs(y = "Body mass (g)", x = "Species")
 ```
 
 ::: med-space
@@ -473,13 +473,13 @@ estimate_contrasts(m_spec) %>%
   geom_hline(yintercept = 0, linetype = "dashed") +
   geom_pointrange(aes(ymin = CI_low, ymax = CI_high)) +
   theme_classic(base_size = 16) +
-  labs(y = "Différence de masse (g)", x = "Contraste")
+  labs(y = "Mass difference (g)", x = "Contrast")
 ```
 
 :::
 :::::
 
-## Chevauchement des IC {.smaller}
+## CI overlap {.smaller}
 
 ::: med-space
 :::
@@ -492,7 +492,7 @@ estimate_means(m_spec) %>%
   ggplot(aes(x = species, y = Mean)) +
   geom_pointrange(aes(ymin = CI_low, ymax = CI_high)) +
   theme_classic(base_size = 20) +
-  labs(y = "Masse corporelle (g)", x = NULL)
+  labs(y = "Body mass (g)", x = NULL)
 ```
 
 :::
@@ -500,23 +500,23 @@ estimate_means(m_spec) %>%
 ::: column
 ::: fragment
 ::: question
-**Règle empirique :**
+**Rule of thumb:**
 
-Si les IC de deux moyennes ne se chevauchent pas, elles sont probablement différentes (p < 0.05)
+If the CIs of two means don't overlap, they are probably different (p < 0.05)
 :::
 :::
 
 ::: fragment
 ::: callout-warning
-## Attention !
+## Warning!
 
-Le chevauchement des IC n'implique pas toujours l'absence de différence significative. Les contrastes sont plus précis.
+CI overlap doesn't always imply no significant difference. Contrasts are more precise.
 :::
 :::
 :::
 :::::
 
-## Comparaisons de pentes : ANCOVA {.smaller}
+## Slope comparisons: ANCOVA {.smaller}
 
 ::: med-space
 :::
@@ -536,10 +536,10 @@ penguins %>%
   scale_color_viridis_d() +
   scale_fill_viridis_d() +
   labs(
-    x = "Longueur du bec (mm)",
-    y = "Masse corporelle (g)",
-    color = "Espèce",
-    fill = "Espèce"
+    x = "Bill length (mm)",
+    y = "Body mass (g)",
+    color = "Species",
+    fill = "Species"
   ) +
   theme_classic(base_size = 18) +
   theme(legend.position = "bottom")
@@ -549,11 +549,11 @@ penguins %>%
 
 ::: column
 ::: question
-Les pentes sont-elles différentes entre les espèces ?
+Are the slopes different between species?
 :::
 
 ::: fragment
-Modèle avec interaction :
+Model with interaction:
 
 ```{r}
 #| echo: true
@@ -568,7 +568,7 @@ m_ancova <- lm(
 :::
 :::::
 
-## Tester les différences de pentes {.smaller}
+## Testing slope differences {.smaller}
 
 ::: med-space
 :::
@@ -584,11 +584,11 @@ summary(m_ancova)
 
 ::: fragment
 ::: question
-Les termes d'interaction testent si les pentes diffèrent de la pente de référence (Adelie)
+The interaction terms test whether slopes differ from the reference slope (Adelie)
 :::
 :::
 
-## Visualiser les différences de pentes {.smaller}
+## Visualizing slope differences {.smaller}
 
 ::: med-space
 :::
@@ -599,7 +599,7 @@ Les termes d'interaction testent si les pentes diffèrent de la pente de référ
 #| echo: true
 #| eval: false
 
-# Estimer les pentes
+# Estimate slopes
 estimate_slopes(m_ancova, trend = "bill_length_mm", at = "species")
 ```
 
@@ -619,7 +619,7 @@ estimate_slopes(m_ancova, trend = "bill_length_mm", at = "species")
 :::
 
 ```{r}
-# Visualiser les pentes par espèce
+# Visualize slopes by species
 penguins %>%
   ggplot(aes(
     x = bill_length_mm,
@@ -632,16 +632,16 @@ penguins %>%
   scale_color_viridis_d() +
   scale_fill_viridis_d() +
   labs(
-    x = "Longueur du bec (mm)",
-    y = "Masse corporelle (g)",
-    color = "Espèce",
-    fill = "Espèce"
+    x = "Bill length (mm)",
+    y = "Body mass (g)",
+    color = "Species",
+    fill = "Species"
   ) +
   theme_classic(base_size = 18) +
   theme(legend.position = "bottom")
 ```
 
-## Comparaisons de pentes {.smaller}
+## Slope comparisons {.smaller}
 
 ::: med-space
 :::
@@ -652,7 +652,7 @@ penguins %>%
 #| echo: true
 #| eval: false
 
-# Comparer les pentes
+# Compare slopes
 estimate_contrasts(
   m_ancova,
   contrast = "species",
@@ -678,11 +678,11 @@ estimate_contrasts(
 
 ::: fragment
 ::: question
-Gentoo a une pente significativement plus élevée que les deux autres espèces
+Gentoo has a significantly higher slope than the other two species
 :::
 :::
 
-## Résumé : Quelle méthode utiliser ? {.smaller}
+## Summary: Which method to use? {.smaller}
 
 ::: med-space
 :::
@@ -694,20 +694,20 @@ library(gt)
 
 tibble(
   Situation = c(
-    "Comparaisons planifiées",
-    "Toutes les comparaisons par paires",
-    "Peu de comparaisons (< 5)",
-    "Beaucoup de comparaisons (> 10)",
-    "Intérêt pour la magnitude de l'effet",
-    "Publication scientifique"
+    "Planned comparisons",
+    "All pairwise comparisons",
+    "Few comparisons (< 5)",
+    "Many comparisons (> 10)",
+    "Interest in effect magnitude",
+    "Scientific publication"
   ),
-  Méthode = c(
-    "Tests t avec correction de Holm",
+  Method = c(
+    "t-tests with Holm correction",
     "Tukey HSD",
-    "Bonferroni ou Holm",
+    "Bonferroni or Holm",
     "Benjamini-Hochberg",
-    "Intervalles de confiance",
-    "IC + valeurs p ajustées"
+    "Confidence intervals",
+    "CIs + adjusted p-values"
   )
 ) %>%
   gt() %>%
@@ -717,39 +717,39 @@ tibble(
   )
 ```
 
-## Partie 2 : Assumptions des modèles linéaires {background-color="#440154"}
+## Part 2: Linear model assumptions {background-color="#440154"}
 
 ::: med-space
 :::
 
 ::: center-align
 ::: huge
-**Quand peut-on utiliser un modèle linéaire ?**
+**When can we use a linear model?**
 :::
 :::
 
-## Les trois grandes assumptions {.smaller}
+## The three key assumptions {.smaller}
 
 ::: med-space
 :::
 
-Un modèle linéaire suppose que :
+A linear model assumes that:
 
 ::: med-space
 :::
 
 ::::: columns
 ::: column
-### 1. Indépendance
+### 1. Independence
 
-Les observations sont indépendantes les unes des autres
+Observations are independent of each other
 
 :::
 
 ::: column
-### 2. Homoscédasticité
+### 2. Homoscedasticity
 
-La variance des résidus est constante
+Residual variance is constant
 
 :::
 :::::
@@ -757,88 +757,88 @@ La variance des résidus est constante
 ::: med-space
 :::
 
-### 3. Normalité
+### 3. Normality
 
-Les résidus suivent une distribution normale
+Residuals follow a normal distribution
 
 ::: med-space
 :::
 
 ::: fragment
 ::: question
-Mais d'abord : Pourquoi avons-nous besoin de modèles linéaires ?
+But first: Why do we need linear models?
 :::
 :::
 
-## Tests non paramétriques vs. Modèles linéaires {.smaller}
+## Nonparametric tests vs. Linear models {.smaller}
 
 ::: med-space
 :::
 
 ::::: columns
 ::: column
-**Tests non paramétriques**
+**Nonparametric tests**
 
 -   Mann-Whitney, Kruskal-Wallis, etc.
--   « Pas d'assumptions »
--   Utilisent les rangs
+-   "No assumptions"
+-   Use ranks
 
 ::: fragment
-**Problèmes :**
+**Problems:**
 
--   Difficiles à interpréter biologiquement
--   Pas de magnitude d'effet
--   Pas de modèles complexes
--   Moins de puissance
--   Pas d'estimations/prédictions
+-   Difficult to interpret biologically
+-   No effect magnitude
+-   No complex models
+-   Less power
+-   No estimates/predictions
 :::
 :::
 
 ::: column
 ::: fragment
-**Modèles linéaires**
+**Linear models**
 
--   Estiment des paramètres biologiques
--   Magnitude et incertitude
--   Extensibles (interactions, covariables)
--   Plus de puissance
--   Permettent les prédictions
+-   Estimate biological parameters
+-   Magnitude and uncertainty
+-   Extensible (interactions, covariates)
+-   More power
+-   Allow predictions
 
 ::: fragment
 ::: question
-**Robustes** aux violations modérées des assumptions !
+**Robust** to moderate assumption violations!
 :::
 :::
 :::
 :::
 :::::
 
-## Robustesse des modèles linéaires {.smaller}
+## Robustness of linear models {.smaller}
 
 ::: med-space
 :::
 
-Les modèles linéaires sont étonnamment **robustes** :
+Linear models are surprisingly **robust**:
 
 ::: med-space
 :::
 
--   La **normalité** n'est pas critique avec n > 30 (théorème central limite)
--   L'**homoscédasticité** : violation modérée souvent acceptable
--   L'**indépendance** : la seule vraiment critique
+-   **Normality** is not critical with n > 30 (central limit theorem)
+-   **Homoscedasticity**: moderate violation often acceptable
+-   **Independence**: the only truly critical one
 
 ::: med-space
 :::
 
 ::: fragment
 ::: question
-**Message clé :** Ne pas abandonner les modèles linéaires trop rapidement !
+**Key message:** Don't abandon linear models too quickly!
 
-Ils sont souvent meilleurs que les alternatives non paramétriques, même avec des violations modérées.
+They are often better than nonparametric alternatives, even with moderate violations.
 :::
 :::
 
-## Vérifier les assumptions avec `performance` {.smaller}
+## Checking assumptions with `performance` {.smaller}
 
 ::: med-space
 :::
@@ -848,14 +848,14 @@ Ils sont souvent meilleurs que les alternatives non paramétriques, même avec d
 
 library(performance)
 
-# Notre modèle ANOVA
+# Our ANOVA model
 m_spec <- lm(body_mass_g ~ species, data = penguins)
 
-# Vérifier toutes les assumptions
+# Check all assumptions
 check_model(m_spec)
 ```
 
-## Interpréter les diagnostics {.smaller}
+## Interpreting diagnostics {.smaller}
 
 ::: med-space
 :::
@@ -864,18 +864,18 @@ check_model(m_spec)
 ::: column
 ### Posterior Predictive Check
 
-Compare les données observées aux prédictions du modèle
+Compares observed data to model predictions
 
 ::: fragment
 ### Linearity
 
-Les résidus vs. valeurs prédites (devrait être plat)
+Residuals vs. fitted values (should be flat)
 :::
 
 ::: fragment
 ### Homogeneity of Variance
 
-Variance constante des résidus
+Constant variance of residuals
 :::
 :::
 
@@ -883,24 +883,24 @@ Variance constante des résidus
 ::: fragment
 ### Influential Observations
 
-Points avec forte influence (Cook's distance)
+Points with high influence (Cook's distance)
 :::
 
 ::: fragment
 ### Normality of Residuals
 
-**Le Q-Q plot** (quantile-quantile)
+**The Q-Q plot** (quantile-quantile)
 :::
 
 ::: fragment
 ### Collinearity
 
-Corrélation entre prédicteurs (pas pertinent ici)
+Correlation between predictors (not relevant here)
 :::
 :::
 :::::
 
-## Le Q-Q plot expliqué {.smaller}
+## The Q-Q plot explained {.smaller}
 
 ::: med-space
 :::
@@ -919,20 +919,20 @@ check_normality(m_spec) %>%
 ::: column
 **Quantile-Quantile plot**
 
--   Compare les quantiles observés aux quantiles théoriques d'une distribution normale
--   Si les points suivent la ligne : distribution normale
--   Déviations aux extrémités : queues lourdes/légères
--   Pattern en S : asymétrie
+-   Compares observed quantiles to theoretical quantiles of a normal distribution
+-   If points follow the line: normal distribution
+-   Deviations at extremes: heavy/light tails
+-   S-pattern: skewness
 
 ::: fragment
 ::: question
-Plus utile qu'un histogramme pour évaluer la normalité !
+More useful than a histogram for assessing normality!
 :::
 :::
 :::
 :::::
 
-## Q-Q plot : Patterns typiques {.smaller}
+## Q-Q plot: Typical patterns {.smaller}
 
 ::: med-space
 :::
@@ -941,41 +941,41 @@ Plus utile qu'un histogramme pour évaluer la normalité !
 set.seed(123)
 n <- 200
 
-# Données normales
+# Normal data
 normal_data <- rnorm(n)
 
-# Données avec queues lourdes
+# Heavy-tailed data
 heavy_tail <- rt(n, df = 3)
 
-# Données asymétriques
+# Skewed data
 skewed <- rexp(n, rate = 1)
 
-# Créer les Q-Q plots
+# Create Q-Q plots
 p1 <- data.frame(sample = normal_data) %>%
   ggplot(aes(sample = sample)) +
   stat_qq() +
   stat_qq_line(color = "red") +
-  labs(title = "Distribution normale", x = "Théorique", y = "Observé") +
+  labs(title = "Normal distribution", x = "Theoretical", y = "Observed") +
   theme_classic(base_size = 14)
 
 p2 <- data.frame(sample = heavy_tail) %>%
   ggplot(aes(sample = sample)) +
   stat_qq() +
   stat_qq_line(color = "red") +
-  labs(title = "Queues lourdes", x = "Théorique", y = "Observé") +
+  labs(title = "Heavy tails", x = "Theoretical", y = "Observed") +
   theme_classic(base_size = 14)
 
 p3 <- data.frame(sample = skewed) %>%
   ggplot(aes(sample = sample)) +
   stat_qq() +
   stat_qq_line(color = "red") +
-  labs(title = "Asymétrie positive", x = "Théorique", y = "Observé") +
+  labs(title = "Positive skew", x = "Theoretical", y = "Observed") +
   theme_classic(base_size = 14)
 
 p1 + p2 + p3
 ```
 
-## Tests formels de normalité {.smaller}
+## Formal normality tests {.smaller}
 
 ::: med-space
 :::
@@ -983,7 +983,7 @@ p1 + p2 + p3
 ```{r}
 #| echo: true
 
-# Test de Shapiro-Wilk
+# Shapiro-Wilk test
 check_normality(m_spec)
 ```
 
@@ -992,45 +992,45 @@ check_normality(m_spec)
 
 ::: fragment
 ::: callout-warning
-## Problème avec les tests de normalité
+## Problem with normality tests
 
--   **Trop sensibles** avec grands échantillons (détectent des déviations triviales)
--   **Pas assez sensibles** avec petits échantillons (quand on en aurait besoin)
--   Ne disent pas **si** la déviation est importante biologiquement
+-   **Too sensitive** with large samples (detect trivial deviations)
+-   **Not sensitive enough** with small samples (when we'd need them)
+-   Don't tell **if** the deviation is biologically important
 
 :::
 :::
 
 ::: fragment
 ::: question
-**Préférer l'examen visuel (Q-Q plot)** aux tests formels !
+**Prefer visual examination (Q-Q plot)** over formal tests!
 :::
 :::
 
-## « Eyeballing » vs. Tests statistiques {.smaller}
+## "Eyeballing" vs. Statistical tests {.smaller}
 
 ::: med-space
 :::
 
 ::::: columns
 ::: column
-**Tests formels (Shapiro-Wilk)**
+**Formal tests (Shapiro-Wilk)**
 
--   Répondent « oui » ou « non »
--   Sensibilité dépend de n
--   Pas d'information sur la sévérité
--   Déviations triviales deviennent « significatives »
+-   Answer "yes" or "no"
+-   Sensitivity depends on n
+-   No information on severity
+-   Trivial deviations become "significant"
 
 :::
 
 ::: column
-**Inspection visuelle (Q-Q plot)**
+**Visual inspection (Q-Q plot)**
 
--   Montre le type de déviation
--   Montre où elle se produit
--   Permet d'évaluer la gravité
--   Développe l'intuition statistique
--   **Contexte** : robustesse du modèle
+-   Shows the type of deviation
+-   Shows where it occurs
+-   Allows assessing severity
+-   Develops statistical intuition
+-   **Context**: model robustness
 
 :::
 :::::
@@ -1040,45 +1040,45 @@ check_normality(m_spec)
 
 ::: fragment
 ::: question
-**Conseil pratique :** Utilisez le Q-Q plot comme outil principal. Les tests formels sont secondaires.
+**Practical advice:** Use the Q-Q plot as your primary tool. Formal tests are secondary.
 :::
 :::
 
-## Assumption 1 : Indépendance {.smaller}
+## Assumption 1: Independence {.smaller}
 
 ::: med-space
 :::
 
-**Les observations sont indépendantes**
+**Observations are independent**
 
 ::: med-space
 :::
 
-Violation = une observation influence une autre
+Violation = one observation influences another
 
 ::: med-space
 :::
 
 ::::: columns
 ::: column
-**Exemples de violations**
+**Examples of violations**
 
--   Mesures répétées sur les mêmes individus
--   Autocorrélation temporelle
--   Autocorrélation spatiale
--   Pseudo-réplication
--   Structure hiérarchique (sites, populations)
+-   Repeated measures on the same individuals
+-   Temporal autocorrelation
+-   Spatial autocorrelation
+-   Pseudoreplication
+-   Hierarchical structure (sites, populations)
 
 :::
 
 ::: column
 ::: fragment
-**Conséquences**
+**Consequences**
 
--   Sous-estimation de l'erreur standard
--   Intervalles de confiance trop étroits
--   Valeurs p trop petites
--   **C'est la violation la plus grave !**
+-   Underestimation of standard error
+-   Confidence intervals too narrow
+-   P-values too small
+-   **This is the most serious violation!**
 
 :::
 :::
@@ -1086,18 +1086,18 @@ Violation = une observation influence une autre
 
 ::: fragment
 ::: question
-Solution : Modèles mixtes, séries temporelles, modèles spatiaux
+Solution: Mixed models, time series, spatial models
 :::
 :::
 
-## Violations d'indépendance en écologie {.smaller}
+## Independence violations in ecology {.smaller}
 
 ::: med-space
 :::
 
 ::::: columns
 ::: column
-### Autocorrélation spatiale
+### Spatial autocorrelation
 
 ```{r}
 set.seed(42)
@@ -1105,7 +1105,7 @@ n_sites <- 50
 x_coord <- runif(n_sites, 0, 100)
 y_coord <- runif(n_sites, 0, 100)
 
-# Créer une autocorrélation spatiale simple
+# Create simple spatial autocorrelation
 spatial_effect <- numeric(n_sites)
 for (i in 1:n_sites) {
   distances <- sqrt((x_coord[i] - x_coord)^2 + (y_coord[i] - y_coord)^2)
@@ -1125,27 +1125,27 @@ ggplot(spatial_data, aes(x = x, y = y, color = value)) +
   geom_point(size = 4) +
   scale_color_viridis_c() +
   labs(
-    title = "Autocorrélation spatiale",
-    x = "Coordonnée X",
-    y = "Coordonnée Y",
-    color = "Valeur"
+    title = "Spatial autocorrelation",
+    x = "X coordinate",
+    y = "Y coordinate",
+    color = "Value"
   ) +
   theme_classic(base_size = 16)
 ```
 
-Les sites proches sont plus similaires
+Nearby sites are more similar
 :::
 
 ::: column
 ::: fragment
-### Autocorrélation temporelle
+### Temporal autocorrelation
 
 ```{r}
 set.seed(42)
 n_time <- 100
 time <- 1:n_time
 
-# Série temporelle avec autocorrélation
+# Time series with autocorrelation
 ar_process <- arima.sim(n = n_time, list(ar = 0.7))
 
 temporal_data <- data.frame(
@@ -1157,24 +1157,24 @@ ggplot(temporal_data, aes(x = time, y = value)) +
   geom_line(linewidth = 1, color = "darkblue") +
   geom_point(size = 2, color = "darkblue") +
   labs(
-    title = "Autocorrélation temporelle",
-    x = "Temps",
-    y = "Valeur"
+    title = "Temporal autocorrelation",
+    x = "Time",
+    y = "Value"
   ) +
   theme_classic(base_size = 16)
 ```
 
-Les mesures consécutives sont corrélées
+Consecutive measurements are correlated
 :::
 :::
 :::::
 
-## Assumption 2 : Homoscédasticité {.smaller}
+## Assumption 2: Homoscedasticity {.smaller}
 
 ::: med-space
 :::
 
-**Variance constante des résidus**
+**Constant variance of residuals**
 
 ::: med-space
 :::
@@ -1191,14 +1191,14 @@ data.frame(x = x, y = y_homo) %>%
   geom_point(alpha = 0.6) +
   geom_smooth(method = "lm", color = "red") +
   labs(
-    title = "Homoscédasticité",
-    x = "Prédicteur",
-    y = "Réponse"
+    title = "Homoscedasticity",
+    x = "Predictor",
+    y = "Response"
   ) +
   theme_classic(base_size = 16)
 ```
 
-Variance constante ✓
+Constant variance ✓
 :::
 
 ::: column
@@ -1210,59 +1210,59 @@ data.frame(x = x, y = y_hetero) %>%
   geom_point(alpha = 0.6) +
   geom_smooth(method = "lm", color = "red") +
   labs(
-    title = "Hétéroscédasticité",
-    x = "Prédicteur",
-    y = "Réponse"
+    title = "Heteroscedasticity",
+    x = "Predictor",
+    y = "Response"
   ) +
   theme_classic(base_size = 16)
 ```
 
-Variance augmente ✗
+Variance increases ✗
 :::
 :::::
 
-## Hétéroscédasticité en écologie {.smaller}
+## Heteroscedasticity in ecology {.smaller}
 
 ::: med-space
 :::
 
-**Très commun dans les données écologiques !**
+**Very common in ecological data!**
 
 ::: med-space
 :::
 
 ::::: columns
 ::: column
-**Exemples**
+**Examples**
 
--   Variance augmente avec la moyenne
--   Données de comptage (abondance)
--   Processus allométriques
--   Taille corporelle et métabolisme
+-   Variance increases with the mean
+-   Count data (abundance)
+-   Allometric processes
+-   Body size and metabolism
 
 :::
 
 ::: column
 ::: fragment
-**Conséquences**
+**Consequences**
 
--   Erreurs standard biaisées
--   IC et tests moins fiables
--   **Moins grave** que non-indépendance
+-   Biased standard errors
+-   CIs and tests less reliable
+-   **Less serious** than non-independence
 
 ::: question
-Solutions : Transformation, GLM, modèles robustes
+Solutions: Transformation, GLM, robust models
 :::
 :::
 :::
 :::::
 
-## Assumption 3 : Normalité des résidus {.smaller}
+## Assumption 3: Normality of residuals {.smaller}
 
 ::: med-space
 :::
 
-**Les résidus (pas les données brutes !) suivent une distribution normale**
+**Residuals (not raw data!) follow a normal distribution**
 
 ::: med-space
 :::
@@ -1270,9 +1270,9 @@ Solutions : Transformation, GLM, modèles robustes
 ::::: columns
 ::: column
 ::: callout-important
-## Attention !
+## Warning!
 
-Ce n'est **pas** la distribution des données brutes qui doit être normale, mais celle des **résidus** !
+It's **not** the distribution of raw data that must be normal, but that of the **residuals**!
 :::
 
 ::: fragment
@@ -1280,9 +1280,9 @@ Ce n'est **pas** la distribution des données brutes qui doit être normale, mai
 ggplot(penguins, aes(x = body_mass_g)) +
   geom_histogram(bins = 30, fill = "lightblue", color = "black") +
   labs(
-    title = "Distribution des données brutes",
-    x = "Masse corporelle (g)",
-    y = "Fréquence"
+    title = "Distribution of raw data",
+    x = "Body mass (g)",
+    y = "Frequency"
   ) +
   theme_classic(base_size = 16)
 ```
@@ -1299,9 +1299,9 @@ data.frame(residuals = residuals_spec) %>%
   ggplot(aes(x = residuals)) +
   geom_histogram(bins = 30, fill = "lightblue", color = "black") +
   labs(
-    title = "Distribution des résidus",
-    x = "Résidus",
-    y = "Fréquence"
+    title = "Distribution of residuals",
+    x = "Residuals",
+    y = "Frequency"
   ) +
   theme_classic(base_size = 16)
 ```
@@ -1310,43 +1310,43 @@ data.frame(residuals = residuals_spec) %>%
 :::
 :::::
 
-## Données non normales en écologie {.smaller}
+## Non-normal data in ecology {.smaller}
 
 ::: med-space
 :::
 
-**Types de données qui violent souvent la normalité :**
+**Data types that often violate normality:**
 
 ::: med-space
 :::
 
-| Type de données    | Problème              | Distribution appropriée |
+| Data type    | Problem              | Appropriate distribution |
 |--------------------|-----------------------|-------------------------|
-| Comptages          | Entiers, asymétriques | Poisson, Binomiale négative |
-| Présence/Absence   | Binaire (0/1)         | Binomiale               |
-| Proportions        | Limitées à [0, 1]     | Bêta, Binomiale         |
-| Temps de survie    | Censurées             | Weibull, Exponentielle  |
-| Données positives  | Asymétriques          | Gamma, Log-normale      |
+| Counts          | Integers, skewed | Poisson, Negative binomial |
+| Presence/Absence   | Binary (0/1)         | Binomial               |
+| Proportions        | Limited to [0, 1]     | Beta, Binomial         |
+| Survival times    | Censored             | Weibull, Exponential  |
+| Positive data  | Skewed          | Gamma, Log-normal      |
 
 ::: med-space
 :::
 
 ::: fragment
 ::: question
-**C'est normal que vos données écologiques ne soient pas normales !**
+**It's normal for your ecological data to be non-normal!**
 
-Les modèles linéaires classiques ne sont pas toujours appropriés → GLM
+Classic linear models aren't always appropriate → GLM
 :::
 :::
 
-## Violations fréquentes en écologie {.smaller}
+## Common violations in ecology {.smaller}
 
 ::: med-space
 :::
 
 ::::: columns
 ::: column
-### Données de comptage
+### Count data
 
 ```{r}
 set.seed(123)
@@ -1356,19 +1356,19 @@ data.frame(counts = count_data) %>%
   ggplot(aes(x = counts)) +
   geom_bar(fill = "lightblue", color = "black") +
   labs(
-    title = "Distribution de Poisson",
-    x = "Nombre d'individus",
-    y = "Fréquence"
+    title = "Poisson distribution",
+    x = "Number of individuals",
+    y = "Frequency"
   ) +
   theme_classic(base_size = 14)
 ```
 
-Entiers, asymétriques, variance = moyenne
+Integers, skewed, variance = mean
 :::
 
 ::: column
 ::: fragment
-### Données de proportions
+### Proportion data
 
 ```{r}
 set.seed(123)
@@ -1378,26 +1378,26 @@ data.frame(proportions = prop_data) %>%
   ggplot(aes(x = proportions)) +
   geom_histogram(bins = 30, fill = "lightblue", color = "black") +
   labs(
-    title = "Distribution Bêta",
+    title = "Beta distribution",
     x = "Proportion",
-    y = "Fréquence"
+    y = "Frequency"
   ) +
   theme_classic(base_size = 14)
 ```
 
-Limitées entre 0 et 1
+Limited between 0 and 1
 :::
 :::
 :::::
 
-## Message important {.smaller}
+## Important message {.smaller}
 
 ::: med-space
 :::
 
 ::: huge
 ::: center-align
-**Au moins une assumption est généralement violée dans les données écologiques**
+**At least one assumption is generally violated in ecological data**
 :::
 :::
 
@@ -1406,7 +1406,7 @@ Limitées entre 0 et 1
 
 ::: fragment
 ::: question
-C'est **normal** et **attendu** !
+This is **normal** and **expected**!
 :::
 :::
 
@@ -1414,28 +1414,28 @@ C'est **normal** et **attendu** !
 :::
 
 ::: fragment
-**Ce que cela signifie :**
+**What this means:**
 
-1.  Ne pas paniquer quand les assumptions ne sont pas parfaites
-2.  Évaluer la **gravité** de la violation
-3.  Les modèles linéaires sont souvent **robustes** aux violations modérées
-4.  Pour les violations graves → **Modèles linéaires généralisés (GLM)**
+1.  Don't panic when assumptions aren't perfect
+2.  Assess the **severity** of the violation
+3.  Linear models are often **robust** to moderate violations
+4.  For serious violations → **Generalized Linear Models (GLM)**
 
 :::
 
-## Introduction aux GLM {.smaller}
+## Introduction to GLMs {.smaller}
 
 ::: med-space
 :::
 
-**Generalized Linear Models (GLM)** : Extension des modèles linéaires
+**Generalized Linear Models (GLM)**: Extension of linear models
 
 ::: med-space
 :::
 
 ::::: columns
 ::: column
-**Modèles linéaires classiques**
+**Classic linear models**
 
 $$
 \begin{align}
@@ -1444,9 +1444,9 @@ Y_i &\sim \text{Normal}(\mu_i, \sigma) \\
 \end{align}
 $$
 
--   Distribution normale uniquement
--   Variance constante
--   Relation linéaire directe
+-   Normal distribution only
+-   Constant variance
+-   Direct linear relationship
 
 :::
 
@@ -1461,9 +1461,9 @@ g(\mu_i) &= \beta_0 + \beta_1 X_i
 \end{align}
 $$
 
--   Différentes distributions (Poisson, binomiale, gamma, etc.)
--   Variance peut dépendre de la moyenne
--   Fonction de lien $g()$
+-   Different distributions (Poisson, binomial, gamma, etc.)
+-   Variance can depend on the mean
+-   Link function $g()$
 
 :::
 :::
@@ -1471,46 +1471,46 @@ $$
 
 ::: fragment
 ::: question
-**Semaine prochaine :** Comment et quand utiliser les GLM !
+**Next week:** How and when to use GLMs!
 :::
 :::
 
-## Résumé {.smaller}
+## Summary {.smaller}
 
 ::: med-space
 :::
 
 **Post-hoc tests**
 
--   L'inflation de l'erreur alpha est un problème réel
--   Correction des valeurs p (Bonferroni, Tukey, etc.)
--   **Les IC sont souvent plus informatifs** que les valeurs p
--   `modelbased` facilite l'estimation et la visualisation
+-   Alpha error inflation is a real problem
+-   P-value correction (Bonferroni, Tukey, etc.)
+-   **CIs are often more informative** than p-values
+-   `modelbased` facilitates estimation and visualization
 
 ::: med-space
 :::
 
 ::: fragment
-**Assumptions des modèles linéaires**
+**Linear model assumptions**
 
--   Indépendance (critique), homoscédasticité, normalité
--   Les modèles linéaires sont **robustes** aux violations modérées
--   **Meilleurs que les tests non paramétriques** dans la plupart des cas
--   Utilisez `performance::check_model()` pour les diagnostics
--   **Q-Q plots > tests formels** pour évaluer la normalité
--   Les violations sont **normales** en écologie → GLM
+-   Independence (critical), homoscedasticity, normality
+-   Linear models are **robust** to moderate violations
+-   **Better than nonparametric tests** in most cases
+-   Use `performance::check_model()` for diagnostics
+-   **Q-Q plots > formal tests** to assess normality
+-   Violations are **normal** in ecology → GLM
 
 :::
 
-## À vous de jouer {.smaller}
+## Your turn {.smaller}
 
 ::: med-space
 :::
 
-1.  Allez sur le site du cours
-2.  Allez au calendrier
-3.  Cliquez sur `TP 04`
-4.  Connectez-vous à Posit Cloud
+1.  Go to the course website
+2.  Go to the calendar
+3.  Click on `TP 04`
+4.  Connect to Posit Cloud
 
 ::: huge
 ::: center-align
