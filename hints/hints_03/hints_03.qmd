@@ -5,9 +5,9 @@ date: 2026-02-09
 ---
 
 :::: project
-### Task 1
+### Tâche 1
 
-The data frame `dat_change_coral` contains the coral mortality due to the bleaching event at each site on the map above with the corresponding maximum accumulated heat stress. Plot the column `max_ahs` (i.e. the maximum intensity of accumulated heat stress) on the x-axis, and `perc_mort` (i.e. coral mortality in percent) on the y-axis and draw a scatter plot. Remember TP 02, you should be able to complete this task.
+Le cadre de données `dat_change_coral` contient la mortalité des coraux due à l'événement de blanchiment à chaque site sur la carte ci-dessus, avec le stress thermique cumulé maximum correspondant. Tracez la colonne `max_ahs` (c'est-à-dire l'intensité maximale du stress thermique cumulé) sur l'axe des x, et `perc_mort` (c'est-à-dire la mortalité des coraux en pourcentage) sur l'axe des y, et dessinez un nuage de points. Souvenez-vous du TP 02, vous devriez être en mesure de compléter cette tâche.
 
 ```{r}
 #| eval: false
@@ -23,25 +23,25 @@ ggplot(data = ____, aes(x = ____, y = ____)) +
 ```
 
 ::: {.callout-tip collapse="true" title="Afficher l'indice"}
-You want to plot the `dat_change_coral` data frame, use it accordingly in `ggplot(data = )`. in `aes()`, you want to plot `max_ahs` on the x and `perc_mort` on the y axis.
+Vous voulez tracer le cadre de données `dat_change_coral`, utilisez-le en conséquence dans `ggplot(data = )`. Dans `aes()`, vous voulez tracer `max_ahs` sur l'axe des x et `perc_mort` sur l'axe des y.
 :::
 ::::
 
 ------------------------------------------------------------------------
 
 ::: project
-### Task 2
+### Tâche 2
 
 $$
 \begin{align}
 \mathrm{Mortality}_i \sim \mathrm{Normal(\mu}_i,~\mathrm{\sigma)} \\
-\mu_i = a + b \cdot \mathrm{heatstess}_i
+\mu_i = a + b \cdot \mathrm{heatstress}_i
 \end{align}
 $$
 
-, where $\mathrm{Mortality}_i$ is the coral mortality at site $i$ (`perc_mort`), and $\mathrm{heat stess}_i$ the maximum accumulated heat stress at that site (`max_ahs`).
+, où $\mathrm{Mortality}_i$ est la mortalité des coraux au site $i$ (`perc_mort`), et $\mathrm{heatstress}_i$ le stress thermique cumulé maximum à ce site (`max_ahs`).
 
-Translate this model into the R's `lm()` and as always, replace the `____`. Keep in mind, that you want to investigate how coral mortality (`perc_mort`) is impacted by the maximum accumulated heat stress (`max_ahs`).
+Traduisez ce modèle dans la fonction `lm()` de R et comme toujours, remplacez les `____`. Gardez à l'esprit que vous voulez étudier comment la mortalité des coraux (`perc_mort`) est affectée par le stress thermique cumulé maximum (`max_ahs`).
 
 ```{r}
 #| eval: false
@@ -50,22 +50,16 @@ Translate this model into the R's `lm()` and as always, replace the `____`. Keep
 m_cor_mort <- lm(____ ~ ____, data = dat_change_coral)
 ```
 
-:::
 
 ::: {.callout-tip collapse="true" title="Afficher l'indice"}
-What is the explanatory variable? What is the reposonse variable? Remember, that in the model, you want to understand how `
-perc_mort
-` is impacted by `
-max_ahs
-`. Remember as well, that `
-lm()
-` works as follows: 1. You give the response variable 2. You add a ` ~ ` 3. You give the explanatory variable(s)
+Quelle est la variable explicative ? Quelle est la variable réponse ? Rappelez-vous que dans le modèle, vous voulez comprendre comment `perc_mort` est affectée par `max_ahs`. Rappelez-vous aussi que `lm()` fonctionne comme suit : 1. Vous donnez la variable réponse 2. Vous ajoutez un `~` 3. Vous donnez la(les) variable(s) explicative(s)
+:::
 :::
 
 ------------------------------------------------------------------------
 
 ::::: project
-### Task 3
+### Tâche 3
 
 ```{r}
 #| eval: true
@@ -79,22 +73,21 @@ dat_change_coral <- read.csv(here("TP/TP_03/data/coral_mortality.csv"))
 m_cor_mort <- lm(perc_mort ~ max_ahs, data = dat_change_coral)
 ```
 
-
 ```{r}
 summary(m_cor_mort)
 ```
 
-**What does this tell you?**
+**Qu'est-ce que cela vous dit ?**
 
-Think of the linear equation for the association between heat stress and coral mortality. What is the expected increase (or decrease?) in mortality for each increase in one unit of `max_ahs`? What is the $R2$ values? Is the relationship of heat stress on mortality statistically significant of or not?
+Pensez à l'équation linéaire pour l'association entre le stress thermique et la mortalité des coraux. Quel est l'augmentation attendue (ou la diminution ?) de la mortalité pour chaque augmentation d'une unité de `max_ahs` ? Quel est la valeur de $R^2$ ? La relation entre le stress thermique et la mortalité est-elle statistiquement significative ou non ?
 
 :::: {.callout-tip collapse="true" title="Afficher l'indice"}
-Is the slope (the `Estimate` for `max_ahs`) positive or negative?
+La pente (l'`Estimate` pour `max_ahs`) est-elle positive ou négative ?
 
-For a scientific publication, you could describe the results as follows:
+Pour une publication scientifique, vous pourriez décrire les résultats comme suit :
 
 ::: justify
-> The intensity of the heat stress, measured as the maximum accumulated heat stress in 2019 (AHS~max~), significantly impacted coral mortality (t(11) = 5.052, p \< .001, adj. R^2^ = 0.67). The expected mortality increased by 90.5% ± 18.0% (SE) per unit of $\mathrm{ahs_{max}}$.
+> L'intensité du stress thermique, mesurée comme le stress thermique cumulé maximum en 2019 (AHS~max~), a significativement impacté la mortalité des coraux (t(11) = 5.052, p < .001, adj. R^2^ = 0.67). La mortalité attendue a augmenté de 90.5% ± 18.0% (SE) par unité de $\mathrm{ahs_{max}}$.
 :::
 ::::
 :::::
@@ -102,7 +95,7 @@ For a scientific publication, you could describe the results as follows:
 ------------------------------------------------------------------------
 
 :::: project
-### Task 4
+### Tâche 4
 
 ```{r}
 #| eval: true
@@ -126,7 +119,7 @@ ggplot(data = dat_change_coral, aes(x = max_ahs, y = perc_mort)) +
   theme_light()
 ```
 
-Have a look at each line of code I used for this plot:
+Regardez chaque ligne de code que j'ai utilisée pour ce tracé :
 
 ```{r}
 #| eval: false
@@ -147,23 +140,23 @@ ggplot(data = dat_change_coral, aes(x = max_ahs, y = perc_mort)) +
   theme_light()
 ```
 
-Have a look at each line of code I used for this plot.
+Regardez chaque ligne de code que j'ai utilisée pour ce tracé.
 
-1.  Do you understand how it works? What do you think which part is plotted first, the points (raw data), the regression line, or the grey area?
-2.  Do you have an idea why the grey area has this "bow tie" shape?
+1.  Comprenez-vous comment cela fonctionne ? Qu'est-ce que vous pensez qui est tracé en premier, les points (données brutes), la ligne de régression, ou la zone grise ?
+2.  Avez-vous une idée de pourquoi la zone grise a cette forme de « nœud papillon » ?
 
 ::: {.callout-tip collapse="true" title="Afficher l'indice"}
-1.  In `ggplot`, the layers are drawn as they appear in the code. Here, the raw data (`geom_point()`) is plotted below, above comes the uncertainty band (`geom_ribbon()`), and on top, the regression line (`geom_line`).
-2.  The model is more confident to predict the coral mortality when it has more heat stress data, as for medium values for heat stress. Towards both ends of the plot, less data exists, so the model is less confident and the uncertainty band wider.
+1.  Dans `ggplot`, les couches sont dessinées telles qu'elles apparaissent dans le code. Ici, les données brutes (`geom_point()`) sont tracées en bas, au-dessus vient la bande d'incertitude (`geom_ribbon()`), et sur le dessus, la ligne de régression (`geom_line`).
+2.  Le modèle est plus confiant pour prédire la mortalité des coraux quand il a plus de données de stress thermique, comme pour les valeurs moyennes de stress thermique. Vers les deux extrémités du tracé, il y a moins de données, donc le modèle est moins confiant et la bande d'incertitude est plus large.
 :::
 ::::
 
 ------------------------------------------------------------------------
 
-::: project
-### Task 5
+:::: project
+### Tâche 5
 
-It seems that the coral cover depends on the coastal orientation! Let's do an ANOVA to test this. We want to test the impact of `coast` on `percent_cover`:
+Il semble que la couverture des coraux dépend de l'orientation côtière ! Faisons une ANOVA pour tester cela. Nous voulons tester l'impact de `coast` sur `percent_cover` :
 
 ```{r}
 #| eval: false
@@ -173,18 +166,14 @@ m_cor_cover <- lm(____ ~ ____, data = dat_coral_cover)
 ```
 
 ::: {.callout-tip collapse="true" title="Afficher l'indice"}
-Have a look at my hint for Task 2. In this case, what is the response variable, what is the explanatory variable?
+Regardez mon indice pour la Tâche 2. Dans ce cas, quelle est la variable réponse, quelle est la variable explicative ?
 :::
-
-
-:::
-
-
+::::
 
 ------------------------------------------------------------------------
 
 ::: project
-### Task 6
+### Tâche 6
 
 ```{r}
 #| eval: true
@@ -209,27 +198,28 @@ ggplot(data = dat_coral_cover, aes(x = coast, y = percent_cover, col = coast)) +
   theme(legend.position = "none")
 ```
 
-Do you have any idea that might explain these differences biologically? Consider, that the reefs in Moorea were completely destroyed in 2010 due to an outbreak of Crown-of-thorns starfish, a coral predator, followed by a cyclone in 2010. The recovery afterwards until 2019 was very fast compared to other reefs. We also know that the cyclone hit the North and West harder than the East of Moorea. Why could this have been an advantage for the recovery at those sites?
+Avez-vous une idée de ce qui pourrait expliquer ces différences biologiquement ? Considérez que les récifs de Moorea ont été complètement détruits en 2010 en raison d'une épidémie d'étoiles de mer couronne d'épines, un prédateur de coraux, suivie d'un cyclone en 2010. La récupération ensuite jusqu'en 2019 était très rapide comparée à d'autres récifs. Nous savons également que le cyclone a frappé le Nord et l'Ouest plus fort que l'Est de Moorea. Pourquoi cela aurait pu être un avantage pour la récupération à ces sites ?
 
-What other factors might have impacted the recovery after 2010?
-:::
+Quels autres facteurs auraient pu impacter la récupération après 2010 ?
+
 
 ::: {.callout-tip collapse="true" title="Afficher l'indice"}
-It could be that the recovery was faster in the North and West than in the east because the cyclone cleared the substrate and made space for new recruits. At the outer reef in Moorea, we currently have the problem that there are many dead skeletons left after the 2019 bleaching event that break apart in the swell. This is a very unstable substrate for new coral recruits and may hinder recovery. No cyclone occurred after the 2019 bleaching event. So before, the faster recovery in the North and West of Moorea might have let to the higher coral cover observed at these sites.
+Il se pourrait que la récupération ait été plus rapide au Nord et à l'Ouest qu'à l'Est parce que le cyclone a nettoyé le substrat et a créé de l'espace pour les nouveaux recrues. Au récif externe de Moorea, nous avons actuellement le problème qu'il y a beaucoup de squelettes coralliens morts restants après l'événement de blanchiment de 2019 qui se brisent dans la houle. C'est un substrat très instable pour les nouvelles recrues de coraux et peut entraver la récupération. Aucun cyclone ne s'est produit après l'événement de blanchiment de 2019. Donc avant, la récupération plus rapide au Nord et à l'Ouest de Moorea aurait pu conduire à la couverture de coraux plus élevée observée à ces sites.
 
-But of course also other factors may have impacted coral recruitment and cover, as for example sedimentation, nutrient input, herbivorous fish biomass (coral compete with algae for space, algae remain more common when there are less herbivorous fish).
+Mais bien sûr, d'autres facteurs ont aussi pu impacter le recrutement et la couverture des coraux, comme par exemple la sédimentation, l'apport de nutriments, la biomasse de poissons herbivores (les coraux sont en compétition avec les algues pour l'espace, les algues restent plus communes quand il y a moins de poissons herbivores).
+:::
 :::
 
 ------------------------------------------------------------------------
 
-::: project
-### Task 7
+:::: project
+### Tâche 7
 
-As always, first visualise the data.  Produce a scatter plot with `body_mass_g` on the x axis, `flipper_length_mm` on the y axis, and colour the points according to `species`. Write your own R code below:
+Comme toujours, d'abord visualiser les données. Produisez un nuage de points avec `body_mass_g` sur l'axe des x, `flipper_length_mm` sur l'axe des y, et colorez les points selon `species`. Écrivez votre propre code R ci-dessous :
 
 ::: {.callout-tip collapse="true" title="Afficher l'indice"}
+Voici la structure de base du tracé
 
-Here is the basic stucture of the plot
 ```{r}
 #| eval: false
 #| echo: true
@@ -243,30 +233,25 @@ ggplot(
   theme_light()
 ```
 
-Remember that:
--   You want to plot the `penguins` data
+Rappelez-vous que : - Vous voulez tracer les données `penguins`
 
--   You want to plot the `body_mass_g` on the x axis
+-   Vous voulez tracer `body_mass_g` sur l'axe des x
 
--   and the `flipper_length_mm` on the y axis
+-   et `flipper_length_mm` sur l'axe des y
 
--   and use `species` for the colous (`col =`)
-
+-   et utiliser `species` pour les couleurs (`col =`)
 :::
-:::
-
+::::
 
 ------------------------------------------------------------------------
 
-### Task 8
+### Tâche 8
 
+:::: project
+#### Modèle
 
-::: project
-#### Model
-Now, you will build your own model. Use the `lm()` function to test the impact of `body_mass_g` and `species` on `flipper_length_mm`. Here, use the additive effecte, this means that both explanatory variables (`body_mass_g` and `species`) are spearated by a `+`. Write your own R code below and give the model a reasonable name:
+Maintenant, vous allez construire votre propre modèle. Utilisez la fonction `lm()` pour tester l'impact de `body_mass_g` et `species` sur `flipper_length_mm`. Ici, utilisez les effets additifs, ce qui signifie que les deux variables explicatives (`body_mass_g` et `species`) sont séparées par un `+`. Écrivez votre propre code R ci-dessous et donnez un nom raisonnable au modèle :
 
-::: {.callout-tip collapse="true" title="Afficher l'indice"}
-:::
 
 ```{r}
 #| eval: false
@@ -276,21 +261,20 @@ ____ <- lm(____ ~ ____ + ____, data = ____)
 
 ```
 
+::: {.callout-tip collapse="true" title="Afficher l'indice"}
 
-The first `____` is the name of the model. Chose it as you want
-What is the resposne variable? Remember that in `lm()`, it comes before the `~`
-What are the two explanatory variables? Separate them with a `+``
-You want to use the `penguins` data
-
+Le premier `____` est le nom du modèle. Choisissez ce nom comme vous le souhaitez. Quelle est la variable réponse ? Rappelez-vous que dans `lm()`, la variable réponse vient avant le `~`. Quelles sont les deux variables explicatives ? Séparez-les par `+`. Vous voulez utiliser les données `penguins`.
 :::
+::::
 
 ------------------------------------------------------------------------
 
-::: project
-#### Assess Model
+:::: project
+#### Évaluer le modèle
 
-Use the `summary()` and `anova()` to understant what the model thinks:
+Utilisez `summary()` et `anova()` pour comprendre ce que le modèle a estimé :
 
+::: {.callout-tip collapse="true" title="Afficher l'indice"}
 
 ```{r}
 #| eval: false
@@ -299,7 +283,7 @@ Use the `summary()` and `anova()` to understant what the model thinks:
 summary(____)
 ```
 
-Use the name of the model you defined above for `____`.
+Utilisez le nom du modèle que vous avez défini ci-dessus pour `____`.
 
 ```{r}
 #| eval: false
@@ -308,24 +292,22 @@ Use the name of the model you defined above for `____`.
 anova(____)
 ```
 
-Use the name of the model you defined above for `____`.
+Utilisez le nom du modèle que vous avez défini ci-dessus pour `____`.
 
-
-::: {.callout-tip collapse="true" title="Afficher l'indice"}
 :::
-:::
+::::
 
 ------------------------------------------------------------------------
 
-::: project
-#### Plot Model
+:::: project
+#### Tracer le modèle
 
-Now, use `ggplot()` and `estimate_relation()` to plot the raw data and model outcome. Have a look at the code in Task 4 for a start!
+Maintenant, utilisez `estimate_relation()` et `ggplot()` pour tracer les données brutes et le résultat du modèle.
 
 ::: {.callout-tip collapse="true" title="Afficher l'indice"}
-#### Predict Data
+#### Prédire les données
 
-First, predict data based on the model, adapt the `estimate_relation()` code you have seen now a couple of times for the model you created: 
+D'abord, prédisez les données basées sur le modèle, adaptez le code `estimate_relation()` que vous avez vu maintenant plusieurs fois pour le modèle que vous avez créé :
 
 ```{r}
 #| eval: false
@@ -335,17 +317,18 @@ ____ <- estimate_relation(____)
 
 ```
 
-The first `____` is the name of the data frame that will contain the predicted data. Chose it at you want.
-Use the name of the model you defined above for the `____` in `estimate_relation()`.
+Le premier `____` est le nom du cadre de données qui contiendra les données prédites. Choisissez-le comme vous le souhaitez. Utilisez le nom du modèle que vous avez défini ci-dessus pour le `____` dans `estimate_relation()`.
 
-**Hints:**
+**Conseils :**
 
--   The first `____` is the name of the data frame you are creating that will contain the predicted values. Chose it on your own!
+-   Le premier `____` est le nom du cadre de données que vous créez qui contiendra les valeurs prédites. Choisissez-le vous-même !
 
--   The second `____` is the name model you created above
+-   Le deuxième `____` est le nom du modèle que vous avez créé ci-dessus
 
-#### Plot Data
-Here is the structure of ggplot code you could use.
+#### Tracer les données
+
+Voici la structure du code ggplot que vous pourriez utiliser.
+
 ```{r}
 #| eval: false
 #| echo: true
@@ -362,13 +345,26 @@ ggplot(data = ____, aes(x = ____, y = ____, col = ____)) + #<1>
   theme_light()
 ```
 
-1.  Take the `penguins` data, plot `body_mass_g` on the x axis and `flipper_length_mm` on the y axis. Use `species` for the colous (`col =`).
-2.  Here, use the name of the data frame you created with the predicted values (previous step)
-3.  Another hint: In ggplot, when you fill an area, you have to use `fill =`, and not colour (as for points and lines). Also use `species` for the fill.
-4.  Plot the regression lines. Use again the data frame with the predicted data. Plot `body_mass_g` on the x axis and `Predicted` on the y axis
+1.  Prenez les données `penguins`, tracez `body_mass_g` sur l'axe des x et `flipper_length_mm` sur l'axe des y. Utilisez `species` pour la couleur (`col =`).
+2.  Ici, utilisez le nom du cadre de données que vous avez créé avec les valeurs prédites (étape précédente)
+3.  Un autre indice : Dans ggplot, quand vous remplissez une zone, vous devez utiliser `fill =`, et pas la couleur (comme pour les points et les lignes). Utilisez aussi `species` pour le remplissage.
+4.  Tracez les lignes de régression. Utilisez à nouveau le cadre de données avec les données prédites. Tracez `body_mass_g` sur l'axe des x et `Predicted` sur l'axe des y.
+:::
+::::
+
+------------------------------------------------------------------------
+
+:::: project
+
+
+### Bonus Tâche 9
+
+Maintenant, construisez un nouveau modèle, mais cette fois, incluez les effets interactifs de `body_mass_g` et `species` en séparant les deux variables explicatives par un `*`. Ensuite, effectuez les mêmes étapes que dans la Tâche 8, c'est-à-dire évaluer le résultat du modèle et le tracer.
+
+::: {.callout-tip collapse="true" title="Afficher l'indice"}
+
+Essentiellement, copiez-collez les étapes que vous avez utilisées dans la Tâche 8. Dans le modèle, remplacez simplement le `+` par un `*`. Faites attention à utiliser de nouveaux noms pour toutes les variables que vous créez ! Sinon, R pourrait utiliser les données de la tâche précédente.
 
 :::
-:::
 
-
-
+::::

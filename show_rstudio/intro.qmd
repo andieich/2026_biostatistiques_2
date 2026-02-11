@@ -1,0 +1,16 @@
+---
+title: "intro"
+editor: visual
+---
+
+```{r}
+seq(from = 1, to = 5)
+```
+
+```{r}
+seq(1, 5)
+```
+
+```{r}
+?seq
+```
