@@ -79,7 +79,7 @@ summary(m_cor_mort)
 
 **Qu'est-ce que cela vous dit ?**
 
-Pensez à l'équation linéaire pour l'association entre le stress thermique et la mortalité des coraux. Quel est l'augmentation attendue (ou la diminution ?) de la mortalité pour chaque augmentation d'une unité de `max_ahs` ? Quel est la valeur de $R^2$ ? La relation entre le stress thermique et la mortalité est-elle statistiquement significative ou non ?
+Pensez à l'équation linéaire pour l'association entre le stress thermique et la mortalité des coraux. Quel est l'augmentation attendue (ou la diminution ?) de la mortalité pour chaque augmentation d'une unité de `max_ahs` ? Quelle est la valeur de $R^2$ ? La relation entre le stress thermique et la mortalité est-elle statistiquement significative ou non ?
 
 :::: {.callout-tip collapse="true" title="Afficher l'indice"}
 La pente (l'`Estimate` pour `max_ahs`) est-elle positive ou négative ?
@@ -204,7 +204,7 @@ Quels autres facteurs auraient pu impacter la récupération après 2010 ?
 
 
 ::: {.callout-tip collapse="true" title="Afficher l'indice"}
-Il se pourrait que la récupération ait été plus rapide au Nord et à l'Ouest qu'à l'Est parce que le cyclone a nettoyé le substrat et a créé de l'espace pour les nouveaux recrues. Au récif externe de Moorea, nous avons actuellement le problème qu'il y a beaucoup de squelettes coralliens morts restants après l'événement de blanchiment de 2019 qui se brisent dans la houle. C'est un substrat très instable pour les nouvelles recrues de coraux et peut entraver la récupération. Aucun cyclone ne s'est produit après l'événement de blanchiment de 2019. Donc avant, la récupération plus rapide au Nord et à l'Ouest de Moorea aurait pu conduire à la couverture de coraux plus élevée observée à ces sites.
+Il se pourrait que la récupération ait été plus rapide au Nord et à l'Ouest qu'à l'Est parce que le cyclone a nettoyé le substrat et a créé de l'espace pour les nouveaux recrutement. Au récif externe de Moorea, nous avons actuellement le problème qu'il y a beaucoup de squelettes coralliens morts restants après l'événement de blanchiment de 2019 qui se brisent dans la houle. C'est un substrat très instable pour les nouvelles recrues de coraux et peut entraver la récupération. Aucun cyclone ne s'est produit après l'événement de blanchiment de 2019. Donc avant, la récupération plus rapide au Nord et à l'Ouest de Moorea aurait pu conduire à la couverture de coraux plus élevée observée à ces sites.
 
 Mais bien sûr, d'autres facteurs ont aussi pu impacter le recrutement et la couverture des coraux, comme par exemple la sédimentation, l'apport de nutriments, la biomasse de poissons herbivores (les coraux sont en compétition avec les algues pour l'espace, les algues restent plus communes quand il y a moins de poissons herbivores).
 :::

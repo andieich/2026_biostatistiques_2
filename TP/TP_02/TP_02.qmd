@@ -9,6 +9,8 @@ Configurer l'environnement R
 ```{r}
 library(tidyverse)
 library(palmerpenguins)
+library(Hmisc)
+library(ggthemes)
 penguins <- na.omit(penguins)
 ```
 

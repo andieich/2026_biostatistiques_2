@@ -65,7 +65,7 @@ summary(m_cor_mort)
 
 **Qu'est-ce que cela vous dit ?**
 
-Pensez à l'équation linéaire pour l'association entre le stress thermique et la mortalité des coraux. Quel est l'augmentation attendue (ou la diminution ?) de la mortalité pour chaque augmentation d'une unité de `max_ahs` ? Quel est la valeur de $R^2$ ? La relation entre le stress thermique et la mortalité est-elle statistiquement significative ou non ?
+Pensez à l'équation linéaire pour l'association entre le stress thermique et la mortalité des coraux. Quel est l'augmentation attendue (ou la diminution ?) de la mortalité pour chaque augmentation d'une unité de `max_ahs` ? Quelle est la valeur de $R^2$ ? La relation entre le stress thermique et la mortalité est-elle statistiquement significative ou non ?
 
 ------------------------------------------------------------------------
 
@@ -107,7 +107,7 @@ Regardez chaque ligne de code que j'ai utilisée pour ce tracé.
 
 **Conseils :**
 
--   Gardez à l'esprit que ce n'est pas ici les valeurs attendues ($\mathrm{Mortalité}_i \sim \mathrm{Normale(\mu}_i,~\mathrm{\sigma)}$) incluant $\mathrm{\sigma}$ qui sont affichées, mais la certitude du modèle à estimer la partie $\mathrm{\mu}_i$
+-   Gardez à l'esprit que ce ne sont pas ici les valeurs attendues ($\mathrm{Mortalité}_i \sim \mathrm{Normale(\mu}_i,~\mathrm{\sigma)}$) incluant $\mathrm{\sigma}$ qui sont affichées, mais la certitude du modèle à estimer la partie $\mathrm{\mu}_i$
 -   Dans la couche `geom_ribbon()` (qui dessine la zone grise), j'ai utilisé `y = NULL`. C'est parce que chaque couche récupère toutes les informations de la fonction `ggplot()` principale (comme je l'ai expliqué ci-dessus pour `data =`). Puisque dans la fonction principale `y = perc_mort`, une colonne qui existe seulement dans `dat_change_coral` mais pas dans `pred_cor_mort`, j'ai dû dire à la couche `geom_ribbon()` que cette colonne n'existe pas pour cette couche et ne peut pas être dessinée sur l'axe des y. Cela se fait avec `y = NULL`.
 
 ### ANOVA
@@ -178,7 +178,7 @@ Avez-vous une idée de ce qui pourrait expliquer ces différences biologiquement
 
 Mais souvent dans les systèmes biologiques, il y a plusieurs variables qui peuvent être importantes. Dans le dernier modèle, par exemple, nous avons examiné la couverture globale des coraux à différents sites. Mais le genre du corail peut aussi jouer un rôle important !
 
-Charger les données contenant des informations sur le genre aussi
+Charger les données contenant des informations sur le genres aussi
 
 ```{r}
 dat_coral_cover_genus <- read.csv(here("TP/TP_03/data/coral_cover_genus.csv"))
@@ -231,7 +231,7 @@ summary(m_cor_cover_int)
 anova(m_cor_cover_int)
 ```
 
-Quand l'interaction est significative, nous savons que le genre affecte la façon dont l'orientation côtière affecte la couverture des coraux. Cela pourrait être soit parce que seulement pour certains genres il y a un impact significatif de coast, soit parce que la direction de l'impact de coast diffère entre les différents genre. Souvent, tracer les données aide à avoir une idée. Et la semaine prochaine, nous apprendrons à faire des tests réels sur cela, donc des tests par paires entre tous les différents groupes.
+Quand l'interaction est significative, nous savons que le genre affecte la façon dont l'orientation côtière affecte la couverture des coraux. Cela pourrait être soit parce que seulement pour certains genres il y a un impact significatif de coast, soit parce que la direction de l'impact de coast diffère entre les différents genres. Souvent, tracer les données aide à avoir une idée. Et la semaine prochaine, nous apprendrons à faire des tests réels sur cela, donc des tests par paires entre tous les différents groupes.
 
 ### ANCOVA
 

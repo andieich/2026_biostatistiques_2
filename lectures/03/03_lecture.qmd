@@ -553,7 +553,7 @@ Nous supposons que les données proviennent d'une population décrite par des pa
 ::: med-space
 :::
 
-#### Valeur P
+#### Valeur p
 
 La probabilité d'observer un résultat au moins aussi extrême que le nôtre,
 en supposant que $H_0$ est vrai.
@@ -569,11 +569,11 @@ en supposant que $H_0$ est vrai.
 -   **Grande valeur p** → les données compatibles avec $H_0$
 :::
 
-## Valeur Ps {.smaller}
+## Valeur P {.smaller}
 ::: med-space
 :::
 
-#### Definition
+#### Définition
 
 > Si la vraie masse corporelle moyenne de cette population de manchots était 0 kg, quelle est la probabilité que nous observions une moyenne d'échantillon au moins aussi extrême que celle que nous avons obtenue (en valeur absolue), uniquement en raison de la variabilité d'échantillonnage aléatoire?
 
@@ -1112,5 +1112,5 @@ Les tests statistiques que vous connaissez peuvent être unifiés dans le cadre 
 |--------------|-----------------------------------------------------|
 | Régression | 1 variable explicative numérique |
 | Test t | 1 variable explicative catégorique avec 2 niveaux |
-| ANOVA        | 1 variable explicative catégorielle avec > 2 niveaux |
+| ANOVA       | 1 variable explicative catégorique avec > 2 niveaux |
 
