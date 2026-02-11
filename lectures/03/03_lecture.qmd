@@ -569,6 +569,11 @@ en supposant que $H_0$ est vrai.
 -   **Grande valeur p** → les données compatibles avec $H_0$
 :::
 
+::: fragment
+#### Seuil
+-  Le seuil arbitraire (niveau alpha) est souvent de 0,05
+:::
+
 ## Valeur P {.smaller}
 ::: med-space
 :::
@@ -815,23 +820,31 @@ Mais pas à pas !
 
 Modèle de relation pour les manchots Gentoo
 
+::: {.fragment fragment-index=4}
+::: medium
+> 
+-   **Response variable:** Masse corporelle
+-   **Explanatory variable:** Longueur du bec
+:::
+:::
 :::
 :::
 ::: {.columns}
 ::: {.column}
-::: fragment
+::: {.fragment fragment-index=1}
 #### Avant
-
+::: medium
 $$
 \mathrm{Weight}_i \sim \mathrm{Normal(\mu}_i,~\mathrm{\sigma)} \\
 $$
+:::
 
 :::
 :::
 ::: {.column}
-::: fragment
+::: {.fragment fragment-index=2}
 #### Après
-
+::: medium
 $$
 \begin{align}
 \mathrm{Weight}_i \sim \mathrm{Normal(\mu}_i,~\mathrm{\sigma)} \\
@@ -839,7 +852,8 @@ $$
 \end{align}
 $$
 
-::: fragment
+:::
+::: {.fragment fragment-index=3}
 ::: {.small}
 $a$ est l'ordonnée à l'origine
 
@@ -901,6 +915,10 @@ $$
 \end{align}
 $$
 
+::: fragment
+#### Valeur $R^2$
+> $R^2$ est la proportion de la variation de la variable réponse qui est expliquée par les prédicteurs dans le modèle linéaire
+::: 
 :::
 :::
 ::: 

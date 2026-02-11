@@ -1,0 +1,1519 @@
+---
+title: Tests post-hoc & Assumptions
+subtitle: Lecture 4 
+---
+
+```{r}
+#| echo: false
+
+library(palmerpenguins)
+library(tidyverse)
+library(performance)
+library(modelbased)
+library(emmeans)
+library(patchwork)
+
+penguins <- penguins %>%
+  na.omit()
+```
+
+## Résumé du cours précédent
+
+-   Modèles linéaires comme cadre unifié
+-   Régression : variable explicative numérique
+-   ANOVA : variable explicative catégorique
+-   Les deux sont des modèles linéaires !
+
+## Le problème avec l'ANOVA {.smaller}
+
+::: med-space
+:::
+
+```{r}
+penguins %>%
+  ggplot(aes(x = species, y = body_mass_g, fill = species)) +
+  geom_jitter(alpha = .75, shape = 21) +
+  geom_pointrange(
+    stat = "summary",
+    fun.data = mean_sdl,
+    show.legend = FALSE,
+    shape = 21
+  ) +
+  labs(
+    x = NULL,
+    y = "Masse corporelle (g)"
+  ) +
+  scale_fill_viridis_d() +
+  theme_classic(base_size = 20) +
+  theme(legend.position = "none")
+```
+
+## Le problème avec l'ANOVA {.smaller}
+
+::: med-space
+:::
+
+```{r}
+#| echo: true
+
+m_spec <- lm(body_mass_g ~ species, data = penguins)
+anova(m_spec)
+```
+
+::: med-space
+:::
+
+::: question
+L'ANOVA nous dit : « **Il y a une différence** entre les espèces »
+
+Mais **quelle** espèce diffère de quelle autre ?
+:::
+
+## Comparaisons multiples {.smaller}
+
+::: med-space
+:::
+
+Pour 3 espèces, nous avons 3 comparaisons possibles :
+
+-   Adelie vs. Chinstrap
+-   Adelie vs. Gentoo
+-   Chinstrap vs. Gentoo
+
+::: med-space
+:::
+
+::: fragment
+::: question
+Pourquoi ne pas simplement faire 3 tests t ?
+:::
+:::
+
+## Inflation de l'erreur alpha {.smaller}
+
+::: med-space
+:::
+
+::::: columns
+::: column
+Chaque test a un risque d'erreur de 5% (α = 0.05)
+
+::: fragment
+**Probabilité de ne pas faire d'erreur dans 1 test :**
+
+0.95
+:::
+
+::: fragment
+**Probabilité de ne faire aucune erreur dans 3 tests :**
+
+$0.95 \times 0.95 \times 0.95 = 0.857$
+:::
+
+::: fragment
+**Probabilité de faire au moins 1 erreur :**
+
+$1 - 0.857 = 0.143 = 14.3\%$
+:::
+:::
+
+::: column
+::: fragment
+```{r}
+n_comparisons <- 1:20
+error_rate <- 1 - (0.95^n_comparisons)
+
+data.frame(
+  n = n_comparisons,
+  error = error_rate
+) %>%
+  ggplot(aes(x = n, y = error)) +
+  geom_line(linewidth = 1.5, color = "darkred") +
+  geom_point(size = 3, color = "darkred") +
+  geom_hline(yintercept = 0.05, linetype = "dashed") +
+  scale_y_continuous(labels = scales::percent) +
+  labs(
+    x = "Nombre de comparaisons",
+    y = "Probabilité d'au moins 1 erreur"
+  ) +
+  theme_classic(base_size = 20)
+```
+
+:::
+:::
+:::::
+
+## Taux d'erreur familial {.smaller}
+
+::: med-space
+:::
+
+**Family-Wise Error Rate (FWER)** : La probabilité de faire au moins une erreur de type I dans un ensemble de tests
+
+::: med-space
+:::
+
+| Nombre de groupes | Nombre de comparaisons | FWER (sans correction) |
+|-------------------|------------------------|------------------------|
+| 2                 | 1                      | 5.0%                   |
+| 3                 | 3                      | 14.3%                  |
+| 4                 | 6                      | 26.5%                  |
+| 5                 | 10                     | 40.1%                  |
+| 10                | 45                     | 90.0%                  |
+
+::: med-space
+:::
+
+::: question
+Nous avons besoin d'ajuster nos valeurs p pour contrôler le FWER
+:::
+
+## Correction de Bonferroni {.smaller}
+
+::: med-space
+:::
+
+La méthode la plus simple : diviser α par le nombre de tests
+
+$$
+\alpha_{\text{ajusté}} = \frac{\alpha}{m}
+$$
+
+où $m$ est le nombre de comparaisons
+
+::: med-space
+:::
+
+::: fragment
+**Exemple avec 3 comparaisons :**
+
+$$
+\alpha_{\text{ajusté}} = \frac{0.05}{3} = 0.0167
+$$
+
+On rejette $H_0$ seulement si $p < 0.0167$
+:::
+
+## Calcul : Correction de Bonferroni {.smaller}
+
+::: med-space
+:::
+
+```{r}
+#| echo: true
+
+# Comparaisons par paires sans correction
+pairwise.t.test(
+  penguins$body_mass_g,
+  penguins$species,
+  p.adjust.method = "none"
+)
+```
+
+## Calcul : Correction de Bonferroni {.smaller}
+
+::: med-space
+:::
+
+```{r}
+#| echo: true
+
+# Comparaisons par paires avec Bonferroni
+pairwise.t.test(
+  penguins$body_mass_g,
+  penguins$species,
+  p.adjust.method = "bonferroni"
+)
+```
+
+## Le problème avec Bonferroni {.smaller}
+
+::: med-space
+:::
+
+Bonferroni est **trop conservateur** → perte de puissance statistique
+
+::: med-space
+:::
+
+::::: columns
+::: column
+**Avantages**
+
+-   Simple à comprendre
+-   Contrôle bien le FWER
+-   Fonctionne toujours
+
+:::
+
+::: column
+**Inconvénients**
+
+-   Trop strict avec beaucoup de comparaisons
+-   Augmente les erreurs de type II (faux négatifs)
+-   Ignore la structure des données
+:::
+:::::
+
+## Autres méthodes d'ajustement {.smaller}
+
+::: med-space
+:::
+
+| Méthode              | Description                                | Quand l'utiliser           |
+|----------------------|--------------------------------------------|----------------------------|
+| **Bonferroni**       | Divise α par nombre de tests              | Simple, peu de tests       |
+| **Holm-Bonferroni**  | Bonferroni séquentiel (moins strict)      | Alternative à Bonferroni   |
+| **Tukey HSD**        | Tient compte de toutes les comparaisons   | Comparaisons multiples     |
+| **Benjamini-Hochberg** | Contrôle le taux de fausses découvertes | Beaucoup de tests          |
+
+::: med-space
+:::
+
+::: question
+Mais les valeurs p ne racontent qu'une partie de l'histoire...
+:::
+
+## Pourquoi préférer les intervalles de confiance ? {.smaller}
+
+::: med-space
+:::
+
+::::: columns
+::: column
+**Valeurs p**
+
+-   Binaire (significatif ou non)
+-   Ne donne pas la magnitude de l'effet
+-   Dépend de la taille de l'échantillon
+-   Ne donne pas l'incertitude
+
+:::
+
+::: column
+**Intervalles de confiance**
+
+-   Montrent la magnitude de l'effet
+-   Montrent l'incertitude
+-   Permettent une interprétation biologique
+-   Facilitent la comparaison
+:::
+:::::
+
+::: med-space
+:::
+
+::: fragment
+::: question
+Les IC nous disent : « La vraie différence est probablement dans cette plage »
+:::
+:::
+
+## Différences par paires avec IC {.smaller}
+
+::: med-space
+:::
+
+```{r}
+#| echo: true
+
+# Calculer les moyennes estimées et comparaisons
+emm <- emmeans(m_spec, ~species)
+pairs_result <- pairs(emm)
+pairs_result
+```
+
+## Visualiser les différences par paires {.smaller}
+
+::: med-space
+:::
+
+::::: columns
+::: column
+```{r}
+#| echo: true
+#| eval: false
+
+pairs(emm) %>%
+  confint() %>%
+  as.data.frame() %>%
+  ggplot(aes(x = contrast, y = estimate)) +
+  geom_hline(yintercept = 0, linetype = "dashed") +
+  geom_pointrange(
+    aes(ymin = lower.CL, ymax = upper.CL)
+  ) +
+  coord_flip() +
+  labs(
+    x = NULL,
+    y = "Différence de masse (g)"
+  ) +
+  theme_classic(base_size = 18)
+```
+
+:::
+
+::: column
+```{r}
+pairs(emm) %>%
+  confint() %>%
+  as.data.frame() %>%
+  ggplot(aes(x = contrast, y = estimate)) +
+  geom_hline(yintercept = 0, linetype = "dashed", color = "grey50") +
+  geom_pointrange(
+    aes(ymin = lower.CL, ymax = upper.CL),
+    size = 1,
+    linewidth = 1.5
+  ) +
+  coord_flip() +
+  labs(
+    x = NULL,
+    y = "Différence de masse (g)"
+  ) +
+  theme_classic(base_size = 18)
+```
+
+:::
+:::::
+
+## Utiliser `modelbased` pour les contrastes {.smaller}
+
+::: med-space
+:::
+
+::::: columns
+::: column
+```{r}
+#| echo: true
+#| eval: false
+
+library(modelbased)
+
+# Estimer les moyennes
+estimate_means(m_spec)
+```
+
+::: med-space
+:::
+
+```{r}
+#| echo: true
+#| eval: false
+
+# Estimer les contrastes
+estimate_contrasts(m_spec)
+```
+
+:::
+
+::: column
+::: small-output
+```{r}
+estimate_means(m_spec)
+```
+
+:::
+
+::: med-space
+:::
+
+::: small-output
+```{r}
+estimate_contrasts(m_spec)
+```
+
+:::
+:::
+:::::
+
+## Visualiser avec `modelbased` {.smaller}
+
+::: med-space
+:::
+
+::::: columns
+::: column
+```{r}
+#| echo: true
+#| eval: false
+
+# Moyennes avec IC
+plot(estimate_means(m_spec))
+```
+
+::: med-space
+:::
+
+```{r}
+#| echo: true
+#| eval: false
+
+# Contrastes avec IC
+plot(estimate_contrasts(m_spec))
+```
+
+:::
+
+::: column
+```{r}
+estimate_means(m_spec) %>%
+  as.data.frame() %>%
+  ggplot(aes(x = species, y = Mean)) +
+  geom_pointrange(aes(ymin = CI_low, ymax = CI_high)) +
+  theme_classic(base_size = 16) +
+  labs(y = "Masse corporelle (g)", x = "Espèce")
+```
+
+::: med-space
+:::
+
+```{r}
+estimate_contrasts(m_spec) %>%
+  as.data.frame() %>%
+  ggplot(aes(x = Level1, y = Difference)) +
+  geom_hline(yintercept = 0, linetype = "dashed") +
+  geom_pointrange(aes(ymin = CI_low, ymax = CI_high)) +
+  theme_classic(base_size = 16) +
+  labs(y = "Différence de masse (g)", x = "Contraste")
+```
+
+:::
+:::::
+
+## Chevauchement des IC {.smaller}
+
+::: med-space
+:::
+
+::::: columns
+::: column
+```{r}
+estimate_means(m_spec) %>%
+  as.data.frame() %>%
+  ggplot(aes(x = species, y = Mean)) +
+  geom_pointrange(aes(ymin = CI_low, ymax = CI_high)) +
+  theme_classic(base_size = 20) +
+  labs(y = "Masse corporelle (g)", x = NULL)
+```
+
+:::
+
+::: column
+::: fragment
+::: question
+**Règle empirique :**
+
+Si les IC de deux moyennes ne se chevauchent pas, elles sont probablement différentes (p < 0.05)
+:::
+:::
+
+::: fragment
+::: callout-warning
+## Attention !
+
+Le chevauchement des IC n'implique pas toujours l'absence de différence significative. Les contrastes sont plus précis.
+:::
+:::
+:::
+:::::
+
+## Comparaisons de pentes : ANCOVA {.smaller}
+
+::: med-space
+:::
+
+::::: columns
+::: column
+```{r}
+penguins %>%
+  ggplot(aes(
+    x = bill_length_mm,
+    y = body_mass_g,
+    color = species,
+    fill = species
+  )) +
+  geom_point(alpha = 0.6) +
+  geom_smooth(method = "lm", alpha = 0.2) +
+  scale_color_viridis_d() +
+  scale_fill_viridis_d() +
+  labs(
+    x = "Longueur du bec (mm)",
+    y = "Masse corporelle (g)",
+    color = "Espèce",
+    fill = "Espèce"
+  ) +
+  theme_classic(base_size = 18) +
+  theme(legend.position = "bottom")
+```
+
+:::
+
+::: column
+::: question
+Les pentes sont-elles différentes entre les espèces ?
+:::
+
+::: fragment
+Modèle avec interaction :
+
+```{r}
+#| echo: true
+
+m_ancova <- lm(
+  body_mass_g ~ bill_length_mm * species,
+  data = penguins
+)
+```
+
+:::
+:::
+:::::
+
+## Tester les différences de pentes {.smaller}
+
+::: med-space
+:::
+
+::: small-output
+```{r}
+#| echo: true
+
+summary(m_ancova)
+```
+
+:::
+
+::: fragment
+::: question
+Les termes d'interaction testent si les pentes diffèrent de la pente de référence (Adelie)
+:::
+:::
+
+## Visualiser les différences de pentes {.smaller}
+
+::: med-space
+:::
+
+::::: columns
+::: column
+```{r}
+#| echo: true
+#| eval: false
+
+# Estimer les pentes
+estimate_slopes(m_ancova, trend = "bill_length_mm", at = "species")
+```
+
+:::
+
+::: column
+::: small-output
+```{r}
+estimate_slopes(m_ancova, trend = "bill_length_mm", at = "species")
+```
+
+:::
+:::
+:::::
+
+::: med-space
+:::
+
+```{r}
+# Visualiser les pentes par espèce
+penguins %>%
+  ggplot(aes(
+    x = bill_length_mm,
+    y = body_mass_g,
+    color = species,
+    fill = species
+  )) +
+  geom_point(alpha = 0.3) +
+  geom_smooth(method = "lm", alpha = 0.2) +
+  scale_color_viridis_d() +
+  scale_fill_viridis_d() +
+  labs(
+    x = "Longueur du bec (mm)",
+    y = "Masse corporelle (g)",
+    color = "Espèce",
+    fill = "Espèce"
+  ) +
+  theme_classic(base_size = 18) +
+  theme(legend.position = "bottom")
+```
+
+## Comparaisons de pentes {.smaller}
+
+::: med-space
+:::
+
+::::: columns
+::: column
+```{r}
+#| echo: true
+#| eval: false
+
+# Comparer les pentes
+estimate_contrasts(
+  m_ancova,
+  contrast = "species",
+  at = "bill_length_mm"
+)
+```
+
+:::
+
+::: column
+::: small-output
+```{r}
+estimate_contrasts(
+  m_ancova,
+  contrast = "species",
+  at = "bill_length_mm"
+)
+```
+
+:::
+:::
+:::::
+
+::: fragment
+::: question
+Gentoo a une pente significativement plus élevée que les deux autres espèces
+:::
+:::
+
+## Résumé : Quelle méthode utiliser ? {.smaller}
+
+::: med-space
+:::
+
+```{r}
+#| echo: false
+
+library(gt)
+
+tibble(
+  Situation = c(
+    "Comparaisons planifiées",
+    "Toutes les comparaisons par paires",
+    "Peu de comparaisons (< 5)",
+    "Beaucoup de comparaisons (> 10)",
+    "Intérêt pour la magnitude de l'effet",
+    "Publication scientifique"
+  ),
+  Méthode = c(
+    "Tests t avec correction de Holm",
+    "Tukey HSD",
+    "Bonferroni ou Holm",
+    "Benjamini-Hochberg",
+    "Intervalles de confiance",
+    "IC + valeurs p ajustées"
+  )
+) %>%
+  gt() %>%
+  tab_options(
+    table.font.size = 18,
+    data_row.padding = px(8)
+  )
+```
+
+## Partie 2 : Assumptions des modèles linéaires {background-color="#440154"}
+
+::: med-space
+:::
+
+::: center-align
+::: huge
+**Quand peut-on utiliser un modèle linéaire ?**
+:::
+:::
+
+## Les trois grandes assumptions {.smaller}
+
+::: med-space
+:::
+
+Un modèle linéaire suppose que :
+
+::: med-space
+:::
+
+::::: columns
+::: column
+### 1. Indépendance
+
+Les observations sont indépendantes les unes des autres
+
+:::
+
+::: column
+### 2. Homoscédasticité
+
+La variance des résidus est constante
+
+:::
+:::::
+
+::: med-space
+:::
+
+### 3. Normalité
+
+Les résidus suivent une distribution normale
+
+::: med-space
+:::
+
+::: fragment
+::: question
+Mais d'abord : Pourquoi avons-nous besoin de modèles linéaires ?
+:::
+:::
+
+## Tests non paramétriques vs. Modèles linéaires {.smaller}
+
+::: med-space
+:::
+
+::::: columns
+::: column
+**Tests non paramétriques**
+
+-   Mann-Whitney, Kruskal-Wallis, etc.
+-   « Pas d'assumptions »
+-   Utilisent les rangs
+
+::: fragment
+**Problèmes :**
+
+-   Difficiles à interpréter biologiquement
+-   Pas de magnitude d'effet
+-   Pas de modèles complexes
+-   Moins de puissance
+-   Pas d'estimations/prédictions
+:::
+:::
+
+::: column
+::: fragment
+**Modèles linéaires**
+
+-   Estiment des paramètres biologiques
+-   Magnitude et incertitude
+-   Extensibles (interactions, covariables)
+-   Plus de puissance
+-   Permettent les prédictions
+
+::: fragment
+::: question
+**Robustes** aux violations modérées des assumptions !
+:::
+:::
+:::
+:::
+:::::
+
+## Robustesse des modèles linéaires {.smaller}
+
+::: med-space
+:::
+
+Les modèles linéaires sont étonnamment **robustes** :
+
+::: med-space
+:::
+
+-   La **normalité** n'est pas critique avec n > 30 (théorème central limite)
+-   L'**homoscédasticité** : violation modérée souvent acceptable
+-   L'**indépendance** : la seule vraiment critique
+
+::: med-space
+:::
+
+::: fragment
+::: question
+**Message clé :** Ne pas abandonner les modèles linéaires trop rapidement !
+
+Ils sont souvent meilleurs que les alternatives non paramétriques, même avec des violations modérées.
+:::
+:::
+
+## Vérifier les assumptions avec `performance` {.smaller}
+
+::: med-space
+:::
+
+```{r}
+#| echo: true
+
+library(performance)
+
+# Notre modèle ANOVA
+m_spec <- lm(body_mass_g ~ species, data = penguins)
+
+# Vérifier toutes les assumptions
+check_model(m_spec)
+```
+
+## Interpréter les diagnostics {.smaller}
+
+::: med-space
+:::
+
+::::: columns
+::: column
+### Posterior Predictive Check
+
+Compare les données observées aux prédictions du modèle
+
+::: fragment
+### Linearity
+
+Les résidus vs. valeurs prédites (devrait être plat)
+:::
+
+::: fragment
+### Homogeneity of Variance
+
+Variance constante des résidus
+:::
+:::
+
+::: column
+::: fragment
+### Influential Observations
+
+Points avec forte influence (Cook's distance)
+:::
+
+::: fragment
+### Normality of Residuals
+
+**Le Q-Q plot** (quantile-quantile)
+:::
+
+::: fragment
+### Collinearity
+
+Corrélation entre prédicteurs (pas pertinent ici)
+:::
+:::
+:::::
+
+## Le Q-Q plot expliqué {.smaller}
+
+::: med-space
+:::
+
+::::: columns
+::: column
+```{r}
+#| fig-height: 8
+
+check_normality(m_spec) %>%
+  plot()
+```
+
+:::
+
+::: column
+**Quantile-Quantile plot**
+
+-   Compare les quantiles observés aux quantiles théoriques d'une distribution normale
+-   Si les points suivent la ligne : distribution normale
+-   Déviations aux extrémités : queues lourdes/légères
+-   Pattern en S : asymétrie
+
+::: fragment
+::: question
+Plus utile qu'un histogramme pour évaluer la normalité !
+:::
+:::
+:::
+:::::
+
+## Q-Q plot : Patterns typiques {.smaller}
+
+::: med-space
+:::
+
+```{r}
+set.seed(123)
+n <- 200
+
+# Données normales
+normal_data <- rnorm(n)
+
+# Données avec queues lourdes
+heavy_tail <- rt(n, df = 3)
+
+# Données asymétriques
+skewed <- rexp(n, rate = 1)
+
+# Créer les Q-Q plots
+p1 <- data.frame(sample = normal_data) %>%
+  ggplot(aes(sample = sample)) +
+  stat_qq() +
+  stat_qq_line(color = "red") +
+  labs(title = "Distribution normale", x = "Théorique", y = "Observé") +
+  theme_classic(base_size = 14)
+
+p2 <- data.frame(sample = heavy_tail) %>%
+  ggplot(aes(sample = sample)) +
+  stat_qq() +
+  stat_qq_line(color = "red") +
+  labs(title = "Queues lourdes", x = "Théorique", y = "Observé") +
+  theme_classic(base_size = 14)
+
+p3 <- data.frame(sample = skewed) %>%
+  ggplot(aes(sample = sample)) +
+  stat_qq() +
+  stat_qq_line(color = "red") +
+  labs(title = "Asymétrie positive", x = "Théorique", y = "Observé") +
+  theme_classic(base_size = 14)
+
+p1 + p2 + p3
+```
+
+## Tests formels de normalité {.smaller}
+
+::: med-space
+:::
+
+```{r}
+#| echo: true
+
+# Test de Shapiro-Wilk
+check_normality(m_spec)
+```
+
+::: med-space
+:::
+
+::: fragment
+::: callout-warning
+## Problème avec les tests de normalité
+
+-   **Trop sensibles** avec grands échantillons (détectent des déviations triviales)
+-   **Pas assez sensibles** avec petits échantillons (quand on en aurait besoin)
+-   Ne disent pas **si** la déviation est importante biologiquement
+
+:::
+:::
+
+::: fragment
+::: question
+**Préférer l'examen visuel (Q-Q plot)** aux tests formels !
+:::
+:::
+
+## « Eyeballing » vs. Tests statistiques {.smaller}
+
+::: med-space
+:::
+
+::::: columns
+::: column
+**Tests formels (Shapiro-Wilk)**
+
+-   Répondent « oui » ou « non »
+-   Sensibilité dépend de n
+-   Pas d'information sur la sévérité
+-   Déviations triviales deviennent « significatives »
+
+:::
+
+::: column
+**Inspection visuelle (Q-Q plot)**
+
+-   Montre le type de déviation
+-   Montre où elle se produit
+-   Permet d'évaluer la gravité
+-   Développe l'intuition statistique
+-   **Contexte** : robustesse du modèle
+
+:::
+:::::
+
+::: med-space
+:::
+
+::: fragment
+::: question
+**Conseil pratique :** Utilisez le Q-Q plot comme outil principal. Les tests formels sont secondaires.
+:::
+:::
+
+## Assumption 1 : Indépendance {.smaller}
+
+::: med-space
+:::
+
+**Les observations sont indépendantes**
+
+::: med-space
+:::
+
+Violation = une observation influence une autre
+
+::: med-space
+:::
+
+::::: columns
+::: column
+**Exemples de violations**
+
+-   Mesures répétées sur les mêmes individus
+-   Autocorrélation temporelle
+-   Autocorrélation spatiale
+-   Pseudo-réplication
+-   Structure hiérarchique (sites, populations)
+
+:::
+
+::: column
+::: fragment
+**Conséquences**
+
+-   Sous-estimation de l'erreur standard
+-   Intervalles de confiance trop étroits
+-   Valeurs p trop petites
+-   **C'est la violation la plus grave !**
+
+:::
+:::
+:::::
+
+::: fragment
+::: question
+Solution : Modèles mixtes, séries temporelles, modèles spatiaux
+:::
+:::
+
+## Violations d'indépendance en écologie {.smaller}
+
+::: med-space
+:::
+
+::::: columns
+::: column
+### Autocorrélation spatiale
+
+```{r}
+set.seed(42)
+n_sites <- 50
+x_coord <- runif(n_sites, 0, 100)
+y_coord <- runif(n_sites, 0, 100)
+
+# Créer une autocorrélation spatiale simple
+spatial_effect <- numeric(n_sites)
+for (i in 1:n_sites) {
+  distances <- sqrt((x_coord[i] - x_coord)^2 + (y_coord[i] - y_coord)^2)
+  weights <- exp(-distances / 20)
+  spatial_effect[i] <- sum(rnorm(n_sites, 0, 1) * weights) / sum(weights)
+}
+
+response <- 10 + spatial_effect + rnorm(n_sites, 0, 0.5)
+
+spatial_data <- data.frame(
+  x = x_coord,
+  y = y_coord,
+  value = response
+)
+
+ggplot(spatial_data, aes(x = x, y = y, color = value)) +
+  geom_point(size = 4) +
+  scale_color_viridis_c() +
+  labs(
+    title = "Autocorrélation spatiale",
+    x = "Coordonnée X",
+    y = "Coordonnée Y",
+    color = "Valeur"
+  ) +
+  theme_classic(base_size = 16)
+```
+
+Les sites proches sont plus similaires
+:::
+
+::: column
+::: fragment
+### Autocorrélation temporelle
+
+```{r}
+set.seed(42)
+n_time <- 100
+time <- 1:n_time
+
+# Série temporelle avec autocorrélation
+ar_process <- arima.sim(n = n_time, list(ar = 0.7))
+
+temporal_data <- data.frame(
+  time = time,
+  value = as.numeric(ar_process)
+)
+
+ggplot(temporal_data, aes(x = time, y = value)) +
+  geom_line(linewidth = 1, color = "darkblue") +
+  geom_point(size = 2, color = "darkblue") +
+  labs(
+    title = "Autocorrélation temporelle",
+    x = "Temps",
+    y = "Valeur"
+  ) +
+  theme_classic(base_size = 16)
+```
+
+Les mesures consécutives sont corrélées
+:::
+:::
+:::::
+
+## Assumption 2 : Homoscédasticité {.smaller}
+
+::: med-space
+:::
+
+**Variance constante des résidus**
+
+::: med-space
+:::
+
+::::: columns
+::: column
+```{r}
+set.seed(123)
+x <- runif(100, 0, 10)
+y_homo <- 2 + 3 * x + rnorm(100, 0, 2)
+
+data.frame(x = x, y = y_homo) %>%
+  ggplot(aes(x = x, y = y)) +
+  geom_point(alpha = 0.6) +
+  geom_smooth(method = "lm", color = "red") +
+  labs(
+    title = "Homoscédasticité",
+    x = "Prédicteur",
+    y = "Réponse"
+  ) +
+  theme_classic(base_size = 16)
+```
+
+Variance constante ✓
+:::
+
+::: column
+```{r}
+y_hetero <- 2 + 3 * x + rnorm(100, 0, 0.3 * x)
+
+data.frame(x = x, y = y_hetero) %>%
+  ggplot(aes(x = x, y = y)) +
+  geom_point(alpha = 0.6) +
+  geom_smooth(method = "lm", color = "red") +
+  labs(
+    title = "Hétéroscédasticité",
+    x = "Prédicteur",
+    y = "Réponse"
+  ) +
+  theme_classic(base_size = 16)
+```
+
+Variance augmente ✗
+:::
+:::::
+
+## Hétéroscédasticité en écologie {.smaller}
+
+::: med-space
+:::
+
+**Très commun dans les données écologiques !**
+
+::: med-space
+:::
+
+::::: columns
+::: column
+**Exemples**
+
+-   Variance augmente avec la moyenne
+-   Données de comptage (abondance)
+-   Processus allométriques
+-   Taille corporelle et métabolisme
+
+:::
+
+::: column
+::: fragment
+**Conséquences**
+
+-   Erreurs standard biaisées
+-   IC et tests moins fiables
+-   **Moins grave** que non-indépendance
+
+::: question
+Solutions : Transformation, GLM, modèles robustes
+:::
+:::
+:::
+:::::
+
+## Assumption 3 : Normalité des résidus {.smaller}
+
+::: med-space
+:::
+
+**Les résidus (pas les données brutes !) suivent une distribution normale**
+
+::: med-space
+:::
+
+::::: columns
+::: column
+::: callout-important
+## Attention !
+
+Ce n'est **pas** la distribution des données brutes qui doit être normale, mais celle des **résidus** !
+:::
+
+::: fragment
+```{r}
+ggplot(penguins, aes(x = body_mass_g)) +
+  geom_histogram(bins = 30, fill = "lightblue", color = "black") +
+  labs(
+    title = "Distribution des données brutes",
+    x = "Masse corporelle (g)",
+    y = "Fréquence"
+  ) +
+  theme_classic(base_size = 16)
+```
+
+:::
+:::
+
+::: column
+::: fragment
+```{r}
+residuals_spec <- residuals(m_spec)
+
+data.frame(residuals = residuals_spec) %>%
+  ggplot(aes(x = residuals)) +
+  geom_histogram(bins = 30, fill = "lightblue", color = "black") +
+  labs(
+    title = "Distribution des résidus",
+    x = "Résidus",
+    y = "Fréquence"
+  ) +
+  theme_classic(base_size = 16)
+```
+
+:::
+:::
+:::::
+
+## Données non normales en écologie {.smaller}
+
+::: med-space
+:::
+
+**Types de données qui violent souvent la normalité :**
+
+::: med-space
+:::
+
+| Type de données    | Problème              | Distribution appropriée |
+|--------------------|-----------------------|-------------------------|
+| Comptages          | Entiers, asymétriques | Poisson, Binomiale négative |
+| Présence/Absence   | Binaire (0/1)         | Binomiale               |
+| Proportions        | Limitées à [0, 1]     | Bêta, Binomiale         |
+| Temps de survie    | Censurées             | Weibull, Exponentielle  |
+| Données positives  | Asymétriques          | Gamma, Log-normale      |
+
+::: med-space
+:::
+
+::: fragment
+::: question
+**C'est normal que vos données écologiques ne soient pas normales !**
+
+Les modèles linéaires classiques ne sont pas toujours appropriés → GLM
+:::
+:::
+
+## Violations fréquentes en écologie {.smaller}
+
+::: med-space
+:::
+
+::::: columns
+::: column
+### Données de comptage
+
+```{r}
+set.seed(123)
+count_data <- rpois(200, lambda = 3)
+
+data.frame(counts = count_data) %>%
+  ggplot(aes(x = counts)) +
+  geom_bar(fill = "lightblue", color = "black") +
+  labs(
+    title = "Distribution de Poisson",
+    x = "Nombre d'individus",
+    y = "Fréquence"
+  ) +
+  theme_classic(base_size = 14)
+```
+
+Entiers, asymétriques, variance = moyenne
+:::
+
+::: column
+::: fragment
+### Données de proportions
+
+```{r}
+set.seed(123)
+prop_data <- rbeta(200, 2, 5)
+
+data.frame(proportions = prop_data) %>%
+  ggplot(aes(x = proportions)) +
+  geom_histogram(bins = 30, fill = "lightblue", color = "black") +
+  labs(
+    title = "Distribution Bêta",
+    x = "Proportion",
+    y = "Fréquence"
+  ) +
+  theme_classic(base_size = 14)
+```
+
+Limitées entre 0 et 1
+:::
+:::
+:::::
+
+## Message important {.smaller}
+
+::: med-space
+:::
+
+::: huge
+::: center-align
+**Au moins une assumption est généralement violée dans les données écologiques**
+:::
+:::
+
+::: med-space
+:::
+
+::: fragment
+::: question
+C'est **normal** et **attendu** !
+:::
+:::
+
+::: med-space
+:::
+
+::: fragment
+**Ce que cela signifie :**
+
+1.  Ne pas paniquer quand les assumptions ne sont pas parfaites
+2.  Évaluer la **gravité** de la violation
+3.  Les modèles linéaires sont souvent **robustes** aux violations modérées
+4.  Pour les violations graves → **Modèles linéaires généralisés (GLM)**
+
+:::
+
+## Introduction aux GLM {.smaller}
+
+::: med-space
+:::
+
+**Generalized Linear Models (GLM)** : Extension des modèles linéaires
+
+::: med-space
+:::
+
+::::: columns
+::: column
+**Modèles linéaires classiques**
+
+$$
+\begin{align}
+Y_i &\sim \text{Normal}(\mu_i, \sigma) \\
+\mu_i &= \beta_0 + \beta_1 X_i
+\end{align}
+$$
+
+-   Distribution normale uniquement
+-   Variance constante
+-   Relation linéaire directe
+
+:::
+
+::: column
+::: fragment
+**GLM**
+
+$$
+\begin{align}
+Y_i &\sim \text{Distribution}(\mu_i, \theta) \\
+g(\mu_i) &= \beta_0 + \beta_1 X_i
+\end{align}
+$$
+
+-   Différentes distributions (Poisson, binomiale, gamma, etc.)
+-   Variance peut dépendre de la moyenne
+-   Fonction de lien $g()$
+
+:::
+:::
+:::::
+
+::: fragment
+::: question
+**Semaine prochaine :** Comment et quand utiliser les GLM !
+:::
+:::
+
+## Résumé {.smaller}
+
+::: med-space
+:::
+
+**Post-hoc tests**
+
+-   L'inflation de l'erreur alpha est un problème réel
+-   Correction des valeurs p (Bonferroni, Tukey, etc.)
+-   **Les IC sont souvent plus informatifs** que les valeurs p
+-   `modelbased` facilite l'estimation et la visualisation
+
+::: med-space
+:::
+
+::: fragment
+**Assumptions des modèles linéaires**
+
+-   Indépendance (critique), homoscédasticité, normalité
+-   Les modèles linéaires sont **robustes** aux violations modérées
+-   **Meilleurs que les tests non paramétriques** dans la plupart des cas
+-   Utilisez `performance::check_model()` pour les diagnostics
+-   **Q-Q plots > tests formels** pour évaluer la normalité
+-   Les violations sont **normales** en écologie → GLM
+
+:::
+
+## À vous de jouer {.smaller}
+
+::: med-space
+:::
+
+1.  Allez sur le site du cours
+2.  Allez au calendrier
+3.  Cliquez sur `TP 04`
+4.  Connectez-vous à Posit Cloud
+
+::: huge
+::: center-align
+[andieich.github.io/2026_biostatistiques_2](https://andieich.github.io/2026_biostatistiques_2/)
+:::
+:::
