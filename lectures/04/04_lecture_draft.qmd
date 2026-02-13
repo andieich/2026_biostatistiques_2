@@ -8,10 +8,12 @@ subtitle: Lecture 4
 
 library(palmerpenguins)
 library(tidyverse)
-library(performance)
-library(modelbased)
 library(emmeans)
+library(performance)
+library(ggthemes)
+library(modelbased)
 library(patchwork)
+options(modelbased_backend = "emmeans")
 
 penguins <- penguins %>%
   na.omit()
@@ -19,10 +21,10 @@ penguins <- penguins %>%
 
 ## Summary from last lecture
 
--   Linear models as a unified framework
--   Regression: numeric explanatory variable
--   ANOVA: categorical explanatory variable
--   Both are linear models!
+-   Linear models as a unified framework:
+    -   *Regression*: numeric explanatory variable
+    -   *ANOVA/t-test*: categorical explanatory variables
+    -   *ANCOVA*: numeric and categorical explanatory variables
 
 ## The problem with ANOVA {.smaller}
 
@@ -43,7 +45,7 @@ penguins %>%
     x = NULL,
     y = "Body mass (g)"
   ) +
-  scale_fill_viridis_d() +
+  scale_fill_colorblind() +
   theme_classic(base_size = 20) +
   theme(legend.position = "none")
 ```
@@ -85,7 +87,7 @@ For 3 species, we have 3 possible comparisons:
 
 ::: fragment
 ::: question
-Why not just do 3 t-tests?
+Why not just do 3 models?
 :::
 :::
 
@@ -96,30 +98,30 @@ Why not just do 3 t-tests?
 
 ::::: columns
 ::: column
-Each test has a 5% error risk (α = 0.05)
+-  Each test has a 5% error risk (α = 0.05)
 
 ::: fragment
-**Probability of making no error in 1 test:**
-
-0.95
+-  **Probability of making no error in 1 test:** 0.95
 :::
 
 ::: fragment
-**Probability of making no error in 3 tests:**
-
-$0.95 \times 0.95 \times 0.95 = 0.857$
+-  **Probability of making no error in 3 tests:** $0.95 \times 0.95 \times 0.95 = 0.857$
 :::
 
 ::: fragment
-**Probability of making at least 1 error:**
-
-$1 - 0.857 = 0.143 = 14.3\%$
+-   **Probability of making at least 1 error:** $1 - 0.857 = 0.143 = 14.3\%$
 :::
 :::
 
 ::: column
 ::: fragment
+
+::: med-space
+:::
+
 ```{r}
+#| fig-height: 10
+
 n_comparisons <- 1:20
 error_rate <- 1 - (0.95^n_comparisons)
 
@@ -136,23 +138,25 @@ data.frame(
     x = "Number of comparisons",
     y = "Probability of at least 1 error"
   ) +
-  theme_classic(base_size = 20)
+  theme_classic(base_size = 23)
 ```
 
 :::
 :::
 :::::
 
-## Family-wise error rate {.smaller}
+## Family-wise error rate (FWER) {.smaller}
 
 ::: med-space
 :::
 
-**Family-Wise Error Rate (FWER)**: The probability of making at least one type I error in a set of tests
+> 
+**FWER:** The probability of making at least one type I error in a set of tests
 
 ::: med-space
 :::
 
+::: small
 | Number of groups | Number of comparisons | FWER (no correction) |
 |-------------------|------------------------|------------------------|
 | 2                 | 1                      | 5.0%                   |
@@ -160,6 +164,7 @@ data.frame(
 | 4                 | 6                      | 26.5%                  |
 | 5                 | 10                     | 40.1%                  |
 | 10                | 45                     | 90.0%                  |
+:::
 
 ::: med-space
 :::
@@ -168,353 +173,91 @@ data.frame(
 We need to adjust our p-values to control the FWER
 :::
 
-## Bonferroni correction {.smaller}
+## p-value adjustments {.smaller}
 
 ::: med-space
 :::
-
-The simplest method: divide α by the number of tests
-
-$$
-\alpha_{\text{adjusted}} = \frac{\alpha}{m}
-$$
-
-where $m$ is the number of comparisons
-
-::: med-space
-:::
-
-::: fragment
-**Example with 3 comparisons:**
-
-$$
-\alpha_{\text{adjusted}} = \frac{0.05}{3} = 0.0167
-$$
-
-We reject $H_0$ only if $p < 0.0167$
-:::
-
-## Calculation: Bonferroni correction {.smaller}
-
-::: med-space
-:::
-
-```{r}
-#| echo: true
-
-# Pairwise comparisons without correction
-pairwise.t.test(
-  penguins$body_mass_g,
-  penguins$species,
-  p.adjust.method = "none"
-)
-```
-
-## Calculation: Bonferroni correction {.smaller}
-
-::: med-space
-:::
-
-```{r}
-#| echo: true
-
-# Pairwise comparisons with Bonferroni
-pairwise.t.test(
-  penguins$body_mass_g,
-  penguins$species,
-  p.adjust.method = "bonferroni"
-)
-```
-
-## The problem with Bonferroni {.smaller}
-
-::: med-space
-:::
-
-Bonferroni is **too conservative** → loss of statistical power
-
-::: med-space
-:::
-
-::::: columns
-::: column
-**Advantages**
-
--   Simple to understand
--   Controls FWER well
--   Always works
-
-:::
-
-::: column
-**Disadvantages**
-
--   Too strict with many comparisons
--   Increases type II errors (false negatives)
--   Ignores data structure
-:::
-:::::
-
-## Other adjustment methods {.smaller}
-
-::: med-space
-:::
-
+::: small
 | Method              | Description                                | When to use           |
 |----------------------|--------------------------------------------|----------------------------|
 | **Bonferroni**       | Divides α by number of tests              | Simple, few tests       |
 | **Holm-Bonferroni**  | Sequential Bonferroni (less strict)      | Alternative to Bonferroni   |
-| **Tukey HSD**        | Accounts for all comparisons   | Multiple comparisons     |
 | **Benjamini-Hochberg** | Controls false discovery rate | Many tests          |
+| **Tukey HSD**        | Accounts for all comparisons   | **Multiple comparisons**     |
+:::
 
 ::: med-space
 :::
 
 ::: question
-But p-values only tell part of the story...
+Tukey tests are often used for post-hoc tests 
 :::
 
-## Why prefer confidence intervals? {.smaller}
+## Post-hoc Tests in `R` {.smaller}
 
 ::: med-space
 :::
 
-::::: columns
-::: column
-**P-values**
-
--   Binary (significant or not)
--   Don't give effect magnitude
--   Depend on sample size
--   Don't give uncertainty
-
-:::
-
-::: column
-**Confidence intervals**
-
--   Show effect magnitude
--   Show uncertainty
--   Allow biological interpretation
--   Facilitate comparison
-:::
-:::::
-
-::: med-space
-:::
-
-::: fragment
-::: question
-CIs tell us: "The true difference is probably in this range"
-:::
-:::
-
-## Pairwise differences with CIs {.smaller}
-
-::: med-space
-:::
 
 ```{r}
 #| echo: true
 
-# Calculate estimated means and comparisons
-emm <- emmeans(m_spec, ~species)
-pairs_result <- pairs(emm)
-pairs_result
+m_spec <- lm(body_mass_g ~ species, data = penguins)
+
+estimate_contrasts(m_spec, p_adjust = "tukey")
 ```
 
-## Visualizing pairwise differences {.smaller}
+
+## Visualise Post-Hoc Tests {.smaller}
 
 ::: med-space
 :::
 
-::::: columns
-::: column
+
+::: {.columns}
+::: {.column}
 ```{r}
 #| echo: true
 #| eval: false
 
-pairs(emm) %>%
-  confint() %>%
-  as.data.frame() %>%
-  ggplot(aes(x = contrast, y = estimate)) +
-  geom_hline(yintercept = 0, linetype = "dashed") +
-  geom_pointrange(
-    aes(ymin = lower.CL, ymax = upper.CL)
-  ) +
-  coord_flip() +
-  labs(
-    x = NULL,
-    y = "Mass difference (g)"
-  ) +
-  theme_classic(base_size = 18)
+estimate_means(m_spec, by = "species") %>%
+  plot()
 ```
-
-:::
-
-::: column
-```{r}
-pairs(emm) %>%
-  confint() %>%
-  as.data.frame() %>%
-  ggplot(aes(x = contrast, y = estimate)) +
-  geom_hline(yintercept = 0, linetype = "dashed", color = "grey50") +
-  geom_pointrange(
-    aes(ymin = lower.CL, ymax = upper.CL),
-    size = 1,
-    linewidth = 1.5
-  ) +
-  coord_flip() +
-  labs(
-    x = NULL,
-    y = "Mass difference (g)"
-  ) +
-  theme_classic(base_size = 18)
-```
-
-:::
-:::::
-
-## Using `modelbased` for contrasts {.smaller}
-
-::: med-space
-:::
-
-::::: columns
-::: column
-```{r}
-#| echo: true
-#| eval: false
-
-library(modelbased)
-
-# Estimate means
-estimate_means(m_spec)
-```
-
-::: med-space
-:::
 
 ```{r}
-#| echo: true
-#| eval: false
+#| echo: false
+#| eval: true
 
-# Estimate contrasts
-estimate_contrasts(m_spec)
+estimate_means(m_spec, by = "species") %>%
+  plot() +
+  theme_light(base_size = 21)
 ```
+
 
 :::
+::: {.column .small}
 
-::: column
-::: small-output
-```{r}
-estimate_means(m_spec)
-```
 
+#### Recommendation
+
+-   Plot 95% CI
+
+    >
+   "**95% Confidence Interval:** is a range calculated such that, if repeated many times, 95% of such intervals would contain the true parameter value."
+
+-   **No overlap:** Groups are statistiaclly significantly different (p > .05)
+
+-   **Overlap:** May be statistically significantly different, but effect is likely small
+:::
 :::
 
 ::: med-space
 :::
 
-::: small-output
-```{r}
-estimate_contrasts(m_spec)
-```
-
-:::
-:::
-:::::
-
-## Visualizing with `modelbased` {.smaller}
-
-::: med-space
+::: {.fragment .question .small}
+Recently, researchers are moving away from p-values as hard cutoffs. Effect size (biological importance) matters more than p < 0.05!
 :::
 
-::::: columns
-::: column
-```{r}
-#| echo: true
-#| eval: false
-
-# Means with CIs
-plot(estimate_means(m_spec))
-```
-
-::: med-space
-:::
-
-```{r}
-#| echo: true
-#| eval: false
-
-# Contrasts with CIs
-plot(estimate_contrasts(m_spec))
-```
-
-:::
-
-::: column
-```{r}
-estimate_means(m_spec) %>%
-  as.data.frame() %>%
-  ggplot(aes(x = species, y = Mean)) +
-  geom_pointrange(aes(ymin = CI_low, ymax = CI_high)) +
-  theme_classic(base_size = 16) +
-  labs(y = "Body mass (g)", x = "Species")
-```
-
-::: med-space
-:::
-
-```{r}
-estimate_contrasts(m_spec) %>%
-  as.data.frame() %>%
-  ggplot(aes(x = Level1, y = Difference)) +
-  geom_hline(yintercept = 0, linetype = "dashed") +
-  geom_pointrange(aes(ymin = CI_low, ymax = CI_high)) +
-  theme_classic(base_size = 16) +
-  labs(y = "Mass difference (g)", x = "Contrast")
-```
-
-:::
-:::::
-
-## CI overlap {.smaller}
-
-::: med-space
-:::
-
-::::: columns
-::: column
-```{r}
-estimate_means(m_spec) %>%
-  as.data.frame() %>%
-  ggplot(aes(x = species, y = Mean)) +
-  geom_pointrange(aes(ymin = CI_low, ymax = CI_high)) +
-  theme_classic(base_size = 20) +
-  labs(y = "Body mass (g)", x = NULL)
-```
-
-:::
-
-::: column
-::: fragment
-::: question
-**Rule of thumb:**
-
-If the CIs of two means don't overlap, they are probably different (p < 0.05)
-:::
-:::
-
-::: fragment
-::: callout-warning
-## Warning!
-
-CI overlap doesn't always imply no significant difference. Contrasts are more precise.
-:::
-:::
-:::
-:::::
 
 ## Slope comparisons: ANCOVA {.smaller}
 
@@ -523,7 +266,12 @@ CI overlap doesn't always imply no significant difference. Contrasts are more pr
 
 ::::: columns
 ::: column
+
+::: med-space
+:::
 ```{r}
+#| fig-height: 10
+
 penguins %>%
   ggplot(aes(
     x = bill_length_mm,
@@ -548,13 +296,12 @@ penguins %>%
 :::
 
 ::: column
-::: question
-Are the slopes different between species?
+::: med-space
 :::
+#### Different slopes between species?
 
 ::: fragment
-Model with interaction:
-
+::: medium-output
 ```{r}
 #| echo: true
 
@@ -562,64 +309,29 @@ m_ancova <- lm(
   body_mass_g ~ bill_length_mm * species,
   data = penguins
 )
+
+anova(m_ancova)
 ```
 
+::: 
 :::
 :::
 :::::
 
-## Testing slope differences {.smaller}
 
-::: med-space
-:::
-
-::: small-output
-```{r}
-#| echo: true
-
-summary(m_ancova)
-```
-
-:::
-
-::: fragment
-::: question
-The interaction terms test whether slopes differ from the reference slope (Adelie)
-:::
-:::
-
-## Visualizing slope differences {.smaller}
+## Slope comparisons: ANCOVA {.smaller}
 
 ::: med-space
 :::
 
 ::::: columns
 ::: column
-```{r}
-#| echo: true
-#| eval: false
-
-# Estimate slopes
-estimate_slopes(m_ancova, trend = "bill_length_mm", at = "species")
-```
-
-:::
-
-::: column
-::: small-output
-```{r}
-estimate_slopes(m_ancova, trend = "bill_length_mm", at = "species")
-```
-
-:::
-:::
-:::::
 
 ::: med-space
 :::
-
 ```{r}
-# Visualize slopes by species
+#| fig-height: 10
+
 penguins %>%
   ggplot(aes(
     x = bill_length_mm,
@@ -627,7 +339,7 @@ penguins %>%
     color = species,
     fill = species
   )) +
-  geom_point(alpha = 0.3) +
+  geom_point(alpha = 0.6) +
   geom_smooth(method = "lm", alpha = 0.2) +
   scale_color_viridis_d() +
   scale_fill_viridis_d() +
@@ -641,80 +353,103 @@ penguins %>%
   theme(legend.position = "bottom")
 ```
 
-## Slope comparisons {.smaller}
+:::
+
+::: column
+::: med-space
+:::
+#### Different slopes between species?
+
+::: tiny-output
+```{r}
+#| echo: true
+
+estimate_contrasts(
+  m_ancova,
+  contrast = "species",
+  trend = "bill_length_mm"
+)
+```
+
+:::
+
+:::
+:::::
+
+## Slope comparisons: ANCOVA {.smaller}
 
 ::: med-space
 :::
 
 ::::: columns
 ::: column
-```{r}
-#| echo: true
-#| eval: false
 
-# Compare slopes
-estimate_contrasts(
-  m_ancova,
-  contrast = "species",
-  at = "bill_length_mm"
-)
+::: med-space
+:::
+```{r}
+#| fig-height: 10
+
+penguins %>%
+  ggplot(aes(
+    x = bill_length_mm,
+    y = body_mass_g,
+    color = species,
+    fill = species
+  )) +
+  geom_point(alpha = 0.6) +
+  geom_smooth(method = "lm", alpha = 0.2) +
+  scale_color_viridis_d() +
+  scale_fill_viridis_d() +
+  labs(
+    x = "Bill length (mm)",
+    y = "Body mass (g)",
+    color = "Species",
+    fill = "Species"
+  ) +
+  theme_classic(base_size = 18) +
+  theme(legend.position = "bottom")
 ```
 
 :::
 
 ::: column
-::: small-output
+::: med-space
+:::
+#### Slopes different to 0?
+
+::: medium-output
 ```{r}
-estimate_contrasts(
-  m_ancova,
-  contrast = "species",
-  at = "bill_length_mm"
-)
+#| echo: true
+
+estimate_slopes(m_ancova, by = "species")
+
+
 ```
 
 :::
 :::
 :::::
 
-::: fragment
-::: question
-Gentoo has a significantly higher slope than the other two species
-:::
-:::
 
-## Summary: Which method to use? {.smaller}
-
-::: med-space
-:::
+## Test
 
 ```{r}
-#| echo: false
 
-library(gt)
+lm(body_mass_g ~ species * sex, data = penguins) %>%
+  estimate_means(contrast = c("species", "sex")) %>%
+  plot()
 
-tibble(
-  Situation = c(
-    "Planned comparisons",
-    "All pairwise comparisons",
-    "Few comparisons (< 5)",
-    "Many comparisons (> 10)",
-    "Interest in effect magnitude",
-    "Scientific publication"
-  ),
-  Method = c(
-    "t-tests with Holm correction",
-    "Tukey HSD",
-    "Bonferroni or Holm",
-    "Benjamini-Hochberg",
-    "Confidence intervals",
-    "CIs + adjusted p-values"
-  )
-) %>%
-  gt() %>%
-  tab_options(
-    table.font.size = 18,
-    data_row.padding = px(8)
-  )
+lm(body_mass_g ~ species * sex, data = penguins) %>%
+  estimate_contrasts(contrast = c("species", "sex"))
+
+lm(body_mass_g ~ species * sex, data = penguins) %>%
+  estimate_contrasts(by = c("sex", "species"))
+
+
+estimate_contrasts(
+  lm(body_mass_g ~ species * sex, data = penguins),
+  contrast = c("species", "sex")
+)
 ```
 
 ## Part 2: Linear model assumptions {background-color="#440154"}
@@ -1517,3 +1252,29 @@ $$
 [andieich.github.io/2026_biostatistiques_2](https://andieich.github.io/2026_biostatistiques_2/)
 :::
 :::
+
+
+## Add this
+
+### Data is not independend
+
+Actually, the data on coral cover I shared with you looks different. There are three transects per site! 
+What is the problem if you test for the coastal orienation?
+The data is not anymore independend! The ecological conditions within each site are more similar than between the sites, you have a structrue in your data!
+
+I real life, we can solve this problem by telling R the structure of the data. These are called random effect models. Not explained in more detail here
+
+==> Mixed models, read about "random factors" if you are interested.
+
+
+### Variance is homogenious
+
+Similary, if variance differs between groups, or increases with one variable, one can tell the model to consider this. 
+
+==> Variabce structure (not covered in this course, read about it if you want)
+
+
+### Normality
+Finally the residuls are often not normally distributed, e.g. bacuase you have stricly positive data (weight, height), integers (counts), or percent data (only between 0 a 100%). A normal distributiio is defined betwwn - Inf an + Inf, and does not fit to these data types. This leads to wron p-values! So it is important to consider. We will cover this in the next lectures and learn when to use what
+==> GLMs
+
