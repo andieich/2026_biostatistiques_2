@@ -431,26 +431,6 @@ estimate_slopes(m_ancova, by = "species")
 :::::
 
 
-## Test
-
-```{r}
-
-lm(body_mass_g ~ species * sex, data = penguins) %>%
-  estimate_means(contrast = c("species", "sex")) %>%
-  plot()
-
-lm(body_mass_g ~ species * sex, data = penguins) %>%
-  estimate_contrasts(contrast = c("species", "sex"))
-
-lm(body_mass_g ~ species * sex, data = penguins) %>%
-  estimate_contrasts(by = c("sex", "species"))
-
-
-estimate_contrasts(
-  lm(body_mass_g ~ species * sex, data = penguins),
-  contrast = c("species", "sex")
-)
-```
 
 ## Part 2: Linear model assumptions {background-color="#440154"}
 
@@ -468,42 +448,91 @@ estimate_contrasts(
 ::: med-space
 :::
 
-A linear model assumes that:
 
-::: med-space
-:::
 
-::::: columns
-::: column
-### 1. Independence
+::: {.columns}
+::: {.column width="33%"}
+#### Independence
 
 Observations are independent of each other
-
 :::
-
-::: column
-### 2. Homoscedasticity
+::: {.column width="33%"}
+#### Homoscedasticity
 
 Residual variance is constant
 
-:::
-:::::
 
-::: med-space
-:::
 
-### 3. Normality
+:::
+::: {.column width="33%"}
+#### Normality
 
 Residuals follow a normal distribution
+:::
+:::
 
-::: med-space
+::: {.columns}
+::: {.column width="33%"}
+
+:::
+::: {.column width="33%"}
+
+```{r}
+set.seed(123)
+n <- 200
+x <- runif(n, 0, 10)
+y <- 2 + 3 * x + rnorm(n, 0, 0.5 * (2 + 3 * x))
+
+df_hetero <- tibble(x = x, y = y)
+
+ggplot(df_hetero, aes(x = x, y = y)) +
+  geom_smooth(method = "lm", se = FALSE, color = "darkred") +
+  geom_point(alpha = 0.6) +
+  labs(
+    x = "x",
+    y = "y"
+  ) +
+  theme_classic(base_size = 26)
+```
+
+:::
+::: {.column width="33%"}
+
+```{r}
+set.seed(456)
+x2 <- runif(n, 0, 10)
+y2 <- 5 + 2 * x2 + rexp(n, rate = 1) - 1
+
+df_skew <- tibble(x = x2, y = y2)
+m_skew <- lm(y ~ x, data = df_skew)
+
+resid_df <- tibble(resid = residuals(m_skew))
+
+ggplot(resid_df, aes(x = resid)) +
+  geom_histogram(
+    aes(y = after_stat(density)),
+    bins = 30,
+    fill = "lightblue",
+    color = "black"
+  ) +
+  stat_function(
+    fun = dnorm,
+    args = list(mean = mean(resid_df$resid), sd = sd(resid_df$resid)),
+    color = "red",
+    linewidth = 1
+  ) +
+  labs(
+    x = "Residuals",
+    y = "Density"
+  ) +
+  theme_classic(base_size = 26)
+```
+
+:::
 :::
 
-::: fragment
-::: question
-But first: Why do we need linear models?
-:::
-:::
+
+
 
 ## Nonparametric tests vs. Linear models {.smaller}
 
