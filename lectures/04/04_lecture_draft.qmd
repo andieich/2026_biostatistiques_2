@@ -13,7 +13,6 @@ library(performance)
 library(ggthemes)
 library(modelbased)
 library(patchwork)
-options(modelbased_backend = "emmeans")
 
 penguins <- penguins %>%
   na.omit()
@@ -21,10 +20,16 @@ penguins <- penguins %>%
 
 ## Summary from last lecture
 
--   Linear models as a unified framework:
-    -   *Regression*: numeric explanatory variable
-    -   *ANOVA/t-test*: categorical explanatory variables
-    -   *ANCOVA*: numeric and categorical explanatory variables
+::: med-space
+:::
+
+Linear models as a unified framework:
+
+-   **Regression**: numeric explanatory variable
+
+-   **ANOVA/t-test**: categorical explanatory variables
+
+-   **ANCOVA**: numeric and categorical explanatory variables
 
 ## The problem with ANOVA {.smaller}
 
@@ -153,8 +158,6 @@ data.frame(
 > 
 **FWER:** The probability of making at least one type I error in a set of tests
 
-::: med-space
-:::
 
 ::: small
 | Number of groups | Number of comparisons | FWER (no correction) |
@@ -166,6 +169,8 @@ data.frame(
 | 10                | 45                     | 90.0%                  |
 :::
 
+::: med-space
+:::
 ::: med-space
 :::
 
@@ -245,7 +250,7 @@ estimate_means(m_spec, by = "species") %>%
     >
    "**95% Confidence Interval:** is a range calculated such that, if repeated many times, 95% of such intervals would contain the true parameter value."
 
--   **No overlap:** Groups are statistiaclly significantly different (p > .05)
+-   **No overlap:** Groups are statistiaclly significantly different (p < .05)
 
 -   **Overlap:** May be statistically significantly different, but effect is likely small
 :::
@@ -255,7 +260,7 @@ estimate_means(m_spec, by = "species") %>%
 :::
 
 ::: {.fragment .question .small}
-Recently, researchers are moving away from p-values as hard cutoffs. Effect size (biological importance) matters more than p < 0.05!
+Recently, researchers are moving away from p-values as hard cutoffs. Effect size (biological importance) matters more than p < .05!
 :::
 
 
@@ -300,7 +305,6 @@ penguins %>%
 :::
 #### Different slopes between species?
 
-::: fragment
 ::: medium-output
 ```{r}
 #| echo: true
@@ -313,7 +317,6 @@ m_ancova <- lm(
 anova(m_ancova)
 ```
 
-::: 
 :::
 :::
 :::::
@@ -363,11 +366,13 @@ penguins %>%
 ::: tiny-output
 ```{r}
 #| echo: true
+library(modelbased)
 
 estimate_contrasts(
   m_ancova,
   contrast = "species",
-  trend = "bill_length_mm"
+  trend = "bill_length_mm",
+  p_adjust = "tukey"
 )
 ```
 
@@ -452,12 +457,12 @@ estimate_slopes(m_ancova, by = "species")
 
 ::: {.columns}
 ::: {.column width="33%"}
-#### Independence
+#### 1. Independence
 
 Observations are independent of each other
 :::
 ::: {.column width="33%"}
-#### Homoscedasticity
+#### 2. Homoscedasticity
 
 Residual variance is constant
 
@@ -465,7 +470,7 @@ Residual variance is constant
 
 :::
 ::: {.column width="33%"}
-#### Normality
+#### 3. Normality
 
 Residuals follow a normal distribution
 :::
@@ -474,10 +479,14 @@ Residuals follow a normal distribution
 ::: {.columns}
 ::: {.column width="33%"}
 
+![](images/moorea_mpa.png){height="260"}
+
 :::
 ::: {.column width="33%"}
 
 ```{r}
+#| fig-height: 9
+
 set.seed(123)
 n <- 200
 x <- runif(n, 0, 10)
@@ -499,9 +508,12 @@ ggplot(df_hetero, aes(x = x, y = y)) +
 ::: {.column width="33%"}
 
 ```{r}
+#| fig-height: 9
+
 set.seed(456)
+n <- 200
 x2 <- runif(n, 0, 10)
-y2 <- 5 + 2 * x2 + rexp(n, rate = 1) - 1
+y2 <- 5 + 2 * x2 + rexp(n, rate = 0.5)
 
 df_skew <- tibble(x = x2, y = y2)
 m_skew <- lm(y ~ x, data = df_skew)
@@ -526,285 +538,9 @@ ggplot(resid_df, aes(x = resid)) +
     y = "Density"
   ) +
   theme_classic(base_size = 26)
+
 ```
 
-:::
-:::
-
-
-
-
-## Nonparametric tests vs. Linear models {.smaller}
-
-::: med-space
-:::
-
-::::: columns
-::: column
-**Nonparametric tests**
-
--   Mann-Whitney, Kruskal-Wallis, etc.
--   "No assumptions"
--   Use ranks
-
-::: fragment
-**Problems:**
-
--   Difficult to interpret biologically
--   No effect magnitude
--   No complex models
--   Less power
--   No estimates/predictions
-:::
-:::
-
-::: column
-::: fragment
-**Linear models**
-
--   Estimate biological parameters
--   Magnitude and uncertainty
--   Extensible (interactions, covariates)
--   More power
--   Allow predictions
-
-::: fragment
-::: question
-**Robust** to moderate assumption violations!
-:::
-:::
-:::
-:::
-:::::
-
-## Robustness of linear models {.smaller}
-
-::: med-space
-:::
-
-Linear models are surprisingly **robust**:
-
-::: med-space
-:::
-
--   **Normality** is not critical with n > 30 (central limit theorem)
--   **Homoscedasticity**: moderate violation often acceptable
--   **Independence**: the only truly critical one
-
-::: med-space
-:::
-
-::: fragment
-::: question
-**Key message:** Don't abandon linear models too quickly!
-
-They are often better than nonparametric alternatives, even with moderate violations.
-:::
-:::
-
-## Checking assumptions with `performance` {.smaller}
-
-::: med-space
-:::
-
-```{r}
-#| echo: true
-
-library(performance)
-
-# Our ANOVA model
-m_spec <- lm(body_mass_g ~ species, data = penguins)
-
-# Check all assumptions
-check_model(m_spec)
-```
-
-## Interpreting diagnostics {.smaller}
-
-::: med-space
-:::
-
-::::: columns
-::: column
-### Posterior Predictive Check
-
-Compares observed data to model predictions
-
-::: fragment
-### Linearity
-
-Residuals vs. fitted values (should be flat)
-:::
-
-::: fragment
-### Homogeneity of Variance
-
-Constant variance of residuals
-:::
-:::
-
-::: column
-::: fragment
-### Influential Observations
-
-Points with high influence (Cook's distance)
-:::
-
-::: fragment
-### Normality of Residuals
-
-**The Q-Q plot** (quantile-quantile)
-:::
-
-::: fragment
-### Collinearity
-
-Correlation between predictors (not relevant here)
-:::
-:::
-:::::
-
-## The Q-Q plot explained {.smaller}
-
-::: med-space
-:::
-
-::::: columns
-::: column
-```{r}
-#| fig-height: 8
-
-check_normality(m_spec) %>%
-  plot()
-```
-
-:::
-
-::: column
-**Quantile-Quantile plot**
-
--   Compares observed quantiles to theoretical quantiles of a normal distribution
--   If points follow the line: normal distribution
--   Deviations at extremes: heavy/light tails
--   S-pattern: skewness
-
-::: fragment
-::: question
-More useful than a histogram for assessing normality!
-:::
-:::
-:::
-:::::
-
-## Q-Q plot: Typical patterns {.smaller}
-
-::: med-space
-:::
-
-```{r}
-set.seed(123)
-n <- 200
-
-# Normal data
-normal_data <- rnorm(n)
-
-# Heavy-tailed data
-heavy_tail <- rt(n, df = 3)
-
-# Skewed data
-skewed <- rexp(n, rate = 1)
-
-# Create Q-Q plots
-p1 <- data.frame(sample = normal_data) %>%
-  ggplot(aes(sample = sample)) +
-  stat_qq() +
-  stat_qq_line(color = "red") +
-  labs(title = "Normal distribution", x = "Theoretical", y = "Observed") +
-  theme_classic(base_size = 14)
-
-p2 <- data.frame(sample = heavy_tail) %>%
-  ggplot(aes(sample = sample)) +
-  stat_qq() +
-  stat_qq_line(color = "red") +
-  labs(title = "Heavy tails", x = "Theoretical", y = "Observed") +
-  theme_classic(base_size = 14)
-
-p3 <- data.frame(sample = skewed) %>%
-  ggplot(aes(sample = sample)) +
-  stat_qq() +
-  stat_qq_line(color = "red") +
-  labs(title = "Positive skew", x = "Theoretical", y = "Observed") +
-  theme_classic(base_size = 14)
-
-p1 + p2 + p3
-```
-
-## Formal normality tests {.smaller}
-
-::: med-space
-:::
-
-```{r}
-#| echo: true
-
-# Shapiro-Wilk test
-check_normality(m_spec)
-```
-
-::: med-space
-:::
-
-::: fragment
-::: callout-warning
-## Problem with normality tests
-
--   **Too sensitive** with large samples (detect trivial deviations)
--   **Not sensitive enough** with small samples (when we'd need them)
--   Don't tell **if** the deviation is biologically important
-
-:::
-:::
-
-::: fragment
-::: question
-**Prefer visual examination (Q-Q plot)** over formal tests!
-:::
-:::
-
-## "Eyeballing" vs. Statistical tests {.smaller}
-
-::: med-space
-:::
-
-::::: columns
-::: column
-**Formal tests (Shapiro-Wilk)**
-
--   Answer "yes" or "no"
--   Sensitivity depends on n
--   No information on severity
--   Trivial deviations become "significant"
-
-:::
-
-::: column
-**Visual inspection (Q-Q plot)**
-
--   Shows the type of deviation
--   Shows where it occurs
--   Allows assessing severity
--   Develops statistical intuition
--   **Context**: model robustness
-
-:::
-:::::
-
-::: med-space
-:::
-
-::: fragment
-::: question
-**Practical advice:** Use the Q-Q plot as your primary tool. Formal tests are secondary.
 :::
 :::
 
@@ -813,139 +549,73 @@ check_normality(m_spec)
 ::: med-space
 :::
 
-**Observations are independent**
+::: {.columns}
+::: {.column}
 
-::: med-space
-:::
 
-Violation = one observation influences another
+#### Observations are independent
 
-::: med-space
-:::
+*Violation = one observation influences another*
 
-::::: columns
-::: column
-**Examples of violations**
-
--   Repeated measures on the same individuals
--   Temporal autocorrelation
--   Spatial autocorrelation
+-   Repeated measures of the same individuals
+-   Spatial impact
 -   Pseudoreplication
 -   Hierarchical structure (sites, populations)
 
 :::
-
-::: column
+::: {.column}
 ::: fragment
-**Consequences**
+#### Consequences
 
 -   Underestimation of standard error
 -   Confidence intervals too narrow
--   P-values too small
--   **This is the most serious violation!**
+-   p-values too small
 
-:::
-:::
-:::::
-
-::: fragment
 ::: question
-Solution: Mixed models, time series, spatial models
+These are serious consequences!
+:::
+:::
 :::
 :::
 
-## Independence violations in ecology {.smaller}
+## Assumption 1: Independence {.smaller}
 
 ::: med-space
 :::
 
-::::: columns
-::: column
-### Spatial autocorrelation
+#### Hierarchical Structure
 
-```{r}
-set.seed(42)
-n_sites <- 50
-x_coord <- runif(n_sites, 0, 100)
-y_coord <- runif(n_sites, 0, 100)
+![](images/moorea_mpa.png){fig-align="center"}
 
-# Create simple spatial autocorrelation
-spatial_effect <- numeric(n_sites)
-for (i in 1:n_sites) {
-  distances <- sqrt((x_coord[i] - x_coord)^2 + (y_coord[i] - y_coord)^2)
-  weights <- exp(-distances / 20)
-  spatial_effect[i] <- sum(rnorm(n_sites, 0, 1) * weights) / sum(weights)
-}
+## Assumption 1: Independence {.smaller}
 
-response <- 10 + spatial_effect + rnorm(n_sites, 0, 0.5)
+::: med-space
+:::
+#### Repeated Measures
 
-spatial_data <- data.frame(
-  x = x_coord,
-  y = y_coord,
-  value = response
-)
+![](images/repeated_measures.png){fig-align="center"}
 
-ggplot(spatial_data, aes(x = x, y = y, color = value)) +
-  geom_point(size = 4) +
-  scale_color_viridis_c() +
-  labs(
-    title = "Spatial autocorrelation",
-    x = "X coordinate",
-    y = "Y coordinate",
-    color = "Value"
-  ) +
-  theme_classic(base_size = 16)
-```
+## Assumption 1: Independence {.smaller}
 
-Nearby sites are more similar
+::: med-space
 :::
 
-::: column
-::: fragment
-### Temporal autocorrelation
+#### Spatial/Temporal Correlation
 
-```{r}
-set.seed(42)
-n_time <- 100
-time <- 1:n_time
+![](images/repeated_sampling.png){fig-align="center"}
 
-# Time series with autocorrelation
-ar_process <- arima.sim(n = n_time, list(ar = 0.7))
 
-temporal_data <- data.frame(
-  time = time,
-  value = as.numeric(ar_process)
-)
-
-ggplot(temporal_data, aes(x = time, y = value)) +
-  geom_line(linewidth = 1, color = "darkblue") +
-  geom_point(size = 2, color = "darkblue") +
-  labs(
-    title = "Temporal autocorrelation",
-    x = "Time",
-    y = "Value"
-  ) +
-  theme_classic(base_size = 16)
-```
-
-Consecutive measurements are correlated
-:::
-:::
-:::::
 
 ## Assumption 2: Homoscedasticity {.smaller}
 
 ::: med-space
 :::
 
-**Constant variance of residuals**
-
-::: med-space
-:::
-
 ::::: columns
 ::: column
 ```{r}
+#| fig-height: 7
+
 set.seed(123)
 x <- runif(100, 0, 10)
 y_homo <- 2 + 3 * x + rnorm(100, 0, 2)
@@ -953,45 +623,55 @@ y_homo <- 2 + 3 * x + rnorm(100, 0, 2)
 data.frame(x = x, y = y_homo) %>%
   ggplot(aes(x = x, y = y)) +
   geom_point(alpha = 0.6) +
-  geom_smooth(method = "lm", color = "red") +
+  geom_smooth(method = "lm", color = "darkred", se = F) +
   labs(
     title = "Homoscedasticity",
     x = "Predictor",
     y = "Response"
   ) +
-  theme_classic(base_size = 16)
+  theme_classic(base_size = 26)
 ```
 
-Constant variance ✓
-:::
+<div style="text-align: center;">
+**Constant variance**
+</div>
 
+:::
 ::: column
 ```{r}
-y_hetero <- 2 + 3 * x + rnorm(100, 0, 0.3 * x)
+#| fig-height: 7
+
+y_hetero <- 2 + 3 * x + rnorm(100, 0, 0.5 * (2 + 3 * x))
 
 data.frame(x = x, y = y_hetero) %>%
   ggplot(aes(x = x, y = y)) +
   geom_point(alpha = 0.6) +
-  geom_smooth(method = "lm", color = "red") +
+  geom_smooth(method = "lm", color = "darkred", se = F) +
   labs(
     title = "Heteroscedasticity",
     x = "Predictor",
     y = "Response"
   ) +
-  theme_classic(base_size = 16)
+  theme_classic(base_size = 26)
 ```
 
-Variance increases ✗
+<div style="text-align: center;">
+**Variance increases**
+</div>
+
 :::
 :::::
 
-## Heteroscedasticity in ecology {.smaller}
+$$
+\begin{align}
+y_i &\sim \mathrm{Normal}(\mu_i,~{\color{#D81B60}{\sigma}}) \\
+\mu_i &= a + b x_i
+\end{align}
+$$
 
-::: med-space
-:::
 
-**Very common in ecological data!**
 
+## Assumption 2: Homoscedasticity {.smaller}
 ::: med-space
 :::
 
@@ -1012,11 +692,8 @@ Variance increases ✗
 
 -   Biased standard errors
 -   CIs and tests less reliable
--   **Less serious** than non-independence
+-   Less serious than non-independence
 
-::: question
-Solutions: Transformation, GLM, robust models
-:::
 :::
 :::
 :::::
@@ -1026,284 +703,445 @@ Solutions: Transformation, GLM, robust models
 ::: med-space
 :::
 
-**Residuals (not raw data!) follow a normal distribution**
+#### **Residuals** (not raw data!) follow a normal distribution
 
-::: med-space
-:::
-
-::::: columns
-::: column
-::: callout-important
-## Warning!
-
-It's **not** the distribution of raw data that must be normal, but that of the **residuals**!
-:::
-
-::: fragment
+::: {.columns}
+::: {.column width="75%"}
 ```{r}
-ggplot(penguins, aes(x = body_mass_g)) +
-  geom_histogram(bins = 30, fill = "lightblue", color = "black") +
-  labs(
-    title = "Distribution of raw data",
-    x = "Body mass (g)",
-    y = "Frequency"
+# Calculate mean for regression line
+mean_mass <- mean(penguins$body_mass_g)
+
+# Create plot with residuals
+penguins %>%
+  filter(species == "Gentoo", ) %>%
+  ggplot(aes(x = bill_length_mm, y = body_mass_g)) +
+  # Draw residual lines first (so they appear behind points)
+  geom_segment(
+    aes(xend = bill_length_mm, yend = fitted(lm(body_mass_g ~ bill_length_mm))),
+    color = "darkred",
+    linewidth = 0.5,
+    alpha = 0.6
   ) +
-  theme_classic(base_size = 16)
+  # Regression line
+  geom_smooth(method = "lm", se = FALSE, color = "black", linewidth = 1.5) +
+  # Data points
+  geom_point(size = 3, color = "steelblue") +
+  labs(
+    x = "Bill length (mm)",
+    y = "Body mass (g)"
+  ) +
+  theme_classic(base_size = 20)
 ```
 
-:::
-:::
-
-::: column
-::: fragment
-```{r}
-residuals_spec <- residuals(m_spec)
-
-data.frame(residuals = residuals_spec) %>%
-  ggplot(aes(x = residuals)) +
-  geom_histogram(bins = 30, fill = "lightblue", color = "black") +
-  labs(
-    title = "Distribution of residuals",
-    x = "Residuals",
-    y = "Frequency"
-  ) +
-  theme_classic(base_size = 16)
-```
 
 :::
-:::
-:::::
-
-## Non-normal data in ecology {.smaller}
-
-::: med-space
-:::
-
-**Data types that often violate normality:**
-
-::: med-space
-:::
-
-| Data type    | Problem              | Appropriate distribution |
-|--------------------|-----------------------|-------------------------|
-| Counts          | Integers, skewed | Poisson, Negative binomial |
-| Presence/Absence   | Binary (0/1)         | Binomial               |
-| Proportions        | Limited to [0, 1]     | Beta, Binomial         |
-| Survival times    | Censored             | Weibull, Exponential  |
-| Positive data  | Skewed          | Gamma, Log-normal      |
-
-::: med-space
-:::
-
-::: fragment
-::: question
-**It's normal for your ecological data to be non-normal!**
-
-Classic linear models aren't always appropriate → GLM
-:::
-:::
-
-## Common violations in ecology {.smaller}
-
-::: med-space
-:::
-
-::::: columns
-::: column
-### Count data
-
-```{r}
-set.seed(123)
-count_data <- rpois(200, lambda = 3)
-
-data.frame(counts = count_data) %>%
-  ggplot(aes(x = counts)) +
-  geom_bar(fill = "lightblue", color = "black") +
-  labs(
-    title = "Poisson distribution",
-    x = "Number of individuals",
-    y = "Frequency"
-  ) +
-  theme_classic(base_size = 14)
-```
-
-Integers, skewed, variance = mean
-:::
-
-::: column
-::: fragment
-### Proportion data
-
-```{r}
-set.seed(123)
-prop_data <- rbeta(200, 2, 5)
-
-data.frame(proportions = prop_data) %>%
-  ggplot(aes(x = proportions)) +
-  geom_histogram(bins = 30, fill = "lightblue", color = "black") +
-  labs(
-    title = "Beta distribution",
-    x = "Proportion",
-    y = "Frequency"
-  ) +
-  theme_classic(base_size = 14)
-```
-
-Limited between 0 and 1
-:::
-:::
-:::::
-
-## Important message {.smaller}
-
-::: med-space
-:::
-
-::: huge
-::: center-align
-**At least one assumption is generally violated in ecological data**
-:::
-:::
-
-::: med-space
-:::
-
-::: fragment
-::: question
-This is **normal** and **expected**!
-:::
-:::
-
-::: med-space
-:::
-
-::: fragment
-**What this means:**
-
-1.  Don't panic when assumptions aren't perfect
-2.  Assess the **severity** of the violation
-3.  Linear models are often **robust** to moderate violations
-4.  For serious violations → **Generalized Linear Models (GLM)**
-
-:::
-
-## Introduction to GLMs {.smaller}
-
-::: med-space
-:::
-
-**Generalized Linear Models (GLM)**: Extension of linear models
-
-::: med-space
-:::
-
-::::: columns
-::: column
-**Classic linear models**
+::: {.column width="25%"}
 
 $$
 \begin{align}
-Y_i &\sim \text{Normal}(\mu_i, \sigma) \\
-\mu_i &= \beta_0 + \beta_1 X_i
+y_i &\sim \mathrm{\color{#D81B60}{Normal}}(\mu_i,~{\sigma}) \\
+\mu_i &= a + b x_i
 \end{align}
 $$
 
--   Normal distribution only
--   Constant variance
--   Direct linear relationship
+:::
+:::
+
+
+## Assumption 3: Normality of residuals {.smaller}
+
+::: med-space
+:::
+
+::::: columns
+::: column
+**Examples**
+
+-   Data strictly positive (heights, weights)
+-   Percent data (between 0 and 100%)
+-   Count data (abundance)
+-   Probabilities (e.g. point-intercept transects)
 
 :::
 
 ::: column
 ::: fragment
-**GLM**
+**Consequences**
 
-$$
-\begin{align}
-Y_i &\sim \text{Distribution}(\mu_i, \theta) \\
-g(\mu_i) &= \beta_0 + \beta_1 X_i
-\end{align}
-$$
-
--   Different distributions (Poisson, binomial, gamma, etc.)
--   Variance can depend on the mean
--   Link function $g()$
+-   Biased confidence intervals
+-   p-values less reliable
+-   Less serious than non-independence or severe heteroscedasticity
 
 :::
 :::
 :::::
 
-::: fragment
+
+## Model Assessment
+
+::: med-space
+:::
+
 ::: question
-**Next week:** How and when to use GLMs!
-:::
-:::
+Are assumptions violated? 
 
-## Summary {.smaller}
+Can I get away with `lm()`?
+:::
 
 ::: med-space
 :::
 
-**Post-hoc tests**
-
--   Alpha error inflation is a real problem
--   P-value correction (Bonferroni, Tukey, etc.)
--   **CIs are often more informative** than p-values
--   `modelbased` facilitates estimation and visualization
+Package `performance` helps to decide:
 
 ::: med-space
 :::
 
-::: fragment
-**Linear model assumptions**
+```{r}
+#| echo: true
+#| output-location: slide
 
--   Independence (critical), homoscedasticity, normality
--   Linear models are **robust** to moderate violations
--   **Better than nonparametric tests** in most cases
--   Use `performance::check_model()` for diagnostics
--   **Q-Q plots > formal tests** to assess normality
--   Violations are **normal** in ecology → GLM
+library(performance)
 
-:::
+m_spec <- lm(body_mass_g ~ species, data = penguins)
 
-## Your turn {.smaller}
+check_model(m_spec)
+
+```
+
+## Model Assessment: Independence
 
 ::: med-space
 :::
 
-1.  Go to the course website
-2.  Go to the calendar
-3.  Click on `TP 04`
-4.  Connect to Posit Cloud
+-   Not plot can help with that
+-   Understand your data. 
+   -   Any structure?
+   -   Any correlated groups?
+   -   Individuals measured multiple times?
+   -   Spatial or temporal correlation?
+
+## Model Assessment: Homoscedasticity
+
+::: med-space
+:::
+
+
+```{r}
+#| output: false
+
+set.seed(123)
+n <- 200
+
+
+x_good <- runif(n, 5, 30)
+y_good <- 0.5 + 0.8 * x_good + rnorm(n, 0, sd = 0.5) # Constant SD, no trend
+m_good <- lm(y_good ~ x_good)
+
+x_mild <- runif(n, 5, 30)
+y_mild <- 0.5 + 0.8 * x_mild + rnorm(n, 0, sd = 0.2 + 0.2 * x_mild)
+m_mild_hetero <- lm(y_mild ~ x_mild)
+
+x_severe <- runif(n, 5, 30)
+mean_count <- 1 + 0.6 * x_severe
+y_severe <- rpois(n, lambda = pmax(mean_count, 0.1))
+m_severe_hetero <- lm(y_severe ~ x_severe)
+
+p_het1 <- plot(check_model(m_good, check = "homogeneity")) +
+  theme_light(base_size = 16)
+p_het2 <- plot(check_model(m_mild_hetero, check = "homogeneity"))
+p_het3 <- plot(check_model(m_severe_hetero, check = "homogeneity"))
+
+```
+
+
+#### Homoscedastic 
+
+
+```{r}
+p_het1
+```
+
+
+
+## Model Assessment: Homoscedasticity
+
+::: med-space
+:::
+
+#### Violation of Homoscedasticity 
+
+```{r}
+#| fig-width: 10
+
+(p_het2 | p_het3) +
+  plot_layout(ncol = 2)
+```
+
+
+
+## Model Assessment: Normality
+
+::: med-space
+:::
+
+::::: columns
+::: column
+```{r}
+#| fig-height: 12
+
+# Histogram with normal curve
+h_spec <- data.frame(resid = residuals(m_spec)) %>%
+  ggplot(aes(x = resid)) +
+  geom_histogram(
+    aes(y = after_stat(density)),
+    bins = 30,
+    fill = "lightblue",
+    color = "black"
+  ) +
+  stat_function(
+    fun = dnorm,
+    args = list(mean = 0, sd = sd(residuals(m_spec))),
+    color = "red",
+    linewidth = 1
+  ) +
+  labs(title = "Distribution of residuals", x = "Residuals", y = "Density") +
+  theme_light(base_size = 26)
+
+# Q-Q plot
+q_spec <- check_normality(m_spec) %>%
+  plot() +
+  theme_light(base_size = 26)
+
+# Stack histogram on top of Q-Q plot
+h_spec / q_spec
+```
+
+:::
+
+::: column
+
+::: small
+
+**Quantile-Quantile (QQ) plot**
+
+-   Compares observed quantiles to theoretical quantiles of a normal distribution
+-   If points follow the line: normal distribution
+-   Deviations at extremes: heavy/light tails
+-   S-pattern: skewness
+
+:::
+:::
+:::::
+
+## Model Assessment: Normality
+
+::: med-space
+:::
+
+
+```{r}
+set.seed(123)
+n <- 400
+
+# Normal distribution
+normal_data <- rnorm(n)
+m_normal <- lm(normal_data ~ 1)
+
+# Heavy tails
+heavy_tail <- rt(n, df = 1.8)
+m_heavy <- lm(heavy_tail ~ 1)
+
+# Skewed data
+skewed <- rexp(n, rate = 1)
+m_skewed <- lm(skewed ~ 1)
+
+# Histogram + normal curve for normal data
+h1 <- data.frame(resid = residuals(m_normal)) %>%
+  ggplot(aes(x = resid)) +
+  geom_histogram(
+    aes(y = after_stat(density)),
+    bins = 30,
+    fill = "lightblue",
+    color = "black"
+  ) +
+  stat_function(
+    fun = dnorm,
+    args = list(mean = 0, sd = sd(residuals(m_normal))),
+    color = "red",
+    linewidth = 1
+  ) +
+  labs(title = "Normal distribution", x = "Residuals", y = "Density") +
+  theme_light(base_size = 12)
+
+# Q-Q plot for normal data
+q1 <- check_normality(m_normal) %>%
+  plot() +
+  ylim(-1, 8) +
+  labs(title = NULL) +
+  theme_light(base_size = 12)
+
+# Histogram for heavy tails
+h2 <- data.frame(resid = residuals(m_heavy)) %>%
+  ggplot(aes(x = resid)) +
+  geom_histogram(
+    aes(y = after_stat(density)),
+    bins = 30,
+    fill = "lightblue",
+    color = "black"
+  ) +
+  stat_function(
+    fun = dnorm,
+    args = list(mean = 0, sd = sd(residuals(m_heavy))),
+    color = "red",
+    linewidth = 1
+  ) +
+  labs(title = "Heavy tails", x = "Residuals", y = "Density") +
+  theme_light(base_size = 12)
+
+# Q-Q plot for heavy tails
+q2 <- check_normality(m_heavy) %>%
+  plot() +
+  ylim(-1, 8) +
+  labs(title = NULL) +
+  theme_light(base_size = 12)
+
+# Histogram for skewed data
+h3 <- data.frame(resid = residuals(m_skewed)) %>%
+  ggplot(aes(x = resid)) +
+  geom_histogram(
+    aes(y = after_stat(density)),
+    bins = 30,
+    fill = "lightblue",
+    color = "black"
+  ) +
+  stat_function(
+    fun = dnorm,
+    args = list(mean = 0, sd = sd(residuals(m_skewed))),
+    color = "red",
+    linewidth = 1
+  ) +
+  labs(title = "Positive skew", x = "Residuals", y = "Density") +
+  theme_light(base_size = 12)
+
+# Q-Q plot for skewed data
+q3 <- check_normality(m_skewed) %>%
+  plot() +
+  ylim(-1, 8) +
+  labs(title = NULL) +
+  theme_light(base_size = 12)
+
+# Arrange: histograms on top row, Q-Q plots on bottom row
+(h1 | h2 | h3) / (q1 | q2 | q3)
+```
+
+
+
+## Actual Data {.smaller}
+
+::: med-space
+:::
+
+-   Actual environmental data often violates at least one of these assumptions
+
+-   Instead of doing non-parametric tests (forcing data into ranks, e.g. Wilcoxon, Kruskal Wallis, etc.), linear models can be extended
+
+
+## Actual Data {.smaller}
+
+::: med-space
+:::
+
+
+#### Advantages of linear models over non-parametric tests
+
+-   Easier to **interpret**: The coefficients have actual biological meaning
+
+-   We model the **actual data** (grams, meters, counts) instead of ranks (1st, 2nd, 3rd)
+
+-   Include **interactions** (i.e. effect of one variables depends on other variable) are possible
+
+-   Allow **predictions**
+
+-   **Honest visualisations** with CI and effect size
+
+## The three key assumptions {.smaller}
+
+::: med-space
+:::
+
+::: {.columns}
+::: {.column width="33%"}
+
+
+#### 1. Independence
+
+Observations are independent of each other
+
+:::
+::: {.column width="33%"}
+::: {.fragment fragment-index=1}
+#### 2. Homoscedasticity
+
+Residual variance is constant
+
+:::
+:::
+::: {.column width="33%"}
+::: {.fragment fragment-index=2}
+#### 3. Normality
+
+Residuals follow a normal distribution
+:::
+:::
+:::
+
+::: med-space
+:::
+
+### If violated
+
+
+::: {.columns}
+::: {.column width="33%"}
+
+Mixed effects models
+
+(`glmmTMB` package)
+
+:::
+::: {.column width="33%"}
+::: {.fragment fragment-index=1}
+Variance structure 
+
+(`nlme` & `glmmTMB` package)
+
+:::
+:::
+::: {.column width="33%"}
+
+::: {.fragment fragment-index=2}
+**Generalized** linear models (GLMs) 
+
+**=> next lecture**
+:::
+:::
+:::
+
+
+## À vous de jouer  {.smaller}
+
+::: med-space
+:::
+
+1.  Allez sur le site du cours
+2.  Allez au calendrier
+3.  Cliquez sur `TP 04`
+4.  Connectez-vous à Posit Cloud
 
 ::: huge
 ::: center-align
+
 [andieich.github.io/2026_biostatistiques_2](https://andieich.github.io/2026_biostatistiques_2/)
+
 :::
 :::
-
-
-## Add this
-
-### Data is not independend
-
-Actually, the data on coral cover I shared with you looks different. There are three transects per site! 
-What is the problem if you test for the coastal orienation?
-The data is not anymore independend! The ecological conditions within each site are more similar than between the sites, you have a structrue in your data!
-
-I real life, we can solve this problem by telling R the structure of the data. These are called random effect models. Not explained in more detail here
-
-==> Mixed models, read about "random factors" if you are interested.
-
-
-### Variance is homogenious
-
-Similary, if variance differs between groups, or increases with one variable, one can tell the model to consider this. 
-
-==> Variabce structure (not covered in this course, read about it if you want)
-
-
-### Normality
-Finally the residuls are often not normally distributed, e.g. bacuase you have stricly positive data (weight, height), integers (counts), or percent data (only between 0 a 100%). A normal distributiio is defined betwwn - Inf an + Inf, and does not fit to these data types. This leads to wron p-values! So it is important to consider. We will cover this in the next lectures and learn when to use what
-==> GLMs
-
