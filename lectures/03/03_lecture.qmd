@@ -1,7 +1,6 @@
 ---
-title: UE 6.7 Biostatistiques 2
-subtitle: Introduction
-auto-stretch: false
+title: Modèles statistiques
+subtitle: Cours 2 
 ---
 
 ## Les bases {.smaller}

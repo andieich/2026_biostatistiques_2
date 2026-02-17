@@ -1,6 +1,6 @@
 ---
 title: Visualisations
-subtitle: Lecture 2 
+subtitle: Cours 2 
 ---
 
 ```{r}

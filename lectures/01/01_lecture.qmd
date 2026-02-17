@@ -2,7 +2,6 @@
 title: Introduction
 subtitle: "Cours 1" 
 bibliography: references.bib
-auto-stretch: false
 ---
 
 ## À propos de moi {.smaller}
