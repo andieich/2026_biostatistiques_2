@@ -15,7 +15,6 @@ library(modelbased)
 library(performance)
 library(patchwork)
 library(here)
-
 ```
 
 ## Part 1: Post-hoc Tests with ANOVA
@@ -143,13 +142,13 @@ estimate_means(m_cor_cover) %>%
 ```
 
 Note: If you are interested in the "nerdier" parts, and what `position_jitterdodge()` does in `geom_point()`: 
-
+# EXPLANATION
 
 Is now clearer which groups differ from each other?
 
 Do you think that all the comparisons that were done in `estimate_contrasts()` are needed and useful?
 
-As you'e learned in the lesson, the p-values are "artificially" increased to compensate "alpha error inflation". Doing all tests, as with `estimate_contrasts(m_cor_cover, p_adjust = "tukey")` is often not what you want. All possible combinations of coasts and genus are tested against each other, but you may be more interested if the coral cover differs at each level of coast, or if there are differences for each genus between the costs. This would involve much less tests, and the "penalty" that is added to the p-values is therefore lower. `estimate_contrasts()` let us define the tests that are done with the function argument `by`.
+As you'e learned in the lesson, the p-values are "artificially" increased to compensate "alpha error inflation". Doing all tests, as with `estimate_contrasts(m_cor_cover, p_adjust = "tukey")` is often not what you want. All possible combinations of coasts and genus are tested against each other, but you may be more interested if the coral cover differs at each level of coast, or if there are differences for each genus between the coasts. This would involve much fewer tests, and the "penalty" that is added to the p-values is therefore lower. `estimate_contrasts()` let us define the tests that are done with the function argument `by`.
 
 To test differences between coral genera at each level of coast, run
 
@@ -164,17 +163,92 @@ estimate_contrasts(m_cor_cover, p_adjust = "tukey", by = "genus")
 ```
 
 
+Finally, let's revisit 
 
 
+```{r}
+
+m_ancova <- lm(flipper_length_mm ~ body_mass_g * species, data = penguins)
+```
+
+You know this model from the lecture and the previous TP. Run the following code to be reminded what the data looks like:
+
+```{r}
+penguins %>%
+  ggplot(aes(
+    x = bill_length_mm,
+    y = body_mass_g,
+    color = species,
+    fill = species
+  )) +
+  geom_point(alpha = 0.6) +
+  geom_smooth(method = "lm", alpha = 0.2) +
+  scale_color_viridis_d() +
+  scale_fill_viridis_d() +
+  labs(
+    x = "Bill length (mm)",
+    y = "Body mass (g)",
+    color = "Species",
+    fill = "Species"
+  ) +
+  theme_classic(base_size = 18) +
+  theme(legend.position = "bottom")
+```
 
 
+It would be interesting to comapre the slopes between the different species. Currently, we need another package to do so. With `emmeans`, we can do the follwing:
+
+```{r}
+m <- lm(flipper_length_mm ~ body_mass_g * species, data = penguins)
+
+estimate_contrasts(
+  m,
+  contrast = "body_mass_g",
+  by = "species",
+  p_adjust = "tukey"
+)
 
 
+```
 
 
+Have a look at the output. What do you see?
+
+You can also plot the results with the `modelbased` package you know by now:
+
+```{r}
+estimate_slopes(m_ancova, by = "species") %>%
+  plot()
+```
 
 
+Does this visualisation fit to your expectation from the `emmeans` table?
 
+
+# 2nd Part: Assumptions
+
+This was all fun, but so far we don't know if the models are "valid" and if the three assumptions are met.
+
+Use the `performance` package and the `check_model()` function and visually assess the models we used above
+
+-   `m_poci`
+
+-   `m_cor_cover`
+
+-   `m_ancova`
+
+```{r}
+check_model(m_poci)
+```
+
+
+```{r}
+check_model(m_cor_cover)
+```
+
+```{r}
+check_model(m_ancova)
+```
 
 ### Task 2: Check the ANOVA result
 

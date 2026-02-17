@@ -209,6 +209,8 @@ Les tests de Tukey sont souvent utilisés pour les tests post-hoc
 
 m_spec <- lm(body_mass_g ~ species, data = penguins)
 
+library(modelbased)
+
 estimate_contrasts(m_spec, p_adjust = "tukey")
 ```
 
@@ -333,27 +335,33 @@ anova(m_ancova)
 ::: med-space
 :::
 ```{r}
-#| fig-height: 10
+#| echo: true
+#| eval: false
 
-penguins %>%
-  ggplot(aes(
-    x = bill_length_mm,
-    y = body_mass_g,
-    color = species,
-    fill = species
-  )) +
-  geom_point(alpha = 0.6) +
-  geom_smooth(method = "lm", alpha = 0.2) +
-  scale_color_viridis_d() +
-  scale_fill_viridis_d() +
+estimate_slopes(
+  m_ancova,
+  by = "species",
+  trend = "bill_length_mm"
+) %>%
+  plot()
+```
+
+::: med-space
+:::
+
+```{r}
+
+estimate_slopes(
+  m_ancova,
+  by = "species",
+  trend = "bill_length_mm"
+) %>%
+  plot() +
   labs(
-    x = "Bill length (mm)",
-    y = "Body mass (g)",
-    color = "Species",
-    fill = "Species"
+    x = "Species",
+    y = "Slope"
   ) +
-  theme_classic(base_size = 18) +
-  theme(legend.position = "bottom")
+  theme_classic(base_size = 18)
 ```
 
 :::
@@ -363,21 +371,20 @@ penguins %>%
 :::
 #### Les pentes diffèrent-elles entre les espèces ?
 
+
 ::: tiny-output
 ```{r}
 #| echo: true
-library(modelbased)
 
 estimate_contrasts(
   m_ancova,
-  contrast = "species",
-  trend = "bill_length_mm",
+  contrast = "bill_length_mm",
+  by = "species",
   p_adjust = "tukey"
 )
 ```
 
 :::
-
 :::
 :::::
 
@@ -391,28 +398,34 @@ estimate_contrasts(
 
 ::: med-space
 :::
-```{r}
-#| fig-height: 10
 
-penguins %>%
-  ggplot(aes(
-    x = bill_length_mm,
-    y = body_mass_g,
-    color = species,
-    fill = species
-  )) +
-  geom_point(alpha = 0.6) +
-  geom_smooth(method = "lm", alpha = 0.2) +
-  scale_color_viridis_d() +
-  scale_fill_viridis_d() +
+```{r}
+#| echo: true
+#| eval: false
+
+estimate_slopes(
+  m_ancova,
+  by = "species",
+  trend = "bill_length_mm"
+) %>%
+  plot()
+```
+
+::: med-space
+:::
+```{r}
+
+estimate_slopes(
+  m_ancova,
+  by = "species",
+  trend = "bill_length_mm"
+) %>%
+  plot() +
   labs(
-    x = "Bill length (mm)",
-    y = "Body mass (g)",
-    color = "Species",
-    fill = "Species"
+    x = "Species",
+    y = "Slope"
   ) +
-  theme_classic(base_size = 18) +
-  theme(legend.position = "bottom")
+  theme_classic(base_size = 18)
 ```
 
 :::
@@ -426,9 +439,10 @@ penguins %>%
 ```{r}
 #| echo: true
 
-estimate_slopes(m_ancova, by = "species")
-
-
+# fmt: skip
+estimate_slopes(m_ancova, 
+                by = "species", 
+                p_adjust = "tukey")
 ```
 
 :::
