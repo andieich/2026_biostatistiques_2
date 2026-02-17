@@ -97,7 +97,7 @@
     code span.vs { color: #008000; } /* VerbatimString */
     code span.wa { color: #696969; font-style: italic; } /* Warning */
   </style>
-  <link rel="stylesheet" href="03_lecture_files/libs/revealjs/dist/theme/quarto-93f0da91171fb782a8e94e88759a0c5d.css">
+  <link rel="stylesheet" href="03_lecture_files/libs/revealjs/dist/theme/quarto-d59efa796e0a0c677d19f670b5767d23.css">
   <link href="03_lecture_files/libs/revealjs/plugin/quarto-line-highlight/line-highlight.css" rel="stylesheet">
   <link href="03_lecture_files/libs/revealjs/plugin/reveal-menu/menu.css" rel="stylesheet">
   <link href="03_lecture_files/libs/revealjs/plugin/reveal-menu/quarto-menu.css" rel="stylesheet">
@@ -535,7 +535,7 @@ Residual standard error: 0.3725 on 22 degrees of freedom</code></pre>
 <div class="med-space">
 
 </div>
-<h4 id="valeur-p">Valeur P</h4>
+<h4 id="valeur-p">Valeur p</h4>
 <p>La probabilité d’observer un résultat au moins aussi extrême que le nôtre, en supposant que <span class="math inline">\(H_0\)</span> est vrai.</p>
 <div class="med-space">
 
@@ -547,13 +547,19 @@ Residual standard error: 0.3725 on 22 degrees of freedom</code></pre>
 <li><p><strong>Grande valeur p</strong> → les données compatibles avec <span class="math inline">\(H_0\)</span></p></li>
 </ul>
 </div>
+<div class="fragment">
+<h4 id="seuil">Seuil</h4>
+<ul>
+<li>Le seuil arbitraire (niveau alpha) est souvent de 0,05</li>
+</ul>
+</div>
 </section>
-<section id="valeur-ps" class="slide level2 smaller">
-<h2>Valeur Ps</h2>
+<section id="valeur-p-1" class="slide level2 smaller">
+<h2>Valeur P</h2>
 <div class="med-space">
 
 </div>
-<h4 id="definition">Definition</h4>
+<h4 id="définition">Définition</h4>
 <blockquote>
 <p>Si la vraie masse corporelle moyenne de cette population de manchots était 0 kg, quelle est la probabilité que nous observions une moyenne d’échantillon au moins aussi extrême que celle que nous avons obtenue (en valeur absolue), uniquement en raison de la variabilité d’échantillonnage aléatoire?</p>
 </blockquote>
@@ -693,25 +699,41 @@ Residual standard error: 0.3725 on 22 degrees of freedom</code></pre>
 </div><div class="column">
 <p>Mais pas à pas !</p>
 <p>Modèle de relation pour les manchots Gentoo</p>
+<div class="fragment" data-fragment-index="4">
+<div class="medium">
+<blockquote>
+
+<ul>
+<li><strong>Response variable:</strong> Masse corporelle</li>
+<li><strong>Explanatory variable:</strong> Longueur du bec</li>
+</ul>
+
+</blockquote>
+</div>
+</div>
 </div></div>
 <div class="columns">
 <div class="column">
-<div class="fragment">
+<div class="fragment" data-fragment-index="1">
 <h4 id="avant">Avant</h4>
+<div class="medium">
 <p><span class="math display">\[
 \mathrm{Weight}_i \sim \mathrm{Normal(\mu}_i,~\mathrm{\sigma)} \\
 \]</span></p>
 </div>
+</div>
 </div><div class="column">
-<div class="fragment">
+<div class="fragment" data-fragment-index="2">
 <h4 id="après">Après</h4>
+<div class="medium">
 <p><span class="math display">\[
 \begin{align}
 \mathrm{Weight}_i \sim \mathrm{Normal(\mu}_i,~\mathrm{\sigma)} \\
 \mu_i = a + b \cdot \mathrm{billlength}_i
 \end{align}
 \]</span></p>
-<div class="fragment">
+</div>
+<div class="fragment" data-fragment-index="3">
 <div class="small">
 <p><span class="math inline">\(a\)</span> est l’ordonnée à l’origine</p>
 <p><span class="math inline">\(b\)</span> est la pente</p>
@@ -774,6 +796,12 @@ F-statistic: 98.12 on 1 and 121 DF,  p-value: &lt; 2.2e-16</code></pre>
 \mu_i = -27.9 + 107.6 \cdot \mathrm{billlength}_i
 \end{align}
 \]</span></p>
+<div class="fragment">
+<h4 id="valeur-r2">Valeur <span class="math inline">\(R^2\)</span></h4>
+<blockquote>
+<p><span class="math inline">\(R^2\)</span> est la proportion de la variation de la variable réponse qui est expliquée par les prédicteurs dans le modèle linéaire</p>
+</blockquote>
+</div>
 </div>
 </div></div>
 </section>
@@ -993,10 +1021,27 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
 </tr>
 <tr class="odd">
 <td>ANOVA</td>
-<td>1 variable explicative catégorielle avec &gt; 2 niveaux</td>
+<td>1 variable explicative catégorique avec &gt; 2 niveaux</td>
 </tr>
 </tbody>
 </table>
+</section>
+<section id="à-vous-de-jouer" class="slide level2 smaller">
+<h2>À vous de jouer</h2>
+<div class="med-space">
+
+</div>
+<ol type="1">
+<li>Allez sur le site du cours</li>
+<li>Allez au calendrier</li>
+<li>Cliquez sur <code>TP 03</code></li>
+<li>Connectez-vous à Posit Cloud</li>
+</ol>
+<div class="huge">
+<div class="center-align">
+<p><a href="https://andieich.github.io/2026_biostatistiques_2/">andieich.github.io/2026_biostatistiques_2</a></p>
+</div>
+</div>
 
 </section>
     </div>

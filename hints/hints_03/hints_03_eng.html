@@ -136,10 +136,8 @@ window.Quarto = {
 
 <meta property="og:title" content="Indications pour TP 03 – Biostatistiques 2">
 <meta property="og:description" content="Page d’accueil pour UE 6.7 - Biostatistiques 2">
-<meta property="og:image" content="https://andieich.github.io/2026_biostatistiques_2/hints/hints_03/hints_03_files/figure-html/unnamed-chunk-5-1.png">
+<meta property="og:image" content="hints_03_eng_files/figure-html/unnamed-chunk-5-1.png">
 <meta property="og:site_name" content="Biostatistiques 2">
-<meta property="og:image:height" content="960">
-<meta property="og:image:width" content="1344">
 </head>
 
 <body class="nav-sidebar docked quarto-light">
@@ -202,15 +200,15 @@ window.Quarto = {
     <h2 id="toc-title">Sur cette page</h2>
    
   <ul>
-  <li><a href="#tâche-1" id="toc-tâche-1" class="nav-link active" data-scroll-target="#tâche-1">Tâche 1</a></li>
-  <li><a href="#tâche-2" id="toc-tâche-2" class="nav-link" data-scroll-target="#tâche-2">Tâche 2</a></li>
-  <li><a href="#tâche-3" id="toc-tâche-3" class="nav-link" data-scroll-target="#tâche-3">Tâche 3</a></li>
-  <li><a href="#tâche-4" id="toc-tâche-4" class="nav-link" data-scroll-target="#tâche-4">Tâche 4</a></li>
-  <li><a href="#tâche-5" id="toc-tâche-5" class="nav-link" data-scroll-target="#tâche-5">Tâche 5</a></li>
-  <li><a href="#tâche-6" id="toc-tâche-6" class="nav-link" data-scroll-target="#tâche-6">Tâche 6</a></li>
-  <li><a href="#tâche-7" id="toc-tâche-7" class="nav-link" data-scroll-target="#tâche-7">Tâche 7</a></li>
-  <li><a href="#tâche-8" id="toc-tâche-8" class="nav-link" data-scroll-target="#tâche-8">Tâche 8</a></li>
-  <li><a href="#bonus-tâche-9" id="toc-bonus-tâche-9" class="nav-link" data-scroll-target="#bonus-tâche-9">Bonus Tâche 9</a></li>
+  <li><a href="#task-1" id="toc-task-1" class="nav-link active" data-scroll-target="#task-1">Task 1</a></li>
+  <li><a href="#task-2" id="toc-task-2" class="nav-link" data-scroll-target="#task-2">Task 2</a></li>
+  <li><a href="#task-3" id="toc-task-3" class="nav-link" data-scroll-target="#task-3">Task 3</a></li>
+  <li><a href="#task-4" id="toc-task-4" class="nav-link" data-scroll-target="#task-4">Task 4</a></li>
+  <li><a href="#task-5" id="toc-task-5" class="nav-link" data-scroll-target="#task-5">Task 5</a></li>
+  <li><a href="#task-6" id="toc-task-6" class="nav-link" data-scroll-target="#task-6">Task 6</a></li>
+  <li><a href="#task-7" id="toc-task-7" class="nav-link" data-scroll-target="#task-7">Task 7</a></li>
+  <li><a href="#task-8" id="toc-task-8" class="nav-link" data-scroll-target="#task-8">Task 8</a></li>
+  <li><a href="#bonus-task-9" id="toc-bonus-task-9" class="nav-link" data-scroll-target="#bonus-task-9">Bonus Task 9</a></li>
   </ul>
 </nav>
     </div>
@@ -248,9 +246,9 @@ window.Quarto = {
 </header>
 
 
-<section id="tâche-1" class="level3 project">
-<h3 class="anchored" data-anchor-id="tâche-1">Tâche 1</h3>
-<p>Le cadre de données <code>dat_change_coral</code> contient la mortalité des coraux due à l’événement de blanchiment à chaque site sur la carte ci-dessus, avec le stress thermique cumulé maximum correspondant. Tracez la colonne <code>max_ahs</code> (c’est-à-dire l’intensité maximale du stress thermique cumulé) sur l’axe des x, et <code>perc_mort</code> (c’est-à-dire la mortalité des coraux en pourcentage) sur l’axe des y, et dessinez un nuage de points. Souvenez-vous du TP 02, vous devriez être en mesure de compléter cette tâche.</p>
+<section id="task-1" class="level3 project">
+<h3 class="anchored" data-anchor-id="task-1">Task 1</h3>
+<p>The data frame <code>dat_change_coral</code> contains the coral mortality due to the bleaching event at each site on the map above with the corresponding maximum accumulated heat stress. Plot the column <code>max_ahs</code> (i.e.&nbsp;the maximum intensity of accumulated heat stress) on the x-axis, and <code>perc_mort</code> (i.e.&nbsp;coral mortality in percent) on the y-axis and draw a scatter plot. Remember TP 02, you should be able to complete this task.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> ____, <span class="fu">aes</span>(<span class="at">x =</span> ____, <span class="at">y =</span> ____)) <span class="sc">+</span></span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span></span>
@@ -272,25 +270,26 @@ Afficher l’indice
 </div>
 <div id="callout-1" class="callout-1-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
-<p>Vous voulez tracer le cadre de données <code>dat_change_coral</code>, utilisez-le en conséquence dans <code>ggplot(data = )</code>. Dans <code>aes()</code>, vous voulez tracer <code>max_ahs</code> sur l’axe des x et <code>perc_mort</code> sur l’axe des y.</p>
+<p>You want to plot the <code>dat_change_coral</code> data frame, use it accordingly in <code>ggplot(data = )</code>. in <code>aes()</code>, you want to plot <code>max_ahs</code> on the x and <code>perc_mort</code> on the y axis.</p>
 </div>
 </div>
 </div>
 </section>
 <hr>
-<section id="tâche-2" class="level3 project">
-<h3 class="anchored" data-anchor-id="tâche-2">Tâche 2</h3>
+<section id="task-2" class="level3 project">
+<h3 class="anchored" data-anchor-id="task-2">Task 2</h3>
 <p><span class="math display">\[
 \begin{align}
 \mathrm{Mortality}_i \sim \mathrm{Normal(\mu}_i,~\mathrm{\sigma)} \\
 \mu_i = a + b \cdot \mathrm{heatstress}_i
 \end{align}
 \]</span></p>
-<p>, où <span class="math inline">\(\mathrm{Mortality}_i\)</span> est la mortalité des coraux au site <span class="math inline">\(i\)</span> (<code>perc_mort</code>), et <span class="math inline">\(\mathrm{heatstress}_i\)</span> le stress thermique cumulé maximum à ce site (<code>max_ahs</code>).</p>
-<p>Traduisez ce modèle dans la fonction <code>lm()</code> de R et comme toujours, remplacez les <code>____</code>. Gardez à l’esprit que vous voulez étudier comment la mortalité des coraux (<code>perc_mort</code>) est affectée par le stress thermique cumulé maximum (<code>max_ahs</code>).</p>
+<p>, where <span class="math inline">\(\mathrm{Mortality}_i\)</span> is the coral mortality at site <span class="math inline">\(i\)</span> (<code>perc_mort</code>), and <span class="math inline">\(\mathrm{heatstress}_i\)</span> the maximum accumulated heat stress at that site (<code>max_ahs</code>).</p>
+<p>Translate this model into the R’s <code>lm()</code> and as always, replace the <code>____</code>. Keep in mind, that you want to investigate how coral mortality (<code>perc_mort</code>) is impacted by the maximum accumulated heat stress (<code>max_ahs</code>).</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>m_cor_mort <span class="ot">&lt;-</span> <span class="fu">lm</span>(____ <span class="sc">~</span> ____, <span class="at">data =</span> dat_change_coral)</span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
+</section>
 <div class="callout callout-style-default callout-tip callout-titled" title="Afficher l'indice">
 <div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-2-contents" aria-controls="callout-2" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
@@ -303,14 +302,13 @@ Afficher l’indice
 </div>
 <div id="callout-2" class="callout-2-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
-<p>Quelle est la variable explicative ? Quelle est la variable réponse ? Rappelez-vous que dans le modèle, vous voulez comprendre comment <code>perc_mort</code> est affectée par <code>max_ahs</code>. Rappelez-vous aussi que <code>lm()</code> fonctionne comme suit : 1. Vous donnez la variable réponse 2. Vous ajoutez un <code>~</code> 3. Vous donnez la(les) variable(s) explicative(s)</p>
+<p>What is the explanatory variable? What is the reposonse variable? Remember, that in the model, you want to understand how <code>perc_mort</code> is impacted by <code>max_ahs</code>. Remember as well, that <code>lm()</code> works as follows: 1. You give the response variable 2. You add a <code>~</code> 3. You give the explanatory variable(s)</p>
 </div>
 </div>
 </div>
-</section>
 <hr>
-<section id="tâche-3" class="level3 project">
-<h3 class="anchored" data-anchor-id="tâche-3">Tâche 3</h3>
+<section id="task-3" class="level3 project">
+<h3 class="anchored" data-anchor-id="task-3">Task 3</h3>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(m_cor_mort)</span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
@@ -334,8 +332,8 @@ Multiple R-squared:  0.6988,    Adjusted R-squared:  0.6715
 F-statistic: 25.53 on 1 and 11 DF,  p-value: 0.0003707</code></pre>
 </div>
 </div>
-<p><strong>Qu’est-ce que cela vous dit ?</strong></p>
-<p>Pensez à l’équation linéaire pour l’association entre le stress thermique et la mortalité des coraux. Quel est l’augmentation attendue (ou la diminution ?) de la mortalité pour chaque augmentation d’une unité de <code>max_ahs</code> ? Quelle est la valeur de <span class="math inline">\(R^2\)</span> ? La relation entre le stress thermique et la mortalité est-elle statistiquement significative ou non ?</p>
+<p><strong>What does this tell you?</strong></p>
+<p>Think of the linear equation for the association between heat stress and coral mortality. What is the expected increase (or decrease?) in mortality for each increase in one unit of <code>max_ahs</code>? What is the <span class="math inline">\(R^2\)</span> values? Is the relationship of heat stress on mortality statistically significant of or not?</p>
 <div class="callout callout-style-default callout-tip callout-titled" title="Afficher l'indice">
 <div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-3-contents" aria-controls="callout-3" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
@@ -348,11 +346,11 @@ Afficher l’indice
 </div>
 <div id="callout-3" class="callout-3-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
-<p>La pente (l’<code>Estimate</code> pour <code>max_ahs</code>) est-elle positive ou négative ?</p>
-<p>Pour une publication scientifique, vous pourriez décrire les résultats comme suit :</p>
+<p>Is the slope (the <code>Estimate</code> for <code>max_ahs</code>) positive or negative?</p>
+<p>For a scientific publication, you could describe the results as follows:</p>
 <div class="justify">
 <blockquote class="blockquote">
-<p>L’intensité du stress thermique, mesurée comme le stress thermique cumulé maximum en 2019 (AHS<sub>max</sub>), a significativement impacté la mortalité des coraux (t(11) = 5.052, p &lt; .001, adj. R<sup>2</sup> = 0.67). La mortalité attendue a augmenté de 90.5% ± 18.0% (SE) par unité de <span class="math inline">\(\mathrm{ahs_{max}}\)</span>.</p>
+<p>The intensity of the heat stress, measured as the maximum accumulated heat stress in 2019 (AHS<sub>max</sub>), significantly impacted coral mortality (t(11) = 5.052, p &lt; .001, adj. R<sup>2</sup> = 0.67). The expected mortality increased by 90.5% ± 18.0% (SE) per unit of <span class="math inline">\(\mathrm{ahs_{max}}\)</span>.</p>
 </blockquote>
 </div>
 </div>
@@ -360,18 +358,18 @@ Afficher l’indice
 </div>
 </section>
 <hr>
-<section id="tâche-4" class="level3 project">
-<h3 class="anchored" data-anchor-id="tâche-4">Tâche 4</h3>
+<section id="task-4" class="level3 project">
+<h3 class="anchored" data-anchor-id="task-4">Task 4</h3>
 <div class="cell">
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="hints_03_files/figure-html/unnamed-chunk-5-1.png" class="img-fluid figure-img" width="672"></p>
+<p><img src="hints_03_eng_files/figure-html/unnamed-chunk-5-1.png" class="img-fluid figure-img" width="672"></p>
 </figure>
 </div>
 </div>
 </div>
-<p>Regardez chaque ligne de code que j’ai utilisée pour ce tracé :</p>
+<p>Have a look at each line of code I used for this plot:</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> dat_change_coral, <span class="fu">aes</span>(<span class="at">x =</span> max_ahs, <span class="at">y =</span> perc_mort)) <span class="sc">+</span></span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span></span>
@@ -388,10 +386,10 @@ Afficher l’indice
 <span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">data =</span> pred_cor_mort, <span class="fu">aes</span>(<span class="at">x =</span> max_ahs, <span class="at">y =</span> Predicted)) <span class="sc">+</span></span>
 <span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_light</span>()</span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>Regardez chaque ligne de code que j’ai utilisée pour ce tracé.</p>
+<p>Have a look at each line of code I used for this plot.</p>
 <ol type="1">
-<li>Comprenez-vous comment cela fonctionne ? Qu’est-ce que vous pensez qui est tracé en premier, les points (données brutes), la ligne de régression, ou la zone grise ?</li>
-<li>Avez-vous une idée de pourquoi la zone grise a cette forme de « nœud papillon » ?</li>
+<li>Do you understand how it works? What do you think which part is plotted first, the points (raw data), the regression line, or the grey area?</li>
+<li>Do you have an idea why the grey area has this “bow tie” shape?</li>
 </ol>
 <div class="callout callout-style-default callout-tip callout-titled" title="Afficher l'indice">
 <div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-4-contents" aria-controls="callout-4" aria-expanded="false" aria-label="Toggle callout">
@@ -406,17 +404,17 @@ Afficher l’indice
 <div id="callout-4" class="callout-4-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
 <ol type="1">
-<li>Dans <code>ggplot</code>, les couches sont dessinées telles qu’elles apparaissent dans le code. Ici, les données brutes (<code>geom_point()</code>) sont tracées en bas, au-dessus vient la bande d’incertitude (<code>geom_ribbon()</code>), et sur le dessus, la ligne de régression (<code>geom_line</code>).</li>
-<li>Le modèle est plus confiant pour prédire la mortalité des coraux quand il a plus de données de stress thermique, comme pour les valeurs moyennes de stress thermique. Vers les deux extrémités du tracé, il y a moins de données, donc le modèle est moins confiant et la bande d’incertitude est plus large.</li>
+<li>In <code>ggplot</code>, the layers are drawn as they appear in the code. Here, the raw data (<code>geom_point()</code>) is plotted below, above comes the uncertainty band (<code>geom_ribbon()</code>), and on top, the regression line (<code>geom_line</code>).</li>
+<li>The model is more confident to predict the coral mortality when it has more heat stress data, as for medium values for heat stress. Towards both ends of the plot, less data exists, so the model is less confident and the uncertainty band wider.</li>
 </ol>
 </div>
 </div>
 </div>
 </section>
 <hr>
-<section id="tâche-5" class="level3 project">
-<h3 class="anchored" data-anchor-id="tâche-5">Tâche 5</h3>
-<p>Il semble que la couverture des coraux dépend de l’orientation côtière ! Faisons une ANOVA pour tester cela. Nous voulons tester l’impact de <code>coast</code> sur <code>percent_cover</code> :</p>
+<section id="task-5" class="level3 project">
+<h3 class="anchored" data-anchor-id="task-5">Task 5</h3>
+<p>It seems that the coral cover depends on the coastal orientation! Let’s do an ANOVA to test this. We want to test the impact of <code>coast</code> on <code>percent_cover</code>:</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>m_cor_cover <span class="ot">&lt;-</span> <span class="fu">lm</span>(____ <span class="sc">~</span> ____, <span class="at">data =</span> dat_coral_cover)</span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
@@ -432,25 +430,26 @@ Afficher l’indice
 </div>
 <div id="callout-5" class="callout-5-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
-<p>Regardez mon indice pour la Tâche 2. Dans ce cas, quelle est la variable réponse, quelle est la variable explicative ?</p>
+<p>Have a look at my hint for Task 2. In this case, what is the response variable, what is the explanatory variable?</p>
 </div>
 </div>
 </div>
 </section>
 <hr>
-<section id="tâche-6" class="level3 project">
-<h3 class="anchored" data-anchor-id="tâche-6">Tâche 6</h3>
+<section id="task-6" class="level3 project">
+<h3 class="anchored" data-anchor-id="task-6">Task 6</h3>
 <div class="cell">
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="hints_03_files/figure-html/unnamed-chunk-8-1.png" class="img-fluid figure-img" width="480"></p>
+<p><img src="hints_03_eng_files/figure-html/unnamed-chunk-8-1.png" class="img-fluid figure-img" width="480"></p>
 </figure>
 </div>
 </div>
 </div>
-<p>Avez-vous une idée de ce qui pourrait expliquer ces différences biologiquement ? Considérez que les récifs de Moorea ont été complètement détruits en 2010 en raison d’une épidémie d’étoiles de mer couronne d’épines, un prédateur de coraux, suivie d’un cyclone en 2010. La récupération ensuite jusqu’en 2019 était très rapide comparée à d’autres récifs. Nous savons également que le cyclone a frappé le Nord et l’Ouest plus fort que l’Est de Moorea. Pourquoi cela aurait pu être un avantage pour la récupération à ces sites ?</p>
-<p>Quels autres facteurs auraient pu impacter la récupération après 2010 ?</p>
+<p>Do you have any idea that might explain these differences biologically? Consider, that the reefs in Moorea were completely destroyed in 2010 due to an outbreak of Crown-of-thorns starfish, a coral predator, followed by a cyclone in 2010. The recovery afterwards until 2019 was very fast compared to other reefs. We also know that the cyclone hit the North and West harder than the East of Moorea. Why could this have been an advantage for the recovery at those sites?</p>
+<p>What other factors might have impacted the recovery after 2010?</p>
+</section>
 <div class="callout callout-style-default callout-tip callout-titled" title="Afficher l'indice">
 <div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-6-contents" aria-controls="callout-6" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
@@ -463,16 +462,15 @@ Afficher l’indice
 </div>
 <div id="callout-6" class="callout-6-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
-<p>Il se pourrait que la récupération ait été plus rapide au Nord et à l’Ouest qu’à l’Est parce que le cyclone a nettoyé le substrat et a créé de l’espace pour les nouveaux recrutement. Au récif externe de Moorea, nous avons actuellement le problème qu’il y a beaucoup de squelettes coralliens morts restants après l’événement de blanchiment de 2019 qui se brisent dans la houle. C’est un substrat très instable pour les nouvelles recrues de coraux et peut entraver la récupération. Aucun cyclone ne s’est produit après l’événement de blanchiment de 2019. Donc avant, la récupération plus rapide au Nord et à l’Ouest de Moorea aurait pu conduire à la couverture de coraux plus élevée observée à ces sites.</p>
-<p>Mais bien sûr, d’autres facteurs ont aussi pu impacter le recrutement et la couverture des coraux, comme par exemple la sédimentation, l’apport de nutriments, la biomasse de poissons herbivores (les coraux sont en compétition avec les algues pour l’espace, les algues restent plus communes quand il y a moins de poissons herbivores).</p>
+<p>It could be that the recovery was faster in the North and West than in the east because the cyclone cleared the substrate and made space for new recruits. At the outer reef in Moorea, we currently have the problem that there are many dead skeletons left after the 2019 bleaching event that break apart in the swell. This is a very unstable substrate for new coral recruits and may hinder recovery. No cyclone occurred after the 2019 bleaching event. So before, the faster recovery in the North and West of Moorea might have let to the higher coral cover observed at these sites.</p>
+<p>But of course also other factors may have impacted coral recruitment and cover, as for example sedimentation, nutrient input, herbivorous fish biomass (coral compete with algae for space, algae remain more common when there are less herbivorous fish).</p>
 </div>
 </div>
 </div>
-</section>
 <hr>
-<section id="tâche-7" class="level3 project">
-<h3 class="anchored" data-anchor-id="tâche-7">Tâche 7</h3>
-<p>Comme toujours, d’abord visualiser les données. Produisez un nuage de points avec <code>body_mass_g</code> sur l’axe des x, <code>flipper_length_mm</code> sur l’axe des y, et colorez les points selon <code>species</code>. Écrivez votre propre code R ci-dessous :</p>
+<section id="task-7" class="level3 project">
+<h3 class="anchored" data-anchor-id="task-7">Task 7</h3>
+<p>As always, first visualise the data. Produce a scatter plot with <code>body_mass_g</code> on the x axis, <code>flipper_length_mm</code> on the y axis, and colour the points according to <code>species</code>. Write your own R code below:</p>
 <div class="callout callout-style-default callout-tip callout-titled" title="Afficher l'indice">
 <div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-7-contents" aria-controls="callout-7" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
@@ -485,7 +483,7 @@ Afficher l’indice
 </div>
 <div id="callout-7" class="callout-7-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
-<p>Voici la structure de base du tracé</p>
+<p>Here is the basic structure of the plot</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(</span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">data =</span> ____,</span>
@@ -495,25 +493,22 @@ Afficher l’indice
 <span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"Body Mass (g)"</span>, <span class="at">y =</span> <span class="st">"Flipper Length (mm)"</span>) <span class="sc">+</span></span>
 <span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_light</span>()</span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>Rappelez-vous que : - Vous voulez tracer les données <code>penguins</code></p>
+<p>Remember that: - You want to plot the <code>penguins</code> data</p>
 <ul>
-<li><p>Vous voulez tracer <code>body_mass_g</code> sur l’axe des x</p></li>
-<li><p>et <code>flipper_length_mm</code> sur l’axe des y</p></li>
-<li><p>et utiliser <code>species</code> pour les couleurs (<code>col =</code>)</p></li>
+<li><p>You want to plot the <code>body_mass_g</code> on the x axis</p></li>
+<li><p>and the <code>flipper_length_mm</code> on the y axis</p></li>
+<li><p>and use <code>species</code> for the colours (<code>col =</code>)</p></li>
 </ul>
 </div>
 </div>
 </div>
 </section>
 <hr>
-<section id="tâche-8" class="level3">
-<h3 class="anchored" data-anchor-id="tâche-8">Tâche 8</h3>
-<section id="modèle" class="level4 project">
-<h4 class="anchored" data-anchor-id="modèle">Modèle</h4>
-<p>Maintenant, vous allez construire votre propre modèle. Utilisez la fonction <code>lm()</code> pour tester l’impact de <code>body_mass_g</code> et <code>species</code> sur <code>flipper_length_mm</code>. Ici, utilisez les effets additifs, ce qui signifie que les deux variables explicatives (<code>body_mass_g</code> et <code>species</code>) sont séparées par un <code>+</code>. Écrivez votre propre code R ci-dessous et donnez un nom raisonnable au modèle :</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>____ <span class="ot">&lt;-</span> <span class="fu">lm</span>(____ <span class="sc">~</span> ____ <span class="sc">+</span> ____, <span class="at">data =</span> ____)</span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
+<section id="task-8" class="level3">
+<h3 class="anchored" data-anchor-id="task-8">Task 8</h3>
+<section id="model" class="level4 project">
+<h4 class="anchored" data-anchor-id="model">Model</h4>
+<p>Now, you will build your own model. Use the <code>lm()</code> function to test the impact of <code>body_mass_g</code> and <code>species</code> on <code>flipper_length_mm</code>. Here, use the additive effects, this means that both explanatory variables (<code>body_mass_g</code> and <code>species</code>) are separated by a <code>+</code>. Write your own R code below and give the model a reasonable name:</p>
 <div class="callout callout-style-default callout-tip callout-titled" title="Afficher l'indice">
 <div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-8-contents" aria-controls="callout-8" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
@@ -526,15 +521,27 @@ Afficher l’indice
 </div>
 <div id="callout-8" class="callout-8-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
-<p>Le premier <code>____</code> est le nom du modèle. Choisissez ce nom comme vous le souhaitez. Quelle est la variable réponse ? Rappelez-vous que dans <code>lm()</code>, la variable réponse vient avant le <code>~</code>. Quelles sont les deux variables explicatives ? Séparez-les par <code>+</code>. Vous voulez utiliser les données <code>penguins</code>.</p>
+
 </div>
 </div>
 </div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>____ <span class="ot">&lt;-</span> <span class="fu">lm</span>(____ <span class="sc">~</span> ____ <span class="sc">+</span> ____, <span class="at">data =</span> ____)</span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>The first <code>____</code> is the name of the model. Chose that name as you want What is the response variable? Remember that in <code>lm()</code>, the response variable comes before the <code>~</code> What are the two explanatory variables? Separate them by <code>+</code> You want to use the <code>penguins</code> data</p>
 </section>
 <hr>
-<section id="évaluer-le-modèle" class="level4 project">
-<h4 class="anchored" data-anchor-id="évaluer-le-modèle">Évaluer le modèle</h4>
-<p>Utilisez <code>summary()</code> et <code>anova()</code> pour comprendre ce que le modèle a estimé :</p>
+<section id="assess-model" class="level4 project">
+<h4 class="anchored" data-anchor-id="assess-model">Assess Model</h4>
+<p>Use the <code>summary()</code> and <code>anova()</code> to understand what the model estimated:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(____)</span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Use the name of the model you defined above for <code>____</code>.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">anova</span>(____)</span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Use the name of the model you defined above for <code>____</code>.</p>
 <div class="callout callout-style-default callout-tip callout-titled" title="Afficher l'indice">
 <div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-9-contents" aria-controls="callout-9" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
@@ -547,22 +554,15 @@ Afficher l’indice
 </div>
 <div id="callout-9" class="callout-9-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
-<div class="cell">
-<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(____)</span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<p>Utilisez le nom du modèle que vous avez défini ci-dessus pour <code>____</code>.</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">anova</span>(____)</span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<p>Utilisez le nom du modèle que vous avez défini ci-dessus pour <code>____</code>.</p>
+
 </div>
 </div>
 </div>
 </section>
 <hr>
-<section id="tracer-le-modèle" class="level4 project">
-<h4 class="anchored" data-anchor-id="tracer-le-modèle">Tracer le modèle</h4>
-<p>Maintenant, utilisez <code>estimate_relation()</code> et <code>ggplot()</code> pour tracer les données brutes et le résultat du modèle.</p>
+<section id="plot-model" class="level4 project">
+<h4 class="anchored" data-anchor-id="plot-model">Plot Model</h4>
+<p>Now, use <code>estimate_relation()</code> and <code>ggplot()</code> to plot the raw data and model outcome.</p>
 <div class="callout callout-style-default callout-tip callout-titled" title="Afficher l'indice">
 <div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-10-contents" aria-controls="callout-10" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
@@ -575,22 +575,22 @@ Afficher l’indice
 </div>
 <div id="callout-10" class="callout-10-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
-<section id="prédire-les-données" class="level4">
-<h4 class="anchored" data-anchor-id="prédire-les-données">Prédire les données</h4>
-<p>D’abord, prédisez les données basées sur le modèle, adaptez le code <code>estimate_relation()</code> que vous avez vu maintenant plusieurs fois pour le modèle que vous avez créé :</p>
+<section id="predict-data" class="level4">
+<h4 class="anchored" data-anchor-id="predict-data">Predict Data</h4>
+<p>First, predict data based on the model, adapt the <code>estimate_relation()</code> code you have seen now a couple of times for the model you created:</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>____ <span class="ot">&lt;-</span> <span class="fu">estimate_relation</span>(____)</span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>Le premier <code>____</code> est le nom du cadre de données qui contiendra les données prédites. Choisissez-le comme vous le souhaitez. Utilisez le nom du modèle que vous avez défini ci-dessus pour le <code>____</code> dans <code>estimate_relation()</code>.</p>
-<p><strong>Conseils :</strong></p>
+<p>The first <code>____</code> is the name of the data frame that will contain the predicted data. Chose it at you want. Use the name of the model you defined above for the <code>____</code> in <code>estimate_relation()</code>.</p>
+<p><strong>Hints:</strong></p>
 <ul>
-<li><p>Le premier <code>____</code> est le nom du cadre de données que vous créez qui contiendra les valeurs prédites. Choisissez-le vous-même !</p></li>
-<li><p>Le deuxième <code>____</code> est le nom du modèle que vous avez créé ci-dessus</p></li>
+<li><p>The first <code>____</code> is the name of the data frame you are creating that will contain the predicted values. Chose it on your own!</p></li>
+<li><p>The second <code>____</code> is the name model you created above</p></li>
 </ul>
 </section>
-<section id="tracer-les-données" class="level4">
-<h4 class="anchored" data-anchor-id="tracer-les-données">Tracer les données</h4>
-<p>Voici la structure du code ggplot que vous pourriez utiliser.</p>
+<section id="plot-data" class="level4">
+<h4 class="anchored" data-anchor-id="plot-data">Plot Data</h4>
+<p>Here is the structure of ggplot code you could use.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="annotated-cell-12"><pre class="sourceCode r code-annotation-code code-with-copy code-annotated"><code class="sourceCode r"><a class="code-annotation-anchor" data-target-cell="annotated-cell-12" data-target-annotation="1" onclick="event.preventDefault();">1</a><span id="annotated-cell-12-1" class="code-annotation-target"><a href="#annotated-cell-12-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> ____, <span class="fu">aes</span>(<span class="at">x =</span> ____, <span class="at">y =</span> ____, <span class="at">col =</span> ____)) <span class="sc">+</span></span>
 <span id="annotated-cell-12-2"><a href="#annotated-cell-12-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span></span>
@@ -606,19 +606,19 @@ Afficher l’indice
 <dl class="code-annotation-container-grid">
 <dt data-target-cell="annotated-cell-12" data-target-annotation="1">1</dt>
 <dd>
-<span data-code-cell="annotated-cell-12" data-code-lines="1" data-code-annotation="1">Prenez les données <code>penguins</code>, tracez <code>body_mass_g</code> sur l’axe des x et <code>flipper_length_mm</code> sur l’axe des y. Utilisez <code>species</code> pour la couleur (<code>col =</code>).</span>
+<span data-code-cell="annotated-cell-12" data-code-lines="1" data-code-annotation="1">Take the <code>penguins</code> data, plot <code>body_mass_g</code> on the x axis and <code>flipper_length_mm</code> on the y axis. Use <code>species</code> for the colour (<code>col =</code>).</span>
 </dd>
 <dt data-target-cell="annotated-cell-12" data-target-annotation="2">2</dt>
 <dd>
-<span data-code-cell="annotated-cell-12" data-code-lines="5" data-code-annotation="2">Ici, utilisez le nom du cadre de données que vous avez créé avec les valeurs prédites (étape précédente)</span>
+<span data-code-cell="annotated-cell-12" data-code-lines="5" data-code-annotation="2">Here, use the name of the data frame you created with the predicted values (previous step)</span>
 </dd>
 <dt data-target-cell="annotated-cell-12" data-target-annotation="3">3</dt>
 <dd>
-<span data-code-cell="annotated-cell-12" data-code-lines="6" data-code-annotation="3">Un autre indice : Dans ggplot, quand vous remplissez une zone, vous devez utiliser <code>fill =</code>, et pas la couleur (comme pour les points et les lignes). Utilisez aussi <code>species</code> pour le remplissage.</span>
+<span data-code-cell="annotated-cell-12" data-code-lines="6" data-code-annotation="3">Another hint: In ggplot, when you fill an area, you have to use <code>fill =</code>, and not colour (as for points and lines). Also use <code>species</code> for the fill.</span>
 </dd>
 <dt data-target-cell="annotated-cell-12" data-target-annotation="4">4</dt>
 <dd>
-<span data-code-cell="annotated-cell-12" data-code-lines="9" data-code-annotation="4">Tracez les lignes de régression. Utilisez à nouveau le cadre de données avec les données prédites. Tracez <code>body_mass_g</code> sur l’axe des x et <code>Predicted</code> sur l’axe des y.</span>
+<span data-code-cell="annotated-cell-12" data-code-lines="9" data-code-annotation="4">Plot the regression lines. Use again the data frame with the predicted data. Plot <code>body_mass_g</code> on the x axis and <code>Predicted</code> on the y axis</span>
 </dd>
 </dl>
 </div>
@@ -630,9 +630,9 @@ Afficher l’indice
 </section>
 <hr>
 </section>
-<section id="bonus-tâche-9" class="level3 project">
-<h3 class="anchored" data-anchor-id="bonus-tâche-9">Bonus Tâche 9</h3>
-<p>Maintenant, construisez un nouveau modèle, mais cette fois, incluez les effets interactifs de <code>body_mass_g</code> et <code>species</code> en séparant les deux variables explicatives par un <code>*</code>. Ensuite, effectuez les mêmes étapes que dans la Tâche 8, c’est-à-dire évaluer le résultat du modèle et le tracer.</p>
+<section id="bonus-task-9" class="level3 project">
+<h3 class="anchored" data-anchor-id="bonus-task-9">Bonus Task 9</h3>
+<p>Now, build a new model, but this time, include the interactive effects of <code>body_mass_g</code> and <code>species</code> by separating both explanatory variables with a <code>*</code>. Then, run the same steps as in Task 7, i.e.&nbsp;assess the model outcome and plot it.</p>
 <div class="callout callout-style-default callout-tip callout-titled" title="Afficher l'indice">
 <div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-11-contents" aria-controls="callout-11" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
@@ -645,7 +645,7 @@ Afficher l’indice
 </div>
 <div id="callout-11" class="callout-11-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
-<p>Essentiellement, copiez-collez les étapes que vous avez utilisées dans la Tâche 8. Dans le modèle, remplacez simplement le <code>+</code> par un <code>*</code>. Faites attention à utiliser de nouveaux noms pour toutes les variables que vous créez ! Sinon, R pourrait utiliser les données de la tâche précédente.</p>
+<p>Basicaly, copy &amp; paste the steps you used in Task 8. In the model, just replace the <code>+</code> with a <code>*</code>. Take care to use new names for all the varaibles you are creating! Otherwise, R might use data from the previous task.</p>
 </div>
 </div>
 </div>
@@ -726,7 +726,7 @@ Afficher l’indice
     }
       var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
       var mailtoRegex = new RegExp(/^mailto:/);
-        var filterRegex = new RegExp("https:\/\/andieich\.github\.io\/2026_biostatistiques_2\/");
+        var filterRegex = new RegExp('/' + window.location.host + '/');
       var isInternal = (href) => {
           return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
       }
