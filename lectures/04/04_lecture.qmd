@@ -1,6 +1,6 @@
 ---
-title: Post-hoc Tests & Assumptions
-subtitle: Lecture 4 
+title: Tests post-hoc et hypothèses
+subtitle: Cours 4 
 ---
 
 ```{r}
@@ -18,20 +18,20 @@ penguins <- penguins %>%
   na.omit()
 ```
 
-## Summary from last lecture
+## Résumé du cours précédent
 
 ::: med-space
 :::
 
-Linear models as a unified framework:
+Les modèles linéaires comme cadre unifié :
 
--   **Regression**: numeric explanatory variable
+-   **Régression** : variable explicative numérique
 
--   **ANOVA/t-test**: categorical explanatory variables
+-   **ANOVA/t-test** : variables explicatives catégoriques
 
--   **ANCOVA**: numeric and categorical explanatory variables
+-   **ANCOVA** : variables explicatives numériques et catégoriques
 
-## The problem with ANOVA {.smaller}
+## Le problème avec l'ANOVA {.smaller}
 
 ::: med-space
 :::
@@ -55,7 +55,7 @@ penguins %>%
   theme(legend.position = "none")
 ```
 
-## The problem with ANOVA {.smaller}
+## Le problème avec l'ANOVA {.smaller}
 
 ::: med-space
 :::
@@ -71,50 +71,50 @@ anova(m_spec)
 :::
 
 ::: question
-ANOVA tells us: "**There is a difference** between species"
+L'ANOVA nous dit : « **Il y a une différence** entre les espèces »
 
-But **which** species differs from which other?
+Mais **laquelle** des espèces diffère des autres ?
 :::
 
-## Multiple comparisons {.smaller}
+## Comparaisons multiples {.smaller}
 
 ::: med-space
 :::
 
-For 3 species, we have 3 possible comparisons:
+Pour 3 espèces, nous avons 3 comparaisons possibles :
 
--   Adelie vs. Chinstrap
--   Adelie vs. Gentoo
--   Chinstrap vs. Gentoo
+-   Adélie vs. Jugulaire
+-   Adélie vs. Gentou
+-   Jugulaire vs. Gentou
 
 ::: med-space
 :::
 
 ::: fragment
 ::: question
-Why not just do 3 models?
+Pourquoi ne pas simplement faire 3 modèles ?
 :::
 :::
 
-## Alpha error inflation {.smaller}
+## Inflation de l'erreur alpha {.smaller}
 
 ::: med-space
 :::
 
 ::::: columns
 ::: column
--  Each test has a 5% error risk (α = 0.05)
+-  Chaque test a un risque d'erreur de 5% (α = 0,05)
 
 ::: fragment
--  **Probability of making no error in 1 test:** 0.95
+-  **Probabilité de ne pas faire d'erreur dans 1 test :** 0,95
 :::
 
 ::: fragment
--  **Probability of making no error in 3 tests:** $0.95 \times 0.95 \times 0.95 = 0.857$
+-  **Probabilité de ne pas faire d'erreur dans 3 tests :** $0.95 \times 0.95 \times 0.95 = 0.857$
 :::
 
 ::: fragment
--   **Probability of making at least 1 error:** $1 - 0.857 = 0.143 = 14.3\%$
+-   **Probabilité de faire au moins 1 erreur :** $1 - 0.857 = 0.143 = 14.3\%$
 :::
 :::
 
@@ -156,17 +156,17 @@ data.frame(
 :::
 
 > 
-**FWER:** The probability of making at least one type I error in a set of tests
+**FWER :** La probabilité de faire au moins une erreur de type I dans un ensemble de tests
 
 
 ::: small
-| Number of groups | Number of comparisons | FWER (no correction) |
+| Nombre de groupes | Nombre de comparaisons | FWER (sans correction) |
 |-------------------|------------------------|------------------------|
-| 2                 | 1                      | 5.0%                   |
-| 3                 | 3                      | 14.3%                  |
-| 4                 | 6                      | 26.5%                  |
-| 5                 | 10                     | 40.1%                  |
-| 10                | 45                     | 90.0%                  |
+| 2                 | 1                      | 5,0%                   |
+| 3                 | 3                      | 14,3%                  |
+| 4                 | 6                      | 26,5%                  |
+| 5                 | 10                     | 40,1%                  |
+| 10                | 45                     | 90,0%                  |
 :::
 
 ::: med-space
@@ -175,30 +175,30 @@ data.frame(
 :::
 
 ::: question
-We need to adjust our p-values to control the FWER
+Nous devons ajuster nos valeurs p pour contrôler le FWER
 :::
 
-## p-value adjustments {.smaller}
+## Ajustement des valeurs p {.smaller}
 
 ::: med-space
 :::
 ::: small
-| Method              | Description                                | When to use           |
+| Méthode              | Description                                | Quand l'utiliser           |
 |----------------------|--------------------------------------------|----------------------------|
-| **Bonferroni**       | Divides α by number of tests              | Simple, few tests       |
-| **Holm-Bonferroni**  | Sequential Bonferroni (less strict)      | Alternative to Bonferroni   |
-| **Benjamini-Hochberg** | Controls false discovery rate | Many tests          |
-| **Tukey HSD**        | Accounts for all comparisons   | **Multiple comparisons**     |
+| **Bonferroni**       | Divise α par le nombre de tests              | Tests simples, peu de tests       |
+| **Holm-Bonferroni**  | Bonferroni séquentiel (moins strict)      | Alternative à Bonferroni   |
+| **Benjamini-Hochberg** | Contrôle le taux de fausses découvertes | Beaucoup de tests          |
+| **Tukey HSD**        | Tient compte de toutes les comparaisons   | **Comparaisons multiples**     |
 :::
 
 ::: med-space
 :::
 
 ::: question
-Tukey tests are often used for post-hoc tests 
+Les tests de Tukey sont souvent utilisés pour les tests post-hoc 
 :::
 
-## Post-hoc Tests in `R` {.smaller}
+## Tests post-hoc en `R` {.smaller}
 
 ::: med-space
 :::
@@ -213,7 +213,7 @@ estimate_contrasts(m_spec, p_adjust = "tukey")
 ```
 
 
-## Visualise Post-Hoc Tests {.smaller}
+## Visualiser les tests post-hoc {.smaller}
 
 ::: med-space
 :::
@@ -238,33 +238,33 @@ estimate_means(m_spec, by = "species") %>%
   theme_light(base_size = 21)
 ```
 
+::: {.fragment .question .small}
+Récemment, les chercheurs s'éloignent des valeurs p comme seuils rigides. L'ampleur de l'effet (importance biologique) importe plus que p < 0,05 !
+:::
 
 :::
 ::: {.column .small}
 
 
-#### Recommendation
+#### Recommandation
 
--   Plot 95% CI
+-   Tracez l'IC 95%
 
     >
-   "**95% Confidence Interval:** is a range calculated such that, if repeated many times, 95% of such intervals would contain the true parameter value."
+   « **Intervalle de confiance à 95% :** est une plage calculée de sorte que, si on la répète plusieurs fois, 95% de ces intervalles contiendraient la vraie valeur du paramètre. »
 
--   **No overlap:** Groups are statistiaclly significantly different (p < .05)
+-   **Pas de chevauchement :** Les groupes sont statistiquement significativement différents (p < 0,05)
 
--   **Overlap:** May be statistically significantly different, but effect is likely small
+-   **Chevauchement :** Peuvent être statistiquement significativement différents, mais l'effet est probablement petit
 :::
 :::
 
 ::: med-space
 :::
 
-::: {.fragment .question .small}
-Recently, researchers are moving away from p-values as hard cutoffs. Effect size (biological importance) matters more than p < .05!
-:::
 
 
-## Slope comparisons: ANCOVA {.smaller}
+## Comparaisons de pentes : ANCOVA {.smaller}
 
 ::: med-space
 :::
@@ -303,7 +303,7 @@ penguins %>%
 ::: column
 ::: med-space
 :::
-#### Different slopes between species?
+#### Les pentes diffèrent-elles entre les espèces ?
 
 ::: medium-output
 ```{r}
@@ -322,7 +322,7 @@ anova(m_ancova)
 :::::
 
 
-## Slope comparisons: ANCOVA {.smaller}
+## Comparaisons de pentes : ANCOVA {.smaller}
 
 ::: med-space
 :::
@@ -361,7 +361,7 @@ penguins %>%
 ::: column
 ::: med-space
 :::
-#### Different slopes between species?
+#### Les pentes diffèrent-elles entre les espèces ?
 
 ::: tiny-output
 ```{r}
@@ -381,7 +381,7 @@ estimate_contrasts(
 :::
 :::::
 
-## Slope comparisons: ANCOVA {.smaller}
+## Comparaisons de pentes : ANCOVA {.smaller}
 
 ::: med-space
 :::
@@ -420,7 +420,7 @@ penguins %>%
 ::: column
 ::: med-space
 :::
-#### Slopes different to 0?
+#### Les pentes diffèrent-elles de 0 ?
 
 ::: medium-output
 ```{r}
@@ -437,18 +437,18 @@ estimate_slopes(m_ancova, by = "species")
 
 
 
-## Part 2: Linear model assumptions {background-color="#440154"}
+## Partie 2 : Hypothèses des modèles linéaires {background-color="#440154"}
 
 ::: med-space
 :::
 
 ::: center-align
 ::: huge
-**When can we use a linear model?**
+**Quand pouvons-nous utiliser un modèle linéaire ?**
 :::
 :::
 
-## The three key assumptions {.smaller}
+## Les trois hypothèses clés {.smaller}
 
 ::: med-space
 :::
@@ -457,22 +457,22 @@ estimate_slopes(m_ancova, by = "species")
 
 ::: {.columns}
 ::: {.column width="33%"}
-#### 1. Independence
+#### 1. Indépendance
 
-Observations are independent of each other
+Les observations sont indépendantes les unes des autres
 :::
 ::: {.column width="33%"}
-#### 2. Homoscedasticity
+#### 2. Homoscédasticité
 
-Residual variance is constant
+La variance des résidus est constante
 
 
 
 :::
 ::: {.column width="33%"}
-#### 3. Normality
+#### 3. Normalité
 
-Residuals follow a normal distribution
+Les résidus suivent une distribution normale
 :::
 :::
 
@@ -544,7 +544,7 @@ ggplot(resid_df, aes(x = resid)) +
 :::
 :::
 
-## Assumption 1: Independence {.smaller}
+## Hypothèse 1 : Indépendance {.smaller}
 
 ::: med-space
 :::
@@ -553,60 +553,60 @@ ggplot(resid_df, aes(x = resid)) +
 ::: {.column}
 
 
-#### Observations are independent
+#### Les observations sont indépendantes
 
-*Violation = one observation influences another*
+*Violation = une observation influence une autre*
 
--   Repeated measures of the same individuals
--   Spatial impact
--   Pseudoreplication
--   Hierarchical structure (sites, populations)
+-   Mesures répétées des mêmes individus
+-   Impact spatial
+-   Pseudo-réplication
+-   Structure hiérarchique (sites, populations)
 
 :::
 ::: {.column}
 ::: fragment
-#### Consequences
+#### Conséquences
 
--   Underestimation of standard error
--   Confidence intervals too narrow
--   p-values too small
+-   Sous-estimation de l'erreur-type
+-   Intervalles de confiance trop étroits
+-   Valeurs p trop petites
 
 ::: question
-These are serious consequences!
+Ce sont des conséquences graves !
 :::
 :::
 :::
 :::
 
-## Assumption 1: Independence {.smaller}
+## Hypothèse 1 : Indépendance {.smaller}
 
 ::: med-space
 :::
 
-#### Hierarchical Structure
+#### Structure hiérarchique
 
 ![](images/moorea_mpa.png){fig-align="center"}
 
-## Assumption 1: Independence {.smaller}
+## Hypothèse 1 : Indépendance {.smaller}
 
 ::: med-space
 :::
-#### Repeated Measures
+#### Mesures répétées
 
 ![](images/repeated_measures.png){fig-align="center"}
 
-## Assumption 1: Independence {.smaller}
+## Hypothèse 1 : Indépendance {.smaller}
 
 ::: med-space
 :::
 
-#### Spatial/Temporal Correlation
+#### Corrélation spatiale/temporelle
 
 ![](images/repeated_sampling.png){fig-align="center"}
 
 
 
-## Assumption 2: Homoscedasticity {.smaller}
+## Hypothèse 2 : Homoscédasticité {.smaller}
 
 ::: med-space
 :::
@@ -633,7 +633,7 @@ data.frame(x = x, y = y_homo) %>%
 ```
 
 <div style="text-align: center;">
-**Constant variance**
+**Variance constante**
 </div>
 
 :::
@@ -656,7 +656,7 @@ data.frame(x = x, y = y_hetero) %>%
 ```
 
 <div style="text-align: center;">
-**Variance increases**
+**La variance augmente**
 </div>
 
 :::
@@ -671,39 +671,39 @@ $$
 
 
 
-## Assumption 2: Homoscedasticity {.smaller}
+## Hypothèse 2 : Homoscédasticité {.smaller}
 ::: med-space
 :::
 
 ::::: columns
 ::: column
-**Examples**
+**Exemples**
 
--   Variance increases with the mean
--   Count data (abundance)
--   Allometric processes
--   Body size and metabolism
+-   La variance augmente avec la moyenne
+-   Données de comptage (abondance)
+-   Processus allométriques
+-   Taille du corps et métabolisme
 
 :::
 
 ::: column
 ::: fragment
-**Consequences**
+**Conséquences**
 
--   Biased standard errors
--   CIs and tests less reliable
--   Less serious than non-independence
+-   Erreurs-types biaisées
+-   Les IC et tests sont moins fiables
+-   Moins grave que la non-indépendance
 
 :::
 :::
 :::::
 
-## Assumption 3: Normality of residuals {.smaller}
+## Hypothèse 3 : Normalité des résidus {.smaller}
 
 ::: med-space
 :::
 
-#### **Residuals** (not raw data!) follow a normal distribution
+#### **Les résidus** (pas les données brutes !) suivent une distribution normale
 
 ::: {.columns}
 ::: {.column width="75%"}
@@ -748,50 +748,50 @@ $$
 :::
 
 
-## Assumption 3: Normality of residuals {.smaller}
+## Hypothèse 3 : Normalité des résidus {.smaller}
 
 ::: med-space
 :::
 
 ::::: columns
 ::: column
-**Examples**
+**Exemples**
 
--   Data strictly positive (heights, weights)
--   Percent data (between 0 and 100%)
--   Count data (abundance)
--   Probabilities (e.g. point-intercept transects)
+-   Données strictement positives (hauteurs, poids)
+-   Données en pourcentage (entre 0 et 100%)
+-   Données de comptage (abondance)
+-   Probabilités (par ex. transects point-intercept)
 
 :::
 
 ::: column
 ::: fragment
-**Consequences**
+**Conséquences**
 
--   Biased confidence intervals
--   p-values less reliable
--   Less serious than non-independence or severe heteroscedasticity
+-   Intervalles de confiance biaisés
+-   Les valeurs p sont moins fiables
+-   Moins grave que la non-indépendance ou l'hétéroscédasticité grave
 
 :::
 :::
 :::::
 
 
-## Model Assessment
+## Évaluation du modèle
 
 ::: med-space
 :::
 
 ::: question
-Are assumptions violated? 
+Les hypothèses sont-elles violées ? 
 
-Can I get away with `lm()`?
+Puis-je me permettre d'utiliser `lm()` ?
 :::
 
 ::: med-space
 :::
 
-Package `performance` helps to decide:
+Le paquet `performance` aide à décider :
 
 ::: med-space
 :::
@@ -808,19 +808,19 @@ check_model(m_spec)
 
 ```
 
-## Model Assessment: Independence
+## Évaluation du modèle : Indépendance
 
 ::: med-space
 :::
 
--   Not plot can help with that
--   Understand your data. 
-   -   Any structure?
-   -   Any correlated groups?
-   -   Individuals measured multiple times?
-   -   Spatial or temporal correlation?
+-   Aucun graphique ne peut aider pour cela
+-   Comprenez vos données. 
+   -   Y a-t-il une structure ?
+   -   Y a-t-il des groupes corrélés ?
+   -   Les individus sont-ils mesurés plusieurs fois ?
+   -   Y a-t-il une corrélation spatiale ou temporelle ?
 
-## Model Assessment: Homoscedasticity
+## Évaluation du modèle : Homoscédasticité
 
 ::: med-space
 :::
@@ -854,7 +854,7 @@ p_het3 <- plot(check_model(m_severe_hetero, check = "homogeneity"))
 ```
 
 
-#### Homoscedastic 
+#### Homoscédastique
 
 
 ```{r}
@@ -863,12 +863,12 @@ p_het1
 
 
 
-## Model Assessment: Homoscedasticity
+## Évaluation du modèle : Homoscédasticité
 
 ::: med-space
 :::
 
-#### Violation of Homoscedasticity 
+#### Violation de l'homoscédasticité
 
 ```{r}
 #| fig-width: 10
@@ -879,7 +879,7 @@ p_het1
 
 
 
-## Model Assessment: Normality
+## Évaluation du modèle : Normalité
 
 ::: med-space
 :::
@@ -922,18 +922,18 @@ h_spec / q_spec
 
 ::: small
 
-**Quantile-Quantile (QQ) plot**
+**Graphique Quantile-Quantile (QQ)**
 
--   Compares observed quantiles to theoretical quantiles of a normal distribution
--   If points follow the line: normal distribution
--   Deviations at extremes: heavy/light tails
--   S-pattern: skewness
+-   Compare les quantiles observés aux quantiles théoriques d'une distribution normale
+-   Si les points suivent la ligne : distribution normale
+-   Écarts aux extrêmes : queues lourdes/légères
+-   Motif en S : asymétrie
 
 :::
 :::
 :::::
 
-## Model Assessment: Normality
+## Évaluation du modèle : Normalité
 
 ::: med-space
 :::
@@ -1036,35 +1036,35 @@ q3 <- check_normality(m_skewed) %>%
 
 
 
-## Actual Data {.smaller}
+## Données réelles {.smaller}
 
 ::: med-space
 :::
 
--   Actual environmental data often violates at least one of these assumptions
+-   Les données environnementales réelles violent souvent au moins une de ces hypothèses
 
--   Instead of doing non-parametric tests (forcing data into ranks, e.g. Wilcoxon, Kruskal Wallis, etc.), linear models can be extended
+-   Au lieu de faire des tests non paramétriques (forçant les données en rangs, par ex. Wilcoxon, Kruskal Wallis, etc.), les modèles linéaires peuvent être étendus
 
 
-## Actual Data {.smaller}
+## Données réelles {.smaller}
 
 ::: med-space
 :::
 
 
-#### Advantages of linear models over non-parametric tests
+#### Avantages des modèles linéaires par rapport aux tests non paramétriques
 
--   Easier to **interpret**: The coefficients have actual biological meaning
+-   Plus faciles à **interpréter** : les coefficients ont une signification biologique réelle
 
--   We model the **actual data** (grams, meters, counts) instead of ranks (1st, 2nd, 3rd)
+-   Nous modélisons les **données réelles** (grammes, mètres, comptages) au lieu des rangs (1er, 2e, 3e)
 
--   Include **interactions** (i.e. effect of one variables depends on other variable) are possible
+-   Les **interactions** (c'est-à-dire que l'effet d'une variable dépend d'une autre) sont possibles
 
--   Allow **predictions**
+-   Permettent les **prédictions**
 
--   **Honest visualisations** with CI and effect size
+-   **Visualisations honnêtes** avec IC et ampleur de l'effet
 
-## The three key assumptions {.smaller}
+## Les trois hypothèses clés {.smaller}
 
 ::: med-space
 :::
@@ -1073,24 +1073,24 @@ q3 <- check_normality(m_skewed) %>%
 ::: {.column width="33%"}
 
 
-#### 1. Independence
+#### 1. Indépendance
 
-Observations are independent of each other
+Les observations sont indépendantes les unes des autres
 
 :::
 ::: {.column width="33%"}
 ::: {.fragment fragment-index=1}
-#### 2. Homoscedasticity
+#### 2. Homoscédasticité
 
-Residual variance is constant
+La variance des résidus est constante
 
 :::
 :::
 ::: {.column width="33%"}
 ::: {.fragment fragment-index=2}
-#### 3. Normality
+#### 3. Normalité
 
-Residuals follow a normal distribution
+Les résidus suivent une distribution normale
 :::
 :::
 :::
@@ -1098,31 +1098,31 @@ Residuals follow a normal distribution
 ::: med-space
 :::
 
-### If violated
+### En cas de violation
 
 
 ::: {.columns}
 ::: {.column width="33%"}
 
-Mixed effects models
+Modèles à effets mixtes
 
-(`glmmTMB` package)
+(paquet `glmmTMB`)
 
 :::
 ::: {.column width="33%"}
 ::: {.fragment fragment-index=1}
-Variance structure 
+Structure de variance 
 
-(`nlme` & `glmmTMB` package)
+(paquets `nlme` & `glmmTMB`)
 
 :::
 :::
 ::: {.column width="33%"}
 
 ::: {.fragment fragment-index=2}
-**Generalized** linear models (GLMs) 
+Modèles linéaires **généralisés** (GLM) 
 
-**=> next lecture**
+**=> cours suivant**
 :::
 :::
 :::

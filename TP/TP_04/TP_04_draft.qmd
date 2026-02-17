@@ -1,0 +1,395 @@
+---
+title: "TP 04: Post-hoc Tests & Model Assessment"
+format: html
+editor: visual
+---
+
+```{r}
+#| echo: false
+#| message: false
+
+library(tidyverse)
+library(palmerpenguins)
+library(ggthemes)
+library(modelbased)
+library(performance)
+library(patchwork)
+library(here)
+
+```
+
+## Part 1: Post-hoc Tests with ANOVA
+
+In the lecture, you learned that when an ANOVA shows a significant difference between groups, we need **post-hoc tests** to determine *which* groups differ from each other.
+
+Let's use the coral dataset from my PhD to assess if there were any signigicant differences between the coastal orientation of the *Pocillopora* coal cover.
+
+We can read the data (it is stored in a in the fodler `data`) and select only rows for *Pocillopora*:
+
+```{r}
+dat_coral_cover_poci <- read.csv(here(
+  "TP/TP_03/data/coral_cover_genus.csv"
+)) %>%
+  filter(genus == "Pocillopora")
+```
+
+### Task 1: Build your ANOVA model
+
+First, create a linear model to test if `percent_cover` differs by `coast`. Replace the `____` accordingly:
+
+```{r}
+# load data
+
+# Model
+m_poci <- lm(____ ~ ____, data = dat_coral_cover_poci)
+```
+
+Now, run an ANOVA on that model:
+
+```{r}
+anova(____)
+```
+
+What do you see? How would you interprete the results?
+
+We only know that there is an impact of the coastal orientation on *Pocillopora* cover, but we don't know how the groups differ. For this, we need to run a post-hoc test.
+
+Use the `estimate_contrasts()` function from the `modelbased` package to run a pairwise tests between all coastal orientations. All packages are already loaded.
+
+```{r}
+estimate_contrasts(____, p_adjust = "tukey")
+```
+
+Do you understand now better how the groups differ?
+
+For a publication, one would add the result table to the Annex, show the data as a plot. To plot the model data with CIs, use the `estimate_means()` function to first calculate the model results, then use `plot()`. Remember what `%>%` does: It takes the result from one line (here, the estimated means) and inserts it into the function in the next line (`plot()`):
+
+```{r}
+estimate_means(____) %>%
+  plot()
+```
+
+This plot is internally made with `ggplot`! This allows you to personalise the plot as you learned before. You can overlay the raw data, edit the labels, and add a theme:
+
+
+```{r}
+estimate_means(m_poci) %>%
+  plot() +
+  geom_jitter(
+    data = dat_coral_cover_poci,
+    aes(x = coast, y = percent_cover),
+    width = .1
+  ) +
+  labs(x = "Coast", y = "Coral Cover (%)") +
+  theme_light()
+```
+
+
+This plot should help you to understand the results in the table above. At which coastlien is the Pocillopora cover significantly different? 
+
+>
+Post-hoc comparisons using Tukey's HSD test revealed that *Pocillopora* cover differed significantly between coastal orientations. The north coast had significantly higher coral cover than the east coast (t(10) = 5.99, p < .001) and the west coast (t(10) = -4.04, p = .006). The difference between west and east coasts was not statistically significant.
+Then refer to an actual table so people can read the actual differences and the CIs.
+
+**Important:** If a comparison is "not statistically significant" (p > .05), don't know if the groups actually differ or if the data was to variable to find any "statistically significant" differences. **It deos not mean that the mean for these groups is the same!!!**
+
+So far, the results were only for *Pocillopora*. But we also have data for the other main genera on Moorea. Usually, it is better to analyse such data in on model and not in three different models. What is true for pairwise post-hoc tests is also true here. If you run mutliple models and tests on the same data, the FWER increases!
+
+Make a model to assess the interaction of `coast` and `genus` on `percent_cover`:
+
+```{r}
+# load data
+dat_coral_cover_genus <- read.csv(here(
+  "TP/TP_03/data/coral_cover_genus.csv"
+)) %>%
+  filter(genus != "other") # remove other genera for now
+
+
+# Interaction model
+
+m_cover <- lm(____ ~ ____ * ____, data = dat_coral_cover_genus)
+```
+
+
+Run an ANOVA on the model:
+
+```{r}
+anova(____)
+```
+
+What does it tell you?
+
+Without a post-hoc tests and a visualisation, it is difficult to imagine what the model found. Run a pairwise post-hoc test as described before:
+
+```{r}
+estimate_contrasts(____, p_adjust = "tukey")
+```
+
+That's a lot of comparisons! This is becasue we used the interaction between two explanatory variable, so each combination of genus and coast is tested against each combination of genus and coasr. To understand the results, plot them as before. Use different colour for the different coastal orientations and add the raw data:
+
+
+```{r}
+
+estimate_means(m_cor_cover) %>%
+  plot() +
+  geom_point(
+    data = dat_coral_cover_genus,
+    aes(x = genus, y = percent_cover, col = coast),
+    position = position_jitterdodge(jitter.width = .1, dodge.width = .21)
+  ) +
+  labs(x = "Genus", y = "Coral Cover (%)", col = "Coast") +
+  scale_colour_colourblind() +
+  theme_light()
+```
+
+Note: If you are interested in the "nerdier" parts, and what `position_jitterdodge()` does in `geom_point()`: 
+
+
+Is now clearer which groups differ from each other?
+
+Do you think that all the comparisons that were done in `estimate_contrasts()` are needed and useful?
+
+As you'e learned in the lesson, the p-values are "artificially" increased to compensate "alpha error inflation". Doing all tests, as with `estimate_contrasts(m_cor_cover, p_adjust = "tukey")` is often not what you want. All possible combinations of coasts and genus are tested against each other, but you may be more interested if the coral cover differs at each level of coast, or if there are differences for each genus between the costs. This would involve much less tests, and the "penalty" that is added to the p-values is therefore lower. `estimate_contrasts()` let us define the tests that are done with the function argument `by`.
+
+To test differences between coral genera at each level of coast, run
+
+```{r}
+estimate_contrasts(m_cor_cover, p_adjust = "tukey", by = "coast")
+```
+
+And to test the different coasts for each coral genus, run:
+
+```{r}
+estimate_contrasts(m_cor_cover, p_adjust = "tukey", by = "genus")
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+### Task 2: Check the ANOVA result
+
+Use `anova()` to see if species has a significant effect on body mass:
+
+```{r}
+anova(____)
+```
+
+**Interpretation:** Is the effect of species statistically significant (p \< 0.05)? If yes, we proceed to post-hoc tests. If no, we cannot claim that species differ in body mass.
+
+### Task 3: Perform post-hoc contrasts
+
+If the ANOVA is significant, use `estimate_contrasts()` from the `modelbased` package to perform pairwise comparisons between all species. Replace the `____`:
+
+```{r}
+estimate_contrasts(____, p_adjust = "tukey")
+```
+
+**Interpretation:** Look at the output. Each row shows a comparison between two species (e.g., "Adelie vs Chinstrap").
+
+-   The `Difference` column shows how much body mass differs between the two groups (in grams)
+-   The `p` column shows the p-value for that comparison
+-   If `p < 0.05`, that pair of species is significantly different
+
+**Questions to answer:** 1. How many pairwise comparisons are there? (Hint: for 3 species, how many pairs can you make?) 2. Which pair(s) of species show the largest body mass difference? 3. Are all pairwise comparisons statistically significant, or only some?
+
+### Task 4: Visualize the post-hoc results
+
+Create a nice visualization of your post-hoc results. Use `estimate_means()` and `plot()` to show the mean body mass for each species with 95% confidence intervals:
+
+```{r}
+pred_means <- estimate_means(____, by = "species")
+
+# Plot the predictions
+plot(pred_means) +
+  labs(
+    x = "Species",
+    y = "Body mass (g)",
+    title = "Mean body mass by species (with 95% CI)"
+  ) +
+  theme_light(base_size = 14)
+```
+
+**Interpretation:**
+
+-   If confidence intervals **do NOT overlap**, the groups are likely significantly different
+-   If confidence intervals **DO overlap**, the difference might not be significant (but check the p-values from Task 3 to be sure!)
+
+------------------------------------------------------------------------
+
+## Part 2: Post-hoc Tests with ANCOVA
+
+Now let's move to a more complex scenario: **ANCOVA** (Analysis of Covariance).
+
+ANCOVA tests whether the **relationship between a continuous predictor and a continuous response differs by group**. In other words:
+
+-   Does the effect of flipper length on body mass differ between species?
+-   Do the different species have different slopes?
+
+### Task 5: Visualize the data first
+
+Create a scatter plot with: - x-axis: `flipper_length_mm` - y-axis: `body_mass_g` - Color by `species` - Add a regression line for each species using `geom_smooth(method = "lm")`
+
+```{r}
+ggplot(data = penguins, aes(x = ____, y = ____, color = ____, fill = ____)) +
+  geom_point(alpha = 0.5) +
+  geom_smooth(method = "lm", alpha = 0.2) +
+  labs(
+    x = "Flipper length (mm)",
+    y = "Body mass (g)",
+    color = "Species",
+    fill = "Species"
+  ) +
+  theme_light()
+```
+
+**Visual inspection:** Do the three regression lines have similar slopes, or do they differ? This gives you a preview of what the ANCOVA will test.
+
+### Task 6: Build your ANCOVA model with interaction
+
+To test if the slope differs between species, build a model with an **interaction** between `flipper_length_mm` and `species`. Use the `*` operator (not `+`):
+
+```{r}
+m_ancova <- lm(____ ~ ____ * ____, data = penguins)
+```
+
+### Task 7: Check the ANCOVA result
+
+Use `anova()` to see if the interaction is significant:
+
+```{r}
+anova(____)
+```
+
+**Interpretation:** Look for the interaction term (something like `flipper_length_mm:species`).
+
+-   If `p < 0.05` for the interaction: the slopes **DO differ** between species
+-   If `p > 0.05` for the interaction: the slopes are **NOT significantly different** (they are similar)
+
+**Questions:** 1. Is the interaction significant? 2. What does this tell you about whether different species have different relationships between flipper length and body mass?
+
+### Task 8: Post-hoc contrast on slopes
+
+Use `estimate_contrasts()` to compare the **slopes** (the effect of flipper length) between species. This requires the `trend` argument:
+
+```{r}
+estimate_contrasts(
+  ____,
+  contrast = "species",
+  trend = "flipper_length_mm",
+  p_adjust = "tukey"
+)
+```
+
+**Interpretation:** - Each row shows the **difference in slope** between two species - For example, if "Adelie vs Chinstrap" shows a difference of -0.5, it means Chinstrap has a slope that is 0.5 units **steeper** than Adelie - If `p < 0.05`, the slopes are significantly different
+
+### Task 9: Visualize the ANCOVA model
+
+Predict the body mass for each species across a range of flipper lengths, then plot:
+
+```{r}
+pred_ancova <- estimate_relation(____)
+
+ggplot(
+  data = penguins,
+  aes(x = flipper_length_mm, y = body_mass_g, color = species, fill = species)
+) +
+  geom_point(alpha = 0.4) +
+  geom_ribbon(
+    data = pred_ancova,
+    aes(ymin = CI_low, ymax = CI_high, x = flipper_length_mm),
+    alpha = 0.2,
+    color = NA
+  ) +
+  geom_line(data = pred_ancova, aes(y = Predicted), linewidth = 1) +
+  labs(
+    x = "Flipper length (mm)",
+    y = "Body mass (g)",
+    color = "Species",
+    fill = "Species"
+  ) +
+  theme_light()
+```
+
+------------------------------------------------------------------------
+
+## Part 3: Model Assessment with `performance` Package
+
+Once you've built a model, you should check whether it meets the assumptions of linear regression. The `performance` package makes this easy!
+
+### Task 10: Run full model diagnostics
+
+Use `check_model()` to assess all assumptions at once:
+
+```{r}
+check_model(____)
+```
+
+This produces several diagnostic plots:
+
+1.  **Linearity** (top-left): Points should be randomly scattered around the line. If they follow a pattern (like a smile), the relationship might not be linear.
+
+2.  **Homogeneity of variance** (top-right): Residuals should have constant spread. If the band gets wider or narrower, variance isn't constant.
+
+3.  **Normality** (middle): Points should follow the diagonal line. Deviations at the tails suggest non-normal residuals.
+
+4.  **Posterior predictive check** (lower panels): Shows if the model can reproduce the data well.
+
+### Task 11: Focus on homogeneity specifically
+
+To zoom in on whether residual variance is constant, use:
+
+```{r}
+plot(check_model(____, check = "homogeneity"))
+```
+
+**Interpretation:** - Look at the **"Standardized Residuals vs Fitted"** plot - If you see a **cone shape** (wider on the right or left), that's heteroscedasticity - If the scatter is **roughly uniform** width, that's good (homoscedasticity)
+
+### Task 12: Quick assessment questions
+
+Examine the diagnostic plots and answer:
+
+1.  Do the residuals appear normally distributed?
+2.  Is the variance roughly constant across fitted values?
+3.  Are there any obvious outliers or concerning patterns?
+4.  Overall, do you think the model meets the linear regression assumptions?
+
+------------------------------------------------------------------------
+
+## Bonus Task 
+
+### Challenge - Build your own analysis
+
+Choose **another continuous response variable** (e.g., `flipper_length_mm`, `bill_length_mm`, `bill_depth_mm`) and repeat the ANCOVA analysis:
+
+1.  Create a scatter plot with fitted lines for each species
+2.  Build the interaction model
+3.  Check if the interaction is significant
+4.  Compare slopes using `estimate_contrasts()`
+5.  Run model diagnostics with `check_model()`
+
+Write your code below:
+
+```{r}
+# Step 1: Visualization
+
+# Step 2: Model
+
+# Step 3: ANOVA
+
+# Step 4: Post-hoc contrasts
+
+# Step 5: Diagnostics
+
+```
+
+**Questions to answer:** - Is there an interaction between your chosen variable and species? - Do the species differ significantly in their response? - Do the diagnostics suggest any violations of model assumptions?

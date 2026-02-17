@@ -1,6 +1,7 @@
 ---
 title: "TP 03 : Modèles linéaires"
 format: html
+editor: visual
 ---
 
 ### Régression

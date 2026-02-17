@@ -1,0 +1,40 @@
+site,genus,perc_mort,max_ahs
+Afareaitu,Acropora,100,5.87
+Afareaitu,Montipora,83.33,5.87
+Afareaitu,Pocillopora,13.89,5.87
+Aroa,Acropora,62.5,6.08
+Aroa,Montipora,71.43,6.08
+Aroa,Pocillopora,45.71,6.08
+Entre 2 baies,Acropora,100,6.21
+Entre 2 baies,Montipora,85.71,6.21
+Entre 2 baies,Pocillopora,64.89,6.21
+Gendron,Acropora,100,6.26
+Gendron,Montipora,83.33,6.26
+Gendron,Pocillopora,72.88,6.26
+Haapiti,Acropora,100,6.21
+Haapiti,Montipora,77.42,6.21
+Haapiti,Pocillopora,62.5,6.21
+Maatea,Acropora,100,5.96
+Maatea,Montipora,40,5.96
+Maatea,Pocillopora,13.79,5.96
+Motu Ahi,Acropora,90.91,5.8
+Motu Ahi,Montipora,61.54,5.8
+Motu Ahi,Pocillopora,34.88,5.8
+Nuarei,Acropora,83.33,5.82
+Nuarei,Montipora,-200,5.82
+Nuarei,Pocillopora,-38.46,5.82
+Pihaena,Acropora,42.86,6.16
+Pihaena,Montipora,46.15,6.16
+Pihaena,Pocillopora,35.14,6.16
+Taotaha,Acropora,90.91,6.19
+Taotaha,Montipora,16.67,6.19
+Taotaha,Pocillopora,86.89,6.19
+Temae,Acropora,50,5.76
+Temae,Montipora,-33.33,5.76
+Temae,Pocillopora,21.21,5.76
+Tetaiuo,Acropora,100,6.23
+Tetaiuo,Montipora,30,6.23
+Tetaiuo,Pocillopora,69.57,6.23
+Tiahura,Acropora,50,6.24
+Tiahura,Montipora,0,6.24
+Tiahura,Pocillopora,69.23,6.24
