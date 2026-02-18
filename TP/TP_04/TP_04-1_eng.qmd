@@ -25,7 +25,7 @@ First, we have to read the data (it is stored in a in the folder `data`) and sel
 
 ```{r}
 dat_coral_cover_poci <- read.csv(here(
-  "TP/TP_03/data/coral_cover_genus.csv"
+  "TP/TP_04/data/coral_cover_genus.csv"
 )) %>%
   filter(genus == "Pocillopora")
 ```
@@ -99,7 +99,7 @@ First, we load the data containing information for the other genera as well. I r
 ```{r}
 
 dat_coral_cover_genus <- read.csv(here(
-  "TP/TP_03/data/coral_cover_genus.csv"
+  "TP/TP_04/data/coral_cover_genus.csv"
 )) %>%
   filter(genus != "other")
 ```
@@ -177,18 +177,18 @@ Is now clearer which groups differ from each other?
 
 Do you think that all the comparisons that were done in `estimate_contrasts()` are needed and useful?
 
-As you'e learned in the lesson, the p-values are "artificially" increased to compensate "alpha error inflation". Doing all tests, as with `estimate_contrasts(m_cor_cover, p_adjust = "tukey")` is often not what you want. All possible combinations of coasts and genus are tested against each other, but you may be more interested if the coral cover differs at each level of coast, or if there are differences for each genus between the coasts. This would involve much fewer tests, and the "penalty" that is added to the p-values is therefore lower. `estimate_contrasts()` let us define the tests that are done with the function argument `by`.
+As you'e learned in the lesson, the p-values are "artificially" increased to compensate "alpha error inflation". Doing all tests, as with `estimate_contrasts(m_cover, p_adjust = "tukey")` is often not what you want. All possible combinations of coasts and genus are tested against each other, but you may be more interested if the coral cover differs at each level of coast, or if there are differences for each genus between the coasts. This would involve much fewer tests, and the "penalty" that is added to the p-values is therefore lower. `estimate_contrasts()` let us define the tests that are done with the function argument `by`.
 
 To test differences between coral genera at each level of coast, run
 
 ```{r}
-estimate_contrasts(model = m_cor_cover, p_adjust = "tukey", by = "coast")
+estimate_contrasts(model = m_cover, p_adjust = "tukey", by = "coast")
 ```
 
 And to test the different coasts for each coral genus, run:
 
 ```{r}
-estimate_contrasts(model = m_cor_cover, p_adjust = "tukey", by = "genus")
+estimate_contrasts(model = m_cover, p_adjust = "tukey", by = "genus")
 ```
 
 Finally, let's revisit this model you did in the provious TP:

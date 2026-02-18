@@ -11,26 +11,52 @@ editor: visual
 library(tidyverse)
 library(palmerpenguins)
 library(here)
+library(performance)
 ```
 
 # 2nd Part: Assumptions
 
 This was all fun, but so far we don't know if the models are "valid" and if the three assumptions are met.
 
-Use the `performance` package and the `check_model()` function and visually assess the models we used above
+For the three models we created in the first part of the TP:
+
 
 -   `m_poci`
 
--   `m_cor_cover`
+-   `m_cover`
 
 -   `m_ancova`
 
+
+We can check if the assumptins are met ot notö
+
+Use the `performance` package and the `check_model()` function and visually assess the models we used so far
+
+
 ```{r}
+m_poci <- lm(percent_cover ~ coast, data = dat_coral_cover_poci)
 check_model(m_poci)
 ```
 
 ```{r}
-check_model(m_cor_cover)
+m_cover <- lm(percent_cover ~ genus * coast, data = dat_coral_cover_genus)
+check_model(m_cover)
+
+```
+
+```{r}
+m_ancova <- lm(flipper_length_mm ~ body_mass_g * species, data = penguins)
+check_model(m_ancova)
+
+c <- plot(check_model(m_ancova))
+ggsave(
+  c,
+  filename = "check_model3.png",
+  path = here("TP/TP_04/images"),
+  width = 20,
+  height = 20,
+  units = "cm"
+)
 ```
 
 ------------------------------------------------------------------------
