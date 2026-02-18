@@ -1,0 +1,112 @@
+---
+title: "TP 04-2: Model Assumptions"
+format: html
+editor: visual
+---
+
+
+```{r}
+#| echo: false
+#| message: false
+
+library(tidyverse)
+library(palmerpenguins)
+library(here)
+```
+
+
+
+# 2nd Part: Assumptions
+
+This was all fun, but so far we don't know if the models are "valid" and if the three assumptions are met.
+
+Use the `performance` package and the `check_model()` function and visually assess the models we used above
+
+-   `m_poci`
+
+-   `m_cor_cover`
+
+-   `m_ancova`
+
+```{r}
+check_model(m_poci)
+```
+
+```{r}
+check_model(m_cor_cover)
+```
+
+
+-----------------------------------------------------
+
+## Part 3: Model Assessment with `performance` Package
+
+Once you've built a model, you should check whether it meets the assumptions of linear regression. The `performance` package makes this easy!
+
+### Task 10: Run full model diagnostics
+
+Use `check_model()` to assess all assumptions at once:
+
+```{r}
+check_model(____)
+```
+
+This produces several diagnostic plots:
+
+1.  **Linearity** (top-left): Points should be randomly scattered around the line. If they follow a pattern (like a smile), the relationship might not be linear.
+
+2.  **Homogeneity of variance** (top-right): Residuals should have constant spread. If the band gets wider or narrower, variance isn't constant.
+
+3.  **Normality** (middle): Points should follow the diagonal line. Deviations at the tails suggest non-normal residuals.
+
+4.  **Posterior predictive check** (lower panels): Shows if the model can reproduce the data well.
+
+### Task 11: Focus on homogeneity specifically
+
+To zoom in on whether residual variance is constant, use:
+
+```{r}
+plot(check_model(____, check = "homogeneity"))
+```
+
+**Interpretation:** - Look at the **"Standardized Residuals vs Fitted"** plot - If you see a **cone shape** (wider on the right or left), that's heteroscedasticity - If the scatter is **roughly uniform** width, that's good (homoscedasticity)
+
+### Task 12: Quick assessment questions
+
+Examine the diagnostic plots and answer:
+
+1.  Do the residuals appear normally distributed?
+2.  Is the variance roughly constant across fitted values?
+3.  Are there any obvious outliers or concerning patterns?
+4.  Overall, do you think the model meets the linear regression assumptions?
+
+------------------------------------------------------------------------
+
+## Bonus Task
+
+### Challenge - Build your own analysis
+
+Choose **another continuous response variable** (e.g., `flipper_length_mm`, `bill_length_mm`, `bill_depth_mm`) and repeat the ANCOVA analysis:
+
+1.  Create a scatter plot with fitted lines for each species
+2.  Build the interaction model
+3.  Check if the interaction is significant
+4.  Compare slopes using `estimate_contrasts()`
+5.  Run model diagnostics with `check_model()`
+
+Write your code below:
+
+```{r}
+# Step 1: Visualization
+
+# Step 2: Model
+
+# Step 3: ANOVA
+
+# Step 4: Post-hoc contrasts
+
+# Step 5: Diagnostics
+
+```
+
+**Questions to answer:** - Is there an interaction between your chosen variable and species? - Do the species differ significantly in their response? - Do the diagnostics suggest any violations of model assumptions?

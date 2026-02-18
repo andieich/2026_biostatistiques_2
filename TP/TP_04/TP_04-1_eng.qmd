@@ -1,0 +1,248 @@
+---
+title: "TP 04-1: Post-hoc Tests"
+format: html
+editor: visual
+---
+
+```{r}
+#| echo: false
+#| message: false
+
+library(tidyverse)
+library(palmerpenguins)
+library(ggthemes)
+library(modelbased)
+library(here)
+```
+
+## Part 1: Post-hoc Tests with ANOVA
+
+In the lecture, you learned that when an ANOVA shows a significant difference between groups, we need **post-hoc tests** to determine *which* groups differ from each other.
+
+Let's use the coral dataset from my PhD to assess if there were any significant differences of *Pocillopora*  cover between the coastal orientations.
+
+First, we have to read the data (it is stored in a in the folder `data`) and select only rows for *Pocillopora*:
+
+```{r}
+dat_coral_cover_poci <- read.csv(here(
+  "TP/TP_03/data/coral_cover_genus.csv"
+)) %>%
+  filter(genus == "Pocillopora")
+```
+
+### Task 1
+
+Now, we can create linear model to test the impact of `coast` on `percent_cover`. Replace the `____` accordingly:
+
+```{r}
+
+m_poci <- lm(____ ~ ____, data = dat_coral_cover_poci)
+```
+
+Now, run an ANOVA on that model:
+
+```{r}
+anova(____)
+```
+
+What do you see? How would you interprete the results?
+
+So far, we only know that there is an impact of the coastal orientation on *Pocillopora* cover, but we don't know how the groups differ. For this, we need to run a post-hoc test.
+
+### Task 2
+
+Use the `estimate_contrasts()` function from the `modelbased` package to run a pairwise tests on your model (`m_poci`) between all coastal orientations. All packages you need are already loaded.
+
+```{r}
+estimate_contrasts(model = ____, p_adjust = "tukey")
+```
+
+Do you understand now better how the groups differ?
+
+**Interpretation:** Look at the output. Each row shows a comparison between two species (e.g., "Adelie vs Chinstrap").
+
+-   The `Difference` column shows how much the *Pocillopora* cover differs between the two coasts (in percent)
+-   The `p` column shows the p-value for that comparison
+-   If `p < 0.05`, that pair of species is significantly different
+
+### Task 3
+
+For a publication, one would add the result table to the Annex and show the data as a plot. To plot the model data with CIs, use the `estimate_means()` function with your model to first calculate the model estimated for each group, then use `plot()`. Remember what `%>%` does: It takes the result from one function (here, the estimated means) and inserts it into the next function (here, `plot()`):
+
+```{r}
+estimate_means(model = ____) %>%
+  plot()
+```
+
+This plot is internally made with `ggplot`! This allows you to personalise the plot as you learned before. You can overlay the raw data, edit the labels, and add a theme:
+
+```{r}
+estimate_means(model = ____) %>%
+  plot() +
+  geom_jitter(
+    data = dat_coral_cover_poci,
+    aes(x = coast, y = percent_cover),
+    width = .1 # defines the spread of the points
+  ) +
+  labs(x = "Coast", y = "Coral Cover (%)") +
+  theme_light()
+```
+
+This plot should help you to understand the results in the table above. At which coast is the *Pocillopora* cover significantly different to the other coasts? Is only one coast different to all others?
+
+**Important:** If a comparison is "not statistically significant" (p \> .05), we don't know whether the groups actually do not differ or whether the data was to variable to find any "statistically significant" differences. **It deos not mean that the mean for these groups is the same!!!**
+
+So far, the results were only for *Pocillopora*. But we also have data for the other main coral genera on Moorea. Usually, it is better to analyse such data with one model and not with multiple models. What is true for pairwise post-hoc tests is also true here. If you run mutliple models or tests on the same data, the FWER increases!
+
+First, we load the data containing information for the other genera as well. I removed the "other" category here, because it contains all less-common genera that may differ in their response.
+
+```{r}
+
+dat_coral_cover_genus <- read.csv(here(
+  "TP/TP_03/data/coral_cover_genus.csv"
+)) %>%
+  filter(genus != "other")
+```
+
+
+### Task 4
+
+Make a model to assess the interaction of `coast` and `genus` on `percent_cover`.
+
+```{r}
+
+# Interaction model
+
+m_cover <- lm(____ ~ ____ * ____, data = dat_coral_cover_genus)
+```
+
+Run an ANOVA on the model:
+
+```{r}
+anova(____)
+```
+
+
+### Task 5
+
+What does it tell you?
+
+Without a post-hoc tests and a visualisation, it is difficult to imagine what the model found. If the interaction is statistically significant, we know that the coral genus impacts how the coastal orientation impacts the coral cover. But what does this mean? Run a pairwise post-hoc test as described before:
+
+```{r}
+estimate_contrasts(model = ____, p_adjust = "tukey")
+```
+
+### Task 6
+
+That's a lot of comparisons (**36**)! This is becasue we used the interaction between two explanatory variable, so each combination of genus and coast is tested against each combination of genus and coast. To understand the results, plot them as before. Use different colours for the different coastal orientations and add the raw data:
+
+```{r}
+
+estimate_means(model = ____) %>%
+  plot() +
+  geom_point(
+    data = dat_coral_cover_genus,
+    aes(x = genus, y = percent_cover, col = coast),
+    position = position_jitterdodge(jitter.width = .1, dodge.width = .21)
+  ) +
+  labs(x = "Genus", y = "Coral Cover (%)", col = "Coast") +
+  scale_colour_colourblind() +
+  theme_light()
+```
+
+Note: If you are interested in the "nerdier" parts, and what `position_jitterdodge()` does in `geom_point()`: \# EXPLANATION
+
+Is now clearer which groups differ from each other?
+
+Do you think that all the comparisons that were done in `estimate_contrasts()` are needed and useful?
+
+As you'e learned in the lesson, the p-values are "artificially" increased to compensate "alpha error inflation". Doing all tests, as with `estimate_contrasts(m_cor_cover, p_adjust = "tukey")` is often not what you want. All possible combinations of coasts and genus are tested against each other, but you may be more interested if the coral cover differs at each level of coast, or if there are differences for each genus between the coasts. This would involve much fewer tests, and the "penalty" that is added to the p-values is therefore lower. `estimate_contrasts()` let us define the tests that are done with the function argument `by`.
+
+To test differences between coral genera at each level of coast, run
+
+```{r}
+estimate_contrasts(model = m_cor_cover, p_adjust = "tukey", by = "coast")
+```
+
+And to test the different coasts for each coral genus, run:
+
+```{r}
+estimate_contrasts(model = m_cor_cover, p_adjust = "tukey", by = "genus")
+```
+
+Finally, let's revisit this model you did in the provious TP:
+
+```{r}
+
+m_ancova <- lm(flipper_length_mm ~ body_mass_g * species, data = penguins)
+```
+
+Run the following code to be reminded what the data looks like:
+
+```{r}
+penguins %>%
+  ggplot(aes(
+    x = bill_length_mm,
+    y = body_mass_g,
+    color = species,
+    fill = species
+  )) +
+  geom_point(alpha = 0.6) +
+  geom_smooth(method = "lm", alpha = 0.2) +
+  scale_color_viridis_d() +
+  scale_fill_viridis_d() +
+  labs(
+    x = "Bill length (mm)",
+    y = "Body mass (g)",
+    color = "Species",
+    fill = "Species"
+  ) +
+  theme_classic(base_size = 18) +
+  theme(legend.position = "bottom")
+```
+
+If you run an `anova()` on that model:
+
+```{r}
+anova(m_ancova)
+```
+
+Have a look at the results table: 
+
+-   If `p < 0.05` for the interaction: the slopes **DO differ** between species
+-   If `p > 0.05` for the interaction: the slopes are **NOT significantly different** (they are similar)
+
+
+Since the interaction is significant, it would be interesting to comapre the slopes between the different species. You can do so with this post-hoc test:
+
+-    As before, the `estimate_contrasts()` function is used
+-    We manually configure that the contrast should be `body_mass_g`, i.e. our slope
+-    We want to compare these slopes between (`by`) the different species
+-    As before, we use the tukey adjustment 
+
+```{r}
+estimate_contrasts(
+  model = m_ancova,
+  contrast = "body_mass_g",
+  by = "species",
+  p_adjust = "tukey"
+)
+```
+
+Have a look at the output. What do you see?
+
+You can also plot the results with the `modelbased` package. Instead of `estimate_means()`, which is used to calculate the means per group as the model sees it (in an ANOVA), we want to plot the slopes, so we use `estimate_slopes()`:
+
+```{r}
+estimate_slopes(model = m_ancova, by = "species") %>%
+  plot()
+```
+
+Does this visualisation fit to your expectation from the `estimate_contrasts()` table? Which slope(s) is/are different from the others?
+
+
+```{r}
+check_model(m_ancova)
+```
+
