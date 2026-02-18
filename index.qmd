@@ -82,5 +82,8 @@ d %>%
   }) %>%
   tab_options(table.font.size = 13) %>%
   opt_row_striping()
+
+# quarto publish gh-pages
+
 ```
 

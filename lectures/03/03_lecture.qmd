@@ -368,8 +368,8 @@ De nombreux processus biologiques peuvent être considérés comme des **accumul
 ::: fragment
 ### Croissance des plantes
 
--   Tête : Obtenir la lumière et l'eau
--   Queue : Être couvert par une autre feuille ou mangé par un insecte
+-   Face : Obtenir la lumière et l'eau
+-   Pile : Être couvert par une autre feuille ou mangé par un insecte
 
 → Au fil des mois, croissance moyenne
 :::

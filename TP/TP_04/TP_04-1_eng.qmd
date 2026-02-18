@@ -19,7 +19,7 @@ library(here)
 
 In the lecture, you learned that when an ANOVA shows a significant difference between groups, we need **post-hoc tests** to determine *which* groups differ from each other.
 
-Let's use the coral dataset from my PhD to assess if there were any significant differences of *Pocillopora*  cover between the coastal orientations.
+Let's use the coral dataset from my PhD to assess if there were any significant differences of *Pocillopora* cover between the coastal orientations.
 
 First, we have to read the data (it is stored in a in the folder `data`) and select only rows for *Pocillopora*:
 
@@ -104,7 +104,6 @@ dat_coral_cover_genus <- read.csv(here(
   filter(genus != "other")
 ```
 
-
 ### Task 4
 
 Make a model to assess the interaction of `coast` and `genus` on `percent_cover`.
@@ -121,7 +120,6 @@ Run an ANOVA on the model:
 ```{r}
 anova(____)
 ```
-
 
 ### Task 5
 
@@ -151,7 +149,29 @@ estimate_means(model = ____) %>%
   theme_light()
 ```
 
-Note: If you are interested in the "nerdier" parts, and what `position_jitterdodge()` does in `geom_point()`: \# EXPLANATION
+------------------------------------------------------------------------
+
+**Note:** If you are interested in the "nerdier" parts, and what `position_jitterdodge()` does in `geom_point()`:
+
+When you plot interaction effects with `estimate_means() %>% plot()`, the function automatically "dodges" the points for different groups (in this case, different coasts) slightly to the left and right so they don't overlap. This makes it easier to see the three coastal orientations for each genus.
+
+If we want to overlay the raw data on top of this plot, we need to position the raw data points in the same way - otherwise they would all stack up in the center of each genus category and wouldn't align with the model predictions.
+
+That's where `position_jitterdodge()` comes in:
+
+-   **dodge**: Shifts points horizontally based on the grouping variable (here: `coast`), matching the shift that `plot()` applies to the model estimates
+
+-   **jitter**: Adds a small random offset to each point so that points with similar values don't plot directly on top of each other
+
+The arguments control how much shifting happens:
+
+-   `dodge.width = .21`: Controls the horizontal separation between coastal orientations (should match the dodging used by `plot()`)
+
+-   `jitter.width = .1`: Controls how much random horizontal scatter is added within each coast group
+
+Without `position_jitterdodge()`, all raw data points would pile up in the middle and wouldn't visually correspond to their respective model estimates!
+
+------------------------------------------------------------------------
 
 Is now clearer which groups differ from each other?
 
@@ -208,18 +228,17 @@ If you run an `anova()` on that model:
 anova(m_ancova)
 ```
 
-Have a look at the results table: 
+Have a look at the results table:
 
 -   If `p < 0.05` for the interaction: the slopes **DO differ** between species
 -   If `p > 0.05` for the interaction: the slopes are **NOT significantly different** (they are similar)
 
-
 Since the interaction is significant, it would be interesting to comapre the slopes between the different species. You can do so with this post-hoc test:
 
--    As before, the `estimate_contrasts()` function is used
--    We manually configure that the contrast should be `body_mass_g`, i.e. our slope
--    We want to compare these slopes between (`by`) the different species
--    As before, we use the tukey adjustment 
+-   As before, the `estimate_contrasts()` function is used
+-   We manually configure that the contrast should be `body_mass_g`, i.e. our slope
+-   We want to compare these slopes between (`by`) the different species
+-   As before, we use the tukey adjustment
 
 ```{r}
 estimate_contrasts(
@@ -240,9 +259,3 @@ estimate_slopes(model = m_ancova, by = "species") %>%
 ```
 
 Does this visualisation fit to your expectation from the `estimate_contrasts()` table? Which slope(s) is/are different from the others?
-
-
-```{r}
-check_model(m_ancova)
-```
-
