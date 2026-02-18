@@ -183,7 +183,6 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li><a href="#question-8" id="toc-question-8" class="nav-link" data-scroll-target="#question-8">Question 8</a></li>
   <li><a href="#question-9" id="toc-question-9" class="nav-link" data-scroll-target="#question-9">Question 9</a></li>
   <li><a href="#question-10" id="toc-question-10" class="nav-link" data-scroll-target="#question-10">Question 10</a></li>
-  <li><a href="#bonus-question" id="toc-bonus-question" class="nav-link" data-scroll-target="#bonus-question">Bonus Question</a></li>
   </ul>
 </nav>
     </div>
@@ -238,7 +237,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="question-2" class="level3">
 <h3 class="anchored" data-anchor-id="question-2">Question 2</h3>
 <p><em>1 point</em></p>
-<p>We used <code>mean()</code> to calculate the mean, e.g.&nbsp;of a column. Is <code>mean()</code> an R unction, or an R object?</p>
+<p>We used <code>mean()</code> to calculate the mean, e.g.&nbsp;of a column. Is <code>mean()</code> an R function, or an R object?</p>
 <hr>
 </section>
 <section id="question-3" class="level3">
@@ -379,7 +378,7 @@ F-statistic: 58.99 on 1 and 48 DF,  p-value: 6.71e-10</code></pre>
 <section id="c-1" class="level4">
 <h4 class="anchored" data-anchor-id="c-1">C</h4>
 <p><em>2 points</em></p>
-<p>How much of the variance in the data is explained by the model (n this case, by <code>Sepal.Width</code>)? Give the value in percent.</p>
+<p>How much of the variance in the data is explained by the model (in this case, by <code>Sepal.Width</code>)? Give the value in percent.</p>
 <hr>
 </section>
 </section>
@@ -404,6 +403,7 @@ F-statistic: 58.99 on 1 and 48 DF,  p-value: 6.71e-10</code></pre>
 </div>
 </div>
 </div>
+<p><strong>Reminder:</strong> The Q-Q plot (Quantile-Quantile plot) checks if the residuals follow a normal distribution. If the points align closely along the green line, the normality assumption is satisfied. Deviations from the line, especially at the ends (tails), indicate departures from normality. Small deviations are generally acceptable (within the grey band).</p>
 <p>Do you think that the residuals are normally distributed? Explain why.</p>
 <hr>
 </section>
@@ -443,11 +443,14 @@ F-statistic: 58.99 on 1 and 48 DF,  p-value: 6.71e-10</code></pre>
 <p>If you would not use a normal distribution, which one would you use instead and why?</p>
 <hr>
 </section>
+<section id="bonus-question-2" class="level4">
+<h4 class="anchored" data-anchor-id="bonus-question-2">Bonus Question 2</h4>
+<p><em>2 points on top</em></p>
+<p><strong>Task:</strong> Choose one of the models we created above (<code>m_iris</code> or <code>m_iris_setosa</code>) and perform a complete model assessment. Write your own R code to check all three assumptions (independence, homoscedasticity, and normality). Interpret each plot briefly.</p>
+<p><strong>Hint:</strong> Use the <code>check_model()</code> function or individual <code>check_</code> functions from the <code>performance</code> package. You can use <code>plot()</code> to visualize the results.</p>
+
+
 </section>
-<section id="bonus-question" class="level3">
-<h3 class="anchored" data-anchor-id="bonus-question">Bonus Question</h3>
-
-
 </section>
 
 </main> <!-- /main -->
