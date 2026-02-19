@@ -255,7 +255,6 @@ ggsave("images_summary/plot_6.png", p6, width = 4.5, height = 3.5, dpi = 100)
 invisible(NULL)
 ```
 
-## Résumé des modèles linéaires
 
 ```{r}
 #| echo: false
@@ -277,6 +276,14 @@ models_data <- tibble(
     "`lm(y ~ A * B)`",
     "`lm(y ~ x + A)`",
     "`lm(y ~ x * A)`"
+  ),
+  `Génération des données` = c(
+    "$y \\sim \\mathrm{Normal}(\\mu, \\sigma)$<br>$\\mu = a + b x$",
+    "$y \\sim \\mathrm{Normal}(\\mu, \\sigma)$<br>$\\mu = \\mu_A$",
+    "$y \\sim \\mathrm{Normal}(\\mu, \\sigma)$<br>$\\mu = \\mu_A + \\mu_B$",
+    "$y \\sim \\mathrm{Normal}(\\mu, \\sigma)$<br>$\\mu = \\mu_A + \\mu_B + \\mu_{AB}$",
+    "$y \\sim \\mathrm{Normal}(\\mu, \\sigma)$<br>$\\mu = a + b x + \\mu_A$",
+    "$y \\sim \\mathrm{Normal}(\\mu, \\sigma)$<br>$\\mu = a_A + b_A x$"
   ),
   Variables = c(
     "• 1 numérique (x)",
@@ -323,13 +330,14 @@ models_data <- tibble(
 # Create the gt table
 gt_table <- gt(models_data) %>%
   cols_width(
-    Name ~ pct(7),
+    Name ~ pct(6),
     Formula ~ pct(11),
+    `Génération des données` ~ pct(11),
     Variables ~ pct(16),
-    Description ~ pct(15),
-    `Exemple Manchot` ~ pct(12),
-    `Exemple générique` ~ pct(12),
-    Plot ~ pct(30)
+    Description ~ pct(14),
+    `Exemple Manchot` ~ pct(10),
+    `Exemple générique` ~ pct(10),
+    Plot ~ pct(17)
   ) %>%
   tab_options(
     table.width = pct(100),
@@ -346,8 +354,21 @@ gt_table <- gt(models_data) %>%
     locations = cells_body()
   ) %>%
   tab_style(
+    style = cell_text(align = "left", v_align = "top", size = "9.6px"),
+    locations = cells_body(columns = c(Formula, Variables))
+  ) %>%
+  tab_style(
+    style = cell_text(align = "left", v_align = "top", size = "9.6px"),
+    locations = cells_body(columns = c(`Génération des données`))
+  ) %>%
+  tab_style(
     style = cell_text(weight = "bold", size = "12px"),
     locations = cells_column_labels()
+  ) %>%
+  tab_source_note(
+    source_note = md(
+      "**ANOVA** = **a**nalysis of **va**riance ; **ANCOVA** = **an**alysis of **cova**riance"
+    )
   ) %>%
   fmt_markdown(columns = everything())
 
