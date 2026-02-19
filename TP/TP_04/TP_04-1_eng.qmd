@@ -151,7 +151,7 @@ estimate_means(model = ____) %>%
 
 ------------------------------------------------------------------------
 
-**Note:** If you are interested in the "nerdier" parts, and what `position_jitterdodge()` does in `geom_point()`:
+**Note:** If you are interested in the "nerdier" parts, and what `position_jitterdodge()` does in `geom_point()` you can read this, otherwise, continue reading after the horizontal line. 
 
 When you plot interaction effects with `estimate_means() %>% plot()`, the function automatically "dodges" the points for different groups (in this case, different coasts) slightly to the left and right so they don't overlap. This makes it easier to see the three coastal orientations for each genus.
 
