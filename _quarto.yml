@@ -36,6 +36,8 @@ website:
           text: Accéder à Posit Cloud
         - href: course-team.qmd
           text: Équipe d'enseignement
+        - href: model_overview.qmd
+          text: Model Summary
         - href: course-links.qmd
           text: Liens utiles
 
