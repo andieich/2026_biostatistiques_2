@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>UE 6.7: Biostatistiques 2 – Biostatistiques 2</title>
+<title>Aperçu des modèles linéaires – Biostatistiques 2</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -29,7 +29,6 @@ ul.task-list li input[type="checkbox"] {
 <script src="site_libs/quarto-search/fuse.min.js"></script>
 <script src="site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="./">
-<link href="./posit_cloud_access.html" rel="next">
 <link href="./images/logo.png" rel="icon" type="image/png">
 <script src="site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
@@ -69,12 +68,42 @@ ul.task-list li input[type="checkbox"] {
   }
 }</script>
 
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
 
-<meta property="og:title" content="UE 6.7: Biostatistiques 2 – Biostatistiques 2">
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+<meta property="og:title" content="Aperçu des modèles linéaires – Biostatistiques 2">
+<meta property="og:image" content="images_summary/plot_1.png">
 <meta property="og:site_name" content="Biostatistiques 2">
 </head>
 
-<body class="nav-sidebar docked quarto-light">
+<body class="nav-sidebar docked fullcontent quarto-light">
 
 <div id="quarto-search-results"></div>
   <header id="quarto-header" class="headroom fixed-top">
@@ -83,7 +112,7 @@ ul.task-list li input[type="checkbox"] {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./index.html">Calendrier</a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item">Aperçu des modèles linéaires</li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
     </div>
@@ -102,7 +131,7 @@ ul.task-list li input[type="checkbox"] {
     <ul class="list-unstyled mt-1">
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./index.html" class="sidebar-item-text sidebar-link active">
+  <a href="./index.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Calendrier</span></a>
   </div>
 </li>
@@ -135,15 +164,13 @@ ul.task-list li input[type="checkbox"] {
 </nav>
 <div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
 <!-- margin-sidebar -->
-    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
-        
-    </div>
+    
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">UE 6.7: Biostatistiques 2</h1>
+<h1 class="title">Aperçu des modèles linéaires</h1>
 </div>
 
 
@@ -162,54 +189,54 @@ ul.task-list li input[type="checkbox"] {
 
 <div class="cell">
 <div class="cell-output-display">
-<div id="hemxsgxzjo" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
-<style>#hemxsgxzjo table {
+<div id="pqkrwbzjdt" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#pqkrwbzjdt table {
   font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-#hemxsgxzjo thead, #hemxsgxzjo tbody, #hemxsgxzjo tfoot, #hemxsgxzjo tr, #hemxsgxzjo td, #hemxsgxzjo th {
+#pqkrwbzjdt thead, #pqkrwbzjdt tbody, #pqkrwbzjdt tfoot, #pqkrwbzjdt tr, #pqkrwbzjdt td, #pqkrwbzjdt th {
   border-style: none;
 }
 
-#hemxsgxzjo p {
+#pqkrwbzjdt p {
   margin: 0;
   padding: 0;
 }
 
-#hemxsgxzjo .gt_table {
+#pqkrwbzjdt .gt_table {
   display: table;
   border-collapse: collapse;
   line-height: normal;
   margin-left: auto;
   margin-right: auto;
   color: #333333;
-  font-size: 13px;
+  font-size: 12px;
   font-weight: normal;
   font-style: normal;
   background-color: #FFFFFF;
-  width: auto;
+  width: 100%;
   border-top-style: solid;
   border-top-width: 2px;
-  border-top-color: #A8A8A8;
+  border-top-color: #999999;
   border-right-style: none;
   border-right-width: 2px;
   border-right-color: #D3D3D3;
   border-bottom-style: solid;
   border-bottom-width: 2px;
-  border-bottom-color: #A8A8A8;
+  border-bottom-color: #999999;
   border-left-style: none;
   border-left-width: 2px;
   border-left-color: #D3D3D3;
 }
 
-#hemxsgxzjo .gt_caption {
+#pqkrwbzjdt .gt_caption {
   padding-top: 4px;
   padding-bottom: 4px;
 }
 
-#hemxsgxzjo .gt_title {
+#pqkrwbzjdt .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -221,7 +248,7 @@ ul.task-list li input[type="checkbox"] {
   border-bottom-width: 0;
 }
 
-#hemxsgxzjo .gt_subtitle {
+#pqkrwbzjdt .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -233,8 +260,8 @@ ul.task-list li input[type="checkbox"] {
   border-top-width: 0;
 }
 
-#hemxsgxzjo .gt_heading {
-  background-color: #FFFFFF;
+#pqkrwbzjdt .gt_heading {
+  background-color: #E8E8E8;
   text-align: center;
   border-bottom-color: #FFFFFF;
   border-left-style: none;
@@ -245,13 +272,13 @@ ul.task-list li input[type="checkbox"] {
   border-right-color: #D3D3D3;
 }
 
-#hemxsgxzjo .gt_bottom_border {
+#pqkrwbzjdt .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#hemxsgxzjo .gt_col_headings {
+#pqkrwbzjdt .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -266,9 +293,9 @@ ul.task-list li input[type="checkbox"] {
   border-right-color: #D3D3D3;
 }
 
-#hemxsgxzjo .gt_col_heading {
+#pqkrwbzjdt .gt_col_heading {
   color: #333333;
-  background-color: #FFFFFF;
+  background-color: #F5F5F5;
   font-size: 100%;
   font-weight: normal;
   text-transform: inherit;
@@ -286,9 +313,9 @@ ul.task-list li input[type="checkbox"] {
   overflow-x: hidden;
 }
 
-#hemxsgxzjo .gt_column_spanner_outer {
+#pqkrwbzjdt .gt_column_spanner_outer {
   color: #333333;
-  background-color: #FFFFFF;
+  background-color: #F5F5F5;
   font-size: 100%;
   font-weight: normal;
   text-transform: inherit;
@@ -298,15 +325,15 @@ ul.task-list li input[type="checkbox"] {
   padding-right: 4px;
 }
 
-#hemxsgxzjo .gt_column_spanner_outer:first-child {
+#pqkrwbzjdt .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#hemxsgxzjo .gt_column_spanner_outer:last-child {
+#pqkrwbzjdt .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#hemxsgxzjo .gt_column_spanner {
+#pqkrwbzjdt .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -318,11 +345,11 @@ ul.task-list li input[type="checkbox"] {
   width: 100%;
 }
 
-#hemxsgxzjo .gt_spanner_row {
+#pqkrwbzjdt .gt_spanner_row {
   border-bottom-style: hidden;
 }
 
-#hemxsgxzjo .gt_group_heading {
+#pqkrwbzjdt .gt_group_heading {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -348,7 +375,7 @@ ul.task-list li input[type="checkbox"] {
   text-align: left;
 }
 
-#hemxsgxzjo .gt_empty_group_heading {
+#pqkrwbzjdt .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -363,15 +390,15 @@ ul.task-list li input[type="checkbox"] {
   vertical-align: middle;
 }
 
-#hemxsgxzjo .gt_from_md > :first-child {
+#pqkrwbzjdt .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#hemxsgxzjo .gt_from_md > :last-child {
+#pqkrwbzjdt .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#hemxsgxzjo .gt_row {
+#pqkrwbzjdt .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -390,7 +417,7 @@ ul.task-list li input[type="checkbox"] {
   overflow-x: hidden;
 }
 
-#hemxsgxzjo .gt_stub {
+#pqkrwbzjdt .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -403,7 +430,7 @@ ul.task-list li input[type="checkbox"] {
   padding-right: 5px;
 }
 
-#hemxsgxzjo .gt_stub_row_group {
+#pqkrwbzjdt .gt_stub_row_group {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -417,15 +444,15 @@ ul.task-list li input[type="checkbox"] {
   vertical-align: top;
 }
 
-#hemxsgxzjo .gt_row_group_first td {
+#pqkrwbzjdt .gt_row_group_first td {
   border-top-width: 2px;
 }
 
-#hemxsgxzjo .gt_row_group_first th {
+#pqkrwbzjdt .gt_row_group_first th {
   border-top-width: 2px;
 }
 
-#hemxsgxzjo .gt_summary_row {
+#pqkrwbzjdt .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -435,16 +462,16 @@ ul.task-list li input[type="checkbox"] {
   padding-right: 5px;
 }
 
-#hemxsgxzjo .gt_first_summary_row {
+#pqkrwbzjdt .gt_first_summary_row {
   border-top-style: solid;
   border-top-color: #D3D3D3;
 }
 
-#hemxsgxzjo .gt_first_summary_row.thick {
+#pqkrwbzjdt .gt_first_summary_row.thick {
   border-top-width: 2px;
 }
 
-#hemxsgxzjo .gt_last_summary_row {
+#pqkrwbzjdt .gt_last_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -454,7 +481,7 @@ ul.task-list li input[type="checkbox"] {
   border-bottom-color: #D3D3D3;
 }
 
-#hemxsgxzjo .gt_grand_summary_row {
+#pqkrwbzjdt .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -464,7 +491,7 @@ ul.task-list li input[type="checkbox"] {
   padding-right: 5px;
 }
 
-#hemxsgxzjo .gt_first_grand_summary_row {
+#pqkrwbzjdt .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -474,7 +501,7 @@ ul.task-list li input[type="checkbox"] {
   border-top-color: #D3D3D3;
 }
 
-#hemxsgxzjo .gt_last_grand_summary_row_top {
+#pqkrwbzjdt .gt_last_grand_summary_row_top {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -484,11 +511,11 @@ ul.task-list li input[type="checkbox"] {
   border-bottom-color: #D3D3D3;
 }
 
-#hemxsgxzjo .gt_striped {
+#pqkrwbzjdt .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#hemxsgxzjo .gt_table_body {
+#pqkrwbzjdt .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -497,7 +524,7 @@ ul.task-list li input[type="checkbox"] {
   border-bottom-color: #D3D3D3;
 }
 
-#hemxsgxzjo .gt_footnotes {
+#pqkrwbzjdt .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -511,7 +538,7 @@ ul.task-list li input[type="checkbox"] {
   border-right-color: #D3D3D3;
 }
 
-#hemxsgxzjo .gt_footnote {
+#pqkrwbzjdt .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding-top: 4px;
@@ -520,7 +547,7 @@ ul.task-list li input[type="checkbox"] {
   padding-right: 5px;
 }
 
-#hemxsgxzjo .gt_sourcenotes {
+#pqkrwbzjdt .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -534,7 +561,7 @@ ul.task-list li input[type="checkbox"] {
   border-right-color: #D3D3D3;
 }
 
-#hemxsgxzjo .gt_sourcenote {
+#pqkrwbzjdt .gt_sourcenote {
   font-size: 90%;
   padding-top: 4px;
   padding-bottom: 4px;
@@ -542,215 +569,166 @@ ul.task-list li input[type="checkbox"] {
   padding-right: 5px;
 }
 
-#hemxsgxzjo .gt_left {
+#pqkrwbzjdt .gt_left {
   text-align: left;
 }
 
-#hemxsgxzjo .gt_center {
+#pqkrwbzjdt .gt_center {
   text-align: center;
 }
 
-#hemxsgxzjo .gt_right {
+#pqkrwbzjdt .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#hemxsgxzjo .gt_font_normal {
+#pqkrwbzjdt .gt_font_normal {
   font-weight: normal;
 }
 
-#hemxsgxzjo .gt_font_bold {
+#pqkrwbzjdt .gt_font_bold {
   font-weight: bold;
 }
 
-#hemxsgxzjo .gt_font_italic {
+#pqkrwbzjdt .gt_font_italic {
   font-style: italic;
 }
 
-#hemxsgxzjo .gt_super {
+#pqkrwbzjdt .gt_super {
   font-size: 65%;
 }
 
-#hemxsgxzjo .gt_footnote_marks {
+#pqkrwbzjdt .gt_footnote_marks {
   font-size: 75%;
   vertical-align: 0.4em;
   position: initial;
 }
 
-#hemxsgxzjo .gt_asterisk {
+#pqkrwbzjdt .gt_asterisk {
   font-size: 100%;
   vertical-align: 0;
 }
 
-#hemxsgxzjo .gt_indent_1 {
+#pqkrwbzjdt .gt_indent_1 {
   text-indent: 5px;
 }
 
-#hemxsgxzjo .gt_indent_2 {
+#pqkrwbzjdt .gt_indent_2 {
   text-indent: 10px;
 }
 
-#hemxsgxzjo .gt_indent_3 {
+#pqkrwbzjdt .gt_indent_3 {
   text-indent: 15px;
 }
 
-#hemxsgxzjo .gt_indent_4 {
+#pqkrwbzjdt .gt_indent_4 {
   text-indent: 20px;
 }
 
-#hemxsgxzjo .gt_indent_5 {
+#pqkrwbzjdt .gt_indent_5 {
   text-indent: 25px;
 }
 
-#hemxsgxzjo .katex-display {
+#pqkrwbzjdt .katex-display {
   display: inline-flex !important;
   margin-bottom: 0.75em !important;
 }
 
-#hemxsgxzjo div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
+#pqkrwbzjdt div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
   height: 0px !important;
 }
 </style>
 
 <table class="gt_table caption-top table table-sm table-striped small" data-quarto-postprocess="true" data-quarto-disable-processing="false" data-quarto-bootstrap="false">
+<colgroup>
+<col style="width: 6%">
+<col style="width: 11%">
+<col style="width: 11%">
+<col style="width: 16%">
+<col style="width: 14%">
+<col style="width: 10%">
+<col style="width: 10%">
+<col style="width: 17%">
+</colgroup>
 <thead>
 <tr class="gt_col_headings header">
-<th id="session" class="gt_col_heading gt_columns_bottom_border gt_center" data-quarto-table-cell-role="th" scope="col"><strong>SESSION</strong></th>
-<th id="ENV-01" class="gt_col_heading gt_columns_bottom_border gt_center" data-quarto-table-cell-role="th" scope="col"><strong>ENV 01</strong></th>
-<th id="ENV-02" class="gt_col_heading gt_columns_bottom_border gt_center" data-quarto-table-cell-role="th" scope="col"><strong>ENV 02</strong></th>
-<th id="BIO" class="gt_col_heading gt_columns_bottom_border gt_center" data-quarto-table-cell-role="th" scope="col"><strong>BIO</strong></th>
-<th id="sujet" class="gt_col_heading gt_columns_bottom_border gt_left" data-quarto-table-cell-role="th" scope="col"><strong>SUJET</strong></th>
-<th id="slides" class="gt_col_heading gt_columns_bottom_border gt_center" data-quarto-table-cell-role="th" scope="col"><strong>SLIDES</strong></th>
-<th id="TP" class="gt_col_heading gt_columns_bottom_border gt_center" data-quarto-table-cell-role="th" scope="col"><strong>TP</strong></th>
-<th id="aide" class="gt_col_heading gt_columns_bottom_border gt_center" data-quarto-table-cell-role="th" scope="col"><strong>AIDE</strong></th>
+<th id="Name" class="gt_col_heading gt_columns_bottom_border gt_left" data-quarto-table-cell-role="th" style="text-align: left; font-size: 12px; font-weight: bold;" scope="col">Name</th>
+<th id="Formula" class="gt_col_heading gt_columns_bottom_border gt_left" data-quarto-table-cell-role="th" style="text-align: left; font-size: 12px; font-weight: bold;" scope="col">Formula</th>
+<th id="Génération-des-données" class="gt_col_heading gt_columns_bottom_border gt_left" data-quarto-table-cell-role="th" style="text-align: left; font-size: 12px; font-weight: bold;" scope="col">Génération des données</th>
+<th id="Variables" class="gt_col_heading gt_columns_bottom_border gt_left" data-quarto-table-cell-role="th" style="text-align: left; font-size: 12px; font-weight: bold;" scope="col">Variables</th>
+<th id="Description" class="gt_col_heading gt_columns_bottom_border gt_left" data-quarto-table-cell-role="th" style="text-align: left; font-size: 12px; font-weight: bold;" scope="col">Description</th>
+<th id="Exemple-Manchot" class="gt_col_heading gt_columns_bottom_border gt_left" data-quarto-table-cell-role="th" style="text-align: left; font-size: 12px; font-weight: bold;" scope="col">Exemple Manchot</th>
+<th id="Exemple-générique" class="gt_col_heading gt_columns_bottom_border gt_left" data-quarto-table-cell-role="th" style="text-align: left; font-size: 12px; font-weight: bold;" scope="col">Exemple générique</th>
+<th id="Plot" class="gt_col_heading gt_columns_bottom_border gt_left" data-quarto-table-cell-role="th" style="text-align: left; font-size: 12px; font-weight: bold;" scope="col">Plot</th>
 </tr>
 </thead>
 <tbody class="gt_table_body">
 <tr class="odd">
-<td class="gt_row gt_center" headers="session" style="border-right-width: 1px; border-right-style: solid; border-right-color: #D3D3D3">1</td>
-<td class="gt_row gt_center" headers="ENV-01" style="border-right-width: 1px; border-right-style: solid; border-right-color: #D3D3D3">06.02.26</td>
-<td class="gt_row gt_center" headers="ENV-02" style="border-right-width: 1px; border-right-style: solid; border-right-color: #D3D3D3">03.02.26</td>
-<td class="gt_row gt_center" headers="BIO" style="border-right-width: 1px; border-right-style: solid; border-right-color: #D3D3D3">04.02.26</td>
-<td class="gt_row gt_left" headers="sujet" style="border-right-width: 1px; border-right-style: solid; border-right-color: #D3D3D3"><strong>Introduction:</strong> Statistiques, RStudio, Quarto</td>
-<td class="gt_row gt_center" headers="slides" style="border-right-width: 1px; border-right-style: solid; border-right-color: #D3D3D3"><a href="lectures/output/01/01_lecture.html" target="_blank">🖥️ 01</a></td>
-<td class="gt_row gt_center" headers="TP" style="border-right-width: 1px; border-right-style: solid; border-right-color: #D3D3D3"><a href="https://posit.cloud/spaces/728718/content/11860574" target="_blank">📝 01</a></td>
-<td class="gt_row gt_center" headers="aide" style="border-right-width: 1px; border-right-style: solid; border-right-color: #D3D3D3"><a href="./hints/hints_01/hints_01.html">❓01</a></td>
+<td class="gt_row gt_left" headers="Name" style="text-align: left; font-size: 12px; vertical-align: top;"><strong>Regression</strong></td>
+<td class="gt_row gt_left" headers="Formula" style="text-align: left; font-size: 9.6px; vertical-align: top;"><code>lm(y ~ x)</code></td>
+<td class="gt_row gt_left" headers="Génération des données" style="text-align: left; font-size: 9.6px; vertical-align: top;"><span class="math inline">\(y \sim \mathrm{Normal}(\mu, \sigma)\)</span><br><span class="math inline">\(\mu = a + b x\)</span></td>
+<td class="gt_row gt_left" headers="Variables" style="text-align: left; font-size: 9.6px; vertical-align: top;">• 1 numérique (x)</td>
+<td class="gt_row gt_left" headers="Description" style="text-align: left; font-size: 12px; vertical-align: top;">Estimer la relation linéaire entre variables continues</td>
+<td class="gt_row gt_left" headers="Exemple Manchot" style="text-align: left; font-size: 12px; vertical-align: top;">Comment la longueur du bec affecte-t-elle la masse corporelle ?</td>
+<td class="gt_row gt_left" headers="Exemple générique" style="text-align: left; font-size: 12px; vertical-align: top;">Comment la température affecte-t-elle le taux de croissance ?</td>
+<td class="gt_row gt_left" headers="Plot" style="text-align: left; font-size: 12px; vertical-align: top;"><img src="images_summary/plot_1.png" width="250" height="200"></td>
 </tr>
 <tr class="even">
-<td class="gt_row gt_center gt_striped" headers="session" style="border-right-width: 1px; border-right-style: solid; border-right-color: #D3D3D3">2</td>
-<td class="gt_row gt_center gt_striped" headers="ENV-01" style="border-right-width: 1px; border-right-style: solid; border-right-color: #D3D3D3">10.02.26</td>
-<td class="gt_row gt_center gt_striped" headers="ENV-02" style="border-right-width: 1px; border-right-style: solid; border-right-color: #D3D3D3">12.02.26</td>
-<td class="gt_row gt_center gt_striped" headers="BIO" style="border-right-width: 1px; border-right-style: solid; border-right-color: #D3D3D3">11.02.26</td>
-<td class="gt_row gt_left gt_striped" headers="sujet" style="border-right-width: 1px; border-right-style: solid; border-right-color: #D3D3D3"><strong>Visualisations:</strong> <code>ggplot2</code>, représentation des données</td>
-<td class="gt_row gt_center gt_striped" headers="slides" style="border-right-width: 1px; border-right-style: solid; border-right-color: #D3D3D3"><a href="lectures/output/02/02_lecture.html" target="_blank">🖥️ 02</a></td>
-<td class="gt_row gt_center gt_striped" headers="TP" style="border-right-width: 1px; border-right-style: solid; border-right-color: #D3D3D3"><a href="https://posit.cloud/spaces/728718/content/11833414" target="_blank">📝 02</a></td>
-<td class="gt_row gt_center gt_striped" headers="aide" style="border-right-width: 1px; border-right-style: solid; border-right-color: #D3D3D3"><a href="./hints/hints_02/hints_02.html">❓02</a></td>
+<td class="gt_row gt_left" headers="Name" style="text-align: left; font-size: 12px; vertical-align: top;"><strong>ANOVA</strong></td>
+<td class="gt_row gt_left" headers="Formula" style="text-align: left; font-size: 9.6px; vertical-align: top;"><code>lm(y ~ A)</code></td>
+<td class="gt_row gt_left" headers="Génération des données" style="text-align: left; font-size: 9.6px; vertical-align: top;"><span class="math inline">\(y \sim \mathrm{Normal}(\mu, \sigma)\)</span><br><span class="math inline">\(\mu = \mu_A\)</span></td>
+<td class="gt_row gt_left" headers="Variables" style="text-align: left; font-size: 9.6px; vertical-align: top;">• 1 catégorique (A)</td>
+<td class="gt_row gt_left" headers="Description" style="text-align: left; font-size: 12px; vertical-align: top;">Comparer les moyennes entre groupes ; tester si les groupes diffèrent</td>
+<td class="gt_row gt_left" headers="Exemple Manchot" style="text-align: left; font-size: 12px; vertical-align: top;">La masse corporelle diffère-t-elle selon l’espèce ?</td>
+<td class="gt_row gt_left" headers="Exemple générique" style="text-align: left; font-size: 12px; vertical-align: top;">La survie diffère-t-elle selon les traitements ?</td>
+<td class="gt_row gt_left" headers="Plot" style="text-align: left; font-size: 12px; vertical-align: top;"><img src="images_summary/plot_2.png" width="250" height="200"></td>
 </tr>
 <tr class="odd">
-<td class="gt_row gt_center" headers="session" style="border-right-width: 1px; border-right-style: solid; border-right-color: #D3D3D3">3</td>
-<td class="gt_row gt_center" headers="ENV-01" style="border-right-width: 1px; border-right-style: solid; border-right-color: #D3D3D3">17.02.26</td>
-<td class="gt_row gt_center" headers="ENV-02" style="border-right-width: 1px; border-right-style: solid; border-right-color: #D3D3D3">19.02.26</td>
-<td class="gt_row gt_center" headers="BIO" style="border-right-width: 1px; border-right-style: solid; border-right-color: #D3D3D3">18.02.26</td>
-<td class="gt_row gt_left" headers="sujet" style="border-right-width: 1px; border-right-style: solid; border-right-color: #D3D3D3"><strong>Modèles Statistiques:</strong> Regression, ANOVA</td>
-<td class="gt_row gt_center" headers="slides" style="border-right-width: 1px; border-right-style: solid; border-right-color: #D3D3D3"><a href="lectures/output/03/03_lecture.html" target="_blank">🖥️ 03</a></td>
-<td class="gt_row gt_center" headers="TP" style="border-right-width: 1px; border-right-style: solid; border-right-color: #D3D3D3"><a href="https://posit.cloud/spaces/728718/content/11932690" target="_blank">📝 03</a></td>
-<td class="gt_row gt_center" headers="aide" style="border-right-width: 1px; border-right-style: solid; border-right-color: #D3D3D3"><a href="./hints/hints_03/hints_03.html">❓03</a></td>
+<td class="gt_row gt_left" headers="Name" style="text-align: left; font-size: 12px; vertical-align: top;"><strong>ANOVA (Additive)</strong></td>
+<td class="gt_row gt_left" headers="Formula" style="text-align: left; font-size: 9.6px; vertical-align: top;"><code>lm(y ~ A + B)</code></td>
+<td class="gt_row gt_left" headers="Génération des données" style="text-align: left; font-size: 9.6px; vertical-align: top;"><span class="math inline">\(y \sim \mathrm{Normal}(\mu, \sigma)\)</span><br><span class="math inline">\(\mu = \mu_A + \mu_B\)</span></td>
+<td class="gt_row gt_left" headers="Variables" style="text-align: left; font-size: 9.6px; vertical-align: top;">• 2 catégoriques (A, B)</td>
+<td class="gt_row gt_left" headers="Description" style="text-align: left; font-size: 12px; vertical-align: top;">Évaluer l’impact de 2 facteurs séparément ; assume des effets additifs</td>
+<td class="gt_row gt_left" headers="Exemple Manchot" style="text-align: left; font-size: 12px; vertical-align: top;">Comment l’espèce et le sexe affectent-ils la masse corporelle séparément ?</td>
+<td class="gt_row gt_left" headers="Exemple générique" style="text-align: left; font-size: 12px; vertical-align: top;">Comment l’engrais et l’eau affectent-ils le rendement séparément ?</td>
+<td class="gt_row gt_left" headers="Plot" style="text-align: left; font-size: 12px; vertical-align: top;"><img src="images_summary/plot_3.png" width="250" height="200"></td>
 </tr>
 <tr class="even">
-<td class="gt_row gt_center gt_striped" headers="session" style="border-right-width: 1px; border-right-style: solid; border-right-color: #D3D3D3">4</td>
-<td class="gt_row gt_center gt_striped" headers="ENV-01" style="border-right-width: 1px; border-right-style: solid; border-right-color: #D3D3D3">25.02.26</td>
-<td class="gt_row gt_center gt_striped" headers="ENV-02" style="border-right-width: 1px; border-right-style: solid; border-right-color: #D3D3D3">26.02.26</td>
-<td class="gt_row gt_center gt_striped" headers="BIO" style="border-right-width: 1px; border-right-style: solid; border-right-color: #D3D3D3">24.02.26</td>
-<td class="gt_row gt_left gt_striped" headers="sujet" style="border-right-width: 1px; border-right-style: solid; border-right-color: #D3D3D3"><strong>Tests Post-Hoc:</strong> Tukey, groups, visualisations</td>
-<td class="gt_row gt_center gt_striped" headers="slides" style="border-right-width: 1px; border-right-style: solid; border-right-color: #D3D3D3"><br>
-</td>
-<td class="gt_row gt_center gt_striped" headers="TP" style="border-right-width: 1px; border-right-style: solid; border-right-color: #D3D3D3"><br>
-</td>
-<td class="gt_row gt_center gt_striped" headers="aide" style="border-right-width: 1px; border-right-style: solid; border-right-color: #D3D3D3"><br>
-</td>
+<td class="gt_row gt_left" headers="Name" style="text-align: left; font-size: 12px; vertical-align: top;"><strong>ANOVA (Interactive)</strong></td>
+<td class="gt_row gt_left" headers="Formula" style="text-align: left; font-size: 9.6px; vertical-align: top;"><code>lm(y ~ A * B)</code></td>
+<td class="gt_row gt_left" headers="Génération des données" style="text-align: left; font-size: 9.6px; vertical-align: top;"><span class="math inline">\(y \sim \mathrm{Normal}(\mu, \sigma)\)</span><br><span class="math inline">\(\mu = \mu_A + \mu_B + \mu_{AB}\)</span></td>
+<td class="gt_row gt_left" headers="Variables" style="text-align: left; font-size: 9.6px; vertical-align: top;">• 2 catégoriques (A, B)</td>
+<td class="gt_row gt_left" headers="Description" style="text-align: left; font-size: 12px; vertical-align: top;">Évaluer l’impact de 2 facteurs ; l’effet de A dépend de B (ou l’inverse)</td>
+<td class="gt_row gt_left" headers="Exemple Manchot" style="text-align: left; font-size: 12px; vertical-align: top;">L’espèce et le sexe interagissent-ils pour affecter la masse corporelle ?</td>
+<td class="gt_row gt_left" headers="Exemple générique" style="text-align: left; font-size: 12px; vertical-align: top;">L’engrais et l’eau interagissent-ils pour affecter le rendement ?</td>
+<td class="gt_row gt_left" headers="Plot" style="text-align: left; font-size: 12px; vertical-align: top;"><img src="images_summary/plot_4.png" width="250" height="200"></td>
 </tr>
 <tr class="odd">
-<td class="gt_row gt_center" headers="session" style="border-right-width: 1px; border-right-style: solid; border-right-color: #D3D3D3">5</td>
-<td class="gt_row gt_center" headers="ENV-01" style="border-right-width: 1px; border-right-style: solid; border-right-color: #D3D3D3">04.03.26</td>
-<td class="gt_row gt_center" headers="ENV-02" style="border-right-width: 1px; border-right-style: solid; border-right-color: #D3D3D3">04.03.26</td>
-<td class="gt_row gt_center" headers="BIO" style="border-right-width: 1px; border-right-style: solid; border-right-color: #D3D3D3">03.03.26</td>
-<td class="gt_row gt_left" headers="sujet" style="border-right-width: 1px; border-right-style: solid; border-right-color: #D3D3D3"><strong>GLMs Partie 1:</strong> Distributions statistiques alternatives</td>
-<td class="gt_row gt_center" headers="slides" style="border-right-width: 1px; border-right-style: solid; border-right-color: #D3D3D3"><br>
-</td>
-<td class="gt_row gt_center" headers="TP" style="border-right-width: 1px; border-right-style: solid; border-right-color: #D3D3D3"><br>
-</td>
-<td class="gt_row gt_center" headers="aide" style="border-right-width: 1px; border-right-style: solid; border-right-color: #D3D3D3"><br>
-</td>
+<td class="gt_row gt_left" headers="Name" style="text-align: left; font-size: 12px; vertical-align: top;"><strong>ANCOVA (Additive)</strong></td>
+<td class="gt_row gt_left" headers="Formula" style="text-align: left; font-size: 9.6px; vertical-align: top;"><code>lm(y ~ x + A)</code></td>
+<td class="gt_row gt_left" headers="Génération des données" style="text-align: left; font-size: 9.6px; vertical-align: top;"><span class="math inline">\(y \sim \mathrm{Normal}(\mu, \sigma)\)</span><br><span class="math inline">\(\mu = a + b x + \mu_A\)</span></td>
+<td class="gt_row gt_left" headers="Variables" style="text-align: left; font-size: 9.6px; vertical-align: top;">• 1 numérique (x)<br>• 1 catégorique (A)</td>
+<td class="gt_row gt_left" headers="Description" style="text-align: left; font-size: 12px; vertical-align: top;">Comparer les ordonnées à l’origine entre groupes sur la même droite de régression (droites parallèles, mêmes pentes)</td>
+<td class="gt_row gt_left" headers="Exemple Manchot" style="text-align: left; font-size: 12px; vertical-align: top;">Comment la longueur du bec affecte-t-elle la masse corporelle, en tenant compte des différences d’espèce ?</td>
+<td class="gt_row gt_left" headers="Exemple générique" style="text-align: left; font-size: 12px; vertical-align: top;">Comment la température affecte-t-elle la croissance, en tenant compte des différences de génotype ?</td>
+<td class="gt_row gt_left" headers="Plot" style="text-align: left; font-size: 12px; vertical-align: top;"><img src="images_summary/plot_5.png" width="250" height="200"></td>
 </tr>
 <tr class="even">
-<td class="gt_row gt_center gt_striped" headers="session" style="border-right-width: 1px; border-right-style: solid; border-right-color: #D3D3D3">CC1</td>
-<td class="gt_row gt_center gt_striped" headers="ENV-01" style="border-right-width: 1px; border-right-style: solid; border-right-color: #D3D3D3">26.03.26</td>
-<td class="gt_row gt_center gt_striped" headers="ENV-02" style="border-right-width: 1px; border-right-style: solid; border-right-color: #D3D3D3">27.03.26</td>
-<td class="gt_row gt_center gt_striped" headers="BIO" style="border-right-width: 1px; border-right-style: solid; border-right-color: #D3D3D3">24.03.26</td>
-<td class="gt_row gt_left gt_striped" headers="sujet" style="border-right-width: 1px; border-right-style: solid; border-right-color: #D3D3D3"><br>
-</td>
-<td class="gt_row gt_center gt_striped" headers="slides" style="border-right-width: 1px; border-right-style: solid; border-right-color: #D3D3D3"><br>
-</td>
-<td class="gt_row gt_center gt_striped" headers="TP" style="border-right-width: 1px; border-right-style: solid; border-right-color: #D3D3D3"><br>
-</td>
-<td class="gt_row gt_center gt_striped" headers="aide" style="border-right-width: 1px; border-right-style: solid; border-right-color: #D3D3D3"><br>
-</td>
+<td class="gt_row gt_left" headers="Name" style="text-align: left; font-size: 12px; vertical-align: top;"><strong>ANCOVA (Interactive)</strong></td>
+<td class="gt_row gt_left" headers="Formula" style="text-align: left; font-size: 9.6px; vertical-align: top;"><code>lm(y ~ x * A)</code></td>
+<td class="gt_row gt_left" headers="Génération des données" style="text-align: left; font-size: 9.6px; vertical-align: top;"><span class="math inline">\(y \sim \mathrm{Normal}(\mu, \sigma)\)</span><br><span class="math inline">\(\mu = a_A + b_A x\)</span></td>
+<td class="gt_row gt_left" headers="Variables" style="text-align: left; font-size: 9.6px; vertical-align: top;">• 1 numérique (x)<br>• 1 catégorique (A)</td>
+<td class="gt_row gt_left" headers="Description" style="text-align: left; font-size: 12px; vertical-align: top;">Comparer les pentes de régression et ordonnées à l’origine selon les groupes</td>
+<td class="gt_row gt_left" headers="Exemple Manchot" style="text-align: left; font-size: 12px; vertical-align: top;">La relation entre la longueur du bec et la masse corporelle diffère-t-elle selon l’espèce ?</td>
+<td class="gt_row gt_left" headers="Exemple générique" style="text-align: left; font-size: 12px; vertical-align: top;">La relation entre la température et la croissance diffère-t-elle selon le génotype ?</td>
+<td class="gt_row gt_left" headers="Plot" style="text-align: left; font-size: 12px; vertical-align: top;"><img src="images_summary/plot_6.png" width="250" height="200"></td>
 </tr>
-<tr class="odd">
-<td class="gt_row gt_center" headers="session" style="border-right-width: 1px; border-right-style: solid; border-right-color: #D3D3D3">6</td>
-<td class="gt_row gt_center" headers="ENV-01" style="border-right-width: 1px; border-right-style: solid; border-right-color: #D3D3D3">01.04.26</td>
-<td class="gt_row gt_center" headers="ENV-02" style="border-right-width: 1px; border-right-style: solid; border-right-color: #D3D3D3">02.04.26</td>
-<td class="gt_row gt_center" headers="BIO" style="border-right-width: 1px; border-right-style: solid; border-right-color: #D3D3D3">30.03.26</td>
-<td class="gt_row gt_left" headers="sujet" style="border-right-width: 1px; border-right-style: solid; border-right-color: #D3D3D3"><strong>GLMs Partie 2:</strong> Évaluation du modèle</td>
-<td class="gt_row gt_center" headers="slides" style="border-right-width: 1px; border-right-style: solid; border-right-color: #D3D3D3"><br>
-</td>
-<td class="gt_row gt_center" headers="TP" style="border-right-width: 1px; border-right-style: solid; border-right-color: #D3D3D3"><br>
-</td>
-<td class="gt_row gt_center" headers="aide" style="border-right-width: 1px; border-right-style: solid; border-right-color: #D3D3D3"><br>
-</td>
+</tbody><tfoot>
+<tr class="gt_sourcenotes odd">
+<td colspan="8" class="gt_sourcenote" style="text-align: left;"><strong>ANOVA</strong> = <strong>a</strong>nalysis of <strong>va</strong>riance ; <strong>ANCOVA</strong> = <strong>an</strong>alysis of <strong>cova</strong>riance</td>
 </tr>
-<tr class="even">
-<td class="gt_row gt_center gt_striped" headers="session" style="border-right-width: 1px; border-right-style: solid; border-right-color: #D3D3D3">7</td>
-<td class="gt_row gt_center gt_striped" headers="ENV-01" style="border-right-width: 1px; border-right-style: solid; border-right-color: #D3D3D3">08.04.26</td>
-<td class="gt_row gt_center gt_striped" headers="ENV-02" style="border-right-width: 1px; border-right-style: solid; border-right-color: #D3D3D3">09.04.26</td>
-<td class="gt_row gt_center gt_striped" headers="BIO" style="border-right-width: 1px; border-right-style: solid; border-right-color: #D3D3D3">07.04.26</td>
-<td class="gt_row gt_left gt_striped" headers="sujet" style="border-right-width: 1px; border-right-style: solid; border-right-color: #D3D3D3"><strong>Statistiques Multivariées:</strong> Introduction, indices, PCA</td>
-<td class="gt_row gt_center gt_striped" headers="slides" style="border-right-width: 1px; border-right-style: solid; border-right-color: #D3D3D3"><br>
-</td>
-<td class="gt_row gt_center gt_striped" headers="TP" style="border-right-width: 1px; border-right-style: solid; border-right-color: #D3D3D3"><br>
-</td>
-<td class="gt_row gt_center gt_striped" headers="aide" style="border-right-width: 1px; border-right-style: solid; border-right-color: #D3D3D3"><br>
-</td>
-</tr>
-<tr class="odd">
-<td class="gt_row gt_center" headers="session" style="border-right-width: 1px; border-right-style: solid; border-right-color: #D3D3D3">CC2/ET</td>
-<td class="gt_row gt_center" headers="ENV-01" style="border-right-width: 1px; border-right-style: solid; border-right-color: #D3D3D3">30.04.26</td>
-<td class="gt_row gt_center" headers="ENV-02" style="border-right-width: 1px; border-right-style: solid; border-right-color: #D3D3D3">27.04.26</td>
-<td class="gt_row gt_center" headers="BIO" style="border-right-width: 1px; border-right-style: solid; border-right-color: #D3D3D3">29.04.26</td>
-<td class="gt_row gt_left" headers="sujet" style="border-right-width: 1px; border-right-style: solid; border-right-color: #D3D3D3"><br>
-</td>
-<td class="gt_row gt_center" headers="slides" style="border-right-width: 1px; border-right-style: solid; border-right-color: #D3D3D3"><br>
-</td>
-<td class="gt_row gt_center" headers="TP" style="border-right-width: 1px; border-right-style: solid; border-right-color: #D3D3D3"><br>
-</td>
-<td class="gt_row gt_center" headers="aide" style="border-right-width: 1px; border-right-style: solid; border-right-color: #D3D3D3"><br>
-</td>
-</tr>
-<tr class="even">
-<td class="gt_row gt_center gt_striped" headers="session" style="border-right-width: 1px; border-right-style: solid; border-right-color: #D3D3D3">2e chance</td>
-<td class="gt_row gt_center gt_striped" headers="ENV-01" style="border-right-width: 1px; border-right-style: solid; border-right-color: #D3D3D3">18.05.26</td>
-<td class="gt_row gt_center gt_striped" headers="ENV-02" style="border-right-width: 1px; border-right-style: solid; border-right-color: #D3D3D3">22.05.26</td>
-<td class="gt_row gt_center gt_striped" headers="BIO" style="border-right-width: 1px; border-right-style: solid; border-right-color: #D3D3D3">20.05.26</td>
-<td class="gt_row gt_left gt_striped" headers="sujet" style="border-right-width: 1px; border-right-style: solid; border-right-color: #D3D3D3"><br>
-</td>
-<td class="gt_row gt_center gt_striped" headers="slides" style="border-right-width: 1px; border-right-style: solid; border-right-color: #D3D3D3"><br>
-</td>
-<td class="gt_row gt_center gt_striped" headers="TP" style="border-right-width: 1px; border-right-style: solid; border-right-color: #D3D3D3"><br>
-</td>
-<td class="gt_row gt_center gt_striped" headers="aide" style="border-right-width: 1px; border-right-style: solid; border-right-color: #D3D3D3"><br>
-</td>
-</tr>
-</tbody>
+</tfoot>
+
 </table>
 
 </div>
@@ -832,7 +810,7 @@ ul.task-list li input[type="checkbox"] {
     }
       var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
       var mailtoRegex = new RegExp(/^mailto:/);
-        var filterRegex = new RegExp("https:\/\/andieich\.github\.io\/2026_biostatistiques_2\/");
+        var filterRegex = new RegExp('/' + window.location.host + '/');
       var isInternal = (href) => {
           return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
       }
@@ -1159,15 +1137,6 @@ ul.task-list li input[type="checkbox"] {
     }
   });
   </script>
-<nav class="page-navigation">
-  <div class="nav-page nav-page-previous">
-  </div>
-  <div class="nav-page nav-page-next">
-      <a href="./posit_cloud_access.html" class="pagination-link" aria-label="Accéder à Posit Cloud">
-        <span class="nav-page-text">Accéder à Posit Cloud</span> <i class="bi bi-arrow-right-short"></i>
-      </a>
-  </div>
-</nav>
 </div> <!-- /content -->
 <footer class="footer">
   <div class="nav-footer">

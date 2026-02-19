@@ -70,6 +70,35 @@ ul.task-list li input[type="checkbox"] {
   }
 }</script>
 
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
 
 <meta property="og:title" content="Aperçu des modèles linéaires – Biostatistiques 2">
 <meta property="og:image" content="https://andieich.github.io/2026_biostatistiques_2/images_summary/plot_1.png">
@@ -162,8 +191,6 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
-<section id="résumé-des-modèles-linéaires" class="level2">
-<h2 class="anchored" data-anchor-id="résumé-des-modèles-linéaires">Résumé des modèles linéaires</h2>
 <div class="cell">
 <div class="cell-output-display">
 <div id="pqkrwbzjdt" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
@@ -618,18 +645,20 @@ ul.task-list li input[type="checkbox"] {
 
 <table class="gt_table caption-top table table-sm table-striped small" data-quarto-postprocess="true" data-quarto-disable-processing="false" data-quarto-bootstrap="false">
 <colgroup>
-<col style="width: 7%">
+<col style="width: 6%">
+<col style="width: 11%">
 <col style="width: 11%">
 <col style="width: 16%">
-<col style="width: 15%">
-<col style="width: 12%">
-<col style="width: 12%">
-<col style="width: 30%">
+<col style="width: 14%">
+<col style="width: 10%">
+<col style="width: 10%">
+<col style="width: 17%">
 </colgroup>
 <thead>
 <tr class="gt_col_headings header">
 <th id="Name" class="gt_col_heading gt_columns_bottom_border gt_left" data-quarto-table-cell-role="th" style="text-align: left; font-size: 12px; font-weight: bold;" scope="col">Name</th>
 <th id="Formula" class="gt_col_heading gt_columns_bottom_border gt_left" data-quarto-table-cell-role="th" style="text-align: left; font-size: 12px; font-weight: bold;" scope="col">Formula</th>
+<th id="Génération-des-données" class="gt_col_heading gt_columns_bottom_border gt_left" data-quarto-table-cell-role="th" style="text-align: left; font-size: 12px; font-weight: bold;" scope="col">Génération des données</th>
 <th id="Variables" class="gt_col_heading gt_columns_bottom_border gt_left" data-quarto-table-cell-role="th" style="text-align: left; font-size: 12px; font-weight: bold;" scope="col">Variables</th>
 <th id="Description" class="gt_col_heading gt_columns_bottom_border gt_left" data-quarto-table-cell-role="th" style="text-align: left; font-size: 12px; font-weight: bold;" scope="col">Description</th>
 <th id="Exemple-Manchot" class="gt_col_heading gt_columns_bottom_border gt_left" data-quarto-table-cell-role="th" style="text-align: left; font-size: 12px; font-weight: bold;" scope="col">Exemple Manchot</th>
@@ -640,8 +669,9 @@ ul.task-list li input[type="checkbox"] {
 <tbody class="gt_table_body">
 <tr class="odd">
 <td class="gt_row gt_left" headers="Name" style="text-align: left; font-size: 12px; vertical-align: top;"><strong>Regression</strong></td>
-<td class="gt_row gt_left" headers="Formula" style="text-align: left; font-size: 12px; vertical-align: top;"><code>lm(y ~ x)</code></td>
-<td class="gt_row gt_left" headers="Variables" style="text-align: left; font-size: 12px; vertical-align: top;">• 1 numérique (x)</td>
+<td class="gt_row gt_left" headers="Formula" style="text-align: left; font-size: 9.6px; vertical-align: top;"><code>lm(y ~ x)</code></td>
+<td class="gt_row gt_left" headers="Génération des données" style="text-align: left; font-size: 9.6px; vertical-align: top;"><span class="math inline">\(y \sim \mathrm{Normal}(\mu, \sigma)\)</span><br><span class="math inline">\(\mu = a + b x\)</span></td>
+<td class="gt_row gt_left" headers="Variables" style="text-align: left; font-size: 9.6px; vertical-align: top;">• 1 numérique (x)</td>
 <td class="gt_row gt_left" headers="Description" style="text-align: left; font-size: 12px; vertical-align: top;">Estimer la relation linéaire entre variables continues</td>
 <td class="gt_row gt_left" headers="Exemple Manchot" style="text-align: left; font-size: 12px; vertical-align: top;">Comment la longueur du bec affecte-t-elle la masse corporelle ?</td>
 <td class="gt_row gt_left" headers="Exemple générique" style="text-align: left; font-size: 12px; vertical-align: top;">Comment la température affecte-t-elle le taux de croissance ?</td>
@@ -649,8 +679,9 @@ ul.task-list li input[type="checkbox"] {
 </tr>
 <tr class="even">
 <td class="gt_row gt_left" headers="Name" style="text-align: left; font-size: 12px; vertical-align: top;"><strong>ANOVA</strong></td>
-<td class="gt_row gt_left" headers="Formula" style="text-align: left; font-size: 12px; vertical-align: top;"><code>lm(y ~ A)</code></td>
-<td class="gt_row gt_left" headers="Variables" style="text-align: left; font-size: 12px; vertical-align: top;">• 1 catégorique (A)</td>
+<td class="gt_row gt_left" headers="Formula" style="text-align: left; font-size: 9.6px; vertical-align: top;"><code>lm(y ~ A)</code></td>
+<td class="gt_row gt_left" headers="Génération des données" style="text-align: left; font-size: 9.6px; vertical-align: top;"><span class="math inline">\(y \sim \mathrm{Normal}(\mu, \sigma)\)</span><br><span class="math inline">\(\mu = \mu_A\)</span></td>
+<td class="gt_row gt_left" headers="Variables" style="text-align: left; font-size: 9.6px; vertical-align: top;">• 1 catégorique (A)</td>
 <td class="gt_row gt_left" headers="Description" style="text-align: left; font-size: 12px; vertical-align: top;">Comparer les moyennes entre groupes ; tester si les groupes diffèrent</td>
 <td class="gt_row gt_left" headers="Exemple Manchot" style="text-align: left; font-size: 12px; vertical-align: top;">La masse corporelle diffère-t-elle selon l’espèce ?</td>
 <td class="gt_row gt_left" headers="Exemple générique" style="text-align: left; font-size: 12px; vertical-align: top;">La survie diffère-t-elle selon les traitements ?</td>
@@ -658,8 +689,9 @@ ul.task-list li input[type="checkbox"] {
 </tr>
 <tr class="odd">
 <td class="gt_row gt_left" headers="Name" style="text-align: left; font-size: 12px; vertical-align: top;"><strong>ANOVA (Additive)</strong></td>
-<td class="gt_row gt_left" headers="Formula" style="text-align: left; font-size: 12px; vertical-align: top;"><code>lm(y ~ A + B)</code></td>
-<td class="gt_row gt_left" headers="Variables" style="text-align: left; font-size: 12px; vertical-align: top;">• 2 catégoriques (A, B)</td>
+<td class="gt_row gt_left" headers="Formula" style="text-align: left; font-size: 9.6px; vertical-align: top;"><code>lm(y ~ A + B)</code></td>
+<td class="gt_row gt_left" headers="Génération des données" style="text-align: left; font-size: 9.6px; vertical-align: top;"><span class="math inline">\(y \sim \mathrm{Normal}(\mu, \sigma)\)</span><br><span class="math inline">\(\mu = \mu_A + \mu_B\)</span></td>
+<td class="gt_row gt_left" headers="Variables" style="text-align: left; font-size: 9.6px; vertical-align: top;">• 2 catégoriques (A, B)</td>
 <td class="gt_row gt_left" headers="Description" style="text-align: left; font-size: 12px; vertical-align: top;">Évaluer l’impact de 2 facteurs séparément ; assume des effets additifs</td>
 <td class="gt_row gt_left" headers="Exemple Manchot" style="text-align: left; font-size: 12px; vertical-align: top;">Comment l’espèce et le sexe affectent-ils la masse corporelle séparément ?</td>
 <td class="gt_row gt_left" headers="Exemple générique" style="text-align: left; font-size: 12px; vertical-align: top;">Comment l’engrais et l’eau affectent-ils le rendement séparément ?</td>
@@ -667,32 +699,40 @@ ul.task-list li input[type="checkbox"] {
 </tr>
 <tr class="even">
 <td class="gt_row gt_left" headers="Name" style="text-align: left; font-size: 12px; vertical-align: top;"><strong>ANOVA (Interactive)</strong></td>
-<td class="gt_row gt_left" headers="Formula" style="text-align: left; font-size: 12px; vertical-align: top;"><code>lm(y ~ A * B)</code></td>
-<td class="gt_row gt_left" headers="Variables" style="text-align: left; font-size: 12px; vertical-align: top;">• 2 catégoriques (A, B)</td>
-<td class="gt_row gt_left" headers="Description" style="text-align: left; font-size: 12px; vertical-align: top;">Évaluer l’impact de 2 facteurs ; l’effet de A dépend de B</td>
+<td class="gt_row gt_left" headers="Formula" style="text-align: left; font-size: 9.6px; vertical-align: top;"><code>lm(y ~ A * B)</code></td>
+<td class="gt_row gt_left" headers="Génération des données" style="text-align: left; font-size: 9.6px; vertical-align: top;"><span class="math inline">\(y \sim \mathrm{Normal}(\mu, \sigma)\)</span><br><span class="math inline">\(\mu = \mu_A + \mu_B + \mu_{AB}\)</span></td>
+<td class="gt_row gt_left" headers="Variables" style="text-align: left; font-size: 9.6px; vertical-align: top;">• 2 catégoriques (A, B)</td>
+<td class="gt_row gt_left" headers="Description" style="text-align: left; font-size: 12px; vertical-align: top;">Évaluer l’impact de 2 facteurs ; l’effet de A dépend de B (ou l’inverse)</td>
 <td class="gt_row gt_left" headers="Exemple Manchot" style="text-align: left; font-size: 12px; vertical-align: top;">L’espèce et le sexe interagissent-ils pour affecter la masse corporelle ?</td>
 <td class="gt_row gt_left" headers="Exemple générique" style="text-align: left; font-size: 12px; vertical-align: top;">L’engrais et l’eau interagissent-ils pour affecter le rendement ?</td>
 <td class="gt_row gt_left" headers="Plot" style="text-align: left; font-size: 12px; vertical-align: top;"><img src="images_summary/plot_4.png" width="250" height="200"></td>
 </tr>
 <tr class="odd">
 <td class="gt_row gt_left" headers="Name" style="text-align: left; font-size: 12px; vertical-align: top;"><strong>ANCOVA (Additive)</strong></td>
-<td class="gt_row gt_left" headers="Formula" style="text-align: left; font-size: 12px; vertical-align: top;"><code>lm(y ~ x + A)</code></td>
-<td class="gt_row gt_left" headers="Variables" style="text-align: left; font-size: 12px; vertical-align: top;">• 1 numérique (x)<br>• 1 catégorique (A)</td>
-<td class="gt_row gt_left" headers="Description" style="text-align: left; font-size: 12px; vertical-align: top;">Comparer les ordonnées à l’origine entre groupes sur la même droite de régression (droites parallèles)</td>
+<td class="gt_row gt_left" headers="Formula" style="text-align: left; font-size: 9.6px; vertical-align: top;"><code>lm(y ~ x + A)</code></td>
+<td class="gt_row gt_left" headers="Génération des données" style="text-align: left; font-size: 9.6px; vertical-align: top;"><span class="math inline">\(y \sim \mathrm{Normal}(\mu, \sigma)\)</span><br><span class="math inline">\(\mu = a + b x + \mu_A\)</span></td>
+<td class="gt_row gt_left" headers="Variables" style="text-align: left; font-size: 9.6px; vertical-align: top;">• 1 numérique (x)<br>• 1 catégorique (A)</td>
+<td class="gt_row gt_left" headers="Description" style="text-align: left; font-size: 12px; vertical-align: top;">Comparer les ordonnées à l’origine entre groupes sur la même droite de régression (droites parallèles, mêmes pentes)</td>
 <td class="gt_row gt_left" headers="Exemple Manchot" style="text-align: left; font-size: 12px; vertical-align: top;">Comment la longueur du bec affecte-t-elle la masse corporelle, en tenant compte des différences d’espèce ?</td>
 <td class="gt_row gt_left" headers="Exemple générique" style="text-align: left; font-size: 12px; vertical-align: top;">Comment la température affecte-t-elle la croissance, en tenant compte des différences de génotype ?</td>
 <td class="gt_row gt_left" headers="Plot" style="text-align: left; font-size: 12px; vertical-align: top;"><img src="images_summary/plot_5.png" width="250" height="200"></td>
 </tr>
 <tr class="even">
 <td class="gt_row gt_left" headers="Name" style="text-align: left; font-size: 12px; vertical-align: top;"><strong>ANCOVA (Interactive)</strong></td>
-<td class="gt_row gt_left" headers="Formula" style="text-align: left; font-size: 12px; vertical-align: top;"><code>lm(y ~ x * A)</code></td>
-<td class="gt_row gt_left" headers="Variables" style="text-align: left; font-size: 12px; vertical-align: top;">• 1 numérique (x)<br>• 1 catégorique (A)</td>
-<td class="gt_row gt_left" headers="Description" style="text-align: left; font-size: 12px; vertical-align: top;">Comparer les pentes de régression différentes selon les groupes</td>
+<td class="gt_row gt_left" headers="Formula" style="text-align: left; font-size: 9.6px; vertical-align: top;"><code>lm(y ~ x * A)</code></td>
+<td class="gt_row gt_left" headers="Génération des données" style="text-align: left; font-size: 9.6px; vertical-align: top;"><span class="math inline">\(y \sim \mathrm{Normal}(\mu, \sigma)\)</span><br><span class="math inline">\(\mu = a_A + b_A x\)</span></td>
+<td class="gt_row gt_left" headers="Variables" style="text-align: left; font-size: 9.6px; vertical-align: top;">• 1 numérique (x)<br>• 1 catégorique (A)</td>
+<td class="gt_row gt_left" headers="Description" style="text-align: left; font-size: 12px; vertical-align: top;">Comparer les pentes de régression et ordonnées à l’origine selon les groupes</td>
 <td class="gt_row gt_left" headers="Exemple Manchot" style="text-align: left; font-size: 12px; vertical-align: top;">La relation entre la longueur du bec et la masse corporelle diffère-t-elle selon l’espèce ?</td>
 <td class="gt_row gt_left" headers="Exemple générique" style="text-align: left; font-size: 12px; vertical-align: top;">La relation entre la température et la croissance diffère-t-elle selon le génotype ?</td>
 <td class="gt_row gt_left" headers="Plot" style="text-align: left; font-size: 12px; vertical-align: top;"><img src="images_summary/plot_6.png" width="250" height="200"></td>
 </tr>
-</tbody>
+</tbody><tfoot>
+<tr class="gt_sourcenotes odd">
+<td colspan="8" class="gt_sourcenote" style="text-align: left;"><strong>ANOVA</strong> = <strong>a</strong>nalysis of <strong>va</strong>riance ; <strong>ANCOVA</strong> = <strong>an</strong>alysis of <strong>cova</strong>riance</td>
+</tr>
+</tfoot>
+
 </table>
 
 </div>
@@ -700,7 +740,6 @@ ul.task-list li input[type="checkbox"] {
 </div>
 
 
-</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
