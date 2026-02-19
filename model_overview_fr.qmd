@@ -1,5 +1,5 @@
 ---
-title: "Linear Models Overview"
+title: "Aperçu des modèles linéaires"
 toc: false
 ---
 
@@ -244,7 +244,7 @@ p6 <- plot_ancova_int()
 dir.create("images_summary", showWarnings = FALSE, recursive = TRUE)
 
 
-# Also save to output directory for reference
+# Save to output directory for reference
 ggsave("images_summary/plot_1.png", p1, width = 4.5, height = 3.5, dpi = 100)
 ggsave("images_summary/plot_2.png", p2, width = 4.5, height = 3.5, dpi = 100)
 ggsave("images_summary/plot_3.png", p3, width = 4.5, height = 3.5, dpi = 100)
@@ -255,6 +255,7 @@ ggsave("images_summary/plot_6.png", p6, width = 4.5, height = 3.5, dpi = 100)
 invisible(NULL)
 ```
 
+## Résumé des modèles linéaires
 
 ```{r}
 #| echo: false
@@ -278,36 +279,36 @@ models_data <- tibble(
     "`lm(y ~ x * A)`"
   ),
   Variables = c(
-    "• 1 numeric (x)",
-    "• 1 categorical (A)",
-    "• 2 categorical (A, B)",
-    "• 2 categorical (A, B)",
-    "• 1 numeric (x)<br>• 1 categorical (A)",
-    "• 1 numeric (x)<br>• 1 categorical (A)"
+    "• 1 numérique (x)",
+    "• 1 catégorique (A)",
+    "• 2 catégoriques (A, B)",
+    "• 2 catégoriques (A, B)",
+    "• 1 numérique (x)<br>• 1 catégorique (A)",
+    "• 1 numérique (x)<br>• 1 catégorique (A)"
   ),
   Description = c(
-    "Estimate linear relationship between continuous variables",
-    "Compare means across groups; test if groups differ",
-    "Assess impact of 2 factors separately; assumes additive effects",
-    "Assess impact of 2 factors; effect of A depends on B",
-    "Compare group intercepts on same regression line (parallel lines)",
-    "Compare different regression slopes across groups"
+    "Estimer la relation linéaire entre variables continues",
+    "Comparer les moyennes entre groupes ; tester si les groupes diffèrent",
+    "Évaluer l'impact de 2 facteurs séparément ; assume des effets additifs",
+    "Évaluer l'impact de 2 facteurs ; l'effet de A dépend de B",
+    "Comparer les ordonnées à l'origine entre groupes sur la même droite de régression (droites parallèles)",
+    "Comparer les pentes de régression différentes selon les groupes"
   ),
-  `Penguin Example` = c(
-    "How does bill length affect body mass?",
-    "Does body mass differ between species?",
-    "How do species and sex affect body mass separately?",
-    "Do species and sex interact to affect body mass?",
-    "How does bill length affect body mass, accounting for species differences?",
-    "Does the relationship between bill length and body mass differ by species?"
+  `Exemple Manchot` = c(
+    "Comment la longueur du bec affecte-t-elle la masse corporelle ?",
+    "La masse corporelle diffère-t-elle selon l'espèce ?",
+    "Comment l'espèce et le sexe affectent-ils la masse corporelle séparément ?",
+    "L'espèce et le sexe interagissent-ils pour affecter la masse corporelle ?",
+    "Comment la longueur du bec affecte-t-elle la masse corporelle, en tenant compte des différences d'espèce ?",
+    "La relation entre la longueur du bec et la masse corporelle diffère-t-elle selon l'espèce ?"
   ),
-  `Generic Example` = c(
-    "How does temperature affect growth rate?",
-    "Does survival differ between treatments?",
-    "How do fertilizer and water affect yield separately?",
-    "Do fertilizer and water interact to affect yield?",
-    "How does temperature affect growth, accounting for genotype differences?",
-    "Does the relationship between temperature and growth differ by genotype?"
+  `Exemple générique` = c(
+    "Comment la température affecte-t-elle le taux de croissance ?",
+    "La survie diffère-t-elle selon les traitements ?",
+    "Comment l'engrais et l'eau affectent-ils le rendement séparément ?",
+    "L'engrais et l'eau interagissent-ils pour affecter le rendement ?",
+    "Comment la température affecte-t-elle la croissance, en tenant compte des différences de génotype ?",
+    "La relation entre la température et la croissance diffère-t-elle selon le génotype ?"
   ),
   Plot = c(
     "![](images_summary/plot_1.png){width=250px height=200px}",
@@ -322,12 +323,12 @@ models_data <- tibble(
 # Create the gt table
 gt_table <- gt(models_data) %>%
   cols_width(
-    Name ~ pct(8),
+    Name ~ pct(7),
     Formula ~ pct(11),
-    Variables ~ pct(14),
+    Variables ~ pct(16),
     Description ~ pct(15),
-    `Penguin Example` ~ pct(12),
-    `Generic Example` ~ pct(12),
+    `Exemple Manchot` ~ pct(12),
+    `Exemple générique` ~ pct(12),
     Plot ~ pct(30)
   ) %>%
   tab_options(
@@ -352,4 +353,3 @@ gt_table <- gt(models_data) %>%
 
 gt_table
 ```
-
