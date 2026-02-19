@@ -23,13 +23,9 @@ penguins <- penguins %>%
 ::: med-space
 :::
 
-Les modèles linéaires comme cadre unifié :
 
--   **Régression** : variable explicative numérique
 
--   **ANOVA/t-test** : variables explicatives catégoriques
 
--   **ANCOVA** : variables explicatives numériques et catégoriques
 
 ## Le problème avec l'ANOVA {.smaller}
 
