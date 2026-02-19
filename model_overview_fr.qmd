@@ -290,9 +290,9 @@ models_data <- tibble(
     "Estimer la relation linéaire entre variables continues",
     "Comparer les moyennes entre groupes ; tester si les groupes diffèrent",
     "Évaluer l'impact de 2 facteurs séparément ; assume des effets additifs",
-    "Évaluer l'impact de 2 facteurs ; l'effet de A dépend de B",
-    "Comparer les ordonnées à l'origine entre groupes sur la même droite de régression (droites parallèles)",
-    "Comparer les pentes de régression différentes selon les groupes"
+    "Évaluer l'impact de 2 facteurs ; l'effet de A dépend de B (ou l'inverse)",
+    "Comparer les ordonnées à l'origine entre groupes sur la même droite de régression (droites parallèles, mêmes pentes)",
+    "Comparer les pentes de régression et ordonnées à l'origine selon les groupes"
   ),
   `Exemple Manchot` = c(
     "Comment la longueur du bec affecte-t-elle la masse corporelle ?",

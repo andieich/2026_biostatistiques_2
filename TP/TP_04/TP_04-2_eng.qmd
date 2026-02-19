@@ -20,18 +20,15 @@ This was all fun, but so far we don't know if the models are "valid" and if the 
 
 For the three models we created in the first part of the TP:
 
-
 -   `m_poci`
 
 -   `m_cover`
 
 -   `m_ancova`
 
-
 We can check if the assumptins are met ot notö
 
 Use the `performance` package and the `check_model()` function and visually assess the models we used so far
-
 
 ```{r}
 m_poci <- lm(percent_cover ~ coast, data = dat_coral_cover_poci)
