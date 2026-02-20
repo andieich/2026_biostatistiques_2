@@ -12,7 +12,7 @@ library(tidyverse)
 library(gt)
 
 # Set theme
-theme_set(theme_light(base_size = 20))
+theme_set(theme_light(base_size = 14))
 
 # Prepare data for examples
 set.seed(42)
