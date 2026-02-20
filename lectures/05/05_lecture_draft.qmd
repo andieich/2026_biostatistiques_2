@@ -1,0 +1,630 @@
+---
+title: Beyond Normality
+subtitle: Lecture 5 
+---
+
+```{r}
+#| echo: false
+#| message: false
+#| warning: false
+
+library(tidyverse)
+library(palmerpenguins)
+theme_set(theme_light(base_size = 20))
+```
+
+## Previous lecture recap {.smaller}
+
+::: med-space
+:::
+
+-   Linear models with categorical (ANOVA) and numeric (regression) variables
+-   Post-hoc tests to compare groups
+-   Assumptions of linear models: independence, homoscedasticity, normality
+-   Checking assumptions with `check_model()`
+
+## Today {.smaller}
+
+::: med-space
+:::
+
+::: incremental
+1.  Revisit the normal distribution
+2.  Understand what normality actually describes
+3.  Identify when classical linear models fail
+4.  Introduction to **Generalized Linear Models (GLMs)**
+:::
+
+## Reminder: Normal distribution {.smaller}
+
+::: med-space
+:::
+
+::::: columns
+::: column
+```{r}
+#| echo: false
+
+x <- seq(-4, 4, length.out = 100)
+y <- dnorm(x, mean = 0, sd = 1)
+df <- data.frame(x, y)
+
+ggplot(df, aes(x, y)) +
+  geom_area(fill = "lightblue", alpha = 0.5) +
+  geom_line(color = "darkred", linewidth = 1.5) +
+  geom_vline(xintercept = 0, linetype = "dashed", linewidth = 1) +
+  annotate(
+    "segment",
+    x = 0,
+    xend = 1,
+    y = 0.24,
+    yend = 0.24,
+    arrow = arrow(ends = "both", length = unit(0.2, "cm"))
+  ) +
+  annotate("text", x = 0.5, y = 0.27, label = "SD", size = 6) +
+  annotate("text", x = 0, y = -0.02, label = "Mean", size = 6) +
+  labs(x = "Value", y = "Relative frequency") +
+  theme(panel.grid = element_blank())
+```
+:::
+
+::: column
+**Properties:**
+
+-   Described by mean $\mu$ and standard deviation $\sigma$
+-   **Symmetric** bell shape
+-   **Defined from $-\infty$ to $+\infty$**
+-   Most values close to the mean
+:::
+:::::
+
+## "Problematic" properties of the normal {.smaller}
+
+::: med-space
+:::
+
+::: incremental
+1.  **Symmetric**: Equal tails on both sides of the mean
+    -   ❌ Problem for asymmetric data
+
+2.  **Defined on the entire real line**: From $-\infty$ to $+\infty$
+    -   ❌ Problem if your data cannot be negative
+    -   ❌ Problem if your data has an upper limit
+
+3.  **Constant variance**: Same spread everywhere
+    -   ❌ Problem if variability changes with the mean
+:::
+
+## Our model so far {.smaller}
+
+::: med-space
+:::
+
+For regression (for example):
+
+$$
+\begin{align}
+y_i &\sim \mathrm{Normal}(\mu_i, \sigma) \\
+\mu_i &= a + b \cdot x_i
+\end{align}
+$$
+
+::: med-space
+:::
+
+::: fragment
+::: question
+But what exactly follows a normal distribution?
+:::
+:::
+
+## Normality of **residuals** {.smaller}
+
+::: med-space
+:::
+
+::::: columns
+::: column
+```{r}
+#| echo: false
+
+set.seed(42)
+x_demo <- seq(2, 8, length.out = 20)
+y_demo <- 1.5 + 0.8 * x_demo + rnorm(20, 0, 0.8)
+df_demo <- data.frame(x = x_demo, y = y_demo)
+m_demo <- lm(y ~ x, data = df_demo)
+
+ggplot(df_demo, aes(x = x, y = y)) +
+  geom_point(color = "steelblue", size = 3, alpha = 0.6) +
+  geom_smooth(method = "lm", se = FALSE, color = "darkred", linewidth = 1.2) +
+  geom_segment(
+    aes(x = x, xend = x, y = y, yend = fitted(m_demo)),
+    color = "grey40",
+    linetype = "dashed",
+    linewidth = 0.8
+  ) +
+  labs(x = "x", y = "y") +
+  theme(panel.grid = element_blank())
+```
+
+:::
+
+::: column
+::: fragment
+-   The **residuals** (difference between data and predictions) follow the normal
+
+-   **Not the raw data itself**
+
+-   $\mathrm{residual}_i = y_i - \mu_i$
+:::
+:::
+:::::
+
+::: fragment
+::: med-space
+:::
+
+The normal distribution describes the **random noise** around the regression line
+:::
+
+## Reformulating the model {.smaller}
+
+::: med-space
+:::
+
+We can write the model as:
+
+$$
+y_i = \underbrace{a + b \cdot x_i}_{\text{signal}} + \underbrace{\varepsilon_i}_{\text{noise}}
+$$
+
+where $\varepsilon_i \sim \mathrm{Normal}(0, \sigma)$
+
+::: med-space
+:::
+
+::: fragment
+::: question
+The noise is normally distributed, **not necessarily the data**
+:::
+:::
+
+## When normality fails {.smaller}
+
+::: med-space
+:::
+
+Some data types can **never** produce normally distributed residuals:
+
+::: incremental
+1.  **Count data**: 0, 1, 2, 3, ... (no negative values, no decimals)
+2.  **Binary data**: Yes/No, Presence/Absence, Alive/Dead
+3.  **Strictly positive data**: Concentrations, biomass, response times
+:::
+
+## Example 1: Fish counts {.smaller}
+
+::: med-space
+:::
+
+::::: columns
+::: column
+You count the number of sea urchins in 1 m² quadrats
+
+```{r}
+#| echo: false
+
+set.seed(123)
+site <- rep(c("Site A", "Site B"), each = 30)
+count_data <- tibble(
+  site = site,
+  count = c(rpois(30, lambda = 3), rpois(30, lambda = 8))
+)
+
+ggplot(count_data, aes(x = count)) +
+  geom_histogram(
+    binwidth = 1,
+    fill = "steelblue",
+    color = "black",
+    alpha = 0.7
+  ) +
+  facet_wrap(~site) +
+  labs(x = "Number of urchins", y = "Frequency") +
+  theme(panel.grid = element_blank())
+```
+
+:::
+
+::: column
+::: fragment
+**Problems with a normal model:**
+
+-   Counts are integers (0, 1, 2, ...)
+-   No negative values possible
+-   Variance often increases with the mean
+-   Asymmetric distribution
+:::
+:::
+:::::
+
+## Example 2: Point intercept transects {.smaller}
+
+::: med-space
+:::
+
+::::: columns
+::: column
+You measure coral cover: at each point, you record **presence** or **absence**
+
+```{r}
+#| echo: false
+
+set.seed(456)
+depth_vals <- seq(5, 30, length.out = 50)
+prob_coral <- 1 / (1 + exp(-(5 - 0.2 * depth_vals)))
+coral_presence <- rbinom(50, 1, prob_coral)
+
+df_coral <- tibble(
+  depth = depth_vals,
+  presence = coral_presence
+)
+
+ggplot(df_coral, aes(x = depth, y = presence)) +
+  geom_point(size = 2, alpha = 0.6, color = "steelblue") +
+  labs(x = "Depth (m)", y = "Coral presence (0/1)") +
+  theme(panel.grid = element_blank())
+```
+
+:::
+
+::: column
+::: fragment
+**Problems with a normal model:**
+
+-   Only two possible values: 0 or 1
+-   Model could predict values < 0 or > 1
+-   Residuals cannot be normal
+:::
+:::
+:::::
+
+## Example 3: Phytoplankton biomass {.smaller}
+
+::: med-space
+:::
+
+::::: columns
+::: column
+You measure biomass (mg/L) as a function of temperature
+
+```{r}
+#| echo: false
+
+set.seed(789)
+temp_vals <- seq(15, 30, length.out = 40)
+biomass <- exp(0.5 + 0.08 * temp_vals + rnorm(40, 0, 0.3))
+
+df_biomass <- tibble(
+  temperature = temp_vals,
+  biomass = biomass
+)
+
+ggplot(df_biomass, aes(x = temperature, y = biomass)) +
+  geom_point(size = 2, alpha = 0.6, color = "steelblue") +
+  labs(x = "Temperature (°C)", y = "Biomass (mg/L)") +
+  theme(panel.grid = element_blank())
+```
+
+:::
+
+::: column
+::: fragment
+**Problems with a normal model:**
+
+-   Biomass cannot be negative
+-   Variance increases with the mean
+-   Asymmetric distribution (long tail to the right)
+:::
+:::
+:::::
+
+## The solution: GLMs {.smaller}
+
+::: med-space
+:::
+
+::: question
+**Generalized Linear Models (GLMs)** extend linear models to handle other distributions
+:::
+
+::: med-space
+:::
+
+::: incremental
+-   **Different distributions**: Poisson, binomial, gamma, etc.
+-   **Same concepts**: explanatory variables, coefficients, predictions
+-   **New component**: link function
+:::
+
+## The link problem {.smaller}
+
+::: med-space
+:::
+
+For counts (Poisson distribution), we need $\mu > 0$
+
+::: med-space
+:::
+
+::::: columns
+::: column
+**Classical linear model:**
+
+$$
+\mu_i = a + b \cdot x_i
+$$
+
+::: fragment
+❌ Can produce negative values!
+:::
+:::
+
+::: column
+::: fragment
+**GLM with log link:**
+
+$$
+\log(\mu_i) = a + b \cdot x_i
+$$
+
+✅ $\mu_i = e^{a + b \cdot x_i}$ is always positive!
+:::
+:::
+:::::
+
+## Link functions {.smaller}
+
+::: med-space
+:::
+
+The link function transforms the distribution parameter to match the linear model
+
+::: med-space
+:::
+
+| Data type | Distribution | Typical link | Ensures |
+|-----------------|--------------|--------------|--------|
+| Counts | Poisson | log | $\mu > 0$ |
+| Binary (0/1) | Binomial | logit | $0 < p < 1$ |
+| Strictly positive | Gamma | log | $\mu > 0$ |
+| Normal | Normal | identity | no constraint |
+
+## Data generation model with GLM {.smaller}
+
+::: med-space
+:::
+
+**Before (linear model):**
+
+$$
+\begin{align}
+y_i &\sim \mathrm{Normal}(\mu_i, \sigma) \\
+\mu_i &= a + b \cdot x_i
+\end{align}
+$$
+
+::: fragment
+**Now (GLM for counts):**
+
+$$
+\begin{align}
+y_i &\sim \mathrm{Poisson}(\lambda_i) \\
+\log(\lambda_i) &= a + b \cdot x_i
+\end{align}
+$$
+
+or equivalently: $\lambda_i = e^{a + b \cdot x_i}$
+:::
+
+## Example: Sea urchin counts with GLM {.smaller}
+
+::: med-space
+:::
+
+```{r}
+#| echo: true
+#| eval: false
+
+# Classical linear model (incorrect)
+m_normal <- lm(count ~ site, data = count_data)
+
+# GLM with Poisson distribution (correct)
+m_poisson <- glm(
+  count ~ site,
+  data = count_data,
+  family = poisson(link = "log")
+)
+
+summary(m_poisson)
+```
+
+::: fragment
+```{r}
+#| echo: false
+
+m_poisson <- glm(
+  count ~ site,
+  data = count_data,
+  family = poisson(link = "log")
+)
+summary(m_poisson)
+```
+
+:::
+
+## Interpreting GLM coefficients {.smaller}
+
+::: med-space
+:::
+
+With a log link, coefficients are on the **log scale**:
+
+$$
+\log(\lambda_i) = a + b \cdot x_i
+$$
+
+::: fragment
+To get the effect on the original scale:
+
+$$
+\lambda_i = e^{a + b \cdot x_i} = e^a \cdot e^{b \cdot x_i}
+$$
+
+A coefficient of $b = 0.5$ means that $\lambda$ is multiplied by $e^{0.5} \approx 1.65$ for each unit increase in $x$
+:::
+
+## Checking GLM models {.smaller}
+
+::: med-space
+:::
+
+The same tools work!
+
+```{r}
+#| echo: true
+#| eval: false
+
+library(performance)
+check_model(m_poisson)
+```
+
+
+::: fragment
+**Key differences:**
+
+-   No normality check (we don't assume normal residuals)
+-   Overdispersion check (variance > mean for Poisson)
+-   Deviance residuals rather than simple residuals
+:::
+
+## Marine example: Coral cover {.smaller}
+
+::: med-space
+:::
+
+Predict coral presence/absence as a function of depth
+
+```{r}
+#| echo: true
+#| eval: false
+
+# GLM with binomial distribution
+m_coral <- glm(
+  presence ~ depth,
+  data = df_coral,
+  family = binomial(link = "logit")
+)
+
+summary(m_coral)
+```
+
+::: fragment
+The **logit** link ensures predicted probabilities stay between 0 and 1:
+
+$$
+\log\left(\frac{p_i}{1-p_i}\right) = a + b \cdot \text{depth}_i
+$$
+:::
+
+## Visualizing GLM predictions {.smaller}
+
+::: med-space
+:::
+
+```{r}
+#| echo: false
+#| fig-height: 6
+
+m_coral <- glm(
+  presence ~ depth,
+  data = df_coral,
+  family = binomial(link = "logit")
+)
+
+pred_grid <- tibble(depth = seq(5, 30, length.out = 100))
+pred_grid$prob <- predict(m_coral, newdata = pred_grid, type = "response")
+
+ggplot() +
+  geom_point(
+    data = df_coral,
+    aes(x = depth, y = presence),
+    size = 2,
+    alpha = 0.5,
+    color = "steelblue"
+  ) +
+  geom_line(
+    data = pred_grid,
+    aes(x = depth, y = prob),
+    color = "darkred",
+    linewidth = 1.5
+  ) +
+  labs(
+    x = "Depth (m)",
+    y = "Probability of coral presence",
+    title = "Binomial GLM with logit link"
+  ) +
+  theme(panel.grid = element_blank())
+```
+
+## When to use which model? {.smaller}
+
+::: med-space
+:::
+
+| Response type | Distribution | Marine example |
+|-----------------|--------------|---------------|
+| Continuous, can be negative | Normal | Temperature, size difference |
+| Counts | Poisson | Number of larvae, fish abundance |
+| Binary (Yes/No) | Binomial | Survival, presence/absence |
+| Strictly positive | Gamma | Biomass, nutrient concentration |
+
+## Summary {.smaller}
+
+::: med-space
+:::
+
+::: incremental
+1.  The **normal distribution describes residuals**, not raw data
+2.  Some data (counts, binary, strictly positive) cannot have normal residuals
+3.  **GLMs** extend linear models to other distributions
+4.  **Link functions** connect the linear model to the distribution parameter
+5.  You already know the concepts — GLMs are just a generalization
+:::
+
+## Next week {.smaller}
+
+::: med-space
+:::
+
+-   Fitting GLMs in R with `glm()`
+-   Interpreting outputs and coefficients
+-   Comparing models (Poisson vs binomial vs gamma)
+-   Practical examples with marine data
+
+## Your turn {.smaller}
+
+::: med-space
+:::
+
+1.  Go to the course website
+2.  Go to the calendar
+3.  Click on `TP 05`
+4.  Connect to Posit Cloud
+
+::: huge
+::: center-align
+
+[andieich.github.io/2026_biostatistiques_2](https://andieich.github.io/2026_biostatistiques_2/)
+
+:::
+:::

@@ -10,6 +10,7 @@ project:
     - "**/*.qmd"
     - "!TP/"
     - "!exam/"
+    - "!show_rstudio/"
     - "!lectures/"
   resources:
     - "lectures/output"
@@ -37,8 +38,12 @@ website:
           text: Accéder à Posit Cloud
         - href: course-team.qmd
           text: Équipe d'enseignement
-        - href: model_overview_fr.qmd
-          text: Résumé des modèles
+        - section: Résumés
+          contents: 
+            - href: model_overview_fr.qmd
+              text: Modèles
+            - href: distr_overview_fr.qmd
+              text: Distributions 
         - href: course-links.qmd
           text: Liens utiles
 
