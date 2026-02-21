@@ -1,6 +1,0 @@
----
-title: "Hints 4 dr"
-format: html
----
-
-> Post-hoc comparisons using Tukey's HSD test revealed that *Pocillopora* cover differed significantly between coastal orientations. The north coast had significantly higher coral cover than the east coast (t(10) = 5.99, p \< .001) and the west coast (t(10) = -4.04, p = .006). The difference between west and east coasts was not statistically significant. Then refer to an actual table so people can read the actual differences and the CIs.

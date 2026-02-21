@@ -1,0 +1,128 @@
+---
+title: "Indications pour TP 04-1"
+format: html
+date: 2026-02-16
+---
+
+Je vous donne ici de l'aide au cas où vous auriez du mal à résoudre les tâches. Veuillez d'abord essayer de résoudre les tâches sans ces indications. Toutes les informations dont vous avez besoin se trouvent dans le document `.qmd` que je vous ai partagé.
+
+:::: project
+### Tâche 1
+
+Créez un modèle linéaire pour tester l'impact de `coast` sur `percent_cover`. Remplacez les `____` en conséquence :
+
+```{r}
+#| eval: false
+#| echo: true
+
+m_poci <- lm(____ ~ ____, data = dat_coral_cover_poci)
+```
+
+::: {.callout-tip collapse="true" title="Afficher l'indice"}
+Quelle est votre variable réponse ? Quelle est votre variable explicative ? Rappelez-vous que dans `lm()`, la variable réponse vient avant le `~`. Vous voulez comprendre comment `percent_cover` est affecté par `coast`.
+:::
+::::
+
+:::: project
+### Tâche 2
+
+Utilisez la fonction `estimate_contrasts()` du package `modelbased` pour exécuter des tests par paires sur votre modèle (`m_poci`) entre toutes les orientations côtières :
+
+```{r}
+#| eval: false
+#| echo: true
+
+estimate_contrasts(model = ____, p_adjust = "tukey")
+```
+
+::: {.callout-tip collapse="true" title="Afficher l'indice"}
+Vous devez insérer le nom du modèle `m_poci` que vous avez créé dans la Tâche 1 dans l'argument `model =`.
+:::
+::::
+
+:::: project
+### Tâche 3
+
+Utilisez la fonction `estimate_means()` avec votre modèle pour d'abord calculer les estimations du modèle pour chaque groupe, puis utilisez `plot()` :
+
+```{r}
+#| eval: false
+#| echo: true
+
+estimate_means(model = ____) %>%
+  plot()
+```
+
+::: {.callout-tip collapse="true" title="Afficher l'indice"}
+Encore une fois, vous devez insérer le nom du modèle `m_poci` dans l'argument `model =`. L'opérateur pipe `%>%` prend la sortie de `estimate_means()` et la passe à `plot()`.
+:::
+::::
+
+:::: project
+### Tâche 4
+
+Créez un modèle pour évaluer l'interaction de `coast` et `genus` sur `percent_cover` :
+
+```{r}
+#| eval: false
+#| echo: true
+
+# Interaction model
+m_cover <- lm(____ ~ ____ * ____, data = dat_coral_cover_genus)
+```
+
+::: {.callout-tip collapse="true" title="Afficher l'indice"}
+Quelle est votre variable réponse ? Elle vient avant le `~`. Quelles sont vos deux variables explicatives ? Elles doivent être séparées par un `*` pour tester l'interaction. Vous voulez tester comment `percent_cover` est affecté par l'interaction de `coast` et `genus`.
+:::
+::::
+
+:::: project
+### Tâche 5
+
+Exécutez une ANOVA sur le modèle et interprétez ce qu'elle vous dit :
+
+```{r}
+#| eval: false
+#| echo: true
+
+anova(____)
+```
+
+::: {.callout-tip collapse="true" title="Afficher l'indice"}
+Insérez le nom du modèle `m_cover` que vous avez créé dans la Tâche 4.
+
+Lorsque vous regardez la sortie, vérifiez : - Le terme d'interaction (`coast:genus`) est-il significatif (p \< 0.05) ? - Si oui, cela signifie que l'effet de la côte sur la couverture corallienne dépend du genre (ou vice versa) - Les effets principaux de `coast` et `genus` seuls peuvent être moins intéressants lorsqu'il y a une interaction significative
+:::
+::::
+
+:::: project
+### Tâche 6
+
+Tracez les résultats du modèle avec différentes couleurs pour les différentes orientations côtières et ajoutez les données brutes :
+
+```{r}
+#| eval: false
+#| echo: true
+
+estimate_means(model = ____) %>%
+  plot() +
+  geom_point(
+    data = dat_coral_cover_genus,
+    aes(x = genus, y = percent_cover, col = coast),
+    position = position_jitterdodge(jitter.width = .1, dodge.width = .21)
+  ) +
+  labs(x = "Genus", y = "Coral Cover (%)", col = "Coast") +
+  scale_colour_colourblind() +
+  theme_light()
+```
+
+::: {.callout-tip collapse="true" title="Afficher l'indice"}
+Insérez le nom du modèle `m_cover` dans l'argument `model =` de `estimate_means()`.
+
+Le graphique montrera :
+
+-   Des points avec des barres d'erreur représentant les estimations du modèle
+-   Des points de données brutes superposés, légèrement décalés (jittered et dodged) pour qu'ils s'alignent avec les estimations du modèle
+-   Différentes couleurs pour différentes orientations côtières
+:::
+::::
