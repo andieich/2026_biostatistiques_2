@@ -360,7 +360,7 @@ Voici une brève explication pour les différents sous-graphiques :
 
 *Pourquoi c'est important :* Les modèles linéaires supposent que les résidus sont normalement distribués. Les violations peuvent affecter les intervalles de confiance et les valeurs p.
 
-*Comment vérifier :* Les points devraient tomber le long de la ligne diagonale.
+*Comment vérifier :* Les points devraient tomber le long de la ligne.
 
 -   Légère dispersion autour de la ligne = correct (les distributions normales ne sont pas parfaites dans les petits échantillons)
 -   Déviations importantes aux extrémités = les résidus ne sont pas normaux
