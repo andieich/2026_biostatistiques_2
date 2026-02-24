@@ -18,13 +18,317 @@ penguins <- penguins %>%
   na.omit()
 ```
 
-## Résumé du cours précédent
+
+
+## Résumé du cours précédent {.smaller}
 
 ::: med-space
 :::
 
+#### Qu'est-ce qu'un modèle statistique ?
+
+> "Description probabiliste de la génération des données par des processus sous-jacents"
+
+-  **Probabiliste :** Distribution normale, définie par la moyenne ($\mu$) et l'écart-type ($\sigma$) :  
+
+   $\mathrm{y}_i \sim \mathrm{Normal(\mu}_i,~\mathrm{\sigma)}$
+
+-  **Processus sous-jacents :** Variables explicatives, décrivant la valeur attendue $\mu$
+
+## Résumé du cours précédent {.smaller}
+
+::: med-space
+:::
+
+::: {.columns}
+::: {.column}
+```{r}
+#| fig-height: 9
+
+mean_wgt <- mean(penguins$body_mass_g)
+
+penguins %>%
+  ggplot(aes(x = 1, y = body_mass_g)) +
+  geom_jitter(col = "steelblue") +
+  theme_light(base_size = 16) +
+  annotate(
+    "segment",
+    x = -Inf,
+    xend = Inf,
+    y = mean_wgt,
+    yend = mean_wgt,
+    color = "black",
+    linetype = "11",
+    linewidth = 2
+  ) +
+  labs(x = NULL, y = "Body mass (g)") +
+  theme_light(base_size = 26) +
+  theme(
+    axis.ticks.x = element_blank(),
+    axis.text.x = element_blank(),
+    panel.grid = element_blank()
+  )
+
+```
+
+:::
+::: {.column}
+
+Aucune information supplémentaire connue, seulement la moyenne
+
+$$
+\mathrm{Weight}_i \sim \mathrm{Normal(\mu}_i,~\mathrm{\sigma)}
+$$
 
 
+```{r}
+#| echo: true
+#| eval: false
+
+lm(body_mass_g ~ 1, data = penguins)
+```
+
+:::
+:::
+
+## Résumé du cours précédent {.smaller}
+
+::: med-space
+:::
+
+::: {.columns}
+::: {.column}
+```{r}
+#| fig-height: 9
+
+penguins %>%
+  ggplot(
+    aes(x = species, y = body_mass_g, fill = species),
+  ) +
+  geom_jitter(alpha = .75, shape = 21) +
+  geom_pointrange(
+    stat = "summary",
+    fun.data = mean_sdl,
+    show.legend = F,
+    shape = 21
+  ) +
+  labs(
+    x = NULL,
+    y = "mass corporelle (g)"
+  ) +
+  scale_color_colorblind() +
+  scale_fill_colorblind() +
+  theme_classic(base_size = 26) +
+  theme(legend.position = "none")
+
+```
+
+:::
+::: {.column}
+
+La masse moyenne diffère par espèce
+
+$$
+\begin{align}
+\mathrm{Weight}_i &\sim \mathrm{Normal}(\mu_i,~\sigma) \\
+\mu_i &= \mu_{\text{species}[i]}
+\end{align}
+$$
+
+
+```{r}
+#| echo: true
+#| eval: false
+
+lm(body_mass_g ~ species, data = penguins)
+```
+
+::: med-space
+:::
+
+::: question
+ANOVA
+:::
+:::
+:::
+
+
+
+## Résumé du cours précédent {.smaller}
+
+::: med-space
+:::
+
+::: {.columns}
+::: {.column}
+```{r}
+#| fig-height: 9
+
+penguins %>%
+  ggplot(
+    aes(x = bill_length_mm, y = body_mass_g),
+  ) +
+  geom_point(col = "steelblue") +
+  geom_smooth(method = "lm", se = F, col = "black") +
+  labs(
+    x = "Bill length (mm)",
+    y = "Body mass (g)"
+  ) +
+  theme_classic(base_size = 26) +
+  theme(legend.position = "none")
+
+```
+
+:::
+::: {.column}
+
+La masse dépend de la taille des manchots
+
+$$
+\begin{align}
+\mathrm{Weight}_i \sim \mathrm{Normal(\mu}_i,~\mathrm{\sigma)} \\
+\mu_i = a + b \cdot \mathrm{billlength}_i\\
+\end{align}
+$$
+
+
+```{r}
+#| echo: true
+#| eval: false
+
+lm(body_mass_g ~ bill_length_mm, data = penguins)
+```
+
+::: med-space
+:::
+
+::: question
+Régression
+:::
+:::
+:::
+
+
+## Résumé du cours précédent {.smaller}
+
+::: med-space
+:::
+
+::: {.columns}
+::: {.column}
+```{r}
+#| fig-height: 9
+
+# Additive (A+B): same slope, different intercepts
+m_add <- lm(body_mass_g ~ bill_length_mm + species, data = penguins)
+pred_add <- estimate_relation(m_add, at = "species")
+
+penguins %>%
+  ggplot(aes(x = bill_length_mm, y = body_mass_g, col = species)) +
+  geom_point() +
+  geom_line(
+    data = pred_add,
+    aes(x = bill_length_mm, y = Predicted, col = species),
+    linewidth = 2
+  ) +
+  labs(
+    x = "Bill length (mm)",
+    y = "Body mass (g)"
+  ) +
+  scale_color_colorblind() +
+  scale_fill_colorblind() +
+  theme_classic(base_size = 26) +
+  theme(legend.position = "none")
+```
+
+:::
+::: {.column}
+
+La masse dépend de la taille des manchots et de l'espèce (même pente)
+
+$$
+\begin{align}
+\mathrm{Weight}_i &\sim \mathrm{Normal}(\mu_i,~\sigma) \\
+\mu_i &= a_{\text{species}[i]} + b \cdot \mathrm{billlength}_i
+\end{align}
+$$
+
+
+```{r}
+#| echo: true
+#| eval: false
+
+# fmt: skip
+
+lm(body_mass_g ~ bill_length_mm + species, 
+   data = penguins)
+```
+
+::: med-space
+:::
+
+::: question
+ANCOVA
+:::
+:::
+:::
+
+
+## Résumé du cours précédent {.smaller}
+
+::: med-space
+:::
+
+::: {.columns}
+::: {.column}
+```{r}
+#| fig-height: 9
+
+penguins %>%
+  ggplot(aes(x = bill_length_mm, y = body_mass_g, col = species)) +
+  geom_point() +
+  geom_smooth(method = "lm", se = F) +
+  labs(
+    x = "Bill length (mm)",
+    y = "Body mass (g)"
+  ) +
+  scale_color_colorblind() +
+  scale_fill_colorblind() +
+  theme_classic(base_size = 26) +
+  theme(legend.position = "none")
+```
+
+:::
+::: {.column}
+
+La masse dépend de la taille des manchots et de l'espèce (pentes différentes par espèce)
+
+$$
+\begin{align}
+\mathrm{Weight}_i &\sim \mathrm{Normal}(\mu_i,~\sigma) \\
+\mu_i &= a_{\text{species}[i]} + b_{\text{species}[i]} \cdot \mathrm{billlength}_i
+\end{align}
+$$
+
+
+```{r}
+#| echo: true
+#| eval: false
+
+# fmt: skip
+
+lm(body_mass_g ~ bill_length_mm * species, 
+   data = penguins)
+```
+
+::: med-space
+:::
+
+::: question
+ANCOVA
+:::
+:::
+:::
 
 
 ## Le problème avec l'ANOVA {.smaller}

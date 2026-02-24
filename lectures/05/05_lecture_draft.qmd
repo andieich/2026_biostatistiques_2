@@ -23,17 +23,6 @@ theme_set(theme_light(base_size = 20))
 -   Assumptions of linear models: independence, homoscedasticity, normality
 -   Checking assumptions with `check_model()`
 
-## Today {.smaller}
-
-::: med-space
-:::
-
-::: incremental
-1.  Revisit the normal distribution
-2.  Understand what normality actually describes
-3.  Identify when classical linear models fail
-4.  Introduction to **Generalized Linear Models (GLMs)**
-:::
 
 ## Reminder: Normal distribution {.smaller}
 
@@ -72,8 +61,8 @@ ggplot(df, aes(x, y)) +
 **Properties:**
 
 -   Described by mean $\mu$ and standard deviation $\sigma$
--   **Symmetric** bell shape
--   **Defined from $-\infty$ to $+\infty$**
+-   Symmetric bell shape
+-   Continuously defined from $-\infty$ to $+\infty$
 -   Most values close to the mean
 :::
 :::::
@@ -90,6 +79,7 @@ ggplot(df, aes(x, y)) +
 2.  **Defined on the entire real line**: From $-\infty$ to $+\infty$
     -   ❌ Problem if your data cannot be negative
     -   ❌ Problem if your data has an upper limit
+    -   ❌ Problem if you have count data
 
 3.  **Constant variance**: Same spread everywhere
     -   ❌ Problem if variability changes with the mean
@@ -167,28 +157,6 @@ ggplot(df_demo, aes(x = x, y = y)) +
 The normal distribution describes the **random noise** around the regression line
 :::
 
-## Reformulating the model {.smaller}
-
-::: med-space
-:::
-
-We can write the model as:
-
-$$
-y_i = \underbrace{a + b \cdot x_i}_{\text{signal}} + \underbrace{\varepsilon_i}_{\text{noise}}
-$$
-
-where $\varepsilon_i \sim \mathrm{Normal}(0, \sigma)$
-
-::: med-space
-:::
-
-::: fragment
-::: question
-The noise is normally distributed, **not necessarily the data**
-:::
-:::
-
 ## When normality fails {.smaller}
 
 ::: med-space
@@ -202,7 +170,7 @@ Some data types can **never** produce normally distributed residuals:
 3.  **Strictly positive data**: Concentrations, biomass, response times
 :::
 
-## Example 1: Fish counts {.smaller}
+## Example 1: Sea urchin counts {.smaller}
 
 ::: med-space
 :::
@@ -247,31 +215,52 @@ ggplot(count_data, aes(x = count)) +
 :::
 :::::
 
-## Example 2: Point intercept transects {.smaller}
+## Example 2: Line intercept transects {.smaller}
 
 ::: med-space
 :::
 
 ::::: columns
 ::: column
-You measure coral cover: at each point, you record **presence** or **absence**
+At each of 5 sites, coral cover was estimated with a line intercept transect: along a 20 m transect, at 25 cm intervals (80 points per transect), record if coral is present or absent. Total: 3 transects × 80 points = 240 observations per site
 
 ```{r}
 #| echo: false
 
 set.seed(456)
-depth_vals <- seq(5, 30, length.out = 50)
-prob_coral <- 1 / (1 + exp(-(5 - 0.2 * depth_vals)))
-coral_presence <- rbinom(50, 1, prob_coral)
+site <- rep(1:5, each = 240)
+point <- rep(1:80, 5 * 3)
+coral_cover <- rep(c(0.15, 0.35, 0.50, 0.25, 0.60), each = 240)
+prob_coral <- coral_cover
+coral_presence <- rbinom(5 * 240, 1, prob_coral)
 
 df_coral <- tibble(
-  depth = depth_vals,
+  site = site,
+  point = point,
   presence = coral_presence
 )
 
-ggplot(df_coral, aes(x = depth, y = presence)) +
-  geom_point(size = 2, alpha = 0.6, color = "steelblue") +
-  labs(x = "Depth (m)", y = "Coral presence (0/1)") +
+# Aggregate by site to show the variation
+df_coral_summary <- df_coral %>%
+  group_by(site) %>%
+  summarise(
+    coral_cover = mean(presence),
+    n_points = n()
+  )
+
+ggplot(df_coral_summary, aes(x = as.factor(site), y = coral_cover)) +
+  geom_point(size = 3, alpha = 0.6, color = "steelblue") +
+  geom_jitter(
+    data = df_coral,
+    aes(x = as.factor(site), y = presence),
+    width = 0.15,
+    height = 0.02,
+    alpha = 0.1,
+    size = 1,
+    color = "steelblue"
+  ) +
+  labs(x = "Site", y = "Coral cover (proportion)") +
+  ylim(0, 1) +
   theme(panel.grid = element_blank())
 ```
 
@@ -281,9 +270,10 @@ ggplot(df_coral, aes(x = depth, y = presence)) +
 ::: fragment
 **Problems with a normal model:**
 
--   Only two possible values: 0 or 1
+-   Response is a **proportion** (0 to 1)
 -   Model could predict values < 0 or > 1
 -   Residuals cannot be normal
+-   Variance depends on the proportion (higher near 0.5)
 :::
 :::
 :::::
@@ -512,7 +502,7 @@ check_model(m_poisson)
 ::: med-space
 :::
 
-Predict coral presence/absence as a function of depth
+Compare coral cover across different sites
 
 ```{r}
 #| echo: true
@@ -520,7 +510,7 @@ Predict coral presence/absence as a function of depth
 
 # GLM with binomial distribution
 m_coral <- glm(
-  presence ~ depth,
+  presence ~ site,
   data = df_coral,
   family = binomial(link = "logit")
 )
@@ -532,7 +522,7 @@ summary(m_coral)
 The **logit** link ensures predicted probabilities stay between 0 and 1:
 
 $$
-\log\left(\frac{p_i}{1-p_i}\right) = a + b \cdot \text{depth}_i
+\log\left(\frac{p_i}{1-p_i}\right) = a + b \cdot \text{site}_i
 $$
 :::
 
@@ -546,33 +536,41 @@ $$
 #| fig-height: 6
 
 m_coral <- glm(
-  presence ~ depth,
+  presence ~ site,
   data = df_coral,
   family = binomial(link = "logit")
 )
 
-pred_grid <- tibble(depth = seq(5, 30, length.out = 100))
-pred_grid$prob <- predict(m_coral, newdata = pred_grid, type = "response")
+pred_means <- df_coral %>%
+  group_by(site) %>%
+  summarise(
+    site_num = first(site),
+    observed_cover = mean(presence)
+  )
 
-ggplot() +
+pred_means$predicted_prob <- predict(m_coral, newdata = pred_means, type = "response")
+
+ggplot(pred_means, aes(x = as.factor(site_num))) +
   geom_point(
-    data = df_coral,
-    aes(x = depth, y = presence),
-    size = 2,
-    alpha = 0.5,
-    color = "steelblue"
+    aes(y = observed_cover),
+    size = 3,
+    color = "steelblue",
+    alpha = 0.7
   ) +
-  geom_line(
-    data = pred_grid,
-    aes(x = depth, y = prob),
+  geom_point(
+    aes(y = predicted_prob),
+    size = 3,
     color = "darkred",
-    linewidth = 1.5
+    alpha = 0.7,
+    shape = 1,
+    stroke = 2
   ) +
   labs(
-    x = "Depth (m)",
-    y = "Probability of coral presence",
-    title = "Binomial GLM with logit link"
+    x = "Site",
+    y = "Coral cover (probability)",
+    title = "Binomial GLM: Observed vs predicted"
   ) +
+  ylim(0, 1) +
   theme(panel.grid = element_blank())
 ```
 
