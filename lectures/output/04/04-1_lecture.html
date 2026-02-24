@@ -208,11 +208,192 @@ Andreas Eich
 </div>
 
 </section>
-<section id="résumé-du-cours-précédent" class="slide level2">
+<section id="résumé-du-cours-précédent" class="slide level2 smaller">
 <h2>Résumé du cours précédent</h2>
 <div class="med-space">
 
 </div>
+<h4 id="quest-ce-quun-modèle-statistique">Qu’est-ce qu’un modèle statistique ?</h4>
+<blockquote>
+<p>“Description probabiliste de la génération des données par des processus sous-jacents”</p>
+</blockquote>
+<ul>
+<li><p><strong>Probabiliste :</strong> Distribution normale, définie par la moyenne (<span class="math inline">\(\mu\)</span>) et l’écart-type (<span class="math inline">\(\sigma\)</span>) :</p>
+<p><span class="math inline">\(\mathrm{y}_i \sim \mathrm{Normal(\mu}_i,~\mathrm{\sigma)}\)</span></p></li>
+<li><p><strong>Processus sous-jacents :</strong> Variables explicatives, décrivant la valeur attendue <span class="math inline">\(\mu\)</span></p></li>
+</ul>
+</section>
+<section id="résumé-du-cours-précédent-1" class="slide level2 smaller">
+<h2>Résumé du cours précédent</h2>
+<div class="med-space">
+
+</div>
+<div class="columns">
+<div class="column">
+<div class="cell">
+<div class="cell-output-display">
+<div>
+<figure>
+<p><img data-src="04-1_lecture_files/figure-revealjs/unnamed-chunk-2-1.png" width="960"></p>
+</figure>
+</div>
+</div>
+</div>
+</div><div class="column">
+<p>Aucune information supplémentaire connue, seulement la moyenne</p>
+<p><span class="math display">\[
+\mathrm{Weight}_i \sim \mathrm{Normal(\mu}_i,~\mathrm{\sigma)}
+\]</span></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">lm</span>(body_mass_g <span class="sc">~</span> <span class="dv">1</span>, <span class="at">data =</span> penguins)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</div></div>
+</section>
+<section id="résumé-du-cours-précédent-2" class="slide level2 smaller">
+<h2>Résumé du cours précédent</h2>
+<div class="med-space">
+
+</div>
+<div class="columns">
+<div class="column">
+<div class="cell">
+<div class="cell-output-display">
+<div>
+<figure>
+<p><img data-src="04-1_lecture_files/figure-revealjs/unnamed-chunk-4-1.png" width="960"></p>
+</figure>
+</div>
+</div>
+</div>
+</div><div class="column">
+<p>La masse moyenne diffère par espèce</p>
+<p><span class="math display">\[
+\begin{align}
+\mathrm{Weight}_i &amp;\sim \mathrm{Normal}(\mu_i,~\sigma) \\
+\mu_i &amp;= \mu_{\text{species}[i]}
+\end{align}
+\]</span></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">lm</span>(body_mass_g <span class="sc">~</span> species, <span class="at">data =</span> penguins)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="med-space">
+
+</div>
+<div class="question">
+<p>ANOVA</p>
+</div>
+</div></div>
+</section>
+<section id="résumé-du-cours-précédent-3" class="slide level2 smaller">
+<h2>Résumé du cours précédent</h2>
+<div class="med-space">
+
+</div>
+<div class="columns">
+<div class="column">
+<div class="cell">
+<div class="cell-output-display">
+<div>
+<figure>
+<p><img data-src="04-1_lecture_files/figure-revealjs/unnamed-chunk-6-1.png" width="960"></p>
+</figure>
+</div>
+</div>
+</div>
+</div><div class="column">
+<p>La masse dépend de la taille des manchots</p>
+<p><span class="math display">\[
+\begin{align}
+\mathrm{Weight}_i \sim \mathrm{Normal(\mu}_i,~\mathrm{\sigma)} \\
+\mu_i = a + b \cdot \mathrm{billlength}_i\\
+\end{align}
+\]</span></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">lm</span>(body_mass_g <span class="sc">~</span> bill_length_mm, <span class="at">data =</span> penguins)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="med-space">
+
+</div>
+<div class="question">
+<p>Régression</p>
+</div>
+</div></div>
+</section>
+<section id="résumé-du-cours-précédent-4" class="slide level2 smaller">
+<h2>Résumé du cours précédent</h2>
+<div class="med-space">
+
+</div>
+<div class="columns">
+<div class="column">
+<div class="cell">
+<div class="cell-output-display">
+<div>
+<figure>
+<p><img data-src="04-1_lecture_files/figure-revealjs/unnamed-chunk-8-1.png" width="960"></p>
+</figure>
+</div>
+</div>
+</div>
+</div><div class="column">
+<p>La masse dépend de la taille des manchots et de l’espèce (même pente)</p>
+<p><span class="math display">\[
+\begin{align}
+\mathrm{Weight}_i &amp;\sim \mathrm{Normal}(\mu_i,~\sigma) \\
+\mu_i &amp;= a_{\text{species}[i]} + b \cdot \mathrm{billlength}_i
+\end{align}
+\]</span></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co"># fmt: skip</span></span>
+<span id="cb4-2"><a href="" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-3"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">lm</span>(body_mass_g <span class="sc">~</span> bill_length_mm <span class="sc">+</span> species, </span>
+<span id="cb4-4"><a href="" aria-hidden="true" tabindex="-1"></a>   <span class="at">data =</span> penguins)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="med-space">
+
+</div>
+<div class="question">
+<p>ANCOVA</p>
+</div>
+</div></div>
+</section>
+<section id="résumé-du-cours-précédent-5" class="slide level2 smaller">
+<h2>Résumé du cours précédent</h2>
+<div class="med-space">
+
+</div>
+<div class="columns">
+<div class="column">
+<div class="cell">
+<div class="cell-output-display">
+<div>
+<figure>
+<p><img data-src="04-1_lecture_files/figure-revealjs/unnamed-chunk-10-1.png" width="960"></p>
+</figure>
+</div>
+</div>
+</div>
+</div><div class="column">
+<p>La masse dépend de la taille des manchots et de l’espèce (pentes différentes par espèce)</p>
+<p><span class="math display">\[
+\begin{align}
+\mathrm{Weight}_i &amp;\sim \mathrm{Normal}(\mu_i,~\sigma) \\
+\mu_i &amp;= a_{\text{species}[i]} + b_{\text{species}[i]} \cdot \mathrm{billlength}_i
+\end{align}
+\]</span></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co"># fmt: skip</span></span>
+<span id="cb5-2"><a href="" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-3"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">lm</span>(body_mass_g <span class="sc">~</span> bill_length_mm <span class="sc">*</span> species, </span>
+<span id="cb5-4"><a href="" aria-hidden="true" tabindex="-1"></a>   <span class="at">data =</span> penguins)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="med-space">
+
+</div>
+<div class="question">
+<p>ANCOVA</p>
+</div>
+</div></div>
 </section>
 <section id="le-problème-avec-lanova" class="slide level2 smaller">
 <h2>Le problème avec l’ANOVA</h2>
@@ -220,15 +401,15 @@ Andreas Eich
 
 </div>
 
-<img data-src="04-1_lecture_files/figure-revealjs/unnamed-chunk-2-1.png" width="960" class="r-stretch"></section>
+<img data-src="04-1_lecture_files/figure-revealjs/unnamed-chunk-12-1.png" width="960" class="r-stretch"></section>
 <section id="le-problème-avec-lanova-1" class="slide level2 smaller">
 <h2>Le problème avec l’ANOVA</h2>
 <div class="med-space">
 
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="" aria-hidden="true" tabindex="-1"></a>m_spec <span class="ot">&lt;-</span> <span class="fu">lm</span>(body_mass_g <span class="sc">~</span> species, <span class="at">data =</span> penguins)</span>
-<span id="cb1-2"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">anova</span>(m_spec)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="" aria-hidden="true" tabindex="-1"></a>m_spec <span class="ot">&lt;-</span> <span class="fu">lm</span>(body_mass_g <span class="sc">~</span> species, <span class="at">data =</span> penguins)</span>
+<span id="cb6-2"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">anova</span>(m_spec)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Analysis of Variance Table
 
@@ -302,7 +483,7 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
 <div class="cell-output-display">
 <div>
 <figure>
-<p><img data-src="04-1_lecture_files/figure-revealjs/unnamed-chunk-4-1.png" width="960"></p>
+<p><img data-src="04-1_lecture_files/figure-revealjs/unnamed-chunk-14-1.png" width="960"></p>
 </figure>
 </div>
 </div>
@@ -422,11 +603,11 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
 
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="" aria-hidden="true" tabindex="-1"></a>m_spec <span class="ot">&lt;-</span> <span class="fu">lm</span>(body_mass_g <span class="sc">~</span> species, <span class="at">data =</span> penguins)</span>
-<span id="cb3-2"><a href="" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-3"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(modelbased)</span>
-<span id="cb3-4"><a href="" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-5"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">estimate_contrasts</span>(m_spec, <span class="at">p_adjust =</span> <span class="st">"tukey"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="" aria-hidden="true" tabindex="-1"></a>m_spec <span class="ot">&lt;-</span> <span class="fu">lm</span>(body_mass_g <span class="sc">~</span> species, <span class="at">data =</span> penguins)</span>
+<span id="cb8-2"><a href="" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-3"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(modelbased)</span>
+<span id="cb8-4"><a href="" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-5"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">estimate_contrasts</span>(m_spec, <span class="at">p_adjust =</span> <span class="st">"tukey"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Marginal Contrasts Analysis
 
@@ -450,14 +631,14 @@ p-value adjustment method: Tukey</code></pre>
 <div class="columns">
 <div class="column">
 <div class="cell">
-<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">estimate_means</span>(m_spec, <span class="at">by =</span> <span class="st">"species"</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb5-2"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">plot</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">estimate_means</span>(m_spec, <span class="at">by =</span> <span class="st">"species"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb10-2"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">plot</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell">
 <div class="cell-output-display">
 <div>
 <figure>
-<p><img data-src="04-1_lecture_files/figure-revealjs/unnamed-chunk-7-1.png" width="960"></p>
+<p><img data-src="04-1_lecture_files/figure-revealjs/unnamed-chunk-17-1.png" width="960"></p>
 </figure>
 </div>
 </div>
@@ -494,7 +675,7 @@ p-value adjustment method: Tukey</code></pre>
 <div class="cell-output-display">
 <div>
 <figure>
-<p><img data-src="04-1_lecture_files/figure-revealjs/unnamed-chunk-8-1.png" width="960"></p>
+<p><img data-src="04-1_lecture_files/figure-revealjs/unnamed-chunk-18-1.png" width="960"></p>
 </figure>
 </div>
 </div>
@@ -506,12 +687,12 @@ p-value adjustment method: Tukey</code></pre>
 <h4 id="les-pentes-diffèrent-elles-entre-les-espèces">Les pentes diffèrent-elles entre les espèces ?</h4>
 <div class="medium-output">
 <div class="cell">
-<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="" aria-hidden="true" tabindex="-1"></a>m_ancova <span class="ot">&lt;-</span> <span class="fu">lm</span>(</span>
-<span id="cb6-2"><a href="" aria-hidden="true" tabindex="-1"></a>  body_mass_g <span class="sc">~</span> bill_length_mm <span class="sc">*</span> species,</span>
-<span id="cb6-3"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="at">data =</span> penguins</span>
-<span id="cb6-4"><a href="" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb6-5"><a href="" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-6"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">anova</span>(m_ancova)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="" aria-hidden="true" tabindex="-1"></a>m_ancova <span class="ot">&lt;-</span> <span class="fu">lm</span>(</span>
+<span id="cb11-2"><a href="" aria-hidden="true" tabindex="-1"></a>  body_mass_g <span class="sc">~</span> bill_length_mm <span class="sc">*</span> species,</span>
+<span id="cb11-3"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="at">data =</span> penguins</span>
+<span id="cb11-4"><a href="" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb11-5"><a href="" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-6"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">anova</span>(m_ancova)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Analysis of Variance Table
 
@@ -539,12 +720,12 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
 
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">estimate_slopes</span>(</span>
-<span id="cb8-2"><a href="" aria-hidden="true" tabindex="-1"></a>  m_ancova,</span>
-<span id="cb8-3"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="at">by =</span> <span class="st">"species"</span>,</span>
-<span id="cb8-4"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="at">trend =</span> <span class="st">"bill_length_mm"</span></span>
-<span id="cb8-5"><a href="" aria-hidden="true" tabindex="-1"></a>) <span class="sc">%&gt;%</span></span>
-<span id="cb8-6"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">plot</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">estimate_slopes</span>(</span>
+<span id="cb13-2"><a href="" aria-hidden="true" tabindex="-1"></a>  m_ancova,</span>
+<span id="cb13-3"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="at">by =</span> <span class="st">"species"</span>,</span>
+<span id="cb13-4"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="at">trend =</span> <span class="st">"bill_length_mm"</span></span>
+<span id="cb13-5"><a href="" aria-hidden="true" tabindex="-1"></a>) <span class="sc">%&gt;%</span></span>
+<span id="cb13-6"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">plot</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="med-space">
 
@@ -553,7 +734,7 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
 <div class="cell-output-display">
 <div>
 <figure>
-<p><img data-src="04-1_lecture_files/figure-revealjs/unnamed-chunk-11-1.png" width="960"></p>
+<p><img data-src="04-1_lecture_files/figure-revealjs/unnamed-chunk-21-1.png" width="960"></p>
 </figure>
 </div>
 </div>
@@ -565,12 +746,12 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
 <h4 id="les-pentes-diffèrent-elles-entre-les-espèces-1">Les pentes diffèrent-elles entre les espèces ?</h4>
 <div class="tiny-output">
 <div class="cell">
-<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">estimate_contrasts</span>(</span>
-<span id="cb9-2"><a href="" aria-hidden="true" tabindex="-1"></a>  m_ancova,</span>
-<span id="cb9-3"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="at">contrast =</span> <span class="st">"bill_length_mm"</span>,</span>
-<span id="cb9-4"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="at">by =</span> <span class="st">"species"</span>,</span>
-<span id="cb9-5"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="at">p_adjust =</span> <span class="st">"tukey"</span></span>
-<span id="cb9-6"><a href="" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">estimate_contrasts</span>(</span>
+<span id="cb14-2"><a href="" aria-hidden="true" tabindex="-1"></a>  m_ancova,</span>
+<span id="cb14-3"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="at">contrast =</span> <span class="st">"bill_length_mm"</span>,</span>
+<span id="cb14-4"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="at">by =</span> <span class="st">"species"</span>,</span>
+<span id="cb14-5"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="at">p_adjust =</span> <span class="st">"tukey"</span></span>
+<span id="cb14-6"><a href="" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Marginal Contrasts Analysis
 
@@ -600,12 +781,12 @@ p-value adjustment method: Tukey</code></pre>
 
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">estimate_slopes</span>(</span>
-<span id="cb11-2"><a href="" aria-hidden="true" tabindex="-1"></a>  m_ancova,</span>
-<span id="cb11-3"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="at">by =</span> <span class="st">"species"</span>,</span>
-<span id="cb11-4"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="at">trend =</span> <span class="st">"bill_length_mm"</span></span>
-<span id="cb11-5"><a href="" aria-hidden="true" tabindex="-1"></a>) <span class="sc">%&gt;%</span></span>
-<span id="cb11-6"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">plot</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">estimate_slopes</span>(</span>
+<span id="cb16-2"><a href="" aria-hidden="true" tabindex="-1"></a>  m_ancova,</span>
+<span id="cb16-3"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="at">by =</span> <span class="st">"species"</span>,</span>
+<span id="cb16-4"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="at">trend =</span> <span class="st">"bill_length_mm"</span></span>
+<span id="cb16-5"><a href="" aria-hidden="true" tabindex="-1"></a>) <span class="sc">%&gt;%</span></span>
+<span id="cb16-6"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">plot</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="med-space">
 
@@ -614,7 +795,7 @@ p-value adjustment method: Tukey</code></pre>
 <div class="cell-output-display">
 <div>
 <figure>
-<p><img data-src="04-1_lecture_files/figure-revealjs/unnamed-chunk-14-1.png" width="960"></p>
+<p><img data-src="04-1_lecture_files/figure-revealjs/unnamed-chunk-24-1.png" width="960"></p>
 </figure>
 </div>
 </div>
@@ -626,10 +807,10 @@ p-value adjustment method: Tukey</code></pre>
 <h4 id="les-pentes-diffèrent-elles-de-0">Les pentes diffèrent-elles de 0 ?</h4>
 <div class="medium-output">
 <div class="cell">
-<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co"># fmt: skip</span></span>
-<span id="cb12-2"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">estimate_slopes</span>(m_ancova, </span>
-<span id="cb12-3"><a href="" aria-hidden="true" tabindex="-1"></a>                <span class="at">by =</span> <span class="st">"species"</span>, </span>
-<span id="cb12-4"><a href="" aria-hidden="true" tabindex="-1"></a>                <span class="at">p_adjust =</span> <span class="st">"tukey"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co"># fmt: skip</span></span>
+<span id="cb17-2"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">estimate_slopes</span>(m_ancova, </span>
+<span id="cb17-3"><a href="" aria-hidden="true" tabindex="-1"></a>                <span class="at">by =</span> <span class="st">"species"</span>, </span>
+<span id="cb17-4"><a href="" aria-hidden="true" tabindex="-1"></a>                <span class="at">p_adjust =</span> <span class="st">"tukey"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Estimated Marginal Effects
 
