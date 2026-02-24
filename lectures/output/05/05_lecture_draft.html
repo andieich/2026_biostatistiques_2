@@ -220,18 +220,6 @@ Andreas Eich
 <li>Checking assumptions with <code>check_model()</code></li>
 </ul>
 </section>
-<section id="today" class="slide level2 smaller">
-<h2>Today</h2>
-<div class="med-space">
-
-</div>
-<ol type="1">
-<li class="fragment">Revisit the normal distribution</li>
-<li class="fragment">Understand what normality actually describes</li>
-<li class="fragment">Identify when classical linear models fail</li>
-<li class="fragment">Introduction to <strong>Generalized Linear Models (GLMs)</strong></li>
-</ol>
-</section>
 <section id="reminder-normal-distribution" class="slide level2 smaller">
 <h2>Reminder: Normal distribution</h2>
 <div class="med-space">
@@ -272,6 +260,7 @@ Andreas Eich
 <ul>
 <li class="fragment">❌ Problem if your data cannot be negative</li>
 <li class="fragment">❌ Problem if your data has an upper limit</li>
+<li class="fragment">❌ Problem if you have count data</li>
 </ul></li>
 <li class="fragment"><strong>Constant variance</strong>: Same spread everywhere
 <ul>
@@ -332,25 +321,6 @@ y_i &amp;\sim \mathrm{Normal}(\mu_i, \sigma) \\
 <p>The normal distribution describes the <strong>random noise</strong> around the regression line</p>
 </div>
 </section>
-<section id="reformulating-the-model" class="slide level2 smaller">
-<h2>Reformulating the model</h2>
-<div class="med-space">
-
-</div>
-<p>We can write the model as:</p>
-<p><span class="math display">\[
-y_i = \underbrace{a + b \cdot x_i}_{\text{signal}} + \underbrace{\varepsilon_i}_{\text{noise}}
-\]</span></p>
-<p>where <span class="math inline">\(\varepsilon_i \sim \mathrm{Normal}(0, \sigma)\)</span></p>
-<div class="med-space">
-
-</div>
-<div class="fragment">
-<div class="question">
-<p>The noise is normally distributed, <strong>not necessarily the data</strong></p>
-</div>
-</div>
-</section>
 <section id="when-normality-fails" class="slide level2 smaller">
 <h2>When normality fails</h2>
 <div class="med-space">
@@ -363,8 +333,8 @@ y_i = \underbrace{a + b \cdot x_i}_{\text{signal}} + \underbrace{\varepsilon_i}_
 <li class="fragment"><strong>Strictly positive data</strong>: Concentrations, biomass, response times</li>
 </ol>
 </section>
-<section id="example-1-fish-counts" class="slide level2 smaller">
-<h2>Example 1: Fish counts</h2>
+<section id="example-1-sea-urchin-counts" class="slide level2 smaller">
+<h2>Example 1: Sea urchin counts</h2>
 <div class="med-space">
 
 </div>
@@ -392,14 +362,14 @@ y_i = \underbrace{a + b \cdot x_i}_{\text{signal}} + \underbrace{\varepsilon_i}_
 </div>
 </div></div>
 </section>
-<section id="example-2-point-intercept-transects" class="slide level2 smaller">
-<h2>Example 2: Point intercept transects</h2>
+<section id="example-2-line-intercept-transects" class="slide level2 smaller">
+<h2>Example 2: Line intercept transects</h2>
 <div class="med-space">
 
 </div>
 <div class="columns">
 <div class="column">
-<p>You measure coral cover: at each point, you record <strong>presence</strong> or <strong>absence</strong></p>
+<p>At each of 5 sites, coral cover was estimated with a line intercept transect: along a 20 m transect, at 25 cm intervals (80 points per transect), record if coral is present or absent. Total: 3 transects × 80 points = 240 observations per site</p>
 <div class="cell">
 <div class="cell-output-display">
 <div>
@@ -413,9 +383,10 @@ y_i = \underbrace{a + b \cdot x_i}_{\text{signal}} + \underbrace{\varepsilon_i}_
 <div class="fragment">
 <p><strong>Problems with a normal model:</strong></p>
 <ul>
-<li>Only two possible values: 0 or 1</li>
+<li>Response is a <strong>proportion</strong> (0 to 1)</li>
 <li>Model could predict values &lt; 0 or &gt; 1</li>
 <li>Residuals cannot be normal</li>
+<li>Variance depends on the proportion (higher near 0.5)</li>
 </ul>
 </div>
 </div></div>
@@ -646,11 +617,11 @@ Number of Fisher Scoring iterations: 4</code></pre>
 <div class="med-space">
 
 </div>
-<p>Predict coral presence/absence as a function of depth</p>
+<p>Compare coral cover across different sites</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co"># GLM with binomial distribution</span></span>
 <span id="cb4-2"><a href="" aria-hidden="true" tabindex="-1"></a>m_coral <span class="ot">&lt;-</span> <span class="fu">glm</span>(</span>
-<span id="cb4-3"><a href="" aria-hidden="true" tabindex="-1"></a>  presence <span class="sc">~</span> depth,</span>
+<span id="cb4-3"><a href="" aria-hidden="true" tabindex="-1"></a>  presence <span class="sc">~</span> site,</span>
 <span id="cb4-4"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="at">data =</span> df_coral,</span>
 <span id="cb4-5"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="at">family =</span> <span class="fu">binomial</span>(<span class="at">link =</span> <span class="st">"logit"</span>)</span>
 <span id="cb4-6"><a href="" aria-hidden="true" tabindex="-1"></a>)</span>
@@ -660,7 +631,7 @@ Number of Fisher Scoring iterations: 4</code></pre>
 <div class="fragment">
 <p>The <strong>logit</strong> link ensures predicted probabilities stay between 0 and 1:</p>
 <p><span class="math display">\[
-\log\left(\frac{p_i}{1-p_i}\right) = a + b \cdot \text{depth}_i
+\log\left(\frac{p_i}{1-p_i}\right) = a + b \cdot \text{site}_i
 \]</span></p>
 </div>
 </section>
