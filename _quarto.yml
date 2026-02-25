@@ -42,8 +42,8 @@ website:
           contents: 
             - href: model_overview_fr.qmd
               text: Modèles
-            - href: distr_overview_fr.qmd
-              text: Distributions 
+           # - href: distr_overview_fr.qmd
+           #  text: Distributions 
         - href: course-links.qmd
           text: Liens utiles
 

@@ -383,9 +383,9 @@ Mais **laquelle** des espèces diffère des autres ?
 
 Pour 3 espèces, nous avons 3 comparaisons possibles :
 
--   Adélie vs. Jugulaire
--   Adélie vs. Gentou
--   Jugulaire vs. Gentou
+-   Adelie vs. Chinstrap
+-   Adelie vs. Gentoo
+-   Chinstrap vs. Gentoo
 
 ::: med-space
 :::

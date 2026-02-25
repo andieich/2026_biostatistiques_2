@@ -1,0 +1,211 @@
+---
+title: "Solution pour TP 01"
+format: html
+date: 2025-02-25
+---
+
+```{r}
+#| warning: false
+#| message: false
+
+library(tidyverse)
+library(palmerpenguins)
+penguins <- na.omit(penguins)
+```
+
+Créez un "chunk R" en dessous de ce texte en plaçant le curseur en dessous du texte et en cliquant sur "Insérer un nouveau chunk de code" (une icône blanche C avec un fond vert):
+
+Ensuite, calculez `3 + 4`. Pour « évaluer » (c.-à-d. exécuter le code), utilisez Ctrl + Entrée ou cliquez sur le triangle.
+
+```{r}
+3 + 4
+```
+
+Maintenant, nous pouvons avoir un premier aperçu des données. Je l'ai déjà chargé dans R, vous apprendrez comment le faire vous-même plus tard.
+
+Les données s'appellent `penguins`. Il contient des données pour l'espèce, le sexe, la longueur du bec et la profondeur, le poids, etc. pour différents manchots. Nous utiliserons cela comme exemple. Vous pouvez en savoir plus sur les données [ici](https://allisonhorst.github.io/palmerpenguins/).
+
+Maintenant, pour voir les données, vous pouvez cliquer sur "manchots" dans l'onglet "Environnement". Une vue de tableau s'ouvrira montrant toutes les données. Vous connaissez cela d'Excel. Mais c'est « en lecture seule », donc vous ne pouvez pas modifier les valeurs d'ici.
+
+Maintenant, vous pouvez également utiliser le code R pour avoir une idée des données. Avec la fonction `head()`, les 6 premières lignes des données sont affichées.
+
+
+### Tâche 1
+
+Utilisez le chunk de code R ci-dessous et remplacez `____` par le nom du cadre de données (`penguins`). Lorsque vous exécutez le chunk, vous verrez les premières lignes :
+
+```{r}
+head(penguins)
+```
+
+### Vérification d'apprentissage 1 :
+
+**Que contient chaque ligne dans `penguins` ?**
+
+❌ A.  Données pour tous les manchots sur une île spécifique, par exemple Biscoe
+
+❌ B.  Données pour tous les manchots d'une espèce, par exemple Adélie
+
+✅ C.  Données pour un seul manchot
+
+Si vous voulez jeter un coup d'œil à une colonne, vous pouvez la sélectionner avec le symbole dollar `$` : `données$nom_colonne`.
+
+### Tâche 2
+
+Maintenant, essayez vous-même. Sélectionnez la colonne `bill_length_mm` du cadre de données `penguins` :
+
+```{r}
+penguins$bill_length_mm
+```
+
+Vous pourriez faire la même chose avec chacune des colonnes.
+
+Pour en savoir plus sur les valeurs de cette colonne, vous pouvez combiner le `$` avec les fonctions `min()`, `max()`, et `mean()` pour calculer les valeurs minimale, maximale et moyenne.
+
+### Tâche 3
+
+Faites-le dans le chunk ci-dessous pour `bill_length_mm` :
+
+```{r}
+min(penguins$bill_length_mm)
+max(penguins$bill_length_mm)
+mean(penguins$bill_length_mm)
+```
+
+Mais ce n'est pas très utile, car cela calcule les résumés sur toutes les données. Mais nous savons déjà qu'il y a différentes espèces de manchots dans l'ensemble de données. Il serait donc plus utile de connaître ces valeurs pour chaque espèce. Cela peut être fait en combinant des fonctions, ce que vous faites en `R` avec l'opérateur « pipe » `%>%`. Cela crée un flux d'opérations : d'abord faire cela, puis prendre le résultat et appliquer la fonction suivante à celui-ci.
+
+Cela nous permet de calculer facilement les valeurs de résumé (min, max, moyenne) pour chaque espèce. Pour ce faire, nous devons d'abord regrouper les données par espèce, puis les résumer. Voir l'exemple ci-dessous.
+
+Rappelez-vous que `#` commence un commentaire ! Tout ce qui suit `#` ne sera pas exécuté en tant que fonction en R. Je l'utilise ici pour décrire ce que chaque ligne de code (avant la `#`) le fait.
+
+Notez que lorsque vous fournissez le cadre de données de cette façon (`penguins %>%`), les fonctions suivantes essaient de trouver les noms de colonnes que vous fournissez directement dans les données, vous n'avez pas besoin d'utiliser `penguins$`.
+
+```{r}
+penguins %>% # 1. Prendre l'ensemble de données des manchots
+  group_by(species) %>% # 2. Le regrouper par espèce
+  summarize(mean_bill_length_mm = mean(bill_length_mm)) # 3. créer une nouvelle colonne appelée "mean_bill_length_mm" et attribuer les valeurs moyennes de chaque groupe
+```
+
+Cette combinaison de fonctions est très flexible. Vous pouvez regrouper les données par plus de colonnes en ajoutant le nom de la colonne à `group_by()` (séparé par une virgule).
+
+### Tâche 4
+
+Faites-le ci-dessous, et regroupez les données en outre par `sex` avant de calculer la moyenne :
+
+```{r}
+penguins %>% # 1. Prendre l'ensemble de données des manchots
+  group_by(species, sex) %>% # 2. Le regrouper par espèce et sexe
+  summarize(mean_bill_length_mm = mean(bill_length_mm)) # 3. créer une nouvelle colonne appelée "mean_bill_length_mm" et attribuer les valeurs moyennes de chaque groupe
+```
+
+Vous pouvez également calculer d'autres résumés, en les ajoutant à la fonction `summarize()` (séparé par une virgule) :
+
+```{r}
+penguins %>% # 1. Prendre l'ensemble de données des manchots
+  group_by(species) %>% # 2. Le regrouper par espèce
+  summarize(
+    mean_bill_length_mm = mean(bill_length_mm), # 3.1. créer une nouvelle colonne appelée "mean_bill_length_mm" et attribuer les valeurs moyennes de chaque groupe
+    min_bill_length_mm = min(bill_length_mm) # 3.2. créer une nouvelle colonne appelée "min_bill_length_mm" et attribuer les valeurs minimales de chaque groupe
+  )
+```
+
+### Tâche 5
+
+Maintenant, c'est à votre tour. Regroupez les données par `species` et `sex` et en plus de la valeur moyenne et minimale de `bill_length_mm`, calculez la valeur maximale. **Indice :** Si vous créez des colonnes en R, elles ne peuvent pas contenir d'espaces ni de traits d'union `-`.
+
+```{r}
+penguins %>% # 1. Prendre l'ensemble de données des manchots
+  group_by(species, sex) %>% # 2. Le regrouper par espèce et sexe
+  summarize(
+    mean_bill_length_mm = mean(bill_length_mm), # 3.1. créer une nouvelle colonne appelée "mean_bill_length_mm" et attribuer les valeurs moyennes de chaque groupe
+    min_bill_length_mm = min(bill_length_mm), # 3.2. créer une nouvelle colonne appelée "min_bill_length_mm" et attribuer les valeurs minimales de chaque groupe
+    max_bill_length_mm = max(bill_length_mm) # 3.3. créer une nouvelle colonne appelée "max_bill_length_mm" et attribuer les valeurs maximales de chaque groupe
+  )
+```
+
+Une autre fonction très utile en R est `filter()`. Comme son nom le suggère, il vous permet de filtrer les données.
+
+Par exemple, je filtre le cadre de données des manchots pour l'espèce « Adélie ».
+
+```{r}
+penguins %>%
+  filter(species == "Adelie")
+```
+
+Avez-vous remarqué que j'ai utilisé `==`? Cela indique à R de faire une comparaison ; après la fonction de filtre, seules les lignes pour lesquelles l'entrée dans la colonne `species` est égale à « Adélie » seront conservées. L'opposé, si vous voulez filtrer certaines espèces, se fait avec `!=` (« n'est pas égal à »). Vous remarquez également que j'utilise les guillemets `"`. Cela indique à R qu'il s'agit du texte que vous recherchez, et non du nom d'une fonction ou d'un objet.
+
+Il est important que de cette façon, vous ne montriez que le cadre de données filtré ; les données originales (celles que vous voyez dans l'onglet environnement) restent inchangées. Si vous voulez enregistrer un sous-ensemble d'un cadre de données sous un nouveau nom, vous pouvez utiliser `<-` :
+
+```{r}
+adelie_penguins <- penguins %>%
+  filter(species == "Adelie")
+```
+
+Si vous exécutez ce code, vous verrez un nouveau cadre de données appelé `adelie_penguins` dans l'onglet environnement. Vous pouvez cliquer dessus pour confirmer que toutes les espèces sont bien Adélie. Comme décrit ci-dessus pour les noms de colonnes, les noms de cadres de données ne peuvent pas contenir d'espaces ni de traits d'union `-`.
+
+### Vérification d'apprentissage 2 :
+
+**Pourquoi pensez-vous qu'il est dangereux de faire ce qui suit :**
+
+*J'ai utilisé des commentaires ici pour éviter que vous exécutiez le chunk par erreur*
+
+```{r}
+# penguins <- penguins %>%
+#     filter(species == "Adelie")
+```
+
+Pour les nombres (comme `bill_length_mm`), vous pourriez être moins intéressé par le filtrage des valeurs exactes et plus intéressé par les valeurs au-dessus ou en dessous d'une certaine valeur. Pour cela, vous pouvez utiliser `>` (plus grand), `<` (plus petit), `>=` (plus grand ou égal), et `<=` (plus petit ou égal). Voir l'exemple ci-dessous, où je ne montre que `bill_length_mm` au-dessus de 45 :
+
+```{r}
+penguins %>%
+  filter(bill_length_mm > 45)
+```
+
+Vous pouvez également combiner plusieurs étapes de filtrage :
+
+```{r}
+penguins %>%
+  filter(bill_length_mm > 45, species == "Adelie")
+```
+
+### Tâche 6
+
+Créez un nouveau sous-ensemble des données. Utilisez un nom raisonnable pour le nouvel ensemble de données. Filtrez pour exclure les manchots Adelie (avec `!=`, voir ci-dessus), et un `body_mass_g` inférieur ou égal à 4000 g :
+
+```{r}
+penguins_small <- penguins %>%
+  filter(species != "Adelie", body_mass_g <= 4000)
+```
+
+Vous avez maintenant appris certains aspects de l'exploration des données, qui est généralement la première étape d'une analyse. Vous essayez de comprendre comment les données sont construites, quelles colonnes existent, les résumés de base des données, etc. Une fonction pratique pour voir la structure de vos données est `str()`.
+
+### Tâche 7
+
+Utilisez `str()` pour l'ensemble de données `penguins` :
+
+```{r}
+str(penguins)
+```
+
+Il vous montre les noms de chaque colonne dans les données et le type de données. En général, les données peuvent être des nombres ou du texte. Les nombres peuvent être des nombres entiers (« integers » = `int`) ou des nombres à virgule (`num`). Le texte peut également être stocké de différentes manières. Il peut y avoir du « texte libre » (« character » = `chr`) que vous utiliseriez par ex. dans un tableau avec les prénoms et noms de personnes. Dans ces cas, vous devez pouvoir stocker n'importe quel nom. Souvent, cependant, le même texte s'applique plusieurs fois dans un cadre de données ; cela pourrait être par ex. noms d'espèces, sites d'échantillonnage, classes de taille (« adulte » contre « juvénile »), etc. Pour ces cas, R utilise une astuce pour stocker le texte aussi efficacement que possible. Vous voyez que par ex. la colonne `species` est un `factor`. Au lieu de sauvegarder le texte entier pour chaque ligne de cette colonne, R enregistre d'abord toutes les entrées uniques de la ligne. Ces entrées uniques (c.-à-d. les possibilités d'entrées dans cette colonne) sont appelées `levels`. R en garde la trace et attribue un numéro à chacun. Dans la colonne elle-même, seuls ces nombres sont stockés. Pour voir les niveaux d'une colonne de facteur, vous pouvez utiliser la fonction `levels()`.
+
+### Tâche 8
+
+Utilisez `levels()` ci-dessous, pour voir les niveaux de `penguins$island` :
+
+```{r}
+levels(penguins$island)
+```
+
+Vous pouvez voir comment R stocke les différentes îles (ou espèces, sites, classes de taille, etc.) en transformant les facteurs en nombres :
+
+```{r}
+as.numeric(penguins$island)
+```
+
+Le stockage des données de cette manière est très pratique car il évite également l'introduction de fautes de frappe, qui créeraient un désordre, si vous voulez compter les occurrences de chaque île dans l'ensemble de données ou regrouper les données.
+
+C'est tout pour cette semaine.
+
+**La semaine prochaine**, nous apprendrons à visualiser les différents types de données. Ceci est très utile pour l'exploration des données car les données sont beaucoup plus faciles à comprendre pour les humains si elles sont représentées visuellement que par des tableaux ou de longues listes de valeurs.
+

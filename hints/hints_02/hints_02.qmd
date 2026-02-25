@@ -38,11 +38,14 @@ Remplacez le `____` ci-dessous par une échelle de couleur de votre choix.
 #| eval: false
 #| echo: true
 
-ggplot(data = penguins, aes(x = bill_length_mm, y = body_mass_g, colour = species)) +
-    geom_point() + 
-    labs(x = "Bill length (mm)", y = "Body mass (g)") +
-    ___ +
-    theme_minimal()
+ggplot(
+  data = penguins,
+  aes(x = bill_length_mm, y = body_mass_g, colour = species)
+) +
+  geom_point() +
+  labs(x = "Bill length (mm)", y = "Body mass (g)") +
+  ___ +
+  theme_minimal()
 ```
 
 ::: {.callout-tip collapse="true" title="Afficher l'indice"}
@@ -236,6 +239,7 @@ ggplot(
   theme_classic(base_size = 20) +
   theme(legend.position = "none")
 ```
+
 :::
 ::::
 
