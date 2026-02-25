@@ -240,8 +240,8 @@ Andreas Eich
 <p><strong>Properties:</strong></p>
 <ul>
 <li>Described by mean <span class="math inline">\(\mu\)</span> and standard deviation <span class="math inline">\(\sigma\)</span></li>
-<li><strong>Symmetric</strong> bell shape</li>
-<li><strong>Defined from <span class="math inline">\(-\infty\)</span> to <span class="math inline">\(+\infty\)</span></strong></li>
+<li>Symmetric bell shape</li>
+<li>Continuously defined from <span class="math inline">\(-\infty\)</span> to <span class="math inline">\(+\infty\)</span></li>
 <li>Most values close to the mean</li>
 </ul>
 </div></div>
@@ -256,15 +256,15 @@ Andreas Eich
 <ul>
 <li class="fragment">❌ Problem for asymmetric data</li>
 </ul></li>
-<li class="fragment"><strong>Defined on the entire real line</strong>: From <span class="math inline">\(-\infty\)</span> to <span class="math inline">\(+\infty\)</span>
+<li class="fragment"><strong>Defined on the entire interval</strong>: From <span class="math inline">\(-\infty\)</span> to <span class="math inline">\(+\infty\)</span>
 <ul>
-<li class="fragment">❌ Problem if your data cannot be negative</li>
-<li class="fragment">❌ Problem if your data has an upper limit</li>
+<li class="fragment">❌ Problem if your data cannot be negative (weight, length)</li>
+<li class="fragment">❌ Problem if your data has an upper limit (rates, percent)</li>
 <li class="fragment">❌ Problem if you have count data</li>
 </ul></li>
 <li class="fragment"><strong>Constant variance</strong>: Same spread everywhere
 <ul>
-<li class="fragment">❌ Problem if variability changes with the mean</li>
+<li class="fragment">❌ Problem if variability changes with the mean (higher variability for larger individuals)</li>
 </ul></li>
 </ol>
 </section>
@@ -309,7 +309,7 @@ y_i &amp;\sim \mathrm{Normal}(\mu_i, \sigma) \\
 <div class="fragment">
 <ul>
 <li><p>The <strong>residuals</strong> (difference between data and predictions) follow the normal</p></li>
-<li><p><strong>Not the raw data itself</strong></p></li>
+<li><p>Not the raw data itself</p></li>
 <li><p><span class="math inline">\(\mathrm{residual}_i = y_i - \mu_i\)</span></p></li>
 </ul>
 </div>
@@ -319,6 +319,14 @@ y_i &amp;\sim \mathrm{Normal}(\mu_i, \sigma) \\
 
 </div>
 <p>The normal distribution describes the <strong>random noise</strong> around the regression line</p>
+</div>
+<div class="fragment">
+<p><span class="math display">\[
+\begin{align}
+y_i &amp;\sim \mathrm{Normal}(\mu_i, \sigma) \\
+\mu_i &amp;= a + b \cdot x_i
+\end{align}
+\]</span></p>
 </div>
 </section>
 <section id="when-normality-fails" class="slide level2 smaller">
@@ -369,7 +377,12 @@ y_i &amp;\sim \mathrm{Normal}(\mu_i, \sigma) \\
 </div>
 <div class="columns">
 <div class="column">
-<p>At each of 5 sites, coral cover was estimated with a line intercept transect: along a 20 m transect, at 25 cm intervals (80 points per transect), record if coral is present or absent. Total: 3 transects × 80 points = 240 observations per site</p>
+<p><strong>Coral cover</strong></p>
+<ul>
+<li>3x 20 m transects</li>
+<li>25 cm intervals (80 points per transect)</li>
+<li>Record if coral is present or absent</li>
+</ul>
 <div class="cell">
 <div class="cell-output-display">
 <div>
@@ -433,35 +446,172 @@ y_i &amp;\sim \mathrm{Normal}(\mu_i, \sigma) \\
 <ul>
 <li class="fragment"><strong>Different distributions</strong>: Poisson, binomial, gamma, etc.</li>
 <li class="fragment"><strong>Same concepts</strong>: explanatory variables, coefficients, predictions</li>
-<li class="fragment"><strong>New component</strong>: link function</li>
 </ul>
 </section>
-<section id="the-link-problem" class="slide level2 smaller">
-<h2>The link problem</h2>
+<section id="when-to-use-which-model" class="slide level2 smaller">
+<h2>When to use which model?</h2>
 <div class="med-space">
 
 </div>
-<p>For counts (Poisson distribution), we need <span class="math inline">\(\mu &gt; 0\)</span></p>
+<table class="caption-top">
+<thead>
+<tr class="header">
+<th>Response type</th>
+<th>Distribution</th>
+<th>Example</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Continuous, can be negative</td>
+<td>Normal</td>
+<td>Temperature, size difference</td>
+</tr>
+<tr class="even">
+<td>Counts</td>
+<td>Poisson</td>
+<td>Number of larvae, fish abundance</td>
+</tr>
+<tr class="odd">
+<td>Binary (Yes/No)</td>
+<td>Binomial</td>
+<td>Survival, presence/absence</td>
+</tr>
+<tr class="even">
+<td>Strictly positive</td>
+<td>Gamma</td>
+<td>Biomass, nutrient concentration</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="common-distributions-and-their-parameters" class="slide level2 smaller">
+<h2>Common distributions and their parameters</h2>
+<div class="med-space">
+
+</div>
+<table class="caption-top">
+<colgroup>
+<col style="width: 25%">
+<col style="width: 25%">
+<col style="width: 25%">
+<col style="width: 25%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Distribution</th>
+<th>Formula</th>
+<th>Parameters</th>
+<th>Constraints</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>Normal</strong></td>
+<td><span class="math inline">\(y_i \sim \mathrm{Normal}(\mu, \sigma)\)</span></td>
+<td><span class="math inline">\(\mu\)</span> (mean)<br><span class="math inline">\(\sigma\)</span> (SD)</td>
+<td><span class="math inline">\(\mu \in \mathbb{R}\)</span><br><span class="math inline">\(\sigma &gt; 0\)</span></td>
+</tr>
+<tr class="even">
+<td><strong>Poisson</strong></td>
+<td><span class="math inline">\(y_i \sim \mathrm{Poisson}(\lambda)\)</span></td>
+<td><span class="math inline">\(\lambda\)</span> (mean)</td>
+<td><span class="math inline">\(\lambda &gt; 0\)</span></td>
+</tr>
+<tr class="odd">
+<td><strong>Binomial</strong></td>
+<td><span class="math inline">\(y_i \sim \mathrm{Binomial}(n, p)\)</span></td>
+<td><span class="math inline">\(n\)</span> (trials)<br><span class="math inline">\(p\)</span> (prob.)</td>
+<td><span class="math inline">\(n \in \mathbb{N}\)</span><br><span class="math inline">\(p \in (0, 1)\)</span></td>
+</tr>
+<tr class="even">
+<td><strong>Gamma</strong></td>
+<td><span class="math inline">\(y_i \sim \mathrm{Gamma}(\alpha, \beta)\)</span></td>
+<td><span class="math inline">\(\alpha\)</span> (shape)<br><span class="math inline">\(\beta\)</span> (rate)</td>
+<td><span class="math inline">\(\alpha &gt; 0\)</span><br><span class="math inline">\(\beta &gt; 0\)</span></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="link-function" class="slide level2 smaller">
+<h2>Link function</h2>
 <div class="med-space">
 
 </div>
 <div class="columns">
 <div class="column">
-<p><strong>Classical linear model:</strong></p>
-<p><span class="math display">\[
-\mu_i = a + b \cdot x_i
-\]</span></p>
-<div class="fragment">
-<p>❌ Can produce negative values!</p>
-</div>
+<h4 id="normal-model">Normal Model</h4>
+<p>One continuous variable (<span class="math inline">\(y\)</span>) increases/decreases with other continuous variable (<span class="math inline">\(x\)</span>)</p>
 </div><div class="column">
-<div class="fragment">
-<p><strong>GLM with log link:</strong></p>
+<h4 id="poisson-model">Poisson Model</h4>
+<p>Counts (<span class="math inline">\(y\)</span>) increase/decrease with other continuous variable (<span class="math inline">\(x\)</span>)</p>
+</div></div>
+<div class="columns">
+<div class="column">
 <p><span class="math display">\[
-\log(\mu_i) = a + b \cdot x_i
+\begin{align}
+\mathrm{y}_i \sim \mathrm{Normal(\mu}_i,~\mathrm{\sigma)} \\
+\mu_i = a + b \cdot \mathrm{x}_i\\
+\end{align}
 \]</span></p>
-<p>✅ <span class="math inline">\(\mu_i = e^{a + b \cdot x_i}\)</span> is always positive!</p>
+</div><div class="column">
+<p><span class="math display">\[
+\begin{align}
+\mathrm{y}_i \sim \mathrm{Poisson}(\lambda_i) \\
+\log(\lambda_i) = a + b \cdot \mathrm{x}_i\\
+\end{align}
+\]</span></p>
+</div></div>
+<div class="columns">
+<div class="column">
+<p><span class="math inline">\(\mu_i\)</span> can have any value</p>
+</div><div class="column">
+<p><span class="math inline">\(\lambda_i\)</span> has to be &gt; 0!</p>
+</div></div>
+</section>
+<section id="link-function-1" class="slide level2 smaller">
+<h2>Link function</h2>
+<div class="med-space">
+
 </div>
+<div class="columns">
+<div class="column">
+<h4 id="normal-model-1">Normal Model</h4>
+<p>One continuous variable (<span class="math inline">\(y\)</span>) increases/decreases with other continuous variable (<span class="math inline">\(x\)</span>)</p>
+</div><div class="column">
+<h4 id="poisson-model-1">Poisson Model</h4>
+<p>Counts (<span class="math inline">\(y\)</span>) increase/decrease with other continuous variable (<span class="math inline">\(x\)</span>)</p>
+</div></div>
+<div class="columns">
+<div class="column">
+<p><span class="math display">\[
+\begin{align}
+\mathrm{y}_i \sim \mathrm{Normal(\mu}_i,~\mathrm{\sigma)} \\
+\mu_i = a + b \cdot \mathrm{x}_i\\
+\end{align}
+\]</span></p>
+</div><div class="column">
+<p><span class="math display">\[
+\begin{align}
+\mathrm{y}_i \sim \mathrm{Poisson}(\lambda_i) \\
+\begin{aligned}
+{\color{darkorange}\log}(\lambda_i) &amp;= a + b \cdot \mathrm{x}_i\\
+\lambda_i &amp;= e^{a + b \cdot x_i}
+\end{aligned}
+\end{align}
+\]</span></p>
+</div></div>
+<div class="columns">
+<div class="column">
+<p><span class="math inline">\(\mu_i\)</span> can have any value</p>
+</div><div class="column">
+<p><span class="math inline">\(\lambda_i\)</span> has to be &gt; 0!</p>
+</div></div>
+<div class="columns">
+<div class="column">
+
+</div><div class="column">
+<p><span style="color: darkorange;">Link function</span> ensures that <span class="math inline">\(\lambda_i\)</span> is positive</p>
 </div></div>
 </section>
 <section id="link-functions" class="slide level2 smaller">
@@ -510,29 +660,6 @@ y_i &amp;\sim \mathrm{Normal}(\mu_i, \sigma) \\
 </tbody>
 </table>
 </section>
-<section id="data-generation-model-with-glm" class="slide level2 smaller">
-<h2>Data generation model with GLM</h2>
-<div class="med-space">
-
-</div>
-<p><strong>Before (linear model):</strong></p>
-<p><span class="math display">\[
-\begin{align}
-y_i &amp;\sim \mathrm{Normal}(\mu_i, \sigma) \\
-\mu_i &amp;= a + b \cdot x_i
-\end{align}
-\]</span></p>
-<div class="fragment">
-<p><strong>Now (GLM for counts):</strong></p>
-<p><span class="math display">\[
-\begin{align}
-y_i &amp;\sim \mathrm{Poisson}(\lambda_i) \\
-\log(\lambda_i) &amp;= a + b \cdot x_i
-\end{align}
-\]</span></p>
-<p>or equivalently: <span class="math inline">\(\lambda_i = e^{a + b \cdot x_i}\)</span></p>
-</div>
-</section>
 <section id="example-sea-urchin-counts-with-glm" class="slide level2 smaller">
 <h2>Example: Sea urchin counts with GLM</h2>
 <div class="med-space">
@@ -549,48 +676,26 @@ y_i &amp;\sim \mathrm{Poisson}(\lambda_i) \\
 <span id="cb1-8"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="at">family =</span> <span class="fu">poisson</span>(<span class="at">link =</span> <span class="st">"log"</span>)</span>
 <span id="cb1-9"><a href="" aria-hidden="true" tabindex="-1"></a>)</span>
 <span id="cb1-10"><a href="" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-11"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(m_poisson)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb1-11"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">anova</span>(m_poisson)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="fragment">
 <div class="cell">
 <div class="cell-output cell-output-stdout">
-<pre><code>
-Call:
-glm(formula = count ~ site, family = poisson(link = "log"), data = count_data)
+<pre><code>Analysis of Deviance Table
 
-Coefficients:
-            Estimate Std. Error z value Pr(&gt;|z|)    
-(Intercept)  1.22378    0.09901  12.360  &lt; 2e-16 ***
-siteSite B   0.79113    0.11936   6.628 3.41e-11 ***
+Model: poisson, link: log
+
+Response: count
+
+Terms added sequentially (first to last)
+
+     Df Deviance Resid. Df Resid. Dev  Pr(&gt;Chi)    
+NULL                    59    106.671              
+site  1   47.424        58     59.247 5.718e-12 ***
 ---
-Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
-
-(Dispersion parameter for poisson family taken to be 1)
-
-    Null deviance: 106.671  on 59  degrees of freedom
-Residual deviance:  59.247  on 58  degrees of freedom
-AIC: 264.04
-
-Number of Fisher Scoring iterations: 4</code></pre>
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
 </div>
 </div>
-</div>
-</section>
-<section id="interpreting-glm-coefficients" class="slide level2 smaller">
-<h2>Interpreting GLM coefficients</h2>
-<div class="med-space">
-
-</div>
-<p>With a log link, coefficients are on the <strong>log scale</strong>:</p>
-<p><span class="math display">\[
-\log(\lambda_i) = a + b \cdot x_i
-\]</span></p>
-<div class="fragment">
-<p>To get the effect on the original scale:</p>
-<p><span class="math display">\[
-\lambda_i = e^{a + b \cdot x_i} = e^a \cdot e^{b \cdot x_i}
-\]</span></p>
-<p>A coefficient of <span class="math inline">\(b = 0.5\)</span> means that <span class="math inline">\(\lambda\)</span> is multiplied by <span class="math inline">\(e^{0.5} \approx 1.65\)</span> for each unit increase in <span class="math inline">\(x\)</span></p>
 </div>
 </section>
 <section id="checking-glm-models" class="slide level2 smaller">
@@ -603,6 +708,7 @@ Number of Fisher Scoring iterations: 4</code></pre>
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(performance)</span>
 <span id="cb3-2"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">check_model</span>(m_poisson)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
+
 <div class="fragment">
 <p><strong>Key differences:</strong></p>
 <ul>
@@ -612,7 +718,15 @@ Number of Fisher Scoring iterations: 4</code></pre>
 </ul>
 </div>
 </section>
-<section id="marine-example-coral-cover" class="slide level2 smaller">
+<section id="checking-glm-models-output" class="slide level2 smaller output-location-slide"><h2>Checking GLM models</h2><div class="cell output-location-slide">
+<div class="cell-output-display">
+<div>
+<figure>
+<p><img data-src="05_lecture_draft_files/figure-revealjs/unnamed-chunk-9-1.png" width="960"></p>
+</figure>
+</div>
+</div>
+</div></section><section id="marine-example-coral-cover" class="slide level2 smaller">
 <h2>Marine example: Coral cover</h2>
 <div class="med-space">
 
@@ -642,43 +756,6 @@ Number of Fisher Scoring iterations: 4</code></pre>
 </div>
 
 <img data-src="05_lecture_draft_files/figure-revealjs/unnamed-chunk-11-1.png" width="960" class="r-stretch"></section>
-<section id="when-to-use-which-model" class="slide level2 smaller">
-<h2>When to use which model?</h2>
-<div class="med-space">
-
-</div>
-<table class="caption-top">
-<thead>
-<tr class="header">
-<th>Response type</th>
-<th>Distribution</th>
-<th>Marine example</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td>Continuous, can be negative</td>
-<td>Normal</td>
-<td>Temperature, size difference</td>
-</tr>
-<tr class="even">
-<td>Counts</td>
-<td>Poisson</td>
-<td>Number of larvae, fish abundance</td>
-</tr>
-<tr class="odd">
-<td>Binary (Yes/No)</td>
-<td>Binomial</td>
-<td>Survival, presence/absence</td>
-</tr>
-<tr class="even">
-<td>Strictly positive</td>
-<td>Gamma</td>
-<td>Biomass, nutrient concentration</td>
-</tr>
-</tbody>
-</table>
-</section>
 <section id="summary" class="slide level2 smaller">
 <h2>Summary</h2>
 <div class="med-space">

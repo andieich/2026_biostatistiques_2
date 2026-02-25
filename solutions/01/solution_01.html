@@ -1,0 +1,927 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="fr" xml:lang="fr"><head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.7.31">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+<meta name="author" content="Andreas Eich">
+<title>Solution pour TP 01 – Biostatistiques 2</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../">
+<link href="../../images/logo.png" rel="icon" type="image/png">
+<script src="../../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-303f0b4dceb2a814a9bbef461efe1684.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../site_libs/bootstrap/bootstrap-ede79dfbbf9c5e7d896595a45177b761.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light"><script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "Pas de résultats",
+    "search-matching-documents-text": "documents trouvés",
+    "search-copy-link-title": "Copier le lien vers la recherche",
+    "search-hide-matches-text": "Cacher les correspondances additionnelles",
+    "search-more-match-text": "correspondance de plus dans ce document",
+    "search-more-matches-text": "correspondances de plus dans ce document",
+    "search-clear-button-title": "Effacer",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Annuler",
+    "search-submit-button-title": "Envoyer",
+    "search-label": "Recherche"
+  }
+}</script>
+<meta property="og:title" content="Solution pour TP 01 – Biostatistiques 2">
+<meta property="og:description" content="Page d’accueil pour UE 6.7 - Biostatistiques 2">
+<meta property="og:site_name" content="Biostatistiques 2">
+</head>
+<body class="nav-sidebar docked quarto-light">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top"><nav class="quarto-secondary-nav"><div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Basculer la barre latérale" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item">Solution pour TP 01</li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Basculer la barre latérale" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+    </div>
+  </nav></header><!-- content --><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation docked overflow-auto"><div class="pt-lg-2 mt-2 text-center sidebar-header">
+      <a href="../../index.html" class="sidebar-logo-link">
+      <img src="../../images/logo.png" alt="" class="sidebar-logo py-0 d-lg-inline d-none"></a>
+      </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+<li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Calendrier</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../posit_cloud_access.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Accéder à Posit Cloud</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../course-team.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Équipe d’enseignement</span></a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="false">
+ <span class="menu-text">Résumés</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="false" aria-label="Basculer la section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 ">
+<li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../model_overview_fr.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Modèles</span></a>
+  </div>
+</li>
+      </ul>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../course-links.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Liens utiles</span></a>
+  </div>
+</li>
+    </ul>
+</div>
+</nav><div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active"><h2 id="toc-title">Sur cette page</h2>
+   
+  <ul>
+<li><a href="#t%C3%A2che-1" id="toc-tâche-1" class="nav-link active" data-scroll-target="#t%C3%A2che-1">Tâche 1</a></li>
+  <li><a href="#v%C3%A9rification-dapprentissage-1" id="toc-vérification-dapprentissage-1" class="nav-link" data-scroll-target="#v%C3%A9rification-dapprentissage-1">Vérification d’apprentissage 1 :</a></li>
+  <li><a href="#t%C3%A2che-2" id="toc-tâche-2" class="nav-link" data-scroll-target="#t%C3%A2che-2">Tâche 2</a></li>
+  <li><a href="#t%C3%A2che-3" id="toc-tâche-3" class="nav-link" data-scroll-target="#t%C3%A2che-3">Tâche 3</a></li>
+  <li><a href="#t%C3%A2che-4" id="toc-tâche-4" class="nav-link" data-scroll-target="#t%C3%A2che-4">Tâche 4</a></li>
+  <li><a href="#t%C3%A2che-5" id="toc-tâche-5" class="nav-link" data-scroll-target="#t%C3%A2che-5">Tâche 5</a></li>
+  <li><a href="#v%C3%A9rification-dapprentissage-2" id="toc-vérification-dapprentissage-2" class="nav-link" data-scroll-target="#v%C3%A9rification-dapprentissage-2">Vérification d’apprentissage 2 :</a></li>
+  <li><a href="#t%C3%A2che-6" id="toc-tâche-6" class="nav-link" data-scroll-target="#t%C3%A2che-6">Tâche 6</a></li>
+  <li><a href="#t%C3%A2che-7" id="toc-tâche-7" class="nav-link" data-scroll-target="#t%C3%A2che-7">Tâche 7</a></li>
+  <li><a href="#t%C3%A2che-8" id="toc-tâche-8" class="nav-link" data-scroll-target="#t%C3%A2che-8">Tâche 8</a></li>
+  </ul></nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block default"><div class="quarto-title">
+<h1 class="title">Solution pour TP 01</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    <div>
+    <div class="quarto-title-meta-heading">Auteur·rice</div>
+    <div class="quarto-title-meta-contents">
+             <p>Andreas Eich </p>
+          </div>
+  </div>
+    
+    <div>
+    <div class="quarto-title-meta-heading">Mis à jour</div>
+    <div class="quarto-title-meta-contents">
+      <p class="date">02.25.2025</p>
+    </div>
+  </div>
+  
+    
+  </div>
+  
+
+
+</header><div class="cell">
+<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://tidyverse.tidyverse.org">tidyverse</a></span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://allisonhorst.github.io/palmerpenguins/">palmerpenguins</a></span><span class="op">)</span></span>
+<span><span class="va">penguins</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/na.fail.html">na.omit</a></span><span class="op">(</span><span class="va">penguins</span><span class="op">)</span></span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Créez un “chunk R” en dessous de ce texte en plaçant le curseur en dessous du texte et en cliquant sur “Insérer un nouveau chunk de code” (une icône blanche C avec un fond vert):</p>
+<p>Ensuite, calculez <code>3 + 4</code>. Pour « évaluer » (c.-à-d.&nbsp;exécuter le code), utilisez Ctrl + Entrée ou cliquez sur le triangle.</p>
+<div class="cell">
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fl">3</span> <span class="op">+</span> <span class="fl">4</span></span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 7</code></pre>
+</div>
+</div>
+<p>Maintenant, nous pouvons avoir un premier aperçu des données. Je l’ai déjà chargé dans R, vous apprendrez comment le faire vous-même plus tard.</p>
+<p>Les données s’appellent <code>penguins</code>. Il contient des données pour l’espèce, le sexe, la longueur du bec et la profondeur, le poids, etc. pour différents manchots. Nous utiliserons cela comme exemple. Vous pouvez en savoir plus sur les données <a href="https://allisonhorst.github.io/palmerpenguins/">ici</a>.</p>
+<p>Maintenant, pour voir les données, vous pouvez cliquer sur “manchots” dans l’onglet “Environnement”. Une vue de tableau s’ouvrira montrant toutes les données. Vous connaissez cela d’Excel. Mais c’est « en lecture seule », donc vous ne pouvez pas modifier les valeurs d’ici.</p>
+<p>Maintenant, vous pouvez également utiliser le code R pour avoir une idée des données. Avec la fonction <code><a href="https://rdrr.io/r/utils/head.html">head()</a></code>, les 6 premières lignes des données sont affichées.</p>
+<section id="tâche-1" class="level3"><h3 class="anchored" data-anchor-id="tâche-1">Tâche 1</h3>
+<p>Utilisez le chunk de code R ci-dessous et remplacez <code>____</code> par le nom du cadre de données (<code>penguins</code>). Lorsque vous exécutez le chunk, vous verrez les premières lignes :</p>
+<div class="cell">
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="va">penguins</span><span class="op">)</span></span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 6 × 8
+  species island    bill_length_mm bill_depth_mm flipper_length_mm body_mass_g
+  &lt;fct&gt;   &lt;fct&gt;              &lt;dbl&gt;         &lt;dbl&gt;             &lt;int&gt;       &lt;int&gt;
+1 Adelie  Torgersen           39.1          18.7               181        3750
+2 Adelie  Torgersen           39.5          17.4               186        3800
+3 Adelie  Torgersen           40.3          18                 195        3250
+4 Adelie  Torgersen           36.7          19.3               193        3450
+5 Adelie  Torgersen           39.3          20.6               190        3650
+6 Adelie  Torgersen           38.9          17.8               181        3625
+# ℹ 2 more variables: sex &lt;fct&gt;, year &lt;int&gt;</code></pre>
+</div>
+</div>
+</section><section id="vérification-dapprentissage-1" class="level3"><h3 class="anchored" data-anchor-id="vérification-dapprentissage-1">Vérification d’apprentissage 1 :</h3>
+<p><strong>Que contient chaque ligne dans <code>penguins</code> ?</strong></p>
+<p>❌ A. Données pour tous les manchots sur une île spécifique, par exemple Biscoe</p>
+<p>❌ B. Données pour tous les manchots d’une espèce, par exemple Adélie</p>
+<p>✅ C. Données pour un seul manchot</p>
+<p>Si vous voulez jeter un coup d’œil à une colonne, vous pouvez la sélectionner avec le symbole dollar <code>$</code> : <code>données$nom_colonne</code>.</p>
+</section><section id="tâche-2" class="level3"><h3 class="anchored" data-anchor-id="tâche-2">Tâche 2</h3>
+<p>Maintenant, essayez vous-même. Sélectionnez la colonne <code>bill_length_mm</code> du cadre de données <code>penguins</code> :</p>
+<div class="cell">
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">penguins</span><span class="op">$</span><span class="va">bill_length_mm</span></span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>  [1] 39.1 39.5 40.3 36.7 39.3 38.9 39.2 41.1 38.6 34.6 36.6 38.7 42.5 34.4 46.0
+ [16] 37.8 37.7 35.9 38.2 38.8 35.3 40.6 40.5 37.9 40.5 39.5 37.2 39.5 40.9 36.4
+ [31] 39.2 38.8 42.2 37.6 39.8 36.5 40.8 36.0 44.1 37.0 39.6 41.1 36.0 42.3 39.6
+ [46] 40.1 35.0 42.0 34.5 41.4 39.0 40.6 36.5 37.6 35.7 41.3 37.6 41.1 36.4 41.6
+ [61] 35.5 41.1 35.9 41.8 33.5 39.7 39.6 45.8 35.5 42.8 40.9 37.2 36.2 42.1 34.6
+ [76] 42.9 36.7 35.1 37.3 41.3 36.3 36.9 38.3 38.9 35.7 41.1 34.0 39.6 36.2 40.8
+ [91] 38.1 40.3 33.1 43.2 35.0 41.0 37.7 37.8 37.9 39.7 38.6 38.2 38.1 43.2 38.1
+[106] 45.6 39.7 42.2 39.6 42.7 38.6 37.3 35.7 41.1 36.2 37.7 40.2 41.4 35.2 40.6
+[121] 38.8 41.5 39.0 44.1 38.5 43.1 36.8 37.5 38.1 41.1 35.6 40.2 37.0 39.7 40.2
+[136] 40.6 32.1 40.7 37.3 39.0 39.2 36.6 36.0 37.8 36.0 41.5 46.1 50.0 48.7 50.0
+[151] 47.6 46.5 45.4 46.7 43.3 46.8 40.9 49.0 45.5 48.4 45.8 49.3 42.0 49.2 46.2
+[166] 48.7 50.2 45.1 46.5 46.3 42.9 46.1 47.8 48.2 50.0 47.3 42.8 45.1 59.6 49.1
+[181] 48.4 42.6 44.4 44.0 48.7 42.7 49.6 45.3 49.6 50.5 43.6 45.5 50.5 44.9 45.2
+[196] 46.6 48.5 45.1 50.1 46.5 45.0 43.8 45.5 43.2 50.4 45.3 46.2 45.7 54.3 45.8
+[211] 49.8 49.5 43.5 50.7 47.7 46.4 48.2 46.5 46.4 48.6 47.5 51.1 45.2 45.2 49.1
+[226] 52.5 47.4 50.0 44.9 50.8 43.4 51.3 47.5 52.1 47.5 52.2 45.5 49.5 44.5 50.8
+[241] 49.4 46.9 48.4 51.1 48.5 55.9 47.2 49.1 46.8 41.7 53.4 43.3 48.1 50.5 49.8
+[256] 43.5 51.5 46.2 55.1 48.8 47.2 46.8 50.4 45.2 49.9 46.5 50.0 51.3 45.4 52.7
+[271] 45.2 46.1 51.3 46.0 51.3 46.6 51.7 47.0 52.0 45.9 50.5 50.3 58.0 46.4 49.2
+[286] 42.4 48.5 43.2 50.6 46.7 52.0 50.5 49.5 46.4 52.8 40.9 54.2 42.5 51.0 49.7
+[301] 47.5 47.6 52.0 46.9 53.5 49.0 46.2 50.9 45.5 50.9 50.8 50.1 49.0 51.5 49.8
+[316] 48.1 51.4 45.7 50.7 42.5 52.2 45.2 49.3 50.2 45.6 51.9 46.8 45.7 55.8 43.5
+[331] 49.6 50.8 50.2</code></pre>
+</div>
+</div>
+<p>Vous pourriez faire la même chose avec chacune des colonnes.</p>
+<p>Pour en savoir plus sur les valeurs de cette colonne, vous pouvez combiner le <code>$</code> avec les fonctions <code><a href="https://rdrr.io/r/base/Extremes.html">min()</a></code>, <code><a href="https://rdrr.io/r/base/Extremes.html">max()</a></code>, et <code><a href="https://rdrr.io/r/base/mean.html">mean()</a></code> pour calculer les valeurs minimale, maximale et moyenne.</p>
+</section><section id="tâche-3" class="level3"><h3 class="anchored" data-anchor-id="tâche-3">Tâche 3</h3>
+<p>Faites-le dans le chunk ci-dessous pour <code>bill_length_mm</code> :</p>
+<div class="cell">
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/Extremes.html">min</a></span><span class="op">(</span><span class="va">penguins</span><span class="op">$</span><span class="va">bill_length_mm</span><span class="op">)</span></span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 32.1</code></pre>
+</div>
+<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/Extremes.html">max</a></span><span class="op">(</span><span class="va">penguins</span><span class="op">$</span><span class="va">bill_length_mm</span><span class="op">)</span></span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 59.6</code></pre>
+</div>
+<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="va">penguins</span><span class="op">$</span><span class="va">bill_length_mm</span><span class="op">)</span></span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 43.99279</code></pre>
+</div>
+</div>
+<p>Mais ce n’est pas très utile, car cela calcule les résumés sur toutes les données. Mais nous savons déjà qu’il y a différentes espèces de manchots dans l’ensemble de données. Il serait donc plus utile de connaître ces valeurs pour chaque espèce. Cela peut être fait en combinant des fonctions, ce que vous faites en <code>R</code> avec l’opérateur « pipe » <code>%&gt;%</code>. Cela crée un flux d’opérations : d’abord faire cela, puis prendre le résultat et appliquer la fonction suivante à celui-ci.</p>
+<p>Cela nous permet de calculer facilement les valeurs de résumé (min, max, moyenne) pour chaque espèce. Pour ce faire, nous devons d’abord regrouper les données par espèce, puis les résumer. Voir l’exemple ci-dessous.</p>
+<p>Rappelez-vous que <code>#</code> commence un commentaire ! Tout ce qui suit <code>#</code> ne sera pas exécuté en tant que fonction en R. Je l’utilise ici pour décrire ce que chaque ligne de code (avant la <code>#</code>) le fait.</p>
+<p>Notez que lorsque vous fournissez le cadre de données de cette façon (<code>penguins %&gt;%</code>), les fonctions suivantes essaient de trouver les noms de colonnes que vous fournissez directement dans les données, vous n’avez pas besoin d’utiliser <code>penguins$</code>.</p>
+<div class="cell">
+<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">penguins</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> <span class="co"># 1. Prendre l'ensemble de données des manchots</span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html">group_by</a></span><span class="op">(</span><span class="va">species</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> <span class="co"># 2. Le regrouper par espèce</span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/summarise.html">summarize</a></span><span class="op">(</span>mean_bill_length_mm <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="va">bill_length_mm</span><span class="op">)</span><span class="op">)</span> <span class="co"># 3. créer une nouvelle colonne appelée "mean_bill_length_mm" et attribuer les valeurs moyennes de chaque groupe</span></span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 3 × 2
+  species   mean_bill_length_mm
+  &lt;fct&gt;                   &lt;dbl&gt;
+1 Adelie                   38.8
+2 Chinstrap                48.8
+3 Gentoo                   47.6</code></pre>
+</div>
+</div>
+<p>Cette combinaison de fonctions est très flexible. Vous pouvez regrouper les données par plus de colonnes en ajoutant le nom de la colonne à <code><a href="https://dplyr.tidyverse.org/reference/group_by.html">group_by()</a></code> (séparé par une virgule).</p>
+</section><section id="tâche-4" class="level3"><h3 class="anchored" data-anchor-id="tâche-4">Tâche 4</h3>
+<p>Faites-le ci-dessous, et regroupez les données en outre par <code>sex</code> avant de calculer la moyenne :</p>
+<div class="cell">
+<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">penguins</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> <span class="co"># 1. Prendre l'ensemble de données des manchots</span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html">group_by</a></span><span class="op">(</span><span class="va">species</span>, <span class="va">sex</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> <span class="co"># 2. Le regrouper par espèce et sexe</span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/summarise.html">summarize</a></span><span class="op">(</span>mean_bill_length_mm <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="va">bill_length_mm</span><span class="op">)</span><span class="op">)</span> <span class="co"># 3. créer une nouvelle colonne appelée "mean_bill_length_mm" et attribuer les valeurs moyennes de chaque groupe</span></span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>`summarise()` has grouped output by 'species'. You can override using the
+`.groups` argument.</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 6 × 3
+# Groups:   species [3]
+  species   sex    mean_bill_length_mm
+  &lt;fct&gt;     &lt;fct&gt;                &lt;dbl&gt;
+1 Adelie    female                37.3
+2 Adelie    male                  40.4
+3 Chinstrap female                46.6
+4 Chinstrap male                  51.1
+5 Gentoo    female                45.6
+6 Gentoo    male                  49.5</code></pre>
+</div>
+</div>
+<p>Vous pouvez également calculer d’autres résumés, en les ajoutant à la fonction <code><a href="https://dplyr.tidyverse.org/reference/summarise.html">summarize()</a></code> (séparé par une virgule) :</p>
+<div class="cell">
+<div class="sourceCode" id="cb19"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">penguins</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> <span class="co"># 1. Prendre l'ensemble de données des manchots</span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html">group_by</a></span><span class="op">(</span><span class="va">species</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> <span class="co"># 2. Le regrouper par espèce</span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/summarise.html">summarize</a></span><span class="op">(</span></span>
+<span>    mean_bill_length_mm <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="va">bill_length_mm</span><span class="op">)</span>, <span class="co"># 3.1. créer une nouvelle colonne appelée "mean_bill_length_mm" et attribuer les valeurs moyennes de chaque groupe</span></span>
+<span>    min_bill_length_mm <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Extremes.html">min</a></span><span class="op">(</span><span class="va">bill_length_mm</span><span class="op">)</span> <span class="co"># 3.2. créer une nouvelle colonne appelée "min_bill_length_mm" et attribuer les valeurs minimales de chaque groupe</span></span>
+<span>  <span class="op">)</span></span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 3 × 3
+  species   mean_bill_length_mm min_bill_length_mm
+  &lt;fct&gt;                   &lt;dbl&gt;              &lt;dbl&gt;
+1 Adelie                   38.8               32.1
+2 Chinstrap                48.8               40.9
+3 Gentoo                   47.6               40.9</code></pre>
+</div>
+</div>
+</section><section id="tâche-5" class="level3"><h3 class="anchored" data-anchor-id="tâche-5">Tâche 5</h3>
+<p>Maintenant, c’est à votre tour. Regroupez les données par <code>species</code> et <code>sex</code> et en plus de la valeur moyenne et minimale de <code>bill_length_mm</code>, calculez la valeur maximale. <strong>Indice :</strong> Si vous créez des colonnes en R, elles ne peuvent pas contenir d’espaces ni de traits d’union <code>-</code>.</p>
+<div class="cell">
+<div class="sourceCode" id="cb21"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">penguins</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> <span class="co"># 1. Prendre l'ensemble de données des manchots</span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html">group_by</a></span><span class="op">(</span><span class="va">species</span>, <span class="va">sex</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> <span class="co"># 2. Le regrouper par espèce et sexe</span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/summarise.html">summarize</a></span><span class="op">(</span></span>
+<span>    mean_bill_length_mm <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="va">bill_length_mm</span><span class="op">)</span>, <span class="co"># 3.1. créer une nouvelle colonne appelée "mean_bill_length_mm" et attribuer les valeurs moyennes de chaque groupe</span></span>
+<span>    min_bill_length_mm <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Extremes.html">min</a></span><span class="op">(</span><span class="va">bill_length_mm</span><span class="op">)</span>, <span class="co"># 3.2. créer une nouvelle colonne appelée "min_bill_length_mm" et attribuer les valeurs minimales de chaque groupe</span></span>
+<span>    max_bill_length_mm <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Extremes.html">max</a></span><span class="op">(</span><span class="va">bill_length_mm</span><span class="op">)</span> <span class="co"># 3.3. créer une nouvelle colonne appelée "max_bill_length_mm" et attribuer les valeurs maximales de chaque groupe</span></span>
+<span>  <span class="op">)</span></span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>`summarise()` has grouped output by 'species'. You can override using the
+`.groups` argument.</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 6 × 5
+# Groups:   species [3]
+  species   sex    mean_bill_length_mm min_bill_length_mm max_bill_length_mm
+  &lt;fct&gt;     &lt;fct&gt;                &lt;dbl&gt;              &lt;dbl&gt;              &lt;dbl&gt;
+1 Adelie    female                37.3               32.1               42.2
+2 Adelie    male                  40.4               34.6               46  
+3 Chinstrap female                46.6               40.9               58  
+4 Chinstrap male                  51.1               48.5               55.8
+5 Gentoo    female                45.6               40.9               50.5
+6 Gentoo    male                  49.5               44.4               59.6</code></pre>
+</div>
+</div>
+<p>Une autre fonction très utile en R est <code><a href="https://dplyr.tidyverse.org/reference/filter.html">filter()</a></code>. Comme son nom le suggère, il vous permet de filtrer les données.</p>
+<p>Par exemple, je filtre le cadre de données des manchots pour l’espèce « Adélie ».</p>
+<div class="cell">
+<div class="sourceCode" id="cb24"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">penguins</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span><span class="va">species</span> <span class="op">==</span> <span class="st">"Adelie"</span><span class="op">)</span></span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 146 × 8
+   species island    bill_length_mm bill_depth_mm flipper_length_mm body_mass_g
+   &lt;fct&gt;   &lt;fct&gt;              &lt;dbl&gt;         &lt;dbl&gt;             &lt;int&gt;       &lt;int&gt;
+ 1 Adelie  Torgersen           39.1          18.7               181        3750
+ 2 Adelie  Torgersen           39.5          17.4               186        3800
+ 3 Adelie  Torgersen           40.3          18                 195        3250
+ 4 Adelie  Torgersen           36.7          19.3               193        3450
+ 5 Adelie  Torgersen           39.3          20.6               190        3650
+ 6 Adelie  Torgersen           38.9          17.8               181        3625
+ 7 Adelie  Torgersen           39.2          19.6               195        4675
+ 8 Adelie  Torgersen           41.1          17.6               182        3200
+ 9 Adelie  Torgersen           38.6          21.2               191        3800
+10 Adelie  Torgersen           34.6          21.1               198        4400
+# ℹ 136 more rows
+# ℹ 2 more variables: sex &lt;fct&gt;, year &lt;int&gt;</code></pre>
+</div>
+</div>
+<p>Avez-vous remarqué que j’ai utilisé <code>==</code>? Cela indique à R de faire une comparaison ; après la fonction de filtre, seules les lignes pour lesquelles l’entrée dans la colonne <code>species</code> est égale à « Adélie » seront conservées. L’opposé, si vous voulez filtrer certaines espèces, se fait avec <code>!=</code> (« n’est pas égal à »). Vous remarquez également que j’utilise les guillemets <code>"</code>. Cela indique à R qu’il s’agit du texte que vous recherchez, et non du nom d’une fonction ou d’un objet.</p>
+<p>Il est important que de cette façon, vous ne montriez que le cadre de données filtré ; les données originales (celles que vous voyez dans l’onglet environnement) restent inchangées. Si vous voulez enregistrer un sous-ensemble d’un cadre de données sous un nouveau nom, vous pouvez utiliser <code>&lt;-</code> :</p>
+<div class="cell">
+<div class="sourceCode" id="cb26"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">adelie_penguins</span> <span class="op">&lt;-</span> <span class="va">penguins</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span><span class="va">species</span> <span class="op">==</span> <span class="st">"Adelie"</span><span class="op">)</span></span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Si vous exécutez ce code, vous verrez un nouveau cadre de données appelé <code>adelie_penguins</code> dans l’onglet environnement. Vous pouvez cliquer dessus pour confirmer que toutes les espèces sont bien Adélie. Comme décrit ci-dessus pour les noms de colonnes, les noms de cadres de données ne peuvent pas contenir d’espaces ni de traits d’union <code>-</code>.</p>
+</section><section id="vérification-dapprentissage-2" class="level3"><h3 class="anchored" data-anchor-id="vérification-dapprentissage-2">Vérification d’apprentissage 2 :</h3>
+<p><strong>Pourquoi pensez-vous qu’il est dangereux de faire ce qui suit :</strong></p>
+<p><em>J’ai utilisé des commentaires ici pour éviter que vous exécutiez le chunk par erreur</em></p>
+<div class="cell">
+<div class="sourceCode" id="cb27"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># penguins &lt;- penguins %&gt;%</span></span>
+<span><span class="co">#     filter(species == "Adelie")</span></span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Pour les nombres (comme <code>bill_length_mm</code>), vous pourriez être moins intéressé par le filtrage des valeurs exactes et plus intéressé par les valeurs au-dessus ou en dessous d’une certaine valeur. Pour cela, vous pouvez utiliser <code>&gt;</code> (plus grand), <code>&lt;</code> (plus petit), <code>&gt;=</code> (plus grand ou égal), et <code>&lt;=</code> (plus petit ou égal). Voir l’exemple ci-dessous, où je ne montre que <code>bill_length_mm</code> au-dessus de 45 :</p>
+<div class="cell">
+<div class="sourceCode" id="cb28"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">penguins</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span><span class="va">bill_length_mm</span> <span class="op">&gt;</span> <span class="fl">45</span><span class="op">)</span></span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 163 × 8
+   species island    bill_length_mm bill_depth_mm flipper_length_mm body_mass_g
+   &lt;fct&gt;   &lt;fct&gt;              &lt;dbl&gt;         &lt;dbl&gt;             &lt;int&gt;       &lt;int&gt;
+ 1 Adelie  Torgersen           46            21.5               194        4200
+ 2 Adelie  Torgersen           45.8          18.9               197        4150
+ 3 Adelie  Biscoe              45.6          20.3               191        4600
+ 4 Gentoo  Biscoe              46.1          13.2               211        4500
+ 5 Gentoo  Biscoe              50            16.3               230        5700
+ 6 Gentoo  Biscoe              48.7          14.1               210        4450
+ 7 Gentoo  Biscoe              50            15.2               218        5700
+ 8 Gentoo  Biscoe              47.6          14.5               215        5400
+ 9 Gentoo  Biscoe              46.5          13.5               210        4550
+10 Gentoo  Biscoe              45.4          14.6               211        4800
+# ℹ 153 more rows
+# ℹ 2 more variables: sex &lt;fct&gt;, year &lt;int&gt;</code></pre>
+</div>
+</div>
+<p>Vous pouvez également combiner plusieurs étapes de filtrage :</p>
+<div class="cell">
+<div class="sourceCode" id="cb30"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">penguins</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span><span class="va">bill_length_mm</span> <span class="op">&gt;</span> <span class="fl">45</span>, <span class="va">species</span> <span class="op">==</span> <span class="st">"Adelie"</span><span class="op">)</span></span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 3 × 8
+  species island    bill_length_mm bill_depth_mm flipper_length_mm body_mass_g
+  &lt;fct&gt;   &lt;fct&gt;              &lt;dbl&gt;         &lt;dbl&gt;             &lt;int&gt;       &lt;int&gt;
+1 Adelie  Torgersen           46            21.5               194        4200
+2 Adelie  Torgersen           45.8          18.9               197        4150
+3 Adelie  Biscoe              45.6          20.3               191        4600
+# ℹ 2 more variables: sex &lt;fct&gt;, year &lt;int&gt;</code></pre>
+</div>
+</div>
+</section><section id="tâche-6" class="level3"><h3 class="anchored" data-anchor-id="tâche-6">Tâche 6</h3>
+<p>Créez un nouveau sous-ensemble des données. Utilisez un nom raisonnable pour le nouvel ensemble de données. Filtrez pour exclure les manchots Adelie (avec <code>!=</code>, voir ci-dessus), et un <code>body_mass_g</code> inférieur ou égal à 4000 g :</p>
+<div class="cell">
+<div class="sourceCode" id="cb32"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">penguins_small</span> <span class="op">&lt;-</span> <span class="va">penguins</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span><span class="va">species</span> <span class="op">!=</span> <span class="st">"Adelie"</span>, <span class="va">body_mass_g</span> <span class="op">&lt;=</span> <span class="fl">4000</span><span class="op">)</span></span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Vous avez maintenant appris certains aspects de l’exploration des données, qui est généralement la première étape d’une analyse. Vous essayez de comprendre comment les données sont construites, quelles colonnes existent, les résumés de base des données, etc. Une fonction pratique pour voir la structure de vos données est <code><a href="https://rdrr.io/r/utils/str.html">str()</a></code>.</p>
+</section><section id="tâche-7" class="level3"><h3 class="anchored" data-anchor-id="tâche-7">Tâche 7</h3>
+<p>Utilisez <code><a href="https://rdrr.io/r/utils/str.html">str()</a></code> pour l’ensemble de données <code>penguins</code> :</p>
+<div class="cell">
+<div class="sourceCode" id="cb33"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/str.html">str</a></span><span class="op">(</span><span class="va">penguins</span><span class="op">)</span></span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>tibble [333 × 8] (S3: tbl_df/tbl/data.frame)
+ $ species          : Factor w/ 3 levels "Adelie","Chinstrap",..: 1 1 1 1 1 1 1 1 1 1 ...
+ $ island           : Factor w/ 3 levels "Biscoe","Dream",..: 3 3 3 3 3 3 3 3 3 3 ...
+ $ bill_length_mm   : num [1:333] 39.1 39.5 40.3 36.7 39.3 38.9 39.2 41.1 38.6 34.6 ...
+ $ bill_depth_mm    : num [1:333] 18.7 17.4 18 19.3 20.6 17.8 19.6 17.6 21.2 21.1 ...
+ $ flipper_length_mm: int [1:333] 181 186 195 193 190 181 195 182 191 198 ...
+ $ body_mass_g      : int [1:333] 3750 3800 3250 3450 3650 3625 4675 3200 3800 4400 ...
+ $ sex              : Factor w/ 2 levels "female","male": 2 1 1 1 2 1 2 1 2 2 ...
+ $ year             : int [1:333] 2007 2007 2007 2007 2007 2007 2007 2007 2007 2007 ...
+ - attr(*, "na.action")= 'omit' Named int [1:11] 4 9 10 11 12 48 179 219 257 269 ...
+  ..- attr(*, "names")= chr [1:11] "4" "9" "10" "11" ...</code></pre>
+</div>
+</div>
+<p>Il vous montre les noms de chaque colonne dans les données et le type de données. En général, les données peuvent être des nombres ou du texte. Les nombres peuvent être des nombres entiers (« integers » = <code>int</code>) ou des nombres à virgule (<code>num</code>). Le texte peut également être stocké de différentes manières. Il peut y avoir du « texte libre » (« character » = <code>chr</code>) que vous utiliseriez par ex. dans un tableau avec les prénoms et noms de personnes. Dans ces cas, vous devez pouvoir stocker n’importe quel nom. Souvent, cependant, le même texte s’applique plusieurs fois dans un cadre de données ; cela pourrait être par ex. noms d’espèces, sites d’échantillonnage, classes de taille (« adulte » contre « juvénile »), etc. Pour ces cas, R utilise une astuce pour stocker le texte aussi efficacement que possible. Vous voyez que par ex. la colonne <code>species</code> est un <code>factor</code>. Au lieu de sauvegarder le texte entier pour chaque ligne de cette colonne, R enregistre d’abord toutes les entrées uniques de la ligne. Ces entrées uniques (c.-à-d.&nbsp;les possibilités d’entrées dans cette colonne) sont appelées <code>levels</code>. R en garde la trace et attribue un numéro à chacun. Dans la colonne elle-même, seuls ces nombres sont stockés. Pour voir les niveaux d’une colonne de facteur, vous pouvez utiliser la fonction <code><a href="https://rdrr.io/r/base/levels.html">levels()</a></code>.</p>
+</section><section id="tâche-8" class="level3"><h3 class="anchored" data-anchor-id="tâche-8">Tâche 8</h3>
+<p>Utilisez <code><a href="https://rdrr.io/r/base/levels.html">levels()</a></code> ci-dessous, pour voir les niveaux de <code>penguins$island</code> :</p>
+<div class="cell">
+<div class="sourceCode" id="cb35"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/levels.html">levels</a></span><span class="op">(</span><span class="va">penguins</span><span class="op">$</span><span class="va">island</span><span class="op">)</span></span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "Biscoe"    "Dream"     "Torgersen"</code></pre>
+</div>
+</div>
+<p>Vous pouvez voir comment R stocke les différentes îles (ou espèces, sites, classes de taille, etc.) en transformant les facteurs en nombres :</p>
+<div class="cell">
+<div class="sourceCode" id="cb37"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/numeric.html">as.numeric</a></span><span class="op">(</span><span class="va">penguins</span><span class="op">$</span><span class="va">island</span><span class="op">)</span></span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>  [1] 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 1 1 1 1 1 1 1 1 1 1 2 2 2 2 2 2 2 2 2 2 2 2
+ [38] 2 2 2 2 2 2 2 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 3 3 3 3 3 3 3 3 3 3 3 3
+ [75] 3 3 3 3 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 3
+[112] 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 1 1
+[149] 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+[186] 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+[223] 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+[260] 1 1 1 1 1 1 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2
+[297] 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2</code></pre>
+</div>
+</div>
+<p>Le stockage des données de cette manière est très pratique car il évite également l’introduction de fautes de frappe, qui créeraient un désordre, si vous voulez compter les occurrences de chaque île dans l’ensemble de données ou regrouper les données.</p>
+<p>C’est tout pour cette semaine.</p>
+<p><strong>La semaine prochaine</strong>, nous apprendrons à visualiser les différents types de données. Ceci est très utile pour l’exploration des données car les données sont beaucoup plus faciles à comprendre pour les humains si elles sont représentées visuellement que par des tableaux ou de longues listes de valeurs.</p>
+
+
+</section></main><!-- /main --><script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copié");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copié");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+        const codeEl = trigger.previousElementSibling.cloneNode(true);
+        for (const childEl of codeEl.children) {
+          if (isCodeAnnotation(childEl)) {
+            childEl.remove();
+          }
+        }
+        return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp("https:\/\/andieich\.github\.io\/2026_biostatistiques_2\/");
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+</div> <!-- /content -->
+<footer class="footer"><div class="nav-footer">
+    <div class="nav-footer-left">
+<p>© Droits d’auteur 2026, Andreas Eich</p>
+</div>   
+    <div class="nav-footer-center">
+      &nbsp;
+    </div>
+    <div class="nav-footer-right">
+<p>Cette page est créée avec 🤍 et <a href="https://quarto.org/">Quarto</a>.</p>
+</div>
+  </div>
+</footer>
+
+
+</body></html>

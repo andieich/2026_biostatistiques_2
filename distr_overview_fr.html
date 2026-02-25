@@ -29,8 +29,6 @@ ul.task-list li input[type="checkbox"] {
 <script src="site_libs/quarto-search/fuse.min.js"></script>
 <script src="site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="./">
-<link href="./course-links.html" rel="next">
-<link href="./model_overview_fr.html" rel="prev">
 <link href="./images/logo.png" rel="icon" type="image/png">
 <script src="site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
@@ -116,7 +114,7 @@ window.Quarto = {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./model_overview_fr.html">Résumés</a></li><li class="breadcrumb-item"><a href="./distr_overview_fr.html">Distributions</a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item">Aperçu des distributions de probabilité pour GLM</li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
     </div>
@@ -153,23 +151,17 @@ window.Quarto = {
 </li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true">
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="false">
  <span class="menu-text">Résumés</span></a>
-          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true" aria-label="Toggle section">
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="false" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
-      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 ">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./model_overview_fr.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Modèles</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./distr_overview_fr.html" class="sidebar-item-text sidebar-link active">
- <span class="menu-text">Distributions</span></a>
   </div>
 </li>
       </ul>
@@ -189,7 +181,7 @@ window.Quarto = {
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
-<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./model_overview_fr.html">Résumés</a></li><li class="breadcrumb-item"><a href="./distr_overview_fr.html">Distributions</a></li></ol></nav>
+<header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
 <h1 class="title">Aperçu des distributions de probabilité pour GLM</h1>
 </div>
@@ -210,23 +202,23 @@ window.Quarto = {
 
 <div class="cell">
 <div class="cell-output-display">
-<div id="ygcfryposz" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
-<style>#ygcfryposz table {
+<div id="dgpdozvyig" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#dgpdozvyig table {
   font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-#ygcfryposz thead, #ygcfryposz tbody, #ygcfryposz tfoot, #ygcfryposz tr, #ygcfryposz td, #ygcfryposz th {
+#dgpdozvyig thead, #dgpdozvyig tbody, #dgpdozvyig tfoot, #dgpdozvyig tr, #dgpdozvyig td, #dgpdozvyig th {
   border-style: none;
 }
 
-#ygcfryposz p {
+#dgpdozvyig p {
   margin: 0;
   padding: 0;
 }
 
-#ygcfryposz .gt_table {
+#dgpdozvyig .gt_table {
   display: table;
   border-collapse: collapse;
   line-height: normal;
@@ -252,12 +244,12 @@ window.Quarto = {
   border-left-color: #D3D3D3;
 }
 
-#ygcfryposz .gt_caption {
+#dgpdozvyig .gt_caption {
   padding-top: 4px;
   padding-bottom: 4px;
 }
 
-#ygcfryposz .gt_title {
+#dgpdozvyig .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -269,7 +261,7 @@ window.Quarto = {
   border-bottom-width: 0;
 }
 
-#ygcfryposz .gt_subtitle {
+#dgpdozvyig .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -281,7 +273,7 @@ window.Quarto = {
   border-top-width: 0;
 }
 
-#ygcfryposz .gt_heading {
+#dgpdozvyig .gt_heading {
   background-color: #E8E8E8;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -293,13 +285,13 @@ window.Quarto = {
   border-right-color: #D3D3D3;
 }
 
-#ygcfryposz .gt_bottom_border {
+#dgpdozvyig .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#ygcfryposz .gt_col_headings {
+#dgpdozvyig .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -314,7 +306,7 @@ window.Quarto = {
   border-right-color: #D3D3D3;
 }
 
-#ygcfryposz .gt_col_heading {
+#dgpdozvyig .gt_col_heading {
   color: #333333;
   background-color: #F5F5F5;
   font-size: 100%;
@@ -334,7 +326,7 @@ window.Quarto = {
   overflow-x: hidden;
 }
 
-#ygcfryposz .gt_column_spanner_outer {
+#dgpdozvyig .gt_column_spanner_outer {
   color: #333333;
   background-color: #F5F5F5;
   font-size: 100%;
@@ -346,15 +338,15 @@ window.Quarto = {
   padding-right: 4px;
 }
 
-#ygcfryposz .gt_column_spanner_outer:first-child {
+#dgpdozvyig .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#ygcfryposz .gt_column_spanner_outer:last-child {
+#dgpdozvyig .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#ygcfryposz .gt_column_spanner {
+#dgpdozvyig .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -366,11 +358,11 @@ window.Quarto = {
   width: 100%;
 }
 
-#ygcfryposz .gt_spanner_row {
+#dgpdozvyig .gt_spanner_row {
   border-bottom-style: hidden;
 }
 
-#ygcfryposz .gt_group_heading {
+#dgpdozvyig .gt_group_heading {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -396,7 +388,7 @@ window.Quarto = {
   text-align: left;
 }
 
-#ygcfryposz .gt_empty_group_heading {
+#dgpdozvyig .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -411,15 +403,15 @@ window.Quarto = {
   vertical-align: middle;
 }
 
-#ygcfryposz .gt_from_md > :first-child {
+#dgpdozvyig .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#ygcfryposz .gt_from_md > :last-child {
+#dgpdozvyig .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#ygcfryposz .gt_row {
+#dgpdozvyig .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -438,7 +430,7 @@ window.Quarto = {
   overflow-x: hidden;
 }
 
-#ygcfryposz .gt_stub {
+#dgpdozvyig .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -451,7 +443,7 @@ window.Quarto = {
   padding-right: 5px;
 }
 
-#ygcfryposz .gt_stub_row_group {
+#dgpdozvyig .gt_stub_row_group {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -465,15 +457,15 @@ window.Quarto = {
   vertical-align: top;
 }
 
-#ygcfryposz .gt_row_group_first td {
+#dgpdozvyig .gt_row_group_first td {
   border-top-width: 2px;
 }
 
-#ygcfryposz .gt_row_group_first th {
+#dgpdozvyig .gt_row_group_first th {
   border-top-width: 2px;
 }
 
-#ygcfryposz .gt_summary_row {
+#dgpdozvyig .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -483,16 +475,16 @@ window.Quarto = {
   padding-right: 5px;
 }
 
-#ygcfryposz .gt_first_summary_row {
+#dgpdozvyig .gt_first_summary_row {
   border-top-style: solid;
   border-top-color: #D3D3D3;
 }
 
-#ygcfryposz .gt_first_summary_row.thick {
+#dgpdozvyig .gt_first_summary_row.thick {
   border-top-width: 2px;
 }
 
-#ygcfryposz .gt_last_summary_row {
+#dgpdozvyig .gt_last_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -502,7 +494,7 @@ window.Quarto = {
   border-bottom-color: #D3D3D3;
 }
 
-#ygcfryposz .gt_grand_summary_row {
+#dgpdozvyig .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -512,7 +504,7 @@ window.Quarto = {
   padding-right: 5px;
 }
 
-#ygcfryposz .gt_first_grand_summary_row {
+#dgpdozvyig .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -522,7 +514,7 @@ window.Quarto = {
   border-top-color: #D3D3D3;
 }
 
-#ygcfryposz .gt_last_grand_summary_row_top {
+#dgpdozvyig .gt_last_grand_summary_row_top {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -532,11 +524,11 @@ window.Quarto = {
   border-bottom-color: #D3D3D3;
 }
 
-#ygcfryposz .gt_striped {
+#dgpdozvyig .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#ygcfryposz .gt_table_body {
+#dgpdozvyig .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -545,7 +537,7 @@ window.Quarto = {
   border-bottom-color: #D3D3D3;
 }
 
-#ygcfryposz .gt_footnotes {
+#dgpdozvyig .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -559,7 +551,7 @@ window.Quarto = {
   border-right-color: #D3D3D3;
 }
 
-#ygcfryposz .gt_footnote {
+#dgpdozvyig .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding-top: 4px;
@@ -568,7 +560,7 @@ window.Quarto = {
   padding-right: 5px;
 }
 
-#ygcfryposz .gt_sourcenotes {
+#dgpdozvyig .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -582,7 +574,7 @@ window.Quarto = {
   border-right-color: #D3D3D3;
 }
 
-#ygcfryposz .gt_sourcenote {
+#dgpdozvyig .gt_sourcenote {
   font-size: 90%;
   padding-top: 4px;
   padding-bottom: 4px;
@@ -590,72 +582,72 @@ window.Quarto = {
   padding-right: 5px;
 }
 
-#ygcfryposz .gt_left {
+#dgpdozvyig .gt_left {
   text-align: left;
 }
 
-#ygcfryposz .gt_center {
+#dgpdozvyig .gt_center {
   text-align: center;
 }
 
-#ygcfryposz .gt_right {
+#dgpdozvyig .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#ygcfryposz .gt_font_normal {
+#dgpdozvyig .gt_font_normal {
   font-weight: normal;
 }
 
-#ygcfryposz .gt_font_bold {
+#dgpdozvyig .gt_font_bold {
   font-weight: bold;
 }
 
-#ygcfryposz .gt_font_italic {
+#dgpdozvyig .gt_font_italic {
   font-style: italic;
 }
 
-#ygcfryposz .gt_super {
+#dgpdozvyig .gt_super {
   font-size: 65%;
 }
 
-#ygcfryposz .gt_footnote_marks {
+#dgpdozvyig .gt_footnote_marks {
   font-size: 75%;
   vertical-align: 0.4em;
   position: initial;
 }
 
-#ygcfryposz .gt_asterisk {
+#dgpdozvyig .gt_asterisk {
   font-size: 100%;
   vertical-align: 0;
 }
 
-#ygcfryposz .gt_indent_1 {
+#dgpdozvyig .gt_indent_1 {
   text-indent: 5px;
 }
 
-#ygcfryposz .gt_indent_2 {
+#dgpdozvyig .gt_indent_2 {
   text-indent: 10px;
 }
 
-#ygcfryposz .gt_indent_3 {
+#dgpdozvyig .gt_indent_3 {
   text-indent: 15px;
 }
 
-#ygcfryposz .gt_indent_4 {
+#dgpdozvyig .gt_indent_4 {
   text-indent: 20px;
 }
 
-#ygcfryposz .gt_indent_5 {
+#dgpdozvyig .gt_indent_5 {
   text-indent: 25px;
 }
 
-#ygcfryposz .katex-display {
+#dgpdozvyig .katex-display {
   display: inline-flex !important;
   margin-bottom: 0.75em !important;
 }
 
-#ygcfryposz div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
+#dgpdozvyig div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
   height: 0px !important;
 }
 </style>
@@ -1126,18 +1118,6 @@ window.Quarto = {
     }
   });
   </script>
-<nav class="page-navigation">
-  <div class="nav-page nav-page-previous">
-      <a href="./model_overview_fr.html" class="pagination-link" aria-label="Modèles">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Modèles</span>
-      </a>          
-  </div>
-  <div class="nav-page nav-page-next">
-      <a href="./course-links.html" class="pagination-link" aria-label="Liens utiles">
-        <span class="nav-page-text">Liens utiles</span> <i class="bi bi-arrow-right-short"></i>
-      </a>
-  </div>
-</nav>
 </div> <!-- /content -->
 <footer class="footer">
   <div class="nav-footer">
