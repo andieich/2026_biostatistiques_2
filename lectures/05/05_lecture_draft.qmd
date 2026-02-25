@@ -10,6 +10,7 @@ subtitle: Lecture 5
 
 library(tidyverse)
 library(palmerpenguins)
+library(scales)
 theme_set(theme_light(base_size = 20))
 ```
 
@@ -33,6 +34,7 @@ theme_set(theme_light(base_size = 20))
 ::: column
 ```{r}
 #| echo: false
+#| fig-height: 7
 
 x <- seq(-4, 4, length.out = 100)
 y <- dnorm(x, mean = 0, sd = 1)
@@ -55,6 +57,7 @@ ggplot(df, aes(x, y)) +
   labs(x = "Value", y = "Relative frequency") +
   theme(panel.grid = element_blank())
 ```
+
 :::
 
 ::: column
@@ -76,13 +79,13 @@ ggplot(df, aes(x, y)) +
 1.  **Symmetric**: Equal tails on both sides of the mean
     -   ❌ Problem for asymmetric data
 
-2.  **Defined on the entire real line**: From $-\infty$ to $+\infty$
-    -   ❌ Problem if your data cannot be negative
-    -   ❌ Problem if your data has an upper limit
+2.  **Defined on the entire interval**: From $-\infty$ to $+\infty$
+    -   ❌ Problem if your data cannot be negative (weight, length)
+    -   ❌ Problem if your data has an upper limit (rates, percent)
     -   ❌ Problem if you have count data
 
 3.  **Constant variance**: Same spread everywhere
-    -   ❌ Problem if variability changes with the mean
+    -   ❌ Problem if variability changes with the mean (higher variability for larger individuals)
 :::
 
 ## Our model so far {.smaller}
@@ -130,7 +133,7 @@ ggplot(df_demo, aes(x = x, y = y)) +
   geom_segment(
     aes(x = x, xend = x, y = y, yend = fitted(m_demo)),
     color = "grey40",
-    linetype = "dashed",
+    linetype = "11",
     linewidth = 0.8
   ) +
   labs(x = "x", y = "y") +
@@ -143,7 +146,7 @@ ggplot(df_demo, aes(x = x, y = y)) +
 ::: fragment
 -   The **residuals** (difference between data and predictions) follow the normal
 
--   **Not the raw data itself**
+-   Not the raw data itself
 
 -   $\mathrm{residual}_i = y_i - \mu_i$
 :::
@@ -155,6 +158,16 @@ ggplot(df_demo, aes(x = x, y = y)) +
 :::
 
 The normal distribution describes the **random noise** around the regression line
+:::
+
+::: fragment
+$$
+\begin{align}
+y_i &\sim \mathrm{Normal}(\mu_i, \sigma) \\
+\mu_i &= a + b \cdot x_i
+\end{align}
+$$
+
 :::
 
 ## When normality fails {.smaller}
@@ -222,7 +235,11 @@ ggplot(count_data, aes(x = count)) +
 
 ::::: columns
 ::: column
-At each of 5 sites, coral cover was estimated with a line intercept transect: along a 20 m transect, at 25 cm intervals (80 points per transect), record if coral is present or absent. Total: 3 transects × 80 points = 240 observations per site
+**Coral cover**
+
+-  3x 20 m transects
+-  25 cm intervals (80 points per transect)
+-  Record if coral is present or absent
 
 ```{r}
 #| echo: false
@@ -259,8 +276,8 @@ ggplot(df_coral_summary, aes(x = as.factor(site), y = coral_cover)) +
     size = 1,
     color = "steelblue"
   ) +
-  labs(x = "Site", y = "Coral cover (proportion)") +
-  ylim(0, 1) +
+  scale_y_continuous(labels = percent_format()) +
+  labs(x = "Site", y = "Coral cover") +
   theme(panel.grid = element_blank())
 ```
 
@@ -333,44 +350,151 @@ ggplot(df_biomass, aes(x = temperature, y = biomass)) +
 ::: incremental
 -   **Different distributions**: Poisson, binomial, gamma, etc.
 -   **Same concepts**: explanatory variables, coefficients, predictions
--   **New component**: link function
 :::
 
-## The link problem {.smaller}
+
+
+## When to use which model? {.smaller}
 
 ::: med-space
 :::
 
-For counts (Poisson distribution), we need $\mu > 0$
+| Response type | Distribution | Example |
+|-----------------|--------------|---------------|
+| Continuous, can be negative | Normal | Temperature, size difference |
+| Counts | Poisson | Number of larvae, fish abundance |
+| Binary (Yes/No) | Binomial | Survival, presence/absence |
+| Strictly positive | Gamma | Biomass, nutrient concentration |
+
+
+
+## Common distributions and their parameters {.smaller}
 
 ::: med-space
 :::
 
-::::: columns
-::: column
-**Classical linear model:**
+| Distribution | Formula | Parameters | Constraints |
+|---|---|---|---|
+| **Normal** | $y_i \sim \mathrm{Normal}(\mu, \sigma)$ | $\mu$ (mean)<br/>$\sigma$ (SD) | $\mu \in \mathbb{R}$<br/>$\sigma > 0$ |
+| **Poisson** | $y_i \sim \mathrm{Poisson}(\lambda)$ | $\lambda$ (mean) | $\lambda > 0$ |
+| **Binomial** | $y_i \sim \mathrm{Binomial}(n, p)$ | $n$ (trials)<br/>$p$ (prob.) | $n \in \mathbb{N}$<br/>$p \in (0, 1)$ |
+| **Gamma** | $y_i \sim \mathrm{Gamma}(\alpha, \beta)$ | $\alpha$ (shape)<br/>$\beta$ (rate) | $\alpha > 0$<br/>$\beta > 0$ |
+
+
+## Link function  {.smaller}
+
+::: med-space
+:::
+
+::: {.columns}
+::: {.column}
+#### Normal Model
+
+One continuous variable ($y$) increases/decreases with other continuous variable ($x$)
+
+:::
+::: {.column}
+#### Poisson Model
+Counts ($y$) increase/decrease with other continuous variable ($x$)
+
+:::
+:::
+::: {.columns}
+::: {.column}
 
 $$
-\mu_i = a + b \cdot x_i
+\begin{align}
+\mathrm{y}_i \sim \mathrm{Normal(\mu}_i,~\mathrm{\sigma)} \\
+\mu_i = a + b \cdot \mathrm{x}_i\\
+\end{align}
 $$
 
-::: fragment
-❌ Can produce negative values!
+:::
+::: {.column}
+
+$$
+\begin{align}
+\mathrm{y}_i \sim \mathrm{Poisson}(\lambda_i) \\
+\log(\lambda_i) = a + b \cdot \mathrm{x}_i\\
+\end{align}
+$$
+
 :::
 :::
 
-::: column
-::: fragment
-**GLM with log link:**
-
-$$
-\log(\mu_i) = a + b \cdot x_i
-$$
-
-✅ $\mu_i = e^{a + b \cdot x_i}$ is always positive!
+::: {.columns}
+::: {.column}
+$\mu_i$ can have any value
+:::
+::: {.column}
+$\lambda_i$ has to be > 0!
 :::
 :::
-:::::
+
+## Link function {.smaller}
+
+::: med-space
+:::
+
+::: {.columns}
+::: {.column}
+#### Normal Model
+
+One continuous variable ($y$) increases/decreases with other continuous variable ($x$)
+
+:::
+::: {.column}
+#### Poisson Model
+Counts ($y$) increase/decrease with other continuous variable ($x$)
+
+:::
+:::
+::: {.columns}
+::: {.column}
+
+$$
+\begin{align}
+\mathrm{y}_i \sim \mathrm{Normal(\mu}_i,~\mathrm{\sigma)} \\
+\mu_i = a + b \cdot \mathrm{x}_i\\
+\end{align}
+$$
+
+:::
+::: {.column}
+
+$$
+\begin{align}
+\mathrm{y}_i \sim \mathrm{Poisson}(\lambda_i) \\
+\begin{aligned}
+{\color{darkorange}\log}(\lambda_i) &= a + b \cdot \mathrm{x}_i\\
+\lambda_i &= e^{a + b \cdot x_i}
+\end{aligned}
+\end{align}
+$$
+
+:::
+:::
+
+::: {.columns}
+::: {.column}
+$\mu_i$ can have any value
+:::
+::: {.column}
+$\lambda_i$ has to be > 0!
+:::
+:::
+
+::: {.columns}
+::: {.column}
+:::
+::: {.column}
+
+
+[Link function]{style="color: darkorange;"} ensures that $\lambda_i$  is positive
+
+
+:::
+:::
 
 ## Link functions {.smaller}
 
@@ -389,32 +513,6 @@ The link function transforms the distribution parameter to match the linear mode
 | Strictly positive | Gamma | log | $\mu > 0$ |
 | Normal | Normal | identity | no constraint |
 
-## Data generation model with GLM {.smaller}
-
-::: med-space
-:::
-
-**Before (linear model):**
-
-$$
-\begin{align}
-y_i &\sim \mathrm{Normal}(\mu_i, \sigma) \\
-\mu_i &= a + b \cdot x_i
-\end{align}
-$$
-
-::: fragment
-**Now (GLM for counts):**
-
-$$
-\begin{align}
-y_i &\sim \mathrm{Poisson}(\lambda_i) \\
-\log(\lambda_i) &= a + b \cdot x_i
-\end{align}
-$$
-
-or equivalently: $\lambda_i = e^{a + b \cdot x_i}$
-:::
 
 ## Example: Sea urchin counts with GLM {.smaller}
 
@@ -435,7 +533,7 @@ m_poisson <- glm(
   family = poisson(link = "log")
 )
 
-summary(m_poisson)
+anova(m_poisson)
 ```
 
 ::: fragment
@@ -447,31 +545,11 @@ m_poisson <- glm(
   data = count_data,
   family = poisson(link = "log")
 )
-summary(m_poisson)
+anova(m_poisson)
 ```
 
 :::
 
-## Interpreting GLM coefficients {.smaller}
-
-::: med-space
-:::
-
-With a log link, coefficients are on the **log scale**:
-
-$$
-\log(\lambda_i) = a + b \cdot x_i
-$$
-
-::: fragment
-To get the effect on the original scale:
-
-$$
-\lambda_i = e^{a + b \cdot x_i} = e^a \cdot e^{b \cdot x_i}
-$$
-
-A coefficient of $b = 0.5$ means that $\lambda$ is multiplied by $e^{0.5} \approx 1.65$ for each unit increase in $x$
-:::
 
 ## Checking GLM models {.smaller}
 
@@ -482,7 +560,7 @@ The same tools work!
 
 ```{r}
 #| echo: true
-#| eval: false
+#| output-location: slide
 
 library(performance)
 check_model(m_poisson)
@@ -548,7 +626,11 @@ pred_means <- df_coral %>%
     observed_cover = mean(presence)
   )
 
-pred_means$predicted_prob <- predict(m_coral, newdata = pred_means, type = "response")
+pred_means$predicted_prob <- predict(
+  m_coral,
+  newdata = pred_means,
+  type = "response"
+)
 
 ggplot(pred_means, aes(x = as.factor(site_num))) +
   geom_point(
@@ -573,18 +655,6 @@ ggplot(pred_means, aes(x = as.factor(site_num))) +
   ylim(0, 1) +
   theme(panel.grid = element_blank())
 ```
-
-## When to use which model? {.smaller}
-
-::: med-space
-:::
-
-| Response type | Distribution | Marine example |
-|-----------------|--------------|---------------|
-| Continuous, can be negative | Normal | Temperature, size difference |
-| Counts | Poisson | Number of larvae, fish abundance |
-| Binary (Yes/No) | Binomial | Survival, presence/absence |
-| Strictly positive | Gamma | Biomass, nutrient concentration |
 
 ## Summary {.smaller}
 
