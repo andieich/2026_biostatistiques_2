@@ -1163,7 +1163,7 @@ estimate_relation(m_gamma) %>%
 2.  Some data (counts, binary, strictly positive) cannot have normal residuals
 3.  **GLMs** extend linear models to other distributions
 4.  **Link functions** connect the linear model to the distribution parameter
-5.  Example Poisson, Binomial, Gamma GLM
+5.  Examples Poisson, Binomial, Gamma GLM
 :::
 
 ::: fragment
