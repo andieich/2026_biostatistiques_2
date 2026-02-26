@@ -11,6 +11,7 @@ subtitle: Lecture 5
 library(tidyverse)
 library(palmerpenguins)
 library(scales)
+library(modelbased)
 theme_set(theme_light(base_size = 20))
 ```
 
@@ -335,6 +336,27 @@ ggplot(df_biomass, aes(x = temperature, y = biomass)) +
 :::
 :::::
 
+## Consequences{.smaller}
+
+::: med-space
+:::
+
+
+1.  **Impossible predictions**: The model might predict negative counts, or proportions > 100%
+
+::: incremental
+
+2.  **Wrong uncertainty**: Confidence intervals and p-values become unreliable
+    -   You might conclude something is significant when it's not
+    -   Or miss true patterns in your data
+
+3.  **Biased estimates**: Your slope and intercept will be systematically wrong
+
+4.  **Violated assumptions**: Residual plots show clear patterns instead of random scatter
+:::
+
+
+
 ## The solution: GLMs {.smaller}
 
 ::: med-space
@@ -352,36 +374,58 @@ ggplot(df_biomass, aes(x = temperature, y = biomass)) +
 -   **Same concepts**: explanatory variables, coefficients, predictions
 :::
 
+::: med-space
+:::
+
+::: fragment 
+::: {.columns}
+::: {.column}
+$$
+y_i \sim \mathrm{Normal}(\mu, \sigma)
+$$
+
+:::
+::: {.column}
+$$
+y_i \sim \mathrm{Gamma}(\alpha, \beta)
+$$
+
+::: 
+:::
+:::
 
 
-## When to use which model? {.smaller}
+
+
+
+## When to use which distribution? {.smaller}
 
 ::: med-space
 :::
 
 | Response type | Distribution | Example |
 |-----------------|--------------|---------------|
-| Continuous, can be negative | Normal | Temperature, size difference |
+| Continuous | Normal | Temperature, size difference |
 | Counts | Poisson | Number of larvae, fish abundance |
 | Binary (Yes/No) | Binomial | Survival, presence/absence |
 | Strictly positive | Gamma | Biomass, nutrient concentration |
 
 
 
-## Common distributions and their parameters {.smaller}
+## Distributions and parameters {.smaller}
 
 ::: med-space
 :::
 
 | Distribution | Formula | Parameters | Constraints |
 |---|---|---|---|
-| **Normal** | $y_i \sim \mathrm{Normal}(\mu, \sigma)$ | $\mu$ (mean)<br/>$\sigma$ (SD) | $\mu \in \mathbb{R}$<br/>$\sigma > 0$ |
-| **Poisson** | $y_i \sim \mathrm{Poisson}(\lambda)$ | $\lambda$ (mean) | $\lambda > 0$ |
-| **Binomial** | $y_i \sim \mathrm{Binomial}(n, p)$ | $n$ (trials)<br/>$p$ (prob.) | $n \in \mathbb{N}$<br/>$p \in (0, 1)$ |
-| **Gamma** | $y_i \sim \mathrm{Gamma}(\alpha, \beta)$ | $\alpha$ (shape)<br/>$\beta$ (rate) | $\alpha > 0$<br/>$\beta > 0$ |
+| Normal | $y_i \sim \mathrm{Normal}(\mu, \sigma)$ | $\mu$ (mean)<br/>$\sigma$ (SD) | $\mu \in \mathbb{R}$<br/>$\sigma > 0$ |
+| Poisson | $y_i \sim \mathrm{Poisson}(\lambda)$ | $\lambda$ (mean) | $\lambda > 0$ |
+| Binomial | $y_i \sim \mathrm{Binomial}(n, p)$ | $n$ (trials)<br/>$p$ (prob.) | $n \in \mathbb{N}$<br/>$p \in (0, 1)$ |
+| Gamma | $y_i \sim \mathrm{Gamma}(\alpha, \beta)$ | $\alpha$ (shape)<br/>$\beta$ (rate) | $\alpha > 0$<br/>$\beta > 0$ |
 
 
-## Link function  {.smaller}
+## Link functions  {.smaller}
 
 ::: med-space
 :::
@@ -431,7 +475,7 @@ $\lambda_i$ has to be > 0!
 :::
 :::
 
-## Link function {.smaller}
+## Link functions {.smaller}
 
 ::: med-space
 :::
@@ -551,7 +595,7 @@ anova(m_poisson)
 :::
 
 
-## Checking GLM models {.smaller}
+## Checking GLMs {.smaller}
 
 ::: med-space
 :::
@@ -575,26 +619,209 @@ check_model(m_poisson)
 -   Deviance residuals rather than simple residuals
 :::
 
+
+## Analysis with GLMs {.smaller}
+
+::: med-space
+:::
+
+
+::: {.columns}
+::: {.column}
+Impact explanatory variables:
+
+::: medium-output
+```{r}
+#| echo: true
+
+anova(m_poisson)
+```
+
+::: 
+:::
+::: {.column}
+
+$R^2$ value (different to `lm()`!)
+
+::: small-output
+```{r}
+#| echo: true
+
+r2(m_poisson)
+```
+
+:::
+:::
+:::
+
+
+
+::: {.columns}
+::: {.column}
+Predicted means
+
+::: small-output
+```{r}
+#| echo: true
+
+estimate_means(m_poisson)
+```
+
+::: 
+:::
+::: {.column}
+
+Pairwise comparisons (post-hoc test)
+
+::: small-output
+
+```{r}
+#| echo: true
+
+estimate_contrasts(m_poisson, p_adjust = "tukey")
+```
+
+:::
+:::
+:::
+
+## Analysis with GLMs {.smaller}
+
+::: med-space
+:::
+
+::: {.columns}
+::: {.column width="33%"}
+```{r}
+#| echo: true
+#| eval: false
+
+#fmt: skip
+estimate_means(m_poisson) %>%
+  plot()
+```
+
+:::
+::: {.column width="67%"}
+
+```{r}
+estimate_means(m_poisson) %>%
+  plot() +
+  geom_point(
+    position = position_jitter(.2, seed = 444),
+    data = count_data,
+    aes(x = site, y = count),
+    col = "steelblue",
+    alpha = 0
+  )
+```
+
+
+:::
+:::
+
+
+
+## Analysis with GLMs {.smaller}
+
+::: med-space
+:::
+
+
+::: {.columns}
+::: {.column width="33%"}
+```{r}
+#| echo: true
+#| eval: false
+
+#fmt: skip
+estimate_means(m_poisson) %>%
+  plot() +
+  labs(x = "Site", 
+       y = "Fish encounters") +
+  geom_jitter(
+    data = count_data,
+    aes(x = site, y = count),
+    width = .2,
+    col = "steelblue",
+    alpha = .3
+  )
+```
+
+
+:::
+::: {.column width="67%"}
+
+```{r}
+estimate_means(m_poisson) %>%
+  plot() +
+  labs(x = "Site", y = "Fish encounters") +
+  geom_point(
+    position = position_jitter(.2, seed = 444),
+    data = count_data,
+    aes(x = site, y = count),
+    col = "steelblue",
+    alpha = 0.3
+  )
+```
+
+:::
+:::
+
+
+
 ## Marine example: Coral cover {.smaller}
 
 ::: med-space
 :::
 
-Compare coral cover across different sites
+Compare coral cover across different sites using point-intercept transect data
 
 ```{r}
 #| echo: true
 #| eval: false
 
-# GLM with binomial distribution
+# Aggregate point counts by site
+coral_by_site <- df_coral %>%
+  group_by(site) %>%
+  summarise(
+    coral_points = sum(presence),
+    non_coral_points = n() - sum(presence)
+  ) %>%
+  mutate(site = as.factor(site))
+
+# GLM with binomial distribution using success/failure counts
 m_coral <- glm(
-  presence ~ site,
-  data = df_coral,
+  cbind(coral_points, non_coral_points) ~ site,
+  data = coral_by_site,
   family = binomial(link = "logit")
 )
 
-summary(m_coral)
+anova(m_coral)
 ```
+
+::: fragment
+```{r}
+#| echo: false
+
+coral_by_site <- df_coral %>%
+  group_by(site) %>%
+  summarise(
+    coral_points = sum(presence),
+    non_coral_points = n() - sum(presence)
+  ) %>%
+  mutate(site = as.factor(site))
+
+m_coral <- glm(
+  cbind(coral_points, non_coral_points) ~ site,
+  data = coral_by_site,
+  family = binomial(link = "logit")
+)
+
+anova(m_coral)
+```
+
+:::
 
 ::: fragment
 The **logit** link ensures predicted probabilities stay between 0 and 1:
@@ -602,59 +829,189 @@ The **logit** link ensures predicted probabilities stay between 0 and 1:
 $$
 \log\left(\frac{p_i}{1-p_i}\right) = a + b \cdot \text{site}_i
 $$
+
+::: callout-note
+Using `cbind()` preserves sampling effort: 50% cover from 80 points is more precise than 50% from 8 points!
+:::
 :::
 
-## Visualizing GLM predictions {.smaller}
+## Binomial GLM: Analysis {.smaller}
 
 ::: med-space
 :::
 
+::: {.columns}
+::: {.column}
+$R^2$ value:
+
+::: small-output
+```{r}
+#| echo: true
+
+r2(m_coral)
+```
+
+:::
+:::
+::: {.column}
+
+Predicted means:
+
+::: small-output
+```{r}
+#| echo: true
+
+estimate_means(m_coral)
+```
+
+:::
+:::
+:::
+
+## Binomial GLM: Visualization {.smaller}
+
+::: med-space
+:::
+
+::: {.columns}
+::: {.column width="40%"}
+```{r}
+#| echo: true
+#| eval: false
+
+#fmt: skip
+estimate_means(m_coral) %>%
+  plot() +
+  labs(x = "Site", 
+       y = "Coral cover")
+```
+
+:::
+::: {.column width="60%"}
+
 ```{r}
 #| echo: false
-#| fig-height: 6
 
-m_coral <- glm(
-  presence ~ site,
-  data = df_coral,
-  family = binomial(link = "logit")
-)
-
-pred_means <- df_coral %>%
-  group_by(site) %>%
-  summarise(
-    site_num = first(site),
-    observed_cover = mean(presence)
-  )
-
-pred_means$predicted_prob <- predict(
-  m_coral,
-  newdata = pred_means,
-  type = "response"
-)
-
-ggplot(pred_means, aes(x = as.factor(site_num))) +
-  geom_point(
-    aes(y = observed_cover),
-    size = 3,
-    color = "steelblue",
-    alpha = 0.7
-  ) +
-  geom_point(
-    aes(y = predicted_prob),
-    size = 3,
-    color = "darkred",
-    alpha = 0.7,
-    shape = 1,
-    stroke = 2
-  ) +
-  labs(
-    x = "Site",
-    y = "Coral cover (probability)",
-    title = "Binomial GLM: Observed vs predicted"
-  ) +
-  ylim(0, 1) +
-  theme(panel.grid = element_blank())
+estimate_means(m_coral) %>%
+  plot() +
+  labs(x = "Site", y = "Coral cover")
 ```
+
+:::
+:::
+
+## Example: Phytoplankton biomass (Gamma GLM) {.smaller}
+
+::: med-space
+:::
+
+Biomass varies with temperature — use Gamma distribution (strictly positive, variance increases with mean)
+
+```{r}
+#| echo: true
+#| eval: false
+
+# GLM with Gamma distribution
+m_gamma <- glm(
+  biomass ~ temperature,
+  data = df_biomass,
+  family = Gamma(link = "log")
+)
+
+# Check assumptions
+check_model(m_gamma)
+```
+
+::: fragment
+```{r}
+#| echo: false
+
+m_gamma <- glm(
+  biomass ~ temperature,
+  data = df_biomass,
+  family = Gamma(link = "log")
+)
+```
+
+:::
+
+## Gamma GLM: Analysis {.smaller}
+
+::: med-space
+:::
+
+::: {.columns}
+::: {.column}
+ANOVA & $R^2$:
+
+::: small-output
+```{r}
+#| echo: true
+
+anova(m_gamma)
+```
+
+:::
+
+::: small-output
+```{r}
+#| echo: true
+
+r2(m_gamma)
+```
+
+:::
+:::
+::: {.column}
+
+Predicted relationship:
+
+::: small-output
+```{r}
+#| echo: true
+
+estimate_relation(m_gamma)
+```
+
+:::
+:::
+:::
+
+## Gamma GLM: Visualization {.smaller}
+
+::: med-space
+:::
+
+::: {.columns}
+::: {.column width="40%"}
+```{r}
+#| echo: true
+#| eval: false
+
+#fmt: skip
+estimate_relation(m_gamma) %>%
+  plot()
+```
+
+:::
+::: {.column width="60%"}
+
+```{r}
+#| echo: false
+
+estimate_relation(m_gamma) %>%
+  plot() +
+  labs(x = "Temperature (°C)", y = "Biomass (mg/L)") +
+  geom_point(
+    data = df_biomass,
+    aes(x = temperature, y = biomass),
+    col = "steelblue",
+    alpha = 0.3
+  )
+```
+
+:::
+:::
 
 ## Summary {.smaller}
 
