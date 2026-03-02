@@ -1,59 +1,63 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>https://andieich.github.io/2026_biostatistiques_2/solutions/03/solution_03.html</loc>
-    <lastmod>2026-02-25T19:44:16.477Z</lastmod>
+    <loc>https://andieich.github.io/2026_biostatistiques_2/solutions/04/TP_04.html</loc>
+    <lastmod>2026-03-02T19:23:32.356Z</lastmod>
   </url>
   <url>
-    <loc>https://andieich.github.io/2026_biostatistiques_2/solutions/01/solution_01.html</loc>
-    <lastmod>2026-02-25T19:45:04.641Z</lastmod>
-  </url>
-  <url>
-    <loc>https://andieich.github.io/2026_biostatistiques_2/model_overview_fr.html</loc>
-    <lastmod>2026-02-20T00:15:04.659Z</lastmod>
-  </url>
-  <url>
-    <loc>https://andieich.github.io/2026_biostatistiques_2/hints/hints_04/hints_04-2.html</loc>
-    <lastmod>2026-02-25T19:48:18.268Z</lastmod>
-  </url>
-  <url>
-    <loc>https://andieich.github.io/2026_biostatistiques_2/hints/hints_03/hints_03.html</loc>
-    <lastmod>2026-02-17T18:34:48.186Z</lastmod>
-  </url>
-  <url>
-    <loc>https://andieich.github.io/2026_biostatistiques_2/hints/hints_01/hints_01.html</loc>
-    <lastmod>2026-02-02T23:58:59.305Z</lastmod>
-  </url>
-  <url>
-    <loc>https://andieich.github.io/2026_biostatistiques_2/course-team.html</loc>
-    <lastmod>2026-02-03T19:23:39.774Z</lastmod>
-  </url>
-  <url>
-    <loc>https://andieich.github.io/2026_biostatistiques_2/course-links.html</loc>
-    <lastmod>2026-02-07T00:04:05.269Z</lastmod>
-  </url>
-  <url>
-    <loc>https://andieich.github.io/2026_biostatistiques_2/distr_overview_fr.html</loc>
-    <lastmod>2026-02-19T23:59:30.437Z</lastmod>
-  </url>
-  <url>
-    <loc>https://andieich.github.io/2026_biostatistiques_2/hints/hints_02/hints_02.html</loc>
-    <lastmod>2026-02-25T19:20:09.168Z</lastmod>
-  </url>
-  <url>
-    <loc>https://andieich.github.io/2026_biostatistiques_2/hints/hints_04/hints_04-1.html</loc>
-    <lastmod>2026-02-25T19:48:24.451Z</lastmod>
-  </url>
-  <url>
-    <loc>https://andieich.github.io/2026_biostatistiques_2/index.html</loc>
-    <lastmod>2026-02-25T19:45:28.850Z</lastmod>
+    <loc>https://andieich.github.io/2026_biostatistiques_2/solutions/02/solution_02.html</loc>
+    <lastmod>2026-02-25T19:44:44.494Z</lastmod>
   </url>
   <url>
     <loc>https://andieich.github.io/2026_biostatistiques_2/posit_cloud_access.html</loc>
     <lastmod>2026-02-07T00:00:16.499Z</lastmod>
   </url>
   <url>
-    <loc>https://andieich.github.io/2026_biostatistiques_2/solutions/02/solution_02.html</loc>
-    <lastmod>2026-02-25T19:44:44.494Z</lastmod>
+    <loc>https://andieich.github.io/2026_biostatistiques_2/index.html</loc>
+    <lastmod>2026-03-02T19:24:11.212Z</lastmod>
+  </url>
+  <url>
+    <loc>https://andieich.github.io/2026_biostatistiques_2/hints/hints_04/hints_04.html</loc>
+    <lastmod>2026-03-02T18:19:19.453Z</lastmod>
+  </url>
+  <url>
+    <loc>https://andieich.github.io/2026_biostatistiques_2/hints/hints_02/hints_02.html</loc>
+    <lastmod>2026-02-25T19:20:09.168Z</lastmod>
+  </url>
+  <url>
+    <loc>https://andieich.github.io/2026_biostatistiques_2/distr_overview_fr.html</loc>
+    <lastmod>2026-02-19T23:59:30.437Z</lastmod>
+  </url>
+  <url>
+    <loc>https://andieich.github.io/2026_biostatistiques_2/course-links.html</loc>
+    <lastmod>2026-02-07T00:04:05.269Z</lastmod>
+  </url>
+  <url>
+    <loc>https://andieich.github.io/2026_biostatistiques_2/course-team.html</loc>
+    <lastmod>2026-02-03T19:23:39.774Z</lastmod>
+  </url>
+  <url>
+    <loc>https://andieich.github.io/2026_biostatistiques_2/hints/hints_01/hints_01.html</loc>
+    <lastmod>2026-02-02T23:58:59.305Z</lastmod>
+  </url>
+  <url>
+    <loc>https://andieich.github.io/2026_biostatistiques_2/hints/hints_03/hints_03.html</loc>
+    <lastmod>2026-02-17T18:34:48.186Z</lastmod>
+  </url>
+  <url>
+    <loc>https://andieich.github.io/2026_biostatistiques_2/hints/hints_05/hints_05.html</loc>
+    <lastmod>2026-03-02T19:22:39.750Z</lastmod>
+  </url>
+  <url>
+    <loc>https://andieich.github.io/2026_biostatistiques_2/model_overview_fr.html</loc>
+    <lastmod>2026-02-20T00:15:04.659Z</lastmod>
+  </url>
+  <url>
+    <loc>https://andieich.github.io/2026_biostatistiques_2/solutions/01/solution_01.html</loc>
+    <lastmod>2026-02-25T19:45:04.641Z</lastmod>
+  </url>
+  <url>
+    <loc>https://andieich.github.io/2026_biostatistiques_2/solutions/03/solution_03.html</loc>
+    <lastmod>2026-02-25T19:44:16.477Z</lastmod>
   </url>
 </urlset>
