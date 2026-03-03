@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Accéder à Posit Cloud – Biostatistiques 2</title>
+<title>Résumé Partie 1 – Biostatistiques 2</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -29,8 +29,8 @@ ul.task-list li input[type="checkbox"] {
 <script src="site_libs/quarto-search/fuse.min.js"></script>
 <script src="site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="./">
-<link href="./course-team.html" rel="next">
-<link href="./index.html" rel="prev">
+<link href="./course-links.html" rel="next">
+<link href="./model_overview_fr.html" rel="prev">
 <link href="./images/logo.png" rel="icon" type="image/png">
 <script src="site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
@@ -70,13 +70,42 @@ ul.task-list li input[type="checkbox"] {
   }
 }</script>
 
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
 
-<meta property="og:title" content="Accéder à Posit Cloud – Biostatistiques 2">
-<meta property="og:description" content="La version en ligne de RStudio et R">
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+<meta property="og:title" content="Résumé Partie 1 – Biostatistiques 2">
+<meta property="og:description" content="Page d’accueil pour UE 6.7 - Biostatistiques 2">
 <meta property="og:site_name" content="Biostatistiques 2">
 </head>
 
-<body class="nav-sidebar docked fullcontent quarto-light">
+<body class="nav-sidebar docked quarto-light">
 
 <div id="quarto-search-results"></div>
   <header id="quarto-header" class="headroom fixed-top">
@@ -85,7 +114,7 @@ ul.task-list li input[type="checkbox"] {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./posit_cloud_access.html">Accéder à Posit Cloud</a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./model_overview_fr.html">Résumés</a></li><li class="breadcrumb-item"><a href="./summary_part1.html">Part 1</a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
     </div>
@@ -110,7 +139,7 @@ ul.task-list li input[type="checkbox"] {
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./posit_cloud_access.html" class="sidebar-item-text sidebar-link active">
+  <a href="./posit_cloud_access.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Accéder à Posit Cloud</span></a>
   </div>
 </li>
@@ -122,13 +151,13 @@ ul.task-list li input[type="checkbox"] {
 </li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="false">
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true">
  <span class="menu-text">Résumés</span></a>
-          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="false" aria-label="Toggle section">
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
-      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 ">  
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./model_overview_fr.html" class="sidebar-item-text sidebar-link">
@@ -137,7 +166,7 @@ ul.task-list li input[type="checkbox"] {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./summary_part1.html" class="sidebar-item-text sidebar-link">
+  <a href="./summary_part1.html" class="sidebar-item-text sidebar-link active">
  <span class="menu-text">Part 1</span></a>
   </div>
 </li>
@@ -154,14 +183,43 @@ ul.task-list li input[type="checkbox"] {
 </nav>
 <div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
 <!-- margin-sidebar -->
-    
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#notions-de-base-en-r" id="toc-notions-de-base-en-r" class="nav-link active" data-scroll-target="#notions-de-base-en-r">Notions de base en R</a>
+  <ul class="collapse">
+  <li><a href="#objets-et-fonctions" id="toc-objets-et-fonctions" class="nav-link" data-scroll-target="#objets-et-fonctions">Objets et fonctions</a></li>
+  </ul></li>
+  <li><a href="#visualisation-des-données-avec-ggplot2" id="toc-visualisation-des-données-avec-ggplot2" class="nav-link" data-scroll-target="#visualisation-des-données-avec-ggplot2">Visualisation des données avec ggplot2</a></li>
+  <li><a href="#modèles-statistiques" id="toc-modèles-statistiques" class="nav-link" data-scroll-target="#modèles-statistiques">Modèles statistiques</a>
+  <ul class="collapse">
+  <li><a href="#quest-ce-quun-modèle" id="toc-quest-ce-quun-modèle" class="nav-link" data-scroll-target="#quest-ce-quun-modèle">Qu’est-ce qu’un modèle ?</a></li>
+  <li><a href="#notation-du-modèle" id="toc-notation-du-modèle" class="nav-link" data-scroll-target="#notation-du-modèle">Notation du modèle</a></li>
+  <li><a href="#concepts-clés" id="toc-concepts-clés" class="nav-link" data-scroll-target="#concepts-clés">Concepts clés</a></li>
+  <li><a href="#sorties-du-modèle" id="toc-sorties-du-modèle" class="nav-link" data-scroll-target="#sorties-du-modèle">Sorties du modèle</a></li>
+  </ul></li>
+  <li><a href="#tests-post-hoc" id="toc-tests-post-hoc" class="nav-link" data-scroll-target="#tests-post-hoc">Tests post-hoc</a>
+  <ul class="collapse">
+  <li><a href="#problème-des-comparaisons-multiples" id="toc-problème-des-comparaisons-multiples" class="nav-link" data-scroll-target="#problème-des-comparaisons-multiples">Problème des comparaisons multiples</a></li>
+  <li><a href="#en-r" id="toc-en-r" class="nav-link" data-scroll-target="#en-r">En R</a></li>
+  </ul></li>
+  <li><a href="#hypothèses-du-modèle" id="toc-hypothèses-du-modèle" class="nav-link" data-scroll-target="#hypothèses-du-modèle">Hypothèses du modèle</a>
+  <ul class="collapse">
+  <li><a href="#indépendance" id="toc-indépendance" class="nav-link" data-scroll-target="#indépendance">1. Indépendance</a></li>
+  <li><a href="#homoscedasticité-variance-égale" id="toc-homoscedasticité-variance-égale" class="nav-link" data-scroll-target="#homoscedasticité-variance-égale">2. Homoscedasticité (variance égale)</a></li>
+  <li><a href="#normalité" id="toc-normalité" class="nav-link" data-scroll-target="#normalité">3. Normalité</a></li>
+  </ul></li>
+  </ul>
+</nav>
+    </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
-<header id="title-block-header" class="quarto-title-block default">
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./model_overview_fr.html">Résumés</a></li><li class="breadcrumb-item"><a href="./summary_part1.html">Part 1</a></li></ol></nav>
 <div class="quarto-title">
-<h1 class="title">Accéder à Posit Cloud</h1>
-<p class="subtitle lead">La version en ligne de RStudio et R</p>
+<h1 class="title">Résumé Partie 1</h1>
 </div>
 
 
@@ -178,30 +236,118 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
-<section id="créer-un-compte" class="level3">
-<h3 class="anchored" data-anchor-id="créer-un-compte">Créer un compte</h3>
-<p>Je vous fournirai les exercices à résoudre pour les TP dans Posit Cloud, qui est une version en ligne de RStudio, l’éditeur le plus couramment utilisé pour R.</p>
-<p>Pour créer un compte et devenir membre des groupes dans lesquels je partage les exercices, veuillez suivre <a href="https://posit.cloud/spaces/728718/join?access_code=IWhgcNxbNqK6AKp_k1lbz76w4TjGZP4bqAgwLblC" target="_blank">ce lien</a>.</p>
+<section id="notions-de-base-en-r" class="level2">
+<h2 class="anchored" data-anchor-id="notions-de-base-en-r">Notions de base en R</h2>
+<section id="objets-et-fonctions" class="level3">
+<h3 class="anchored" data-anchor-id="objets-et-fonctions">Objets et fonctions</h3>
+<ul>
+<li><strong>Objets</strong> : Conteneurs pour des données, des modèles, des colonnes et des variables</li>
+<li><strong>Fonctions</strong> : Opérations exécutées sur des objets ; les arguments peuvent être nommés ou non (ordre par défaut appliqué)</li>
+<li><strong>Convention de nommage</strong> : <code>data_votre_nom &lt;- valeur</code></li>
+<li><strong>Opérateur pipe</strong> (<code>%&gt;%</code>) : Passe la sortie d’une fonction comme entrée de la suivante</li>
+</ul>
 </section>
-<section id="accéder-à-lespace-tp" class="level3">
-<h3 class="anchored" data-anchor-id="accéder-à-lespace-tp">Accéder à l’espace TP</h3>
-<p>Si vous avez déjà un compte et êtes déjà membre de l’espace « Biostatistiques 2 », vous pouvez accéder à cet espace <a href="https://posit.cloud/spaces/728718" target="_blank">ici</a>.</p>
-<p>Si vous rencontrez des problèmes, veuillez envoyer un e-mail à <a href="mailto:andreas.eich@vacataire.upf.pf">andreas.eich@vacataire.upf.pf</a></p>
-<div class="callout callout-style-default callout-important callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-Important
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>L’utilisation gratuite de Posit Cloud est limitée à 25 heures par mois. Cela devrait être plus que suffisant pour ces TP, mais veuillez vous assurer de toujours vous déconnecter de votre compte ou de fermer l’onglet du navigateur une fois que vous avez terminé votre exercice ou créé votre compte.</p>
-</div>
-</div>
+</section>
+<section id="visualisation-des-données-avec-ggplot2" class="level2">
+<h2 class="anchored" data-anchor-id="visualisation-des-données-avec-ggplot2">Visualisation des données avec ggplot2</h2>
+<ul>
+<li><strong>Approche par couches</strong> : Construire des graphiques en ajoutant des couches séquentiellement</li>
+<li><strong>Couches essentielles</strong> : Données → esthétiques (<code>aes()</code>) → géométrie (<code>geom_*()</code>)</li>
+<li><strong>Flexibilité</strong> : Combiner des données provenant de différents data frames dans un même graphique</li>
+</ul>
+</section>
+<section id="modèles-statistiques" class="level2">
+<h2 class="anchored" data-anchor-id="modèles-statistiques">Modèles statistiques</h2>
+<section id="quest-ce-quun-modèle" class="level3">
+<h3 class="anchored" data-anchor-id="quest-ce-quun-modèle">Qu’est-ce qu’un modèle ?</h3>
+<p>Une représentation probabiliste de la façon dont les données sont générées par des processus sous-jacents. Le modèle capture : - <strong>Composante systématique</strong> : Comment les variables explicatives prédisent la réponse - <strong>Composante aléatoire</strong> : Variance restante (résidus) supposée suivre une loi normale</p>
+</section>
+<section id="notation-du-modèle" class="level3">
+<h3 class="anchored" data-anchor-id="notation-du-modèle">Notation du modèle</h3>
+<p><span class="math inline">\(y \sim \text{Normal}(\mu, \sigma)\)</span> <span class="math inline">\(\mu = a + b \cdot x\)</span></p>
+<p>En R : <code>lm(response ~ explanatory_variables)</code></p>
+</section>
+<section id="concepts-clés" class="level3">
+<h3 class="anchored" data-anchor-id="concepts-clés">Concepts clés</h3>
+<p><strong>Variable réponse</strong> : La variable que vous voulez expliquer/prédire.</p>
+<p><strong>Variables explicatives</strong> : Variables décrivant les processus sous-jacents : - Catégorielles (par ex., site, traitement, espèce) → tester les différences entre groupes - Numériques (par ex., température, âge) → tester des relations de dépendance</p>
+<p><strong>Types d’effet</strong> : - <strong>Additif</strong> (<code>+</code>) : Les variables agissent indépendamment - <strong>Interactif</strong> (<code>*</code>) : Une variable modifie l’effet d’une autre sur la réponse</p>
+</section>
+<section id="sorties-du-modèle" class="level3">
+<h3 class="anchored" data-anchor-id="sorties-du-modèle">Sorties du modèle</h3>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 32%">
+<col style="width: 68%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Sortie</th>
+<th>Interprétation</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>p-value</strong></td>
+<td>Probabilité d’observer vos données si les variables explicatives n’avaient aucun effet. p &lt; 0.05 → effet significatif</td>
+</tr>
+<tr class="even">
+<td><strong>R²</strong></td>
+<td>Proportion de la variance de la réponse expliquée par le modèle (échelle 0–1)</td>
+</tr>
+<tr class="odd">
+<td><strong>Coefficients</strong></td>
+<td>Depuis <code>summary(model)</code> → intercept, pentes et leur signification</td>
+</tr>
+<tr class="even">
+<td><strong>Tableau ANOVA</strong></td>
+<td>Depuis <code>anova(model)</code> → tester l’impact global de chaque variable explicative</td>
+</tr>
+</tbody>
+</table>
+</section>
+</section>
+<section id="tests-post-hoc" class="level2">
+<h2 class="anchored" data-anchor-id="tests-post-hoc">Tests post-hoc</h2>
+<p>Après qu’une ANOVA ait trouvé un effet significatif, les tests post-hoc identifient quels groupes spécifiques diffèrent.</p>
+<section id="problème-des-comparaisons-multiples" class="level3">
+<h3 class="anchored" data-anchor-id="problème-des-comparaisons-multiples">Problème des comparaisons multiples</h3>
+<ul>
+<li><strong>Problème</strong> : Comparer de nombreux couples de groupes augmente les “faux positifs” (risque de conclure à tort à un effet)</li>
+<li><strong>Exemple</strong> : 3 groupes = 3 comparaisons par paires. Si chaque comparaison a un risque d’erreur de 5 %, le risque total ≈ 14 %</li>
+<li><strong>Solution</strong> : Appliquer un ajustement des p-values (ajouter une petite pénalité), adapté au nombre de comparaisons.</li>
+</ul>
+</section>
+<section id="en-r" class="level3">
+<h3 class="anchored" data-anchor-id="en-r">En R</h3>
+<p><code>estimate_contrasts(model, p_adjust = "tukey")</code> fournit des p-values ajustées et des intervalles de confiance pour les comparaisons par paires.</p>
+</section>
+</section>
+<section id="hypothèses-du-modèle" class="level2">
+<h2 class="anchored" data-anchor-id="hypothèses-du-modèle">Hypothèses du modèle</h2>
+<section id="indépendance" class="level3">
+<h3 class="anchored" data-anchor-id="indépendance">1. Indépendance</h3>
+<p>Chaque observation est statistiquement indépendante ; pas de structure cachée reliant les observations.</p>
+<p><strong>Violations</strong> : - Données hiérarchiques (réplicats dans des sites) - Mesures répétées du même individu - Autocorrélation spatiale (points proches plus semblables) - Autocorrélation temporelle (séries temporelles)</p>
+<p><strong>Vérification</strong> : Réfléchir à la manière dont les données ont été collectées.</p>
+</section>
+<section id="homoscedasticité-variance-égale" class="level3">
+<h3 class="anchored" data-anchor-id="homoscedasticité-variance-égale">2. Homoscedasticité (variance égale)</h3>
+<p>La variance (dispersion) des résidus est constante entre tous les groupes et valeurs prédites.</p>
+<p>Le modèle suppose : <span class="math inline">\(y \sim \text{Normal}(\mu, \sigma)\)</span> avec <strong>une seule valeur de σ</strong> pour l’ensemble des données.</p>
+<p><strong>Violations</strong> : La variance augmente/diminue selon le groupe ou les valeurs ajustées (ex. données hétéroscédastiques).</p>
+<p><strong>Vérification</strong> : Le graphique “Homogénéité des variances” doit montrer des points répartis uniformément autour de la ligne de référence ; pas de motif en entonnoir.</p>
+</section>
+<section id="normalité" class="level3">
+<h3 class="anchored" data-anchor-id="normalité">3. Normalité</h3>
+<p>Les résidus (erreurs restantes après le modèle) suivent une distribution normale.</p>
+<p><strong>Pourquoi</strong> : Le modèle linéaire dérive intervalles de confiance et p-values en supposant des erreurs normales.</p>
+<p><strong>Violations</strong> : Résidus fortement asymétriques, bimodaux ou avec des valeurs aberrantes extrêmes.</p>
+<p><strong>Vérification</strong> : Graphique Q-Q de normalité des résidus — les points doivent se situer le long de la ligne. De légères déviations sont acceptables ; des écarts majeurs posent problème.</p>
+<pre><code></code></pre>
 
 
+</section>
 </section>
 
 </main> <!-- /main -->
@@ -606,13 +752,13 @@ Important
   </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="./index.html" class="pagination-link" aria-label="Calendrier">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Calendrier</span>
+      <a href="./model_overview_fr.html" class="pagination-link" aria-label="Modèles">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Modèles</span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="./course-team.html" class="pagination-link" aria-label="Équipe d'enseignement">
-        <span class="nav-page-text">Équipe d’enseignement</span> <i class="bi bi-arrow-right-short"></i>
+      <a href="./course-links.html" class="pagination-link" aria-label="Liens utiles">
+        <span class="nav-page-text">Liens utiles</span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>
