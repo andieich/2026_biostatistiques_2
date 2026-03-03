@@ -1,0 +1,770 @@
+---
+title: Tests Post-Hoc
+subtitle: Cours 4
+---
+
+```{r}
+#| echo: false
+
+library(palmerpenguins)
+library(tidyverse)
+library(emmeans)
+library(performance)
+library(ggthemes)
+library(modelbased)
+library(patchwork)
+
+penguins <- penguins %>%
+  na.omit()
+```
+
+
+
+## Résumé du cours précédent {.smaller}
+
+::: med-space
+:::
+
+#### Qu'est-ce qu'un modèle statistique ?
+
+> "Description probabiliste de la génération des données par des processus sous-jacents"
+
+-  **Probabiliste :** Distribution normale, définie par la moyenne ($\mu$) et l'écart-type ($\sigma$) :  
+
+   $\mathrm{y}_i \sim \mathrm{Normal(\mu}_i,~\mathrm{\sigma)}$
+
+-  **Processus sous-jacents :** Variables explicatives, décrivant la valeur attendue $\mu$
+
+## Résumé du cours précédent {.smaller}
+
+::: med-space
+:::
+
+::: {.columns}
+::: {.column}
+```{r}
+#| fig-height: 9
+
+mean_wgt <- mean(penguins$body_mass_g)
+
+penguins %>%
+  ggplot(aes(x = 1, y = body_mass_g)) +
+  geom_jitter(col = "steelblue") +
+  theme_light(base_size = 16) +
+  annotate(
+    "segment",
+    x = -Inf,
+    xend = Inf,
+    y = mean_wgt,
+    yend = mean_wgt,
+    color = "black",
+    linetype = "11",
+    linewidth = 2
+  ) +
+  labs(x = NULL, y = "Body mass (g)") +
+  theme_light(base_size = 26) +
+  theme(
+    axis.ticks.x = element_blank(),
+    axis.text.x = element_blank(),
+    panel.grid = element_blank()
+  )
+
+```
+
+:::
+::: {.column}
+
+Aucune information supplémentaire connue, seulement la moyenne
+
+$$
+\mathrm{Weight}_i \sim \mathrm{Normal(\mu}_i,~\mathrm{\sigma)}
+$$
+
+
+```{r}
+#| echo: true
+#| eval: false
+
+lm(body_mass_g ~ 1, data = penguins)
+```
+
+:::
+:::
+
+## Résumé du cours précédent {.smaller}
+
+::: med-space
+:::
+
+::: {.columns}
+::: {.column}
+```{r}
+#| fig-height: 9
+
+penguins %>%
+  ggplot(
+    aes(x = species, y = body_mass_g, fill = species),
+  ) +
+  geom_jitter(alpha = .75, shape = 21) +
+  geom_pointrange(
+    stat = "summary",
+    fun.data = mean_sdl,
+    show.legend = F,
+    shape = 21
+  ) +
+  labs(
+    x = NULL,
+    y = "mass corporelle (g)"
+  ) +
+  scale_color_colorblind() +
+  scale_fill_colorblind() +
+  theme_classic(base_size = 26) +
+  theme(legend.position = "none")
+
+```
+
+:::
+::: {.column}
+
+La masse moyenne diffère par espèce
+
+$$
+\begin{align}
+\mathrm{Weight}_i &\sim \mathrm{Normal}(\mu_i,~\sigma) \\
+\mu_i &= \mu_{\text{species}[i]}
+\end{align}
+$$
+
+
+```{r}
+#| echo: true
+#| eval: false
+
+lm(body_mass_g ~ species, data = penguins)
+```
+
+::: med-space
+:::
+
+::: question
+ANOVA
+:::
+:::
+:::
+
+
+
+## Résumé du cours précédent {.smaller}
+
+::: med-space
+:::
+
+::: {.columns}
+::: {.column}
+```{r}
+#| fig-height: 9
+
+penguins %>%
+  ggplot(
+    aes(x = bill_length_mm, y = body_mass_g),
+  ) +
+  geom_point(col = "steelblue") +
+  geom_smooth(method = "lm", se = F, col = "black") +
+  labs(
+    x = "Bill length (mm)",
+    y = "Body mass (g)"
+  ) +
+  theme_classic(base_size = 26) +
+  theme(legend.position = "none")
+
+```
+
+:::
+::: {.column}
+
+La masse dépend de la taille des manchots
+
+$$
+\begin{align}
+\mathrm{Weight}_i \sim \mathrm{Normal(\mu}_i,~\mathrm{\sigma)} \\
+\mu_i = a + b \cdot \mathrm{billlength}_i\\
+\end{align}
+$$
+
+
+```{r}
+#| echo: true
+#| eval: false
+
+lm(body_mass_g ~ bill_length_mm, data = penguins)
+```
+
+::: med-space
+:::
+
+::: question
+Régression
+:::
+:::
+:::
+
+
+## Résumé du cours précédent {.smaller}
+
+::: med-space
+:::
+
+::: {.columns}
+::: {.column}
+```{r}
+#| fig-height: 9
+
+# Additive (A+B): same slope, different intercepts
+m_add <- lm(body_mass_g ~ bill_length_mm + species, data = penguins)
+pred_add <- estimate_relation(m_add, at = "species")
+
+penguins %>%
+  ggplot(aes(x = bill_length_mm, y = body_mass_g, col = species)) +
+  geom_point() +
+  geom_line(
+    data = pred_add,
+    aes(x = bill_length_mm, y = Predicted, col = species),
+    linewidth = 2
+  ) +
+  labs(
+    x = "Bill length (mm)",
+    y = "Body mass (g)"
+  ) +
+  scale_color_colorblind() +
+  scale_fill_colorblind() +
+  theme_classic(base_size = 26) +
+  theme(legend.position = "none")
+```
+
+:::
+::: {.column}
+
+La masse dépend de la taille des manchots et de l'espèce (même pente)
+
+$$
+\begin{align}
+\mathrm{Weight}_i &\sim \mathrm{Normal}(\mu_i,~\sigma) \\
+\mu_i &= a_{\text{species}[i]} + b \cdot \mathrm{billlength}_i
+\end{align}
+$$
+
+
+```{r}
+#| echo: true
+#| eval: false
+
+# fmt: skip
+
+lm(body_mass_g ~ bill_length_mm + species, 
+   data = penguins)
+```
+
+::: med-space
+:::
+
+::: question
+ANCOVA
+:::
+:::
+:::
+
+
+## Résumé du cours précédent {.smaller}
+
+::: med-space
+:::
+
+::: {.columns}
+::: {.column}
+```{r}
+#| fig-height: 9
+
+penguins %>%
+  ggplot(aes(x = bill_length_mm, y = body_mass_g, col = species)) +
+  geom_point() +
+  geom_smooth(method = "lm", se = F) +
+  labs(
+    x = "Bill length (mm)",
+    y = "Body mass (g)"
+  ) +
+  scale_color_colorblind() +
+  scale_fill_colorblind() +
+  theme_classic(base_size = 26) +
+  theme(legend.position = "none")
+```
+
+:::
+::: {.column}
+
+La masse dépend de la taille des manchots et de l'espèce (pentes différentes par espèce)
+
+$$
+\begin{align}
+\mathrm{Weight}_i &\sim \mathrm{Normal}(\mu_i,~\sigma) \\
+\mu_i &= a_{\text{species}[i]} + b_{\text{species}[i]} \cdot \mathrm{billlength}_i
+\end{align}
+$$
+
+
+```{r}
+#| echo: true
+#| eval: false
+
+# fmt: skip
+
+lm(body_mass_g ~ bill_length_mm * species, 
+   data = penguins)
+```
+
+::: med-space
+:::
+
+::: question
+ANCOVA
+:::
+:::
+:::
+
+
+## Le problème avec l'ANOVA {.smaller}
+
+::: med-space
+:::
+
+```{r}
+penguins %>%
+  ggplot(aes(x = species, y = body_mass_g, fill = species)) +
+  geom_jitter(alpha = .75, shape = 21) +
+  geom_pointrange(
+    stat = "summary",
+    fun.data = mean_sdl,
+    show.legend = FALSE,
+    shape = 21
+  ) +
+  labs(
+    x = NULL,
+    y = "Body mass (g)"
+  ) +
+  scale_fill_colorblind() +
+  theme_classic(base_size = 20) +
+  theme(legend.position = "none")
+```
+
+## Le problème avec l'ANOVA {.smaller}
+
+::: med-space
+:::
+
+```{r}
+#| echo: true
+
+m_spec <- lm(body_mass_g ~ species, data = penguins)
+anova(m_spec)
+```
+
+::: med-space
+:::
+
+::: question
+L'ANOVA nous dit : « **Il y a une différence** entre les espèces »
+
+Mais **laquelle** des espèces diffère des autres ?
+:::
+
+## Comparaisons multiples {.smaller}
+
+::: med-space
+:::
+
+Pour 3 espèces, nous avons 3 comparaisons possibles :
+
+-   Adelie vs. Chinstrap
+-   Adelie vs. Gentoo
+-   Chinstrap vs. Gentoo
+
+::: med-space
+:::
+
+::: fragment
+::: question
+Pourquoi ne pas simplement faire 3 modèles ?
+:::
+:::
+
+## Inflation de l'erreur alpha {.smaller}
+
+::: med-space
+:::
+
+::::: columns
+::: column
+-  Chaque test a un risque d'erreur de 5% (α = 0,05)
+
+::: fragment
+-  **Probabilité de ne pas faire d'erreur dans 1 test :** 0,95
+:::
+
+::: fragment
+-  **Probabilité de ne pas faire d'erreur dans 3 tests :** $0.95 \times 0.95 \times 0.95 = 0.857$
+:::
+
+::: fragment
+-   **Probabilité de faire au moins 1 erreur :** $1 - 0.857 = 0.143 = 14.3\%$
+:::
+:::
+
+::: column
+::: fragment
+
+::: med-space
+:::
+
+```{r}
+#| fig-height: 10
+
+n_comparisons <- 1:20
+error_rate <- 1 - (0.95^n_comparisons)
+
+data.frame(
+  n = n_comparisons,
+  error = error_rate
+) %>%
+  ggplot(aes(x = n, y = error)) +
+  geom_line(linewidth = 1.5, color = "darkred") +
+  geom_point(size = 3, color = "darkred") +
+  geom_hline(yintercept = 0.05, linetype = "dashed") +
+  scale_y_continuous(labels = scales::percent) +
+  labs(
+    x = "Number of comparisons",
+    y = "Probability of at least 1 error"
+  ) +
+  theme_classic(base_size = 23)
+```
+
+:::
+:::
+:::::
+
+## Family-wise error rate (FWER) {.smaller}
+
+::: med-space
+:::
+
+> 
+**FWER :** La probabilité de faire au moins une erreur de type I dans un ensemble de tests
+
+
+::: small
+| Nombre de groupes | Nombre de comparaisons | FWER (sans correction) |
+|-------------------|------------------------|------------------------|
+| 2                 | 1                      | 5,0%                   |
+| 3                 | 3                      | 14,3%                  |
+| 4                 | 6                      | 26,5%                  |
+| 5                 | 10                     | 40,1%                  |
+| 10                | 45                     | 90,0%                  |
+:::
+
+::: med-space
+:::
+::: med-space
+:::
+
+::: question
+Nous devons ajuster nos valeurs p pour contrôler le FWER
+:::
+
+## Ajustement des valeurs p {.smaller}
+
+::: med-space
+:::
+::: small
+| Méthode              | Description                                | Quand l'utiliser           |
+|----------------------|--------------------------------------------|----------------------------|
+| **Bonferroni**       | Divise α par le nombre de tests              | Tests simples, peu de tests       |
+| **Holm-Bonferroni**  | Bonferroni séquentiel (moins strict)      | Alternative à Bonferroni   |
+| **Benjamini-Hochberg** | Contrôle le taux de fausses découvertes | Beaucoup de tests          |
+| **Tukey HSD**        | Tient compte de toutes les comparaisons   | **Comparaisons multiples**     |
+:::
+
+::: med-space
+:::
+
+::: question
+Les tests de Tukey sont souvent utilisés pour les tests post-hoc 
+:::
+
+## Tests post-hoc en `R` {.smaller}
+
+::: med-space
+:::
+
+
+```{r}
+#| echo: true
+
+m_spec <- lm(body_mass_g ~ species, data = penguins)
+
+library(modelbased)
+
+estimate_contrasts(m_spec, p_adjust = "tukey")
+```
+
+
+## Visualiser les tests post-hoc {.smaller}
+
+::: med-space
+:::
+
+
+::: {.columns}
+::: {.column}
+```{r}
+#| echo: true
+#| eval: false
+
+estimate_means(m_spec, by = "species") %>%
+  plot()
+```
+
+```{r}
+#| echo: false
+#| eval: true
+
+estimate_means(m_spec, by = "species") %>%
+  plot() +
+  theme_light(base_size = 21)
+```
+
+::: {.fragment .question .small}
+Récemment, les chercheurs s'éloignent des valeurs p comme seuils rigides. L'ampleur de l'effet (importance biologique) importe plus que p < 0,05 !
+:::
+
+:::
+::: {.column .small}
+
+
+#### Recommandation
+
+-   Tracez l'IC 95%
+
+    >
+   « **Intervalle de confiance à 95% :** est une plage calculée de sorte que, si on la répète plusieurs fois, 95% de ces intervalles contiendraient la vraie valeur du paramètre. »
+
+-   **Pas de chevauchement :** Les groupes sont statistiquement significativement différents (p < 0,05)
+
+-   **Chevauchement :** Peuvent être statistiquement significativement différents, mais l'effet est probablement petit
+:::
+:::
+
+::: med-space
+:::
+
+
+
+## Comparaisons de pentes : ANCOVA {.smaller}
+
+::: med-space
+:::
+
+::::: columns
+::: column
+
+::: med-space
+:::
+```{r}
+#| fig-height: 10
+
+penguins %>%
+  ggplot(aes(
+    x = bill_length_mm,
+    y = body_mass_g,
+    color = species,
+    fill = species
+  )) +
+  geom_point(alpha = 0.6) +
+  geom_smooth(method = "lm", alpha = 0.2) +
+  scale_color_viridis_d() +
+  scale_fill_viridis_d() +
+  labs(
+    x = "Bill length (mm)",
+    y = "Body mass (g)",
+    color = "Species",
+    fill = "Species"
+  ) +
+  theme_classic(base_size = 18) +
+  theme(legend.position = "bottom")
+```
+
+:::
+
+::: column
+::: med-space
+:::
+#### Les pentes diffèrent-elles entre les espèces ?
+
+::: medium-output
+```{r}
+#| echo: true
+
+m_ancova <- lm(
+  body_mass_g ~ bill_length_mm * species,
+  data = penguins
+)
+
+anova(m_ancova)
+```
+
+:::
+:::
+:::::
+
+
+## Comparaisons de pentes : ANCOVA {.smaller}
+
+::: med-space
+:::
+
+::::: columns
+::: column
+
+::: med-space
+:::
+```{r}
+#| echo: true
+#| eval: false
+
+estimate_slopes(
+  m_ancova,
+  by = "species",
+  trend = "bill_length_mm"
+) %>%
+  plot()
+```
+
+::: med-space
+:::
+
+```{r}
+
+estimate_slopes(
+  m_ancova,
+  by = "species",
+  trend = "bill_length_mm"
+) %>%
+  plot() +
+  labs(
+    x = "Species",
+    y = "Slope"
+  ) +
+  theme_classic(base_size = 18)
+```
+
+:::
+
+::: column
+::: med-space
+:::
+#### Les pentes diffèrent-elles entre les espèces ?
+
+
+::: tiny-output
+```{r}
+#| echo: true
+
+estimate_contrasts(
+  m_ancova,
+  contrast = "bill_length_mm",
+  by = "species",
+  p_adjust = "tukey"
+)
+```
+
+:::
+:::
+:::::
+
+## Comparaisons de pentes : ANCOVA {.smaller}
+
+::: med-space
+:::
+
+::::: columns
+::: column
+
+::: med-space
+:::
+
+```{r}
+#| echo: true
+#| eval: false
+
+estimate_slopes(
+  m_ancova,
+  by = "species",
+  trend = "bill_length_mm"
+) %>%
+  plot()
+```
+
+::: med-space
+:::
+```{r}
+
+estimate_slopes(
+  m_ancova,
+  by = "species",
+  trend = "bill_length_mm"
+) %>%
+  plot() +
+  labs(
+    x = "Species",
+    y = "Slope"
+  ) +
+  theme_classic(base_size = 18)
+```
+
+:::
+
+::: column
+::: med-space
+:::
+#### Les pentes diffèrent-elles de 0 ?
+
+::: medium-output
+```{r}
+#| echo: true
+
+# fmt: skip
+estimate_slopes(m_ancova, 
+                by = "species", 
+                p_adjust = "tukey")
+```
+
+:::
+:::
+:::::
+
+
+## À vous de jouer  {.smaller}
+
+::: med-space
+:::
+
+1.  Allez sur le site du cours
+2.  Allez au calendrier
+3.  Cliquez sur `TP 04`
+4.  Connectez-vous à Posit Cloud
+
+::: huge
+::: center-align
+
+[andieich.github.io/2026_biostatistiques_2](https://andieich.github.io/2026_biostatistiques_2/)
+
+:::
+:::
+

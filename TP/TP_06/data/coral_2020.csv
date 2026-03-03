@@ -1,0 +1,40 @@
+site,coral_genus,points,percent,coast
+Afareaitu,Acropora,0,0,East
+Afareaitu,Montipora,1,0.7,East
+Afareaitu,Pocillopora,31,20.7,East
+Aroa,Acropora,3,2,North
+Aroa,Montipora,4,2.7,North
+Aroa,Pocillopora,38,25.3,North
+Entre 2 baies,Acropora,0,0,North
+Entre 2 baies,Montipora,2,1.3,North
+Entre 2 baies,Pocillopora,33,22,North
+Gendron,Acropora,0,0,West
+Gendron,Montipora,2,1.3,West
+Gendron,Pocillopora,16,10.7,West
+Haapiti,Acropora,0,0,West
+Haapiti,Montipora,7,4.7,West
+Haapiti,Pocillopora,9,6,West
+Maatea,Acropora,0,0,East
+Maatea,Montipora,3,2,East
+Maatea,Pocillopora,25,16.7,East
+Motu Ahi,Acropora,1,0.7,East
+Motu Ahi,Montipora,5,3.3,East
+Motu Ahi,Pocillopora,28,18.7,East
+Nuarei,Acropora,2,1.3,East
+Nuarei,Montipora,3,2,East
+Nuarei,Pocillopora,36,24,East
+Pihaena,Acropora,4,2.7,North
+Pihaena,Montipora,7,4.7,North
+Pihaena,Pocillopora,48,32,North
+Taotaha,Acropora,1,0.7,West
+Taotaha,Montipora,10,6.7,West
+Taotaha,Pocillopora,8,5.3,West
+Temae,Acropora,2,1.3,East
+Temae,Montipora,8,5.3,East
+Temae,Pocillopora,26,17.3,East
+Tetaiuo,Acropora,0,0,West
+Tetaiuo,Montipora,7,4.7,West
+Tetaiuo,Pocillopora,14,9.3,West
+Tiahura,Acropora,3,2,North
+Tiahura,Montipora,4,2.7,North
+Tiahura,Pocillopora,28,18.7,North

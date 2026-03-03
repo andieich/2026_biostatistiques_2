@@ -1,0 +1,293 @@
+---
+title: "Solution pour TP 04"
+format: html
+date: 2025-03-01
+---
+
+```{r}
+#| echo: false
+#| message: false
+
+library(tidyverse)
+library(palmerpenguins)
+library(ggthemes)
+library(modelbased)
+library(here)
+```
+
+## Partie 1 : Tests post-hoc avec ANOVA
+
+Dans le cours, vous avez appris que lorsqu'une ANOVA montre une différence significative entre les groupes, nous avons besoin de **tests post-hoc** pour déterminer *quels* groupes diffèrent les uns des autres.
+
+Utilisons le jeu de données corallien de mon doctorat pour évaluer s'il y avait des différences significatives de couverture de *Pocillopora* entre les orientations côtières.
+
+Tout d'abord, nous devons lire les données (elles sont stockées dans un dossier `data`) et sélectionner uniquement les lignes pour *Pocillopora* :
+
+```{r}
+dat_coral_cover_poci <- read.csv(here(
+  "TP/TP_04/data/coral_cover_genus.csv"
+)) %>%
+  filter(genus == "Pocillopora")
+```
+
+### Tâche 1
+
+Maintenant, nous pouvons créer un modèle linéaire pour tester l'impact de `coast` sur `percent_cover`. Remplacez les `____` en conséquence :
+
+```{r}
+
+m_poci <- lm(percent_cover ~ coast, data = dat_coral_cover_poci)
+```
+
+Maintenant, exécutez une ANOVA sur ce modèle :
+
+```{r}
+anova(m_poci)
+```
+
+Que voyez-vous ? Comment interpréteriez-vous les résultats ?
+
+::: {.callout-note appearance="simple"}
+## Solution
+
+L'orientation côtière a une incidence significative (p \< .001) sur la couverture corallienne.
+:::
+
+### Tâche 2
+
+Utilisez la fonction `estimate_contrasts()` du package `modelbased` pour exécuter des tests par paires sur votre modèle (`m_poci`) entre toutes les orientations côtières. Tous les packages dont vous avez besoin sont déjà chargés.
+
+```{r}
+estimate_contrasts(model = m_poci, p_adjust = "tukey")
+```
+
+Comprenez-vous maintenant mieux comment les groupes diffèrent ?
+
+::: {.callout-note appearance="simple"}
+## Solution
+
+La couverture corallienne dans le nord est statistiquement significativement plus élevée que dans l'est (p \< .001) et l'ouest (p = .006) de Moorea. Aucune différence significative n'a été observée entre la couverture corallienne dans l'est et l'ouest de Moorea (p = .242).
+:::
+
+**Interprétation :** Regardez la sortie. Chaque ligne montre une comparaison entre deux espèces (par exemple, "Adelie vs Chinstrap").
+
+-   La colonne `Difference` montre de combien la couverture de *Pocillopora* diffère entre les deux côtes (en pourcentage)
+-   La colonne `p` montre la valeur p pour cette comparaison
+-   Si `p < 0.05`, cette paire d'espèces est significativement différente
+
+### Tâche 3
+
+Pour une publication, on ajouterait le tableau de résultats en Annexe et montrerait les données sous forme de graphique. Pour tracer les données du modèle avec des IC, utilisez la fonction `estimate_means()` avec votre modèle pour d'abord calculer les estimations du modèle pour chaque groupe, puis utilisez `plot()`. Rappelez-vous ce que fait `%>%` : Il prend le résultat d'une fonction (ici, les moyennes estimées) et l'insère dans la fonction suivante (ici, `plot()`) :
+
+```{r}
+estimate_means(model = m_poci) %>%
+  plot()
+```
+
+Ce graphique est créé en interne avec `ggplot` ! Cela vous permet de personnaliser le graphique comme vous l'avez appris auparavant. Vous pouvez superposer les données brutes, modifier les étiquettes et ajouter un thème :
+
+```{r}
+estimate_means(model = m_poci) %>%
+  plot() +
+  geom_jitter(
+    data = dat_coral_cover_poci,
+    aes(x = coast, y = percent_cover),
+    width = .1 # defines the spread of the points
+  ) +
+  labs(x = "Coast", y = "Coral Cover (%)") +
+  theme_light()
+```
+
+Ce graphique devrait vous aider à comprendre les résultats dans le tableau ci-dessus. Sur quelle côte la couverture de *Pocillopora* est-elle significativement différente des autres côtes ? Une seule côte est-elle différente de toutes les autres ?
+
+::: {.callout-note appearance="simple"}
+## Solution
+
+La couverture corallienne dans le nord est statistiquement significativement plus élevée que dans l'est et l'ouest.
+:::
+
+**Important :** Si une comparaison n'est « pas statistiquement significative » (p \> .05), nous ne savons pas si les groupes ne diffèrent réellement pas ou si les données étaient trop variables pour trouver des différences « statistiquement significatives ». **Cela ne signifie pas que la moyenne pour ces groupes est la même !!!**
+
+Jusqu'à présent, les résultats ne concernaient que *Pocillopora*. Mais nous avons également des données pour les autres principaux genres de coraux à Moorea. Habituellement, il est préférable d'analyser ces données avec un seul modèle et non avec plusieurs modèles. Ce qui est vrai pour les tests post-hoc par paires est également vrai ici. Si vous exécutez plusieurs modèles ou tests sur les mêmes données, le FWER augmente !
+
+Tout d'abord, nous chargeons les données contenant des informations pour les autres genres également. J'ai supprimé la catégorie « other » ici, car elle contient tous les genres moins courants qui peuvent différer dans leur réponse.
+
+```{r}
+
+dat_coral_cover_genus <- read.csv(here(
+  "TP/TP_04/data/coral_cover_genus.csv"
+)) %>%
+  filter(genus != "other")
+```
+
+### Tâche 4
+
+Créez un modèle pour évaluer l'interaction de `coast` et `genus` sur `percent_cover`.
+
+```{r}
+
+# Interaction model
+
+m_cover <- lm(percent_cover ~ genus * coast, data = dat_coral_cover_genus)
+```
+
+Exécutez une ANOVA sur le modèle :
+
+```{r}
+anova(m_cover)
+```
+
+### Tâche 5
+
+Qu'est-ce que cela vous dit ?
+
+Sans tests post-hoc et visualisation, il est difficile d'imaginer ce que le modèle a trouvé. Si l'interaction est statistiquement significative, nous savons que le genre de corail impacte comment l'orientation côtière impacte la couverture corallienne. Mais qu'est-ce que cela signifie ? Exécutez un test post-hoc par paires comme décrit précédemment :
+
+
+
+```{r}
+estimate_contrasts(model = m_cover, p_adjust = "tukey")
+```
+
+
+
+### Tâche 6
+
+C'est beaucoup de comparaisons (**36**) ! C'est parce que nous avons utilisé l'interaction entre deux variables explicatives, donc chaque combinaison de genre et de côte est testée contre chaque combinaison de genre et de côte. Pour comprendre les résultats, tracez-les comme avant. Utilisez différentes couleurs pour les différentes orientations côtières et ajoutez les données brutes :
+
+```{r}
+
+estimate_means(model = m_cover) %>%
+  plot() +
+  geom_point(
+    data = dat_coral_cover_genus,
+    aes(x = genus, y = percent_cover, col = coast),
+    position = position_jitterdodge(jitter.width = .1, dodge.width = .21)
+  ) +
+  labs(x = "Genus", y = "Coral Cover (%)", col = "Coast") +
+  scale_colour_colourblind() +
+  theme_light()
+```
+
+------------------------------------------------------------------------
+
+**Note :** Si vous êtes intéressé par les parties « plus geek », et ce que fait `position_jitterdodge()` dans `geom_point()`, vous pouvez lire ceci, sinon, continuez à lire après la ligne horizontale.
+
+Lorsque vous tracez des effets d'interaction avec `estimate_means() %>% plot()`, la fonction « décale » automatiquement les points pour différents groupes (dans ce cas, différentes côtes) légèrement à gauche et à droite pour qu'ils ne se chevauchent pas. Cela facilite la visualisation des trois orientations côtières pour chaque genre.
+
+Si nous voulons superposer les données brutes sur ce graphique, nous devons positionner les points de données brutes de la même manière - sinon ils s'empileraient tous au centre de chaque catégorie de genre et ne s'aligneraient pas avec les prédictions du modèle.
+
+C'est là qu'intervient `position_jitterdodge()` :
+
+-   **dodge** : Décale les points horizontalement en fonction de la variable de regroupement (ici : `coast`), correspondant au décalage que `plot()` applique aux estimations du modèle
+
+-   **jitter** : Ajoute un petit décalage aléatoire à chaque point pour que les points avec des valeurs similaires ne se tracent pas directement les uns sur les autres
+
+Les arguments contrôlent l'ampleur du décalage :
+
+-   `dodge.width = .21` : Contrôle la séparation horizontale entre les orientations côtières (doit correspondre au décalage utilisé par `plot()`)
+
+-   `jitter.width = .1` : Contrôle la quantité de dispersion horizontale aléatoire ajoutée dans chaque groupe de côte
+
+Sans `position_jitterdodge()`, tous les points de données brutes s'empileraient au milieu et ne correspondraient pas visuellement à leurs estimations de modèle respectives !
+
+------------------------------------------------------------------------
+
+Est-il maintenant plus clair quels groupes diffèrent les uns des autres ?
+
+Pensez-vous que toutes les comparaisons qui ont été faites dans `estimate_contrasts()` sont nécessaires et utiles ?
+
+Comme vous l'avez appris dans le cours, les valeurs p sont « artificiellement » augmentées pour compenser « l'inflation de l'erreur alpha ». Faire tous les tests, comme avec `estimate_contrasts(m_cover, p_adjust = "tukey")` n'est souvent pas ce que vous voulez. Toutes les combinaisons possibles de côtes et de genre sont testées les unes contre les autres, mais vous pourriez être plus intéressé si la couverture corallienne diffère à chaque niveau de côte, ou s'il y a des différences pour chaque genre entre les côtes. Cela impliquerait beaucoup moins de tests, et la « pénalité » qui est ajoutée aux valeurs p est donc plus faible. `estimate_contrasts()` nous permet de définir les tests qui sont effectués avec l'argument de fonction `by`.
+
+Pour tester les différences entre les genres de coraux à chaque niveau de côte, exécutez
+
+```{r}
+estimate_contrasts(model = m_cover, p_adjust = "tukey", by = "coast")
+```
+
+Et pour tester les différentes côtes pour chaque genre de corail, exécutez :
+
+```{r}
+estimate_contrasts(model = m_cover, p_adjust = "tukey", by = "genus")
+```
+
+Enfin, revisitons ce modèle que vous avez fait dans le TP précédent :
+
+```{r}
+
+m_ancova <- lm(flipper_length_mm ~ body_mass_g * species, data = penguins)
+```
+
+Exécutez le code suivant pour vous rappeler à quoi ressemblent les données :
+
+```{r}
+penguins %>%
+  ggplot(aes(
+    x = bill_length_mm,
+    y = body_mass_g,
+    color = species,
+    fill = species
+  )) +
+  geom_point(alpha = 0.6) +
+  geom_smooth(method = "lm", alpha = 0.2) +
+  scale_color_viridis_d() +
+  scale_fill_viridis_d() +
+  labs(
+    x = "Bill length (mm)",
+    y = "Body mass (g)",
+    color = "Species",
+    fill = "Species"
+  ) +
+  theme_classic(base_size = 18) +
+  theme(legend.position = "bottom")
+```
+
+Si vous exécutez une `anova()` sur ce modèle :
+
+```{r}
+anova(m_ancova)
+```
+
+Regardez le tableau de résultats :
+
+-   Si `p < 0.05` pour l'interaction : les pentes **DIFFÈRENT** entre les espèces
+-   Si `p > 0.05` pour l'interaction : les pentes ne sont **PAS significativement différentes** (elles sont similaires)
+
+Puisque l'interaction est significative, il serait intéressant de comparer les pentes entre les différentes espèces. Vous pouvez le faire avec ce test post-hoc :
+
+-   Comme avant, la fonction `estimate_contrasts()` est utilisée
+-   Nous configurons manuellement que le contraste doit être `body_mass_g`, c'est-à-dire notre pente
+-   Nous voulons comparer ces pentes entre (`by`) les différentes espèces
+-   Comme avant, nous utilisons l'ajustement tukey
+
+```{r}
+estimate_contrasts(
+  model = m_ancova,
+  contrast = "body_mass_g",
+  by = "species",
+  p_adjust = "tukey"
+)
+```
+
+Regardez la sortie. Que voyez-vous ?
+
+::: {.callout-note appearance="simple"}
+## Solution
+
+Seule la pente entre Chinstrap et Adelie est statistiquement significative different (p = .021).
+:::
+
+Vous pouvez également tracer les résultats avec le package `modelbased`. Au lieu de `estimate_means()`, qui est utilisé pour calculer les moyennes par groupe comme le modèle les voit (dans une ANOVA), nous voulons tracer les pentes, donc nous utilisons `estimate_slopes()` :
+
+```{r}
+estimate_slopes(model = m_ancova, by = "species") %>%
+  plot()
+```
+
+Cette visualisation correspond-elle à votre attente du tableau `estimate_contrasts()` ? Quelle(s) pente(s) est/sont différente(s) des autres ?
+
+::: {.callout-note appearance="simple"}
+## Solution
+
+Vous pouvez constater que le chevauchement de l'intervalle de confiance entre Chinstrap et Adelie est moins important qu'entre les autres espèces.
+:::

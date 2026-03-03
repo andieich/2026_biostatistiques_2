@@ -2,9 +2,9 @@ render: false
 format:
   html:
     code-link: true
-    theme: hints.scss
+    theme: solutions.scss
 author: "Andreas Eich"   
-date-format: "MM.DD.YYYY"
+date-format: "DD.MM.YYYY"
 
 language:
   fr:

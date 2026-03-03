@@ -1,0 +1,102 @@
+---
+title: "Résumé Partie 1"
+format: html
+toc: true
+---
+
+## Notions de base en R
+
+### Objets et fonctions
+
+- **Objets** : Conteneurs pour des données, des modèles, des colonnes et des variables
+- **Fonctions** : Opérations exécutées sur des objets ; les arguments peuvent être nommés ou non (ordre par défaut appliqué)
+- **Convention de nommage** : `data_votre_nom <- valeur`
+- **Opérateur pipe** (`%>%`) : Passe la sortie d'une fonction comme entrée de la suivante
+
+## Visualisation des données avec ggplot2
+
+- **Approche par couches** : Construire des graphiques en ajoutant des couches séquentiellement
+- **Couches essentielles** : Données → esthétiques (`aes()`) → géométrie (`geom_*()`)
+- **Flexibilité** : Combiner des données provenant de différents data frames dans un même graphique
+
+## Modèles statistiques
+
+### Qu'est-ce qu'un modèle ?
+
+Une représentation probabiliste de la façon dont les données sont générées par des processus sous-jacents. Le modèle capture :
+- **Composante systématique** : Comment les variables explicatives prédisent la réponse
+- **Composante aléatoire** : Variance restante (résidus) supposée suivre une loi normale
+
+### Notation du modèle
+$y \sim \text{Normal}(\mu, \sigma)$
+$\mu = a + b \cdot x$
+
+En R : `lm(response ~ explanatory_variables)`
+
+### Concepts clés
+
+**Variable réponse** : La variable que vous voulez expliquer/prédire.
+
+**Variables explicatives** : Variables décrivant les processus sous-jacents :
+- Catégorielles (par ex., site, traitement, espèce) → tester les différences entre groupes
+- Numériques (par ex., température, âge) → tester des relations de dépendance
+
+**Types d'effet** :
+- **Additif** (`+`) : Les variables agissent indépendamment
+- **Interactif** (`*`) : Une variable modifie l'effet d'une autre sur la réponse
+
+### Sorties du modèle
+
+| Sortie | Interprétation |
+|--------|-----------------|
+| **p-value** | Probabilité d'observer vos données si les variables explicatives n'avaient aucun effet. p < 0.05 → effet significatif |
+| **R²** | Proportion de la variance de la réponse expliquée par le modèle (échelle 0–1) |
+| **Coefficients** | Depuis `summary(model)` → intercept, pentes et leur signification |
+| **Tableau ANOVA** | Depuis `anova(model)` → tester l'impact global de chaque variable explicative |
+
+## Tests post-hoc
+
+Après qu'une ANOVA ait trouvé un effet significatif, les tests post-hoc identifient quels groupes spécifiques diffèrent.
+
+### Problème des comparaisons multiples
+- **Problème** : Comparer de nombreux couples de groupes augmente les "faux positifs" (risque de conclure à tort à un effet)
+- **Exemple** : 3 groupes = 3 comparaisons par paires. Si chaque comparaison a un risque d'erreur de 5 %, le risque total ≈ 14 %
+- **Solution** : Appliquer un ajustement des p-values (ajouter une petite pénalité), adapté au nombre de comparaisons.
+
+
+### En R
+`estimate_contrasts(model, p_adjust = "tukey")` fournit des p-values ajustées et des intervalles de confiance pour les comparaisons par paires.
+
+## Hypothèses du modèle
+
+### 1. Indépendance
+Chaque observation est statistiquement indépendante ; pas de structure cachée reliant les observations.
+
+**Violations** :
+- Données hiérarchiques (réplicats dans des sites)
+- Mesures répétées du même individu
+- Autocorrélation spatiale (points proches plus semblables)
+- Autocorrélation temporelle (séries temporelles)
+
+**Vérification** : Réfléchir à la manière dont les données ont été collectées.
+
+### 2. Homoscedasticité (variance égale)
+La variance (dispersion) des résidus est constante entre tous les groupes et valeurs prédites.
+
+Le modèle suppose : $y \sim \text{Normal}(\mu, \sigma)$ avec **une seule valeur de σ** pour l'ensemble des données.
+
+**Violations** : La variance augmente/diminue selon le groupe ou les valeurs ajustées (ex. données hétéroscédastiques).
+
+**Vérification** : Le graphique "Homogénéité des variances" doit montrer des points répartis uniformément autour de la ligne de référence ; pas de motif en entonnoir.
+
+### 3. Normalité
+Les résidus (erreurs restantes après le modèle) suivent une distribution normale.
+
+**Pourquoi** : Le modèle linéaire dérive intervalles de confiance et p-values en supposant des erreurs normales.
+
+**Violations** : Résidus fortement asymétriques, bimodaux ou avec des valeurs aberrantes extrêmes.
+
+**Vérification** : Graphique Q-Q de normalité des résidus — les points doivent se situer le long de la ligne. De légères déviations sont acceptables ; des écarts majeurs posent problème.
+
+```
+```

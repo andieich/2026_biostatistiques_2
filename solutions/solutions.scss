@@ -1,0 +1,38 @@
+/*-- scss:defaults --*/
+
+// fonts
+@import url('https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible&display=swap');
+@import url('https://fonts.googleapis.com/css?family=Source+Code+Pro&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Gochi+Hand&display=swap');
+
+
+$font-family-sans-serif: "Atkinson Hyperlegible", sans-serif;
+$font-family-monospace: "Source Code Pro", monospace;
+$link-color: #005871;
+$code-color: #005871;
+$callout-color-tip: #005871;
+
+
+/*-- scss:rules --*/
+
+.project {
+    padding: 1em;
+    border: 1pt dotted #000000ff;
+    // background: #89b2bd50;
+}
+
+.small-output .cell-output {
+    font-size: 0.75em;
+}
+
+.medium-output .cell-output {
+    font-size: 0.85em;
+}
+
+.tiny-output .cell-output {
+    font-size: 0.65em;
+}
+
+.xxs-output .cell-output {
+    font-size: 0.5em;
+}
