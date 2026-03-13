@@ -1,6 +1,6 @@
 ---
 title: Hypothèses des Modèles Linéaires
-subtitle: Cours 4-2
+subtitle: Cours 5
 ---
 
 ```{r}
