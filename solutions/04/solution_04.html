@@ -2,11 +2,14 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="fr" xml:lang="fr"><head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.7.31">
+<meta name="generator" content="quarto-1.9.35">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 <meta name="author" content="Andreas Eich">
 <title>Solution pour TP 04 – Biostatistiques 2</title>
 <style>
+/* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
 div.columns{display: flex; gap: min(4vw, 1.5em);}
@@ -68,10 +71,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="../../site_libs/quarto-html/anchor.min.js"></script>
 <link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-303f0b4dceb2a814a9bbef461efe1684.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-10a99e03521ec9ce62a914b0d4603325.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../../site_libs/bootstrap/bootstrap-63850e822df323f92f499f9aa15a8b33.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light"><script id="quarto-search-options" type="application/json">{
+<link href="../../site_libs/bootstrap/bootstrap-75ce83c6a5fb92f52d02f478472523c6.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light"><script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": false,
   "collapse-after": 3,
@@ -120,7 +123,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <!-- sidebar -->
   <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation docked overflow-auto"><div class="pt-lg-2 mt-2 text-center sidebar-header">
       <a href="../../index.html" class="sidebar-logo-link">
-      <img src="../../images/logo.png" alt="" class="sidebar-logo py-0 d-lg-inline d-none"></a>
+      <img src="../../images/logo.png" alt="" class="sidebar-logo light-content py-0 d-lg-inline d-none"><img src="../../images/logo.png" alt="" class="sidebar-logo dark-content py-0 d-lg-inline d-none"></a>
       </div>
     <div class="sidebar-menu-container"> 
     <ul class="list-unstyled mt-1">
@@ -225,19 +228,19 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>Utilisons le jeu de données corallien de mon doctorat pour évaluer s’il y avait des différences significatives de couverture de <em>Pocillopora</em> entre les orientations côtières.</p>
 <p>Tout d’abord, nous devons lire les données (elles sont stockées dans un dossier <code>data</code>) et sélectionner uniquement les lignes pour <em>Pocillopora</em> :</p>
 <div class="cell">
-<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">dat_coral_cover_poci</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/utils/read.table.html">read.csv</a></span><span class="op">(</span><span class="fu">here</span><span class="op">(</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">dat_coral_cover_poci</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/utils/read.table.html">read.csv</a></span><span class="op">(</span><span class="fu">here</span><span class="op">(</span></span>
 <span>  <span class="st">"TP/TP_04/data/coral_cover_genus.csv"</span></span>
 <span><span class="op">)</span><span class="op">)</span> <span class="op">%&gt;%</span></span>
-<span>  <span class="fu"><a href="https://rdrr.io/r/stats/filter.html">filter</a></span><span class="op">(</span><span class="va">genus</span> <span class="op">==</span> <span class="st">"Pocillopora"</span><span class="op">)</span></span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span>  <span class="fu"><a href="https://rdrr.io/r/stats/filter.html">filter</a></span><span class="op">(</span><span class="va">genus</span> <span class="op">==</span> <span class="st">"Pocillopora"</span><span class="op">)</span></span></code></pre></div><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <section id="tâche-1" class="level3"><h3 class="anchored" data-anchor-id="tâche-1">Tâche 1</h3>
 <p>Maintenant, nous pouvons créer un modèle linéaire pour tester l’impact de <code>coast</code> sur <code>percent_cover</code>. Remplacez les <code>____</code> en conséquence :</p>
 <div class="cell">
-<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">m_poci</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html">lm</a></span><span class="op">(</span><span class="va">percent_cover</span> <span class="op">~</span> <span class="va">coast</span>, data <span class="op">=</span> <span class="va">dat_coral_cover_poci</span><span class="op">)</span></span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">m_poci</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html">lm</a></span><span class="op">(</span><span class="va">percent_cover</span> <span class="op">~</span> <span class="va">coast</span>, data <span class="op">=</span> <span class="va">dat_coral_cover_poci</span><span class="op">)</span></span></code></pre></div><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>Maintenant, exécutez une ANOVA sur ce modèle :</p>
 <div class="cell">
-<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/stats/anova.html">anova</a></span><span class="op">(</span><span class="va">m_poci</span><span class="op">)</span></span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/stats/anova.html">anova</a></span><span class="op">(</span><span class="va">m_poci</span><span class="op">)</span></span></code></pre></div><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Analysis of Variance Table
 
@@ -256,7 +259,7 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-Solution
+<span class="screen-reader-only">Note</span>Solution
 </div>
 </div>
 <div class="callout-body-container callout-body">
@@ -266,7 +269,7 @@ Solution
 </section><section id="tâche-2" class="level3"><h3 class="anchored" data-anchor-id="tâche-2">Tâche 2</h3>
 <p>Utilisez la fonction <code>estimate_contrasts()</code> du package <code>modelbased</code> pour exécuter des tests par paires sur votre modèle (<code>m_poci</code>) entre toutes les orientations côtières. Tous les packages dont vous avez besoin sont déjà chargés.</p>
 <div class="cell">
-<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu">estimate_contrasts</span><span class="op">(</span>model <span class="op">=</span> <span class="va">m_poci</span>, p_adjust <span class="op">=</span> <span class="st">"tukey"</span><span class="op">)</span></span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb5"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu">estimate_contrasts</span><span class="op">(</span>model <span class="op">=</span> <span class="va">m_poci</span>, p_adjust <span class="op">=</span> <span class="st">"tukey"</span><span class="op">)</span></span></code></pre></div><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>We selected `contrast=c("coast")`.</code></pre>
 </div>
@@ -291,7 +294,7 @@ p-value adjustment method: Tukey</code></pre>
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-Solution
+<span class="screen-reader-only">Note</span>Solution
 </div>
 </div>
 <div class="callout-body-container callout-body">
@@ -306,8 +309,8 @@ Solution
 </ul></section><section id="tâche-3" class="level3"><h3 class="anchored" data-anchor-id="tâche-3">Tâche 3</h3>
 <p>Pour une publication, on ajouterait le tableau de résultats en Annexe et montrerait les données sous forme de graphique. Pour tracer les données du modèle avec des IC, utilisez la fonction <code>estimate_means()</code> avec votre modèle pour d’abord calculer les estimations du modèle pour chaque groupe, puis utilisez <code><a href="https://rdrr.io/r/graphics/plot.default.html">plot()</a></code>. Rappelez-vous ce que fait <code>%&gt;%</code> : Il prend le résultat d’une fonction (ici, les moyennes estimées) et l’insère dans la fonction suivante (ici, <code><a href="https://rdrr.io/r/graphics/plot.default.html">plot()</a></code>) :</p>
 <div class="cell">
-<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu">estimate_means</span><span class="op">(</span>model <span class="op">=</span> <span class="va">m_poci</span><span class="op">)</span> <span class="op">%&gt;%</span></span>
-<span>  <span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="op">)</span></span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb8"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu">estimate_means</span><span class="op">(</span>model <span class="op">=</span> <span class="va">m_poci</span><span class="op">)</span> <span class="op">%&gt;%</span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>We selected `by=c("coast")`.</code></pre>
 </div>
@@ -320,7 +323,7 @@ Solution
 </div>
 <p>Ce graphique est créé en interne avec <code>ggplot</code> ! Cela vous permet de personnaliser le graphique comme vous l’avez appris auparavant. Vous pouvez superposer les données brutes, modifier les étiquettes et ajouter un thème :</p>
 <div class="cell">
-<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu">estimate_means</span><span class="op">(</span>model <span class="op">=</span> <span class="va">m_poci</span><span class="op">)</span> <span class="op">%&gt;%</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb10"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu">estimate_means</span><span class="op">(</span>model <span class="op">=</span> <span class="va">m_poci</span><span class="op">)</span> <span class="op">%&gt;%</span></span>
 <span>  <span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu">geom_jitter</span><span class="op">(</span></span>
 <span>    data <span class="op">=</span> <span class="va">dat_coral_cover_poci</span>,</span>
@@ -328,7 +331,7 @@ Solution
 <span>    width <span class="op">=</span> <span class="fl">.1</span> <span class="co"># defines the spread of the points</span></span>
 <span>  <span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu">labs</span><span class="op">(</span>x <span class="op">=</span> <span class="st">"Coast"</span>, y <span class="op">=</span> <span class="st">"Coral Cover (%)"</span><span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu">theme_light</span><span class="op">(</span><span class="op">)</span></span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span>  <span class="fu">theme_light</span><span class="op">(</span><span class="op">)</span></span></code></pre></div><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>We selected `by=c("coast")`.</code></pre>
 </div>
@@ -346,7 +349,7 @@ Solution
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-Solution
+<span class="screen-reader-only">Note</span>Solution
 </div>
 </div>
 <div class="callout-body-container callout-body">
@@ -357,21 +360,21 @@ Solution
 <p>Jusqu’à présent, les résultats ne concernaient que <em>Pocillopora</em>. Mais nous avons également des données pour les autres principaux genres de coraux à Moorea. Habituellement, il est préférable d’analyser ces données avec un seul modèle et non avec plusieurs modèles. Ce qui est vrai pour les tests post-hoc par paires est également vrai ici. Si vous exécutez plusieurs modèles ou tests sur les mêmes données, le FWER augmente !</p>
 <p>Tout d’abord, nous chargeons les données contenant des informations pour les autres genres également. J’ai supprimé la catégorie « other » ici, car elle contient tous les genres moins courants qui peuvent différer dans leur réponse.</p>
 <div class="cell">
-<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">dat_coral_cover_genus</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/utils/read.table.html">read.csv</a></span><span class="op">(</span><span class="fu">here</span><span class="op">(</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb12"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">dat_coral_cover_genus</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/utils/read.table.html">read.csv</a></span><span class="op">(</span><span class="fu">here</span><span class="op">(</span></span>
 <span>  <span class="st">"TP/TP_04/data/coral_cover_genus.csv"</span></span>
 <span><span class="op">)</span><span class="op">)</span> <span class="op">%&gt;%</span></span>
-<span>  <span class="fu"><a href="https://rdrr.io/r/stats/filter.html">filter</a></span><span class="op">(</span><span class="va">genus</span> <span class="op">!=</span> <span class="st">"other"</span><span class="op">)</span></span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span>  <span class="fu"><a href="https://rdrr.io/r/stats/filter.html">filter</a></span><span class="op">(</span><span class="va">genus</span> <span class="op">!=</span> <span class="st">"other"</span><span class="op">)</span></span></code></pre></div><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </section><section id="tâche-4" class="level3"><h3 class="anchored" data-anchor-id="tâche-4">Tâche 4</h3>
 <p>Créez un modèle pour évaluer l’interaction de <code>coast</code> et <code>genus</code> sur <code>percent_cover</code>.</p>
 <div class="cell">
-<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Interaction model</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb13"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Interaction model</span></span>
 <span></span>
-<span><span class="va">m_cover</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html">lm</a></span><span class="op">(</span><span class="va">percent_cover</span> <span class="op">~</span> <span class="va">genus</span> <span class="op">*</span> <span class="va">coast</span>, data <span class="op">=</span> <span class="va">dat_coral_cover_genus</span><span class="op">)</span></span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span><span class="va">m_cover</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html">lm</a></span><span class="op">(</span><span class="va">percent_cover</span> <span class="op">~</span> <span class="va">genus</span> <span class="op">*</span> <span class="va">coast</span>, data <span class="op">=</span> <span class="va">dat_coral_cover_genus</span><span class="op">)</span></span></code></pre></div><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>Exécutez une ANOVA sur le modèle :</p>
 <div class="cell">
-<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/stats/anova.html">anova</a></span><span class="op">(</span><span class="va">m_cover</span><span class="op">)</span></span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb14"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/stats/anova.html">anova</a></span><span class="op">(</span><span class="va">m_cover</span><span class="op">)</span></span></code></pre></div><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Analysis of Variance Table
 
@@ -389,7 +392,7 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
 <p>Qu’est-ce que cela vous dit ?</p>
 <p>Sans tests post-hoc et visualisation, il est difficile d’imaginer ce que le modèle a trouvé. Si l’interaction est statistiquement significative, nous savons que le genre de corail impacte comment l’orientation côtière impacte la couverture corallienne. Mais qu’est-ce que cela signifie ? Exécutez un test post-hoc par paires comme décrit précédemment :</p>
 <div class="cell">
-<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu">estimate_contrasts</span><span class="op">(</span>model <span class="op">=</span> <span class="va">m_cover</span>, p_adjust <span class="op">=</span> <span class="st">"tukey"</span><span class="op">)</span></span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb16"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu">estimate_contrasts</span><span class="op">(</span>model <span class="op">=</span> <span class="va">m_cover</span>, p_adjust <span class="op">=</span> <span class="st">"tukey"</span><span class="op">)</span></span></code></pre></div><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>We selected `contrast=c("genus", "coast")`.</code></pre>
 </div>
@@ -482,7 +485,7 @@ p-value adjustment method: Tukey</code></pre>
 </section><section id="tâche-6" class="level3"><h3 class="anchored" data-anchor-id="tâche-6">Tâche 6</h3>
 <p>C’est beaucoup de comparaisons (<strong>36</strong>) ! C’est parce que nous avons utilisé l’interaction entre deux variables explicatives, donc chaque combinaison de genre et de côte est testée contre chaque combinaison de genre et de côte. Pour comprendre les résultats, tracez-les comme avant. Utilisez différentes couleurs pour les différentes orientations côtières et ajoutez les données brutes :</p>
 <div class="cell">
-<div class="sourceCode" id="cb19"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu">estimate_means</span><span class="op">(</span>model <span class="op">=</span> <span class="va">m_cover</span><span class="op">)</span> <span class="op">%&gt;%</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb19"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu">estimate_means</span><span class="op">(</span>model <span class="op">=</span> <span class="va">m_cover</span><span class="op">)</span> <span class="op">%&gt;%</span></span>
 <span>  <span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu">geom_point</span><span class="op">(</span></span>
 <span>    data <span class="op">=</span> <span class="va">dat_coral_cover_genus</span>,</span>
@@ -491,7 +494,7 @@ p-value adjustment method: Tukey</code></pre>
 <span>  <span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu">labs</span><span class="op">(</span>x <span class="op">=</span> <span class="st">"Genus"</span>, y <span class="op">=</span> <span class="st">"Coral Cover (%)"</span>, col <span class="op">=</span> <span class="st">"Coast"</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu">scale_colour_colourblind</span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu">theme_light</span><span class="op">(</span><span class="op">)</span></span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span>  <span class="fu">theme_light</span><span class="op">(</span><span class="op">)</span></span></code></pre></div><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>We selected `by=c("genus", "coast")`.</code></pre>
 </div>
@@ -523,7 +526,7 @@ p-value adjustment method: Tukey</code></pre>
 <p>Comme vous l’avez appris dans le cours, les valeurs p sont « artificiellement » augmentées pour compenser « l’inflation de l’erreur alpha ». Faire tous les tests, comme avec <code>estimate_contrasts(m_cover, p_adjust = "tukey")</code> n’est souvent pas ce que vous voulez. Toutes les combinaisons possibles de côtes et de genre sont testées les unes contre les autres, mais vous pourriez être plus intéressé si la couverture corallienne diffère à chaque niveau de côte, ou s’il y a des différences pour chaque genre entre les côtes. Cela impliquerait beaucoup moins de tests, et la « pénalité » qui est ajoutée aux valeurs p est donc plus faible. <code>estimate_contrasts()</code> nous permet de définir les tests qui sont effectués avec l’argument de fonction <code>by</code>.</p>
 <p>Pour tester les différences entre les genres de coraux à chaque niveau de côte, exécutez</p>
 <div class="cell">
-<div class="sourceCode" id="cb21"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu">estimate_contrasts</span><span class="op">(</span>model <span class="op">=</span> <span class="va">m_cover</span>, p_adjust <span class="op">=</span> <span class="st">"tukey"</span>, by <span class="op">=</span> <span class="st">"coast"</span><span class="op">)</span></span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb21"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu">estimate_contrasts</span><span class="op">(</span>model <span class="op">=</span> <span class="va">m_cover</span>, p_adjust <span class="op">=</span> <span class="st">"tukey"</span>, by <span class="op">=</span> <span class="st">"coast"</span><span class="op">)</span></span></code></pre></div><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>We selected `contrast=c("genus", "coast")`.</code></pre>
 </div>
@@ -549,7 +552,7 @@ p-value adjustment method: Tukey</code></pre>
 </div>
 <p>Et pour tester les différentes côtes pour chaque genre de corail, exécutez :</p>
 <div class="cell">
-<div class="sourceCode" id="cb24"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu">estimate_contrasts</span><span class="op">(</span>model <span class="op">=</span> <span class="va">m_cover</span>, p_adjust <span class="op">=</span> <span class="st">"tukey"</span>, by <span class="op">=</span> <span class="st">"genus"</span><span class="op">)</span></span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb24"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu">estimate_contrasts</span><span class="op">(</span>model <span class="op">=</span> <span class="va">m_cover</span>, p_adjust <span class="op">=</span> <span class="st">"tukey"</span>, by <span class="op">=</span> <span class="st">"genus"</span><span class="op">)</span></span></code></pre></div><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>We selected `contrast=c("genus", "coast")`.</code></pre>
 </div>
@@ -575,11 +578,11 @@ p-value adjustment method: Tukey</code></pre>
 </div>
 <p>Enfin, revisitons ce modèle que vous avez fait dans le TP précédent :</p>
 <div class="cell">
-<div class="sourceCode" id="cb27"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">m_ancova</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html">lm</a></span><span class="op">(</span><span class="va">flipper_length_mm</span> <span class="op">~</span> <span class="va">body_mass_g</span> <span class="op">*</span> <span class="va">species</span>, data <span class="op">=</span> <span class="va">penguins</span><span class="op">)</span></span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb27"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">m_ancova</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html">lm</a></span><span class="op">(</span><span class="va">flipper_length_mm</span> <span class="op">~</span> <span class="va">body_mass_g</span> <span class="op">*</span> <span class="va">species</span>, data <span class="op">=</span> <span class="va">penguins</span><span class="op">)</span></span></code></pre></div><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>Exécutez le code suivant pour vous rappeler à quoi ressemblent les données :</p>
 <div class="cell">
-<div class="sourceCode" id="cb28"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">penguins</span> <span class="op">%&gt;%</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb28"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">penguins</span> <span class="op">%&gt;%</span></span>
 <span>  <span class="fu">ggplot</span><span class="op">(</span><span class="fu">aes</span><span class="op">(</span></span>
 <span>    x <span class="op">=</span> <span class="va">bill_length_mm</span>,</span>
 <span>    y <span class="op">=</span> <span class="va">body_mass_g</span>,</span>
@@ -597,7 +600,7 @@ p-value adjustment method: Tukey</code></pre>
 <span>    fill <span class="op">=</span> <span class="st">"Species"</span></span>
 <span>  <span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu">theme_classic</span><span class="op">(</span>base_size <span class="op">=</span> <span class="fl">18</span><span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu">theme</span><span class="op">(</span>legend.position <span class="op">=</span> <span class="st">"bottom"</span><span class="op">)</span></span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span>  <span class="fu">theme</span><span class="op">(</span>legend.position <span class="op">=</span> <span class="st">"bottom"</span><span class="op">)</span></span></code></pre></div><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>`geom_smooth()` using formula = 'y ~ x'</code></pre>
 </div>
@@ -618,7 +621,7 @@ p-value adjustment method: Tukey</code></pre>
 </div>
 <p>Si vous exécutez une <code><a href="https://rdrr.io/r/stats/anova.html">anova()</a></code> sur ce modèle :</p>
 <div class="cell">
-<div class="sourceCode" id="cb32"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/stats/anova.html">anova</a></span><span class="op">(</span><span class="va">m_ancova</span><span class="op">)</span></span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb32"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/stats/anova.html">anova</a></span><span class="op">(</span><span class="va">m_ancova</span><span class="op">)</span></span></code></pre></div><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Analysis of Variance Table
 
@@ -645,12 +648,12 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
 <li>Comme avant, nous utilisons l’ajustement tukey</li>
 </ul>
 <div class="cell">
-<div class="sourceCode" id="cb34"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu">estimate_contrasts</span><span class="op">(</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb34"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu">estimate_contrasts</span><span class="op">(</span></span>
 <span>  model <span class="op">=</span> <span class="va">m_ancova</span>,</span>
 <span>  contrast <span class="op">=</span> <span class="st">"body_mass_g"</span>,</span>
 <span>  by <span class="op">=</span> <span class="st">"species"</span>,</span>
 <span>  p_adjust <span class="op">=</span> <span class="st">"tukey"</span></span>
-<span><span class="op">)</span></span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span><span class="op">)</span></span></code></pre></div><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Marginal Contrasts Analysis
 
@@ -673,7 +676,7 @@ p-value adjustment method: Tukey</code></pre>
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-Solution
+<span class="screen-reader-only">Note</span>Solution
 </div>
 </div>
 <div class="callout-body-container callout-body">
@@ -682,8 +685,8 @@ Solution
 </div>
 <p>Vous pouvez également tracer les résultats avec le package <code>modelbased</code>. Au lieu de <code>estimate_means()</code>, qui est utilisé pour calculer les moyennes par groupe comme le modèle les voit (dans une ANOVA), nous voulons tracer les pentes, donc nous utilisons <code>estimate_slopes()</code> :</p>
 <div class="cell">
-<div class="sourceCode" id="cb36"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu">estimate_slopes</span><span class="op">(</span>model <span class="op">=</span> <span class="va">m_ancova</span>, by <span class="op">=</span> <span class="st">"species"</span><span class="op">)</span> <span class="op">%&gt;%</span></span>
-<span>  <span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="op">)</span></span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb36"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu">estimate_slopes</span><span class="op">(</span>model <span class="op">=</span> <span class="va">m_ancova</span>, by <span class="op">=</span> <span class="st">"species"</span><span class="op">)</span> <span class="op">%&gt;%</span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>No numeric variable was specified for slope estimation. Selecting `trend
   = "body_mass_g"`.</code></pre>
@@ -702,7 +705,7 @@ Solution
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-Solution
+<span class="screen-reader-only">Note</span>Solution
 </div>
 </div>
 <div class="callout-body-container callout-body">
@@ -762,13 +765,14 @@ Solution
       e.clearSelection();
     }
     const getTextToCopy = function(trigger) {
-        const codeEl = trigger.previousElementSibling.cloneNode(true);
-        for (const childEl of codeEl.children) {
-          if (isCodeAnnotation(childEl)) {
-            childEl.remove();
-          }
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
         }
-        return codeEl.innerText;
+      }
+      return codeEl.innerText;
     }
     const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
       text: getTextToCopy
