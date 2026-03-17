@@ -291,3 +291,4 @@ Cette visualisation correspond-elle à votre attente du tableau `estimate_contra
 
 Vous pouvez constater que le chevauchement de l'intervalle de confiance entre Chinstrap et Adelie est moins important qu'entre les autres espèces.
 :::
+

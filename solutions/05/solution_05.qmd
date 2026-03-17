@@ -1,7 +1,6 @@
 ---
-title: "TP 05 : Hypothèses des modèles"
+title: "Solution pour TP 05"
 format: html
-editor: visual
 ---
 
 ```{r}
@@ -14,7 +13,8 @@ library(here)
 library(performance)
 library(gridExtra)
 library(modelbased)
-library(ggthemes)
+ded
+soli
 ```
 
 # 2ème Partie : Hypothèses des modèles
@@ -47,8 +47,8 @@ Dans le code ci-dessous, regroupez les données par `site` et `coast` et calcule
 
 ```{r}
 coral_by_site <- coral_transects %>%
-  group_by(____, ____) %>%
-  summarise(percent_cover = mean(____))
+  group_by(site, coast) %>%
+  summarise(percent_cover = mean(percent_cover))
 ```
 
 ```{r}
@@ -64,6 +64,15 @@ anova(m_wrong)
 ```{r}
 anova(m_right)
 ```
+
+::: {.callout-note appearance="simple"}
+## Solution
+Regardez les valeurs p dans la sortie ANOVA : - `m_wrong` montre probablement une valeur p beaucoup plus petite (plus « significative ») - `m_right` montre une valeur p plus grande (peut-être pas significative)
+
+Pourquoi ? Parce que `m_wrong` traite chaque transect comme indépendant, gonflant artificiellement la taille de l'échantillon de 13 sites à 39 mesures. Cela donne au modèle un faux sentiment de confiance et réduit la valeur p.
+
+`m_right` reconnaît correctement que vous n'avez que 13 sites indépendants, pas 39 mesures. C'est l'approche honnête !
+:::
 
 ### Tâche 2
 
@@ -96,6 +105,21 @@ bind_rows(
 Pourquoi pensez-vous que les IC dans `m_wrong` sont tellement plus petits que dans `m_right` ?
 
 Essayez de répondre d'abord à la question vous-même, puis consultez le fichier d'aide pour ma réponse.
+
+::: {.callout-note appearance="simple"}
+## Solution
+Les intervalles de confiance (IC) dans `m_wrong` sont beaucoup plus étroits parce que :
+
+1.  **Taille d'échantillon gonflée** : Le modèle pense qu'il a 39 observations indépendantes alors qu'il n'a réellement que 13 sites indépendants
+2.  **Variance sous-estimée** : En ne tenant pas compte du regroupement des transects au sein des sites, le modèle sous-estime la vraie variabilité dans les données
+3.  **Fausse précision** : Des IC plus étroits suggèrent des estimations plus précises, mais cette précision est illusoire
+
+En revanche, `m_right` tient correctement compte du vrai nombre d'observations indépendantes (13 sites) et produit donc des intervalles de confiance plus larges et plus honnêtes qui reflètent l'incertitude réelle dans les données.
+
+**Leçon clé :** La pseudoréplication conduit à une confiance excessive dans vos résultats !
+:::
+
+------------------------------------------------------------------------
 
 ## Hypothèse 2 : Homogénéité de la variance (Homoscédasticité)
 
@@ -130,7 +154,7 @@ De manière plus formelle, vous pouvez utiliser la fonction `check_model()`, ell
 Tout d'abord, créez un modèle avec `flipper_length_mm` comme variable réponse et `body_mass_g` comme variable explicative, puis tracez le graphique de variance :
 
 ```{r}
-m_gentoo <- lm(____ ~ _____, data = penguins_gentoo)
+m_gentoo <- lm(flipper_length_mm ~ body_mass_g, data = penguins_gentoo)
 
 check_model(m_gentoo, check = "homogeneity")
 ```
@@ -139,10 +163,12 @@ La comparaison des deux graphiques (données brutes et ce graphique de variance)
 
 Si vous reconsidérez la représentation formelle d'un tel modèle :
 
-$$\begin{align}
+$$
+\begin{align}
 \mathrm{y}_i \sim \mathrm{Normal(\mu}_i,~\mathrm{\sigma)} \\
 \mu_i = a + b \cdot \mathrm{x}_i
-\end{align}$$
+\end{align}
+$$
 
 vous remarquez que le long de toute la ligne de régression (c'est-à-dire $\mu_i = a + b \cdot \mathrm{x}_i$), une seule valeur pour la variance est supposée. Si ce n'est pas vrai, comme ici, les valeurs p que le modèle estime ne sont pas vraies non plus !
 
@@ -150,7 +176,9 @@ La semaine prochaine, nous apprendrons une approche pour gérer cela !
 
 ------------------------------------------------------------------------
 
+
 ## Hypothèse 3 : Normalité des résidus (pas des données brutes !)
+
 
 Beaucoup de gens pensent que la *variable réponse* (y) (c'est-à-dire « les données ») devrait être normalement distribuée. Mais ce sont les *résidus* qui devraient être normaux, pas les données brutes.
 
@@ -158,7 +186,10 @@ Beaucoup de gens pensent que la *variable réponse* (y) (c'est-à-dire « les do
 
 Les **résidus** sont les différences entre vos valeurs observées et les valeurs prédites par votre modèle :
 
-$$\text{residual}_i = y_i - \hat{y}_i$$
+
+$$
+\text{residual}_i = y_i - \hat{y}_i
+$$
 
 Voici un rappel visuel, les résidus sont les lignes grises reliant les données brutes et la ligne de régression. Exécutez simplement le code et regardez le graphique, vous n'avez pas besoin de comprendre le code.
 
@@ -357,3 +388,9 @@ Voici une brève explication pour les différents sous-graphiques :
 - Motif en forme de S ou courbé = indique une asymétrie ou des queues lourdes
 
 **Graphique important pour l'hypothèse 3 : Normalité**
+
+
+::: {.callout-note appearance="simple"}
+## Solution
+Tous les modèles peuvent être utilisés, mais les résidus dans `m_gentoo` sont à la limite de ne pas être distribués normalement.
+:::

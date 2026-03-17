@@ -26,3 +26,4 @@
 
 #exam folders
 exam/
+**/*.quarto_ipynb
