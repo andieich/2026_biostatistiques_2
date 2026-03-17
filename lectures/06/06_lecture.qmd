@@ -1169,7 +1169,7 @@ Vous connaissez déjà les concepts — les GLMs ne sont qu'une généralisation
 
 1.  Allez sur le site web du cours
 2.  Allez au calendrier
-3.  Cliquez sur `TP 05`
+3.  Cliquez sur `TP 06`
 4.  Connectez-vous à Posit Cloud
 
 ::: huge
