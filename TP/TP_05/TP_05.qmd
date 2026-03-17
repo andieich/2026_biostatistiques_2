@@ -5,8 +5,6 @@ editor: visual
 ---
 
 ```{r}
-#| echo: false
-#| message: false
 
 library(tidyverse)
 library(palmerpenguins)
@@ -17,9 +15,8 @@ library(modelbased)
 library(ggthemes)
 ```
 
-# 2ème Partie : Hypothèses des modèles
 
-Tout cela était amusant, mais jusqu'à présent, nous ne savons pas si les modèles sont « valides » et si les trois hypothèses principales sont respectées. Mais avant de vérifier les modèles que nous avons utilisés dans la partie 1, comprenons mieux ce que signifie chaque hypothèse.
+Tout cela était amusant, mais jusqu'à présent, nous ne savons pas si les modèles sont « valides » et si les trois hypothèses principales sont respectées. Mais avant de vérifier les modèles que nous avons utilisés dans le TP 4, comprenons mieux ce que signifie chaque hypothèse.
 
 ## Hypothèse 1 : Indépendance des observations
 

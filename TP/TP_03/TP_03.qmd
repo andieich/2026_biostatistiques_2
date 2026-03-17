@@ -39,12 +39,10 @@ Avant de continuer, réfléchissez à ce que vous voyez ici. Penseriez-vous que 
 
 Il semble y avoir une relation positive entre la mortalité des coraux et l'intensité du stress thermique. Nous allons maintenant construire un modèle linéaire (dans ce cas, une régression) pour tester si cette relation est statistiquement significative. La formule mathématique du modèle est :
 
-$$
-\begin{align}
+$$\begin{align}
 \mathrm{Mortality}_i \sim \mathrm{Normal(\mu}_i,~\mathrm{\sigma)} \\
 \mu_i = a + b \cdot \mathrm{heatstress}_i
-\end{align}
-$$
+\end{align}$$
 
 , où $\mathrm{Mortality}_i$ est la mortalité des coraux au site $i$ (`perc_mort`), et $\mathrm{heatstress}_i$ le stress thermique cumulé maximum à ce site (`max_ahs`).
 
@@ -108,8 +106,8 @@ Regardez chaque ligne de code que j'ai utilisée pour ce tracé.
 
 **Conseils :**
 
--   Gardez à l'esprit que ce ne sont pas ici les valeurs attendues ($\mathrm{Mortalité}_i \sim \mathrm{Normale(\mu}_i,~\mathrm{\sigma)}$) incluant $\mathrm{\sigma}$ qui sont affichées, mais la certitude du modèle à estimer la partie $\mathrm{\mu}_i$
--   Dans la couche `geom_ribbon()` (qui dessine la zone grise), j'ai utilisé `y = NULL`. C'est parce que chaque couche récupère toutes les informations de la fonction `ggplot()` principale (comme je l'ai expliqué ci-dessus pour `data =`). Puisque dans la fonction principale `y = perc_mort`, une colonne qui existe seulement dans `dat_change_coral` mais pas dans `pred_cor_mort`, j'ai dû dire à la couche `geom_ribbon()` que cette colonne n'existe pas pour cette couche et ne peut pas être dessinée sur l'axe des y. Cela se fait avec `y = NULL`.
+- Gardez à l'esprit que ce ne sont pas ici les valeurs attendues ($\mathrm{Mortalité}_i \sim \mathrm{Normale(\mu}_i,~\mathrm{\sigma)}$) incluant $\mathrm{\sigma}$ qui sont affichées, mais la certitude du modèle à estimer la partie $\mathrm{\mu}_i$
+- Dans la couche `geom_ribbon()` (qui dessine la zone grise), j'ai utilisé `y = NULL`. C'est parce que chaque couche récupère toutes les informations de la fonction `ggplot()` principale (comme je l'ai expliqué ci-dessus pour `data =`). Puisque dans la fonction principale `y = perc_mort`, une colonne qui existe seulement dans `dat_change_coral` mais pas dans `pred_cor_mort`, j'ai dû dire à la couche `geom_ribbon()` que cette colonne n'existe pas pour cette couche et ne peut pas être dessinée sur l'axe des y. Cela se fait avec `y = NULL`.
 
 ### ANOVA
 

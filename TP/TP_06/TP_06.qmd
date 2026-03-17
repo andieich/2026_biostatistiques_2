@@ -1,8 +1,8 @@
 ---
-title: "Untitled"
+title: "TP 06 : Distributions statistiques alternatives"
 format: html
+editor: visual
 ---
-
 
 ```{r}
 library(here)
@@ -13,20 +13,19 @@ library(see)
 library(marginaleffects)
 ```
 
-
-### Model Coral Recruitment
+## Coral Recruitment
 
 This data comes from CRIOBE surveys measuring coral recruitment (i.e., larvae that settle). Recruitment was measured by placing terracotta tiles (approximately 15 × 15 cm) at three different sites as settlement substrates. Twenty tiles were deployed per site. After one year, the number of coral recruits that settled and survived on each tile was counted. The data range from 0 to 13 recruits per tile.
 
 Data structure:
+
 - **Response variable**: Number of coral recruits per tile (count data)
-- **Predictor variable**: Site (3 levels)
+- **Explanatory variable**: Site (3 levels)
 - **Sample size**: 60 tiles total (20 per site)
 
 ```{r}
-dat_recruits <- read.csv(here("TP/TP_05/data/recruitment.csv"))
+dat_recruits <- read.csv(here("TP/TP_06/data/recruitment.csv"))
 ```
-
 
 Let's have a look at the data
 
@@ -39,14 +38,17 @@ ggplot(data = dat_recruits, aes(x = site, y = recruits, col = site)) +
   scale_color_ordinal()
 ```
 
-Do you think that count data like this can be analyzed using a normal distribution?
+### Task 1
+
+Do you think that count data like this can be analysed using a normal distribution?
 
 Why not? Consider the following:
+
 - What is the minimum possible value? Can we observe negative recruit counts?
 - How is the variance distributed relative to the mean?
 - Is the relationship between mean and variance linear or does it change?
 
-What would be the appropriate distribution for count data? (You can refer to the [GLM overview](https://example.com) for guidance on distribution families.)
+What would be the appropriate distribution for count data? (You can refer to the [GLM overview](https://andieich.github.io/2026_biostatistiques_2/distr_overview.html) for guidance on distribution families.)
 
 Now let's compare two models: one assuming a normal distribution (which is incorrect for count data) and one using the appropriate distribution.
 
@@ -59,16 +61,20 @@ check_model(lm_recruits)
 ```
 
 Look at the diagnostic plots, especially:
+
 - **"Normality of residuals"**: Does the distribution look normal? What problems do you notice?
 - **"Homogeneity of variance"**: Are the residuals equally spread across fitted values?
 - **First plot (residuals vs fitted)**: Can the model reliably predict negative recruit counts?
 
+### Task 2
+
 **Model 2: Using the appropriate distribution**
 
-Now fit the correct model by replacing the `____` in `family = ` with the appropriate distribution. Choose from:
+Now fit the correct model by replacing the `____` in `family =` with the appropriate distribution. Choose from:
+
 - `poisson()` - for count data with equal mean and variance
-- `gamma()` - for continuous positive data
-- `binomial()` - for binary/proportion data
+- `Gamma()` - for continuous positive data
+- `binomial()` - for binary (yes/no) data
 
 ```{r}
 glm_recruits <- glm(recruits ~ site, data = dat_recruits, family = ____)
@@ -76,13 +82,21 @@ glm_recruits <- glm(recruits ~ site, data = dat_recruits, family = ____)
 check_model(glm_recruits)
 ```
 
-Compare the two models:
+### Task 3
+
+You can use the `compare_performance()` function (`modelbased` package) to compare the performance of both models:
 
 ```{r}
 compare_performance(lm_recruits, glm_recruits)
 ```
 
-Which model fits better and is more suitable for the type of data? What do the R² values tell you?
+Have a look at the R² values (do you remember what they tell you?). For for the "normal" linear model, look at column "R2", for the GLM, look at column "Nagelkerke's R2".
+
+Another useful metric is the AIC (Akaike Information Criterion), which also describes the quality of a model. The lower the value, the better!
+
+Which of the two model fits better and is more suitable for the type of data?
+
+### Task 4
 
 **Analyzing the results**
 
@@ -90,13 +104,15 @@ Which model fits better and is more suitable for the type of data? What do the R
 anova(glm_recruits)
 ```
 
-Is there a significant difference in recruitment rates among the three sites? What is the p-value, and what does it mean biologically?
+Is there a significant difference in recruitment rates among the three sites? What is the p-value, and what does it mean biologically (e.g. which site is more suitable for recruitment? It could e.g. be prioritised for MPAs)?
+
+### Task 5
 
 **Visualizing predictions**
 
-Let's plot the model-predicted means and 95% confidence intervals with the raw data overlaid. 
+Let's plot the model-predicted means and 95% confidence intervals with the raw data overlaid.
 
-**Hint:** I just found a new functionality in the `modelbased` plot function we were using to overlay the raw data (with `show_data = TRUE`). I also turn off the lines that connected the estimated means (with `join_dots = FALSE`), since to me, this implies a numerical explnatory variable, but this is personal choice.
+**Hint:** I just found a new functionality in the `modelbased` plot function we were using to overlay the raw data (with `show_data = TRUE`). I also turn off the lines that connected the estimated means (with `join_dots = FALSE`), since to me, this implies a numerical explanatory variable, but this is personal choice.
 
 ```{r}
 estimate_means(glm_recruits) %>%
@@ -114,27 +130,28 @@ estimate_contrasts(glm_recruits)
 ```
 
 Based on the post-hoc tests:
+
 - Which pairs of sites differ significantly?
 - Which pairs do not differ significantly?
-- How would you interpret these differences biologically?
+- If you could only protect two of the three sites, which would you chose?
 
 **For publication**: You would typically report the ANOVA table (with p-value), the plot with predictions and raw data, the R² value, and place the post-hoc contrast table in an appendix.
 
+## Fish Biomass
 
-### Fish Biomass by Habitat
-
-This data comes from MCR LTER Annual Fish Surveys. We're examining Secondary Consumer biomass across three habitat types (Backreef, Forereef, Fringing) in 2024. Each observation represents the mean biomass from a single site-habitat combination.
+This data comes from MCR LTER Annual Fish Surveys (Gump station on Moorea). We're examining Secondary Consumer biomass across three habitat types (Backreef, Forereef, Fringing) in 2024. Each observation represents the mean biomass from a single site-habitat combination.
 
 Data structure:
+
 - **Response variable**: Mean Secondary Consumer biomass per site (g)
-- **Predictor variable**: Habitat type (3 levels)
+- **Explanatory variable**: Habitat type (3 levels)
 - **Sample size**: 18 observations (6 sites × 3 habitats)
 
 ```{r}
-fish_biomass <- read.csv(here("TP/TP_05/data/fish_biomass.csv"))
+fish_biomass <- read.csv(here("TP/TP_06/data/fish_biomass.csv"))
 ```
 
-Let's visualize the data:
+Let's visualise the data:
 
 ```{r}
 ggplot(data = fish_biomass, aes(x = habitat, y = biomass, col = habitat)) +
@@ -145,15 +162,12 @@ ggplot(data = fish_biomass, aes(x = habitat, y = biomass, col = habitat)) +
   scale_color_ordinal()
 ```
 
-Look at the plot and consider:
-- Can biomass values be negative?
+### Task 6
+
+Look at the plot and consider: - Can biomass values be negative?
+
 - Does the variance (spread of points) appear constant across habitats, or does it increase with larger mean values?
 - What does this tell you about whether a normal distribution would be appropriate?
-
-For biomass data with these characteristics, what distribution would be more suitable? Consider:
-- `poisson()` - for count data
-- `gamma()` - for continuous positive data with variance increasing with the mean
-- `binomial()` - for binary/proportion data
 
 **Model 1: Normal distribution (incorrect)**
 
@@ -166,25 +180,34 @@ check_model(lm_fish)
 ```
 
 Look at the diagnostic plots and consider:
+
 - Can you see any predictions that might be negative (which is biologically impossible for biomass)?
 - How do the residuals look? Are they normally distributed?
 - Are the assumptions violated?
 
+### Task 7
+
 **Model 2: Using the appropriate distribution**
 
-Now let's fit the Gamma GLM model:
+Now fit the correct model by replacing the `____` in `family =` with the appropriate distribution. Choose from:
+
+- `poisson()` - for count data with equal mean and variance
+- `Gamma()` - for continuous positive data
+- `binomial()` - for binary (yes/no) data
 
 ```{r}
 m_fish <- glm(
   biomass ~ habitat,
   data = fish_biomass,
-  family = Gamma(link = "log")
+  family = ____
 )
 
 check_model(m_fish)
 ```
 
-Examine the diagnostic plots. How well do the assumptions appear to be met? What does the first plot tell you about model fit?
+Examine the diagnostic plots. How well do the assumptions appear to be met?
+
+### Task 8
 
 Compare the two models:
 
@@ -194,6 +217,8 @@ compare_performance(lm_fish, m_fish)
 
 Which model is more appropriate for this data and why?
 
+### Task 9
+
 **Analyzing the results**
 
 ```{r}
@@ -201,6 +226,8 @@ anova(m_fish)
 ```
 
 Is there a significant difference in Secondary Consumer biomass among habitats? What is the p-value?
+
+### Task 10
 
 **Visualizing predictions**
 
@@ -212,49 +239,33 @@ estimate_means(m_fish) %>%
   theme_light()
 ```
 
-```{r}
-estimate_means(lm_fish) %>%
-  plot(show_data = TRUE, join_dots = FALSE) +
-  theme_light()
-```
-
-
-Which habitat has the highest predicted biomass? Which has the lowest?
-
 **Post-hoc comparisons**
 
 Now let's formally test which habitats differ significantly from each other:
 
 ```{r}
 estimate_contrasts(m_fish)
-
-estimate_contrasts(lm_fish)
 ```
 
-Based on the contrasts:
-- Which pairs of habitats differ significantly?
-- Which pairs do not differ significantly?
-- What are the practical/biological implications of these differences?
+Which habitat has the highest predicted biomass? Which has the lowest?
 
-**For publication**: You would report the ANOVA table (with p-value and test statistic), the plot with predictions and raw data, and place the contrast table in an appendix.
+## Coral Cover
 
+The coral cover data we were using so far comes from point intercept transects. At each site, a transect tape was laid on the seafloor. For 150 point it was checked if there is coral below ("yes") or not ("no"), this was done for the three main genera *Acropora*, *Montipora*, and *Pocillopora*.
 
-
-### Coral Cover by Genus and Coast
-
-This data comes from point intercept transects measuring coral cover by genus across three coast locations (East, North, West). Each point intercept transect consists of 50 points. Three transects were surveyed per site, giving 150 total points per site. We're examining the proportion of points covered by each of three coral genera: Acropora, Montipora, and Pocillopora.
-
-Data structure:
-- **Response variable**: Coral cover as count of points per genus (out of 150 points per site)
-- **Predictor variables**: Coast (3 levels) and Coral genus (3 levels), including interaction
-- **Sample size**: 9 observations (3 coasts × 3 genera)
-
+Read data:
 
 ```{r}
-dat_coral <- read.csv(here("TP/TP_05/data/coral_2020.csv"))
+dat_coral <- read.csv(here("TP/TP_06/data/coral_2020.csv"))
 ```
 
-Let's visualize the data:
+Data structure:
+
+- **Response variable**: Coral cover as count of points per genus (out of 150 points per site)
+- **Explanatory variables**: Coast (3 levels) and Coral genus (3 levels), including interaction
+- **Sample size**: 9 observations (3 coasts × 3 genera)
+
+An plot raw data
 
 ```{r}
 dat_coral %>%
@@ -272,11 +283,20 @@ dat_coral %>%
   scale_color_ordinal()
 ```
 
-Why would proportion/percentage data like this require a binomial GLM instead of a linear model? What constraints does the data have that a normal distribution would violate?
+So far, we used the percent data calculated knowing that there are 150 points per site. We can calculate the cover in percent like this:
+
+```{r}
+dat_coral <- dat_coral %>%
+  mutate(percent = 100 * (points / 150))
+```
+
+### Task 11
+
+Why are linear models not suitable for this type of percent data? Think about the possible values your response variable could have and any limiting values.
+
+To see the implications, we can still fit a linear model.
 
 **Model 1: Normal distribution (incorrect)**
-
-Let's fit a linear model and examine the predictions:
 
 ```{r}
 lm_coral <- lm(percent ~ coast * coral_genus, data = dat_coral)
@@ -286,7 +306,7 @@ check_model(lm_coral)
 
 Look at the diagnostic plots. The diagnostics might look relatively reasonable, but consider: **What are the predictions from this model? Can percentages be negative or exceed 100%?**
 
-Let's visualize the predictions:
+Let's visualise the predictions:
 
 ```{r}
 estimate_means(lm_coral) %>%
@@ -296,39 +316,43 @@ estimate_means(lm_coral) %>%
 
 Look carefully at the plot. Can you see predictions that are biologically impossible? Where would negative coral cover appear on this plot?
 
-**Model 2: Binomial GLM (correct)**
+### Task 12
 
-Now let's fit the proper binomial GLM using count data:
+**Model 2: GLM Using the appropriate distribution**
+
+Let's now fit a model with the appropriate distribution. The most honest way to do so, so is by using the raw data, i.e. here, the points (coral: yes or no?) per transect. The precision to measure the cover differs between transects with only 10 points, or transects with 150 points. In binomial models, we can include this by using `cbind(success, failure)`. In the coral example, `success` is the number of points per transect with coral (column name `points`) and failure the number of points per transect without coral (150 - `points`).
+
+Now fit the correct model by replacing the `____` in `family =` with the appropriate distribution. Choose from:
+
+- `poisson()` - for count data with equal mean and variance
+- `Gamma()` - for continuous positive data
+- `binomial()` - for binary (yes/no) data
+
+If you decide for a binomial model, use `cbind(points, 150 - points)` as response, otherwise, the number of points (but think about if there is an upper limit of points per transect), or the calculated percent values.
 
 ```{r}
 glm_coral <- glm(
-  cbind(points, 150 - points) ~ coast * coral_genus,
+  ____ ~ coast * coral_genus,
   data = dat_coral,
-  family = binomial()
+  family = ____
 )
 
 check_model(glm_coral)
 ```
 
-Compare the two models:
+I hope you chose a binomial model here. In that case, `compare_performance()` does not work, since the response variable differs between both model (LM: percent, GLM: success vs. failure). But the decision for the correct model can here be done by thinking about the nature of the data.
+
+We can also plot the predicted values of both model to see if a model can predict values that are not possible (here, percent values below 0% or above 100%).
+
+Let's do so for the LM
 
 ```{r}
-compare_performance(lm_coral, glm_coral)
+estimate_means(lm_coral) %>%
+  plot(join_dots = FALSE) +
+  theme_light()
 ```
 
-Which model is more appropriate for this proportion/count data and why?
-
-**Analyzing the results**
-
-```{r}
-anova(glm_coral, test = "Chisq")
-```
-
-Is there a significant interaction between coast and genus? What do the p-values tell you?
-
-**Visualizing predictions**
-
-Now let's plot the predictions from the binomial GLM:
+And for the GLM
 
 ```{r}
 estimate_means(glm_coral) %>%
@@ -336,9 +360,24 @@ estimate_means(glm_coral) %>%
   theme_light()
 ```
 
-Compare this with the LM plot. What differences do you notice?
+### Task 13
+
+What differences do you notice between both plots models:
+
 - Are the confidence intervals different?
 - Do all predictions fall between 0 and 100%?
+
+### Task 14
+
+**Analyzing the results**
+
+```{r}
+anova(glm_coral)
+```
+
+Is there a significant interaction between coast and genus? What do the p-values tell you?
+
+### Task 15
 
 **Post-hoc comparisons**
 
@@ -348,15 +387,18 @@ Let's examine which genera differ significantly within each coast:
 estimate_contrasts(glm_coral, p_adjust = "tukey", by = "coast")
 ```
 
-Based on the contrasts:
+Based on the contrasts and the visualisation for the GLM you did further above
+
 - Which genera differ significantly within each coast?
 - Do the significant differences change between coasts?
 - How do these results compare to what the LM would suggest?
 
+### Task 16
+
 For comparison, here are the LM contrasts:
 
 ```{r}
-estimate_contrasts(lm_coral, p_adjust = "tukey", by = "coast")
+estimate_contrasts(lm_coral, p_adjust = "tukey", by = "coast", )
 ```
 
-Notice the differences in which groups are flagged as significantly different. This highlights why using the correct distribution matters—the statistical inference can change!
+Notice the differences in which groups are considered as significantly different. This highlights why using the correct distribution matters - the statistical inference can change!
