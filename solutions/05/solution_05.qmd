@@ -13,8 +13,7 @@ library(here)
 library(performance)
 library(gridExtra)
 library(modelbased)
-ded
-soli
+library(ggthemes)
 ```
 
 # 2ème Partie : Hypothèses des modèles
