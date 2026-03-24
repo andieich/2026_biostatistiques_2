@@ -1,0 +1,309 @@
+---
+title: "Indications pour TP 06"
+format: html
+---
+
+Je vous donne ici de l'aide au cas où vous auriez du mal à résoudre les tâches. Veuillez d'abord essayer de résoudre les tâches sans ces indications. Toutes les informations dont vous avez besoin se trouvent dans le document `.qmd` que je vous ai partagé.
+
+:::: project
+### Tâche 1
+
+Pensez-vous que des données de comptage comme celles-ci peuvent être analysées en supposant une distribution normale ?
+
+Pourquoi pas ? Considérez les éléments suivants :
+
+- Quelle est la valeur minimale possible ? Pouvons-nous observer des comptages de recrues négatifs ?
+- Comment la variance se répartit-elle par rapport à la moyenne ?
+
+Quelle serait la distribution appropriée pour des données de comptage ? (Vous pouvez vous référer à la [présentation des GLM](https://andieich.github.io/2026_biostatistiques_2/distr_overview.html) pour vous guider.)
+
+::: {.callout-tip collapse="true" title="Afficher l'indice"}
+**Pensez-vous que des données de comptage comme celles-ci peuvent être analysées en supposant une distribution normale ?**
+
+Non. Les comptages ne peuvent être que 0 ou supérieurs à 0. De plus, les comptages sont des entiers (nombres entiers ; pas de décimales). Une distribution normale est définie en continu (par exemple 1.1, 1.112, 1.0000004, etc.) et peut varier de $-\infty$ à $+\infty$.
+
+**Quelle est la valeur minimale possible ? Pouvons-nous observer des comptages de recrues négatifs ?**
+
+0, si aucune recrue n'est comptée.
+
+**Comment la variance se répartit-elle par rapport à la moyenne ?**
+
+La variance augmente typiquement avec le nombre compté. Plus il y a de recrues, plus la variabilité a tendance à être élevée.
+
+**Quelle serait la distribution appropriée pour des données de comptage ?**
+
+Poisson. Elle est conçue pour ce type de données de comptage.
+:::
+::::
+
+:::: project
+### Tâche 2
+
+Ajustez maintenant le modèle correct en remplaçant `____` dans `family =` par la distribution appropriée. Choisissez parmi :
+
+- `poisson()` - pour des données de comptage où moyenne et variance sont égales
+- `Gamma()` - pour des données continues positives
+- `binomial()` - pour des données binaires (oui/non)
+
+::: {.callout-tip collapse="true" title="Afficher l'indice"}
+La distribution d'erreur appropriée est Poisson :
+
+```{r}
+#| echo: true
+#| eval: false
+
+glm_recruits <- glm(recruits ~ site, data = dat_recruits, family = ____)
+```
+
+:::
+::::
+
+:::: project
+### Tâche 3
+
+Lequel des deux modèles s'ajuste le mieux et est le plus adapté pour ce type de données ?
+
+::: {.callout-tip collapse="true" title="Afficher l'indice"}
+La valeur de R² du glm est plus élevée que celle du lm ; de même, l'AIC du glm est plus faible que celui du lm. Cela signifie que le glm capture mieux la structure des données.
+
+Compte tenu de ce que vous avez appris ci‑dessus (valeurs entières positives uniquement), cela est logique.
+:::
+::::
+
+:::: project
+### Tâche 4
+
+Y a-t-il une différence significative des taux de recrutement entre les trois sites ?
+
+::: {.callout-tip collapse="true" title="Afficher l'indice"}
+Oui, les sites diffèrent significativement en termes de recrutement de corail (p < 0.001).
+:::
+::::
+
+:::: project
+### Tâche 5
+
+En vous basant sur les tests post-hoc :
+
+- Quelles paires de sites diffèrent significativement ?
+- Quelles paires ne diffèrent pas significativement ?
+- Si vous ne pouviez protéger que deux des trois sites, lesquels choisiriez-vous ?
+
+::: {.callout-tip collapse="true" title="Afficher l'indice"}
+**Quelles paires de sites diffèrent significativement ?**
+
+Les intervalles de confiance dans la figure et le test post-hoc confirment que Haapiti a un recrutement significativement plus faible que les deux autres sites.
+
+**Quelles paires ne diffèrent pas significativement ?**
+
+Aucune différence significative n'a été trouvée entre Vaipahu et Tiahura.
+
+**Si vous ne pouviez protéger que deux des trois sites, lesquels choisiriez-vous ?**
+
+Il serait logique de se concentrer sur les deux sites ayant le plus haut recrutement.
+:::
+::::
+
+:::: project
+### Tâche 6
+
+Regardez le graphique et considérez :
+
+- Les valeurs de biomasse peuvent-elles être négatives ?
+- La variance (dispersion des points) semble-t-elle constante entre les habitats, ou augmente-t-elle avec des moyennes plus élevées ?
+- Qu'est-ce que cela indique quant à l'adéquation d'une distribution normale ?
+
+Regardez les graphiques diagnostiques. Une hypothèse est-elle violée ?
+
+::: {.callout-tip collapse="true" title="Afficher l'indice"}
+**Les valeurs de biomasse peuvent-elles être négatives ?** Non.
+
+**La variance (dispersion des points) semble-t-elle constante entre les habitats, ou augmente-t-elle avec des moyennes plus élevées ?**
+
+La variance est plus élevée pour le fringing reef, où les valeurs de biomasse sont les plus élevées.
+
+**Qu'est-ce que cela indique quant à l'adéquation d'une distribution normale ?**
+
+Un lm avec une distribution normale n'est pas approprié car toutes les valeurs sont > 0, alors que la distribution normale couvre $-\infty$ à $+\infty$.
+
+De plus, un lm suppose une variance homogène, ce qui n'est pas compatible avec l'observation d'une variance plus élevée pour les valeurs de biomasse élevées.
+
+**Une hypothèse est‑elle violée ?**
+
+Oui : l'homogénéité des variances est violée (variance plus élevée pour les grandes valeurs de biomasse). La vérification prédictive (Posterior Predictive Check) montre que le modèle ne capture pas bien les motifs des données, et les résidus ne sont pas normalement distribués.
+:::
+::::
+
+:::: project
+### Tâche 7
+
+Ajustez maintenant le modèle correct en remplaçant `____` dans `family =` par la distribution appropriée. Choisissez parmi :
+
+- `poisson()` - pour des données de comptage avec moyenne et variance égales
+- `Gamma()` - pour des données continues positives
+- `binomial()` - pour des données binaires (oui/non)
+
+```{r}
+#| echo: true
+#| eval: false
+
+m_fish <- glm(
+  biomass ~ habitat,
+  data = fish_biomass,
+  family = ____
+)
+
+check_model(m_fish)
+```
+
+Examinez les graphiques diagnostiques. Dans quelle mesure les hypothèses semblent-elles satisfaites ?
+
+::: {.callout-tip collapse="true" title="Afficher l'indice"}
+Toutes les valeurs sont > 0 et ne peuvent pas être négatives. La variance augmente avec les valeurs. La distribution d'erreur Gamma convient particulièrement bien pour ce type de données :
+
+```{r}
+#| echo: true
+#| eval: false
+
+m_fish <- glm(
+  biomass ~ habitat,
+  data = fish_biomass,
+  family = Gamma()
+)
+
+check_model(m_fish)
+```
+
+**Examinez les graphiques diagnostiques. Dans quelle mesure les hypothèses semblent-elles satisfaites ?**
+
+La vérification prédictive montre que les motifs des données sont mieux reflétés par le modèle Gamma que par le modèle linéaire.
+
+La variance est plus homogène que dans le modèle linéaire.
+
+Les résidus semblent plus uniformes (mieux décrits par une erreur Gamma).
+
+==> Le modèle Gamma s'ajuste beaucoup mieux que le modèle linéaire.
+:::
+::::
+
+:::: project
+### Tâche 8
+
+Quel modèle est le plus approprié pour ces données et pourquoi ?
+
+::: {.callout-tip collapse="true" title="Afficher l'indice"}
+Le glm a une valeur de R² plus élevée que le lm et une AIC plus faible. Cela confirme que le glm est un meilleur ajustement que le lm.
+:::
+::::
+
+:::: project
+### Tâche 9
+
+Y a-t-il une différence significative de biomasse des consommateurs secondaires entre les habitats ? Quelle est la p-valeur ?
+
+::: {.callout-tip collapse="true" title="Afficher l'indice"}
+Oui, la biomasse des consommateurs secondaires diffère entre les habitats (p < 0.001).
+:::
+::::
+
+:::: project
+### Tâche 10
+
+Quel habitat a la biomasse prédite la plus élevée ? Le plus faible ?
+
+::: {.callout-tip collapse="true" title="Afficher l'indice"}
+Sur le fringing reef, la biomasse est significativement plus élevée que dans le backreef et le forereef. Aucune différence significative n'existe entre le backreef et le forereef.
+:::
+::::
+
+:::: project
+### Tâche 11
+
+Pourquoi les modèles linéaires ne conviennent-ils pas à ce type de données en pourcentage ? Pensez aux valeurs possibles de la variable réponse et aux limites éventuelles.
+
+```{r}
+#| echo: true
+#| eval: false
+
+estimate_means(lm_coral) %>%
+  plot(show_data = TRUE, join_dots = FALSE) +
+  theme_light()
+```
+
+Regardez attentivement le graphique. Pouvez-vous voir des prédictions biologiquement impossibles ? Où apparaîtraient des couvertures coralliennes négatives sur ce graphique ?
+
+::: {.callout-tip collapse="true" title="Afficher l'indice"}
+Nous modélisons des données en pourcentage, limitées entre 0 et 100. Une distribution normale couvre $-\infty$ à $+\infty$, elle ne convient donc pas : des valeurs négatives ou supérieures à 100 % ne sont pas possibles.
+
+Même si le graphique diagnostique (`check_model()`) peut sembler raisonnable, nous savons déjà qu'un lm est un mauvais choix ici : il autorise des prédictions impossibles.
+
+La fonction `estimate_means()` le confirme : le lm prédit des valeurs (voir la queue inférieure des IC) inférieures à 0 %, ce qui est biologiquement impossible.
+:::
+::::
+
+:::: project
+### Tâche 12
+
+Ajustez maintenant le modèle correct en remplaçant `____` dans `family =` par la distribution appropriée. Choisissez parmi :
+
+- `poisson()` - pour des données de comptage avec moyenne et variance égales
+- `Gamma()` - pour des données continues positives
+- `binomial()` - pour des données binaires (oui/non)
+
+::: {.callout-tip collapse="true" title="Afficher l'indice"}
+Une distribution binomiale est appropriée, car pour chacun des 150 points par transect, la présence du corail du genre considéré est une donnée binaire (oui/non). On peut informer R du nombre de points par transect ainsi :
+
+```{r}
+#| echo: true
+#| eval: false
+
+glm_coral <- glm(
+  cbind(points, 150 - points) ~ coast * coral_genus,
+  data = dat_coral,
+  family = binomial()
+)
+
+check_model(glm_coral)
+`
+`
+``
+:::
+::::
+
+:::: project
+### Tâche 13
+
+Quelles différences remarquez-vous entre les deux graphiques de modèle :
+
+- Les intervalles de confiance sont-ils différents ?
+- Toutes les prédictions restent-elles entre 0 et 100 % ?
+
+::: {.callout-tip collapse="true" title="Afficher l'indice"}
+Les graphiques `estimate_means()` confirment que le lm autorise des valeurs négatives alors que le glm binomial représente correctement les données. Notez aussi que les IC sont souvent plus étroits pour le glm que pour le lm.
+:::
+::::
+
+:::: project
+### Tâche 14
+
+Y a-t-il une interaction significative entre côte et genre ? Que vous indiquent les p-valeurs ?
+
+::: {.callout-tip collapse="true" title="Afficher l'indice"}
+Oui : l'interaction (`coast:coral_genus`) est significative. Cela signifie que les différences de couverture entre genres varient selon l'orientation de la côte.
+:::
+::::
+
+:::: project
+### Tâche 15
+
+En vous basant sur les contrastes et la visualisation du GLM ci‑dessus :
+
+- Quels genres diffèrent significativement au sein de chaque côte ?
+- Les différences significatives changent-elles entre les côtes ?
+- Comment ces résultats se comparent-ils à ceux suggérés par le LM ?
+
+::: {.callout-tip collapse="true" title="Afficher l'indice"}
+Sur toutes les côtes sauf la North, la couverture de Pocillopora est significativement supérieure à celle de Montipora, et Montipora est significativement supérieure à Acropora. Dans la North, Pocillopora est significativement plus couvrant que Montipora et Acropora, mais il n'existe pas de différence significative entre Montipora et Acropora.
+:::
+::::
+

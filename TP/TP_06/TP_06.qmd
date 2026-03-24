@@ -13,46 +13,45 @@ library(see)
 library(marginaleffects)
 ```
 
-## Coral Recruitment
+## Recrutement de corail
 
-This data comes from CRIOBE surveys measuring coral recruitment (i.e., larvae that settle). Recruitment was measured by placing terracotta tiles (approximately 15 × 15 cm) at three different sites as settlement substrates. Twenty tiles were deployed per site. After one year, the number of coral recruits that settled and survived on each tile was counted. The data range from 0 to 13 recruits per tile.
+Ces données proviennent des relevés du CRIOBE mesurant le recrutement de corail (c.-à-d. les larves qui se fixent). Le recrutement a été mesuré en plaçant des tuiles en terre cuite (environ 15 × 15 cm) sur trois sites différents comme substrats de colonisation. Vingt tuiles ont été déployées par site. Après un an, le nombre de recrues de corail ayant colonisé et survécu sur chaque tuile a été compté. Les données vont de 0 à 13 recrues par tuile.
 
-Data structure:
+Structure des données :
 
-- **Response variable**: Number of coral recruits per tile (count data)
-- **Explanatory variable**: Site (3 levels)
-- **Sample size**: 60 tiles total (20 per site)
+- **Variable réponse** : Nombre de recrues de corail par tuile (données de comptage)
+- **Variable explicative** : Site (3 modalités)
+- **Taille de l'échantillon** : 60 tuiles au total (20 par site)
 
 ```{r}
 dat_recruits <- read.csv(here("TP/TP_06/data/recruitment.csv"))
 ```
 
-Let's have a look at the data
+Regardons les données
 
 ```{r}
 ggplot(data = dat_recruits, aes(x = site, y = recruits, col = site)) +
   geom_jitter(size = 3, alpha = .6, height = 0) +
   theme_minimal() +
   theme(legend.position = "none") +
-  labs(x = NULL, y = "Number of recruits per tile") +
+  labs(x = NULL, y = "Nombre de recrues par tuile") +
   scale_color_ordinal()
 ```
 
-### Task 1
+### Tâche 1
 
-Do you think that count data like this can be analysed using a normal distribution?
+Pensez-vous que des données de comptage comme celles-ci peuvent être analysées en supposant une distribution normale ?
 
-Why not? Consider the following:
+Pourquoi pas ? Considérez les points suivants :
 
-- What is the minimum possible value? Can we observe negative recruit counts?
-- How is the variance distributed relative to the mean?
-- Is the relationship between mean and variance linear or does it change?
+- Quelle est la valeur minimale possible ? Pouvons-nous observer des comptages de recrues négatifs ?
+- Comment la variance se répartit-elle par rapport à la moyenne ?
 
-What would be the appropriate distribution for count data? (You can refer to the [GLM overview](https://andieich.github.io/2026_biostatistiques_2/distr_overview.html) for guidance on distribution families.)
+Quelle serait la distribution appropriée pour des données de comptage ? (Vous pouvez vous référer à la [présentation des GLM](https://andieich.github.io/2026_biostatistiques_2/distr_overview.html) pour vous guider.)
 
-Now let's compare two models: one assuming a normal distribution (which is incorrect for count data) and one using the appropriate distribution.
+Comparons maintenant deux modèles : l'un supposant une distribution normale (incorrect) et l'autre utilisant la distribution appropriée.
 
-**Model 1: Normal distribution (incorrect)**
+**Modèle 1 : Distribution normale (incorrect)**
 
 ```{r}
 lm_recruits <- lm(recruits ~ site, data = dat_recruits)
@@ -60,21 +59,21 @@ lm_recruits <- lm(recruits ~ site, data = dat_recruits)
 check_model(lm_recruits)
 ```
 
-Look at the diagnostic plots, especially:
+Regardez les graphiques diagnostiques, en particulier :
 
-- **"Normality of residuals"**: Does the distribution look normal? What problems do you notice?
-- **"Homogeneity of variance"**: Are the residuals equally spread across fitted values?
-- **First plot (residuals vs fitted)**: Can the model reliably predict negative recruit counts?
+- **"Normalité des résidus"** : la distribution semble-t-elle normale ? Quels problèmes observez-vous ?
+- **"Homogénéité de la variance"** : les résidus sont-ils également répartis selon les valeurs ajustées ?
+- **Premier graphique (résidus vs ajustés)** : le modèle peut-il prédire de façon fiable des comptages négatifs de recrues ?
 
-### Task 2
+### Tâche 2
 
-**Model 2: Using the appropriate distribution**
+**Modèle 2 : Utiliser la distribution appropriée**
 
-Now fit the correct model by replacing the `____` in `family =` with the appropriate distribution. Choose from:
+Maintenant, ajustez le modèle correct en remplaçant `____` dans `family =` par la distribution appropriée. Choisissez parmi :
 
-- `poisson()` - for count data with equal mean and variance
-- `Gamma()` - for continuous positive data
-- `binomial()` - for binary (yes/no) data
+- `poisson()` - pour des données de comptage où la moyenne et la variance sont égales
+- `Gamma()` - pour des données continues positives
+- `binomial()` - pour des données binaires (oui/non)
 
 ```{r}
 glm_recruits <- glm(recruits ~ site, data = dat_recruits, family = ____)
@@ -82,96 +81,97 @@ glm_recruits <- glm(recruits ~ site, data = dat_recruits, family = ____)
 check_model(glm_recruits)
 ```
 
-### Task 3
+### Tâche 3
 
-You can use the `compare_performance()` function (`modelbased` package) to compare the performance of both models:
+Vous pouvez utiliser la fonction `compare_performance()` (package `modelbased`) pour comparer les performances des deux modèles :
 
 ```{r}
 compare_performance(lm_recruits, glm_recruits)
 ```
 
-Have a look at the R² values (do you remember what they tell you?). For for the "normal" linear model, look at column "R2", for the GLM, look at column "Nagelkerke's R2".
+Regardez les valeurs de R² (vous vous souvenez de ce qu'elles indiquent ?). Pour le modèle linéaire "normal", regardez la colonne "R2", pour le GLM regardez la colonne "Nagelkerke's R2".
 
-Another useful metric is the AIC (Akaike Information Criterion), which also describes the quality of a model. The lower the value, the better!
+Un autre indicateur utile est l'AIC (Akaike Information Criterion), qui décrit aussi la qualité d'un modèle. Plus la valeur est faible, meilleur est le modèle !
 
-Which of the two model fits better and is more suitable for the type of data?
+Lequel des deux modèles s'ajuste le mieux et est le plus adapté à ce type de données ?
 
-### Task 4
+### Tâche 4
 
-**Analyzing the results**
+**Analyse des résultats**
 
 ```{r}
 anova(glm_recruits)
 ```
 
-Is there a significant difference in recruitment rates among the three sites? What is the p-value, and what does it mean biologically (e.g. which site is more suitable for recruitment? It could e.g. be prioritised for MPAs)?
+Y a-t-il une différence significative des taux de recrutement entre les trois sites ?
 
-### Task 5
+Pour comprendre ce que cela signifie biologiquement (par exemple, quel site est plus propice au recrutement ? Il pourrait être priorisé pour les AMP), nous pouvons tracer les résultats du modèle et effectuer un test post-hoc :
 
-**Visualizing predictions**
+**Visualisation des prédictions**
 
-Let's plot the model-predicted means and 95% confidence intervals with the raw data overlaid.
+Traçons les moyennes prédictes du modèle et les intervalles de confiance à 95 % avec les données brutes superposées.
 
-**Hint:** I just found a new functionality in the `modelbased` plot function we were using to overlay the raw data (with `show_data = TRUE`). I also turn off the lines that connected the estimated means (with `join_dots = FALSE`), since to me, this implies a numerical explanatory variable, but this is personal choice.
+**Indice :** J'ai trouvé une nouvelle fonctionnalité dans la fonction `plot` de `modelbased` permettant de superposer les données brutes (avec `show_data = TRUE`). J'ai aussi désactivé les lignes reliant les moyennes estimées (`join_dots = FALSE`), car, selon moi, cela donnerait l'impression d'une variable explicative numérique — c'est un choix personnel.
 
 ```{r}
 estimate_means(glm_recruits) %>%
   plot(show_data = TRUE, join_dots = FALSE) +
   theme_light() +
-  labs(title = "Predicted coral recruitment by site")
+  labs(title = "Recrutement de corail prédit par site")
 ```
 
-**Post-hoc comparisons**
-
-Now let's formally test which sites differ significantly from each other:
+**Comparaisons post-hoc**
 
 ```{r}
-estimate_contrasts(glm_recruits)
+estimate_contrasts(glm_recruits, p_adjust = "tukey")
 ```
 
-Based on the post-hoc tests:
+### Tâche 5
 
-- Which pairs of sites differ significantly?
-- Which pairs do not differ significantly?
-- If you could only protect two of the three sites, which would you chose?
+En vous basant sur les tests post-hoc :
 
-**For publication**: You would typically report the ANOVA table (with p-value), the plot with predictions and raw data, the R² value, and place the post-hoc contrast table in an appendix.
+- Quelles paires de sites diffèrent significativement ?
+- Quelles paires ne diffèrent pas significativement ?
+- Si vous ne pouviez protéger que deux des trois sites, lesquels choisiriez-vous ?
 
-## Fish Biomass
+**Pour une publication** : vous rapporteriez typiquement le tableau ANOVA (avec la p-valeur), la figure avec les prédictions et les données brutes, la valeur de R², et placeriez le tableau des contrastes post-hoc en annexe.
 
-This data comes from MCR LTER Annual Fish Surveys (Gump station on Moorea). We're examining Secondary Consumer biomass across three habitat types (Backreef, Forereef, Fringing) in 2024. Each observation represents the mean biomass from a single site-habitat combination.
+## Biomasse de poissons
 
-Data structure:
+Ces données proviennent des relevés annuels de poissons du MCR LTER (station Gump à Moorea). Nous examinons la biomasse des consommateurs secondaires dans trois types d'habitats (Backreef, Forereef, Fringing) en 2024. Chaque observation représente la biomasse moyenne d'un site-habitat.
 
-- **Response variable**: Mean Secondary Consumer biomass per site (g)
-- **Explanatory variable**: Habitat type (3 levels)
-- **Sample size**: 18 observations (6 sites × 3 habitats)
+Structure des données :
+
+- **Variable réponse** : Biomasse moyenne des consommateurs secondaires par site (g)
+- **Variable explicative** : Type d'habitat (3 modalités)
+- **Taille de l'échantillon** : 18 observations (6 sites × 3 habitats)
 
 ```{r}
 fish_biomass <- read.csv(here("TP/TP_06/data/fish_biomass.csv"))
 ```
 
-Let's visualise the data:
+Visualisons les données :
 
 ```{r}
 ggplot(data = fish_biomass, aes(x = habitat, y = biomass, col = habitat)) +
   geom_jitter(size = 3, alpha = .6, width = 0.2) +
   theme_minimal() +
   theme(legend.position = "none") +
-  labs(x = "Habitat", y = "Biomass (g)") +
+  labs(x = "Habitat", y = "Biomasse (g)") +
   scale_color_ordinal()
 ```
 
-### Task 6
+### Tâche 6
 
-Look at the plot and consider: - Can biomass values be negative?
+Regardez le graphique et considérez :
 
-- Does the variance (spread of points) appear constant across habitats, or does it increase with larger mean values?
-- What does this tell you about whether a normal distribution would be appropriate?
+- Les valeurs de biomasse peuvent-elles être négatives ?
+- La variance (dispersion des points) semble-t-elle constante entre les habitats, ou augmente-t-elle avec des valeurs moyennes plus élevées ?
+- Qu'est-ce que cela vous indique sur l'adéquation d'une distribution normale ?
 
-**Model 1: Normal distribution (incorrect)**
+**Modèle 1 : Distribution normale (incorrect)**
 
-Let's first try fitting a linear model with a normal distribution and see what problems arise:
+Essayons d'abord d'ajuster un modèle linéaire avec une distribution normale et voyons quels problèmes apparaissent :
 
 ```{r}
 lm_fish <- lm(biomass ~ habitat, data = fish_biomass)
@@ -179,21 +179,17 @@ lm_fish <- lm(biomass ~ habitat, data = fish_biomass)
 check_model(lm_fish)
 ```
 
-Look at the diagnostic plots and consider:
+Regardez les graphiques diagnostiques. Une hypothèse est-elle violée ?
 
-- Can you see any predictions that might be negative (which is biologically impossible for biomass)?
-- How do the residuals look? Are they normally distributed?
-- Are the assumptions violated?
+### Tâche 7
 
-### Task 7
+**Modèle 2 : Utiliser la distribution appropriée**
 
-**Model 2: Using the appropriate distribution**
+Ajustez maintenant le modèle correct en remplaçant `____` dans `family =` par la distribution appropriée. Choisissez parmi :
 
-Now fit the correct model by replacing the `____` in `family =` with the appropriate distribution. Choose from:
-
-- `poisson()` - for count data with equal mean and variance
-- `Gamma()` - for continuous positive data
-- `binomial()` - for binary (yes/no) data
+- `poisson()` - pour des données de comptage avec moyenne et variance égales
+- `Gamma()` - pour des données continues positives
+- `binomial()` - pour des données binaires (oui/non)
 
 ```{r}
 m_fish <- glm(
@@ -205,33 +201,33 @@ m_fish <- glm(
 check_model(m_fish)
 ```
 
-Examine the diagnostic plots. How well do the assumptions appear to be met?
+Examinez les graphiques diagnostiques. Dans quelle mesure les hypothèses semblent-elles satisfaites ?
 
-### Task 8
+### Tâche 8
 
-Compare the two models:
+Comparez les deux modèles :
 
 ```{r}
 compare_performance(lm_fish, m_fish)
 ```
 
-Which model is more appropriate for this data and why?
+Quel modèle est le plus approprié pour ces données et pourquoi ?
 
-### Task 9
+### Tâche 9
 
-**Analyzing the results**
+**Analyse des résultats**
 
 ```{r}
 anova(m_fish)
 ```
 
-Is there a significant difference in Secondary Consumer biomass among habitats? What is the p-value?
+Y a-t-il une différence significative de biomasse des consommateurs secondaires entre les habitats ? Quelle est la p-valeur ?
 
-### Task 10
+### Tâche 10
 
-**Visualizing predictions**
+**Visualisation des prédictions**
 
-Let's plot the model-predicted means and 95% confidence intervals with the raw data overlaid:
+Traçons les moyennes prédictes du modèle et les intervalles de confiance à 95 % avec les données brutes superposées :
 
 ```{r}
 estimate_means(m_fish) %>%
@@ -239,33 +235,33 @@ estimate_means(m_fish) %>%
   theme_light()
 ```
 
-**Post-hoc comparisons**
+**Comparaisons post-hoc**
 
-Now let's formally test which habitats differ significantly from each other:
+Testons formellement quelles habitats diffèrent significativement entre eux :
 
 ```{r}
-estimate_contrasts(m_fish)
+estimate_contrasts(m_fish, p_adjust = "tukey")
 ```
 
-Which habitat has the highest predicted biomass? Which has the lowest?
+Quel habitat a la biomasse prédite la plus élevée ? Le plus faible ?
 
-## Coral Cover
+## Couverture corallienne
 
-The coral cover data we were using so far comes from point intercept transects. At each site, a transect tape was laid on the seafloor. For 150 point it was checked if there is coral below ("yes") or not ("no"), this was done for the three main genera *Acropora*, *Montipora*, and *Pocillopora*.
+Les données de couverture corallienne utilisées jusqu'à présent proviennent de transects par points d'interception. À chaque site, un ruban de transect a été posé sur le fond. Pour 150 points, on a vérifié s'il y a du corail en dessous ("oui") ou non ("non"); cela a été fait pour les trois genres principaux *Acropora*, *Montipora* et *Pocillopora*.
 
-Read data:
+Lecture des données :
 
 ```{r}
 dat_coral <- read.csv(here("TP/TP_06/data/coral_2020.csv"))
 ```
 
-Data structure:
+Structure des données :
 
-- **Response variable**: Coral cover as count of points per genus (out of 150 points per site)
-- **Explanatory variables**: Coast (3 levels) and Coral genus (3 levels), including interaction
-- **Sample size**: 9 observations (3 coasts × 3 genera)
+- **Variable réponse** : Couverture corallienne sous forme de nombre de points par genre (sur 150 points par site)
+- **Variables explicatives** : Côte (3 modalités) et genre de corail (3 modalités), incluant l'interaction
+- **Taille de l'échantillon** : 9 observations (3 côtes × 3 genres)
 
-An plot raw data
+Un tracé des données brutes
 
 ```{r}
 dat_coral %>%
@@ -276,27 +272,27 @@ dat_coral %>%
   ) +
   theme_minimal() +
   labs(
-    x = "Coast",
-    y = "Number of points (out of 150)",
-    color = "Coral genus"
+    x = "Côte",
+    y = "Nombre de points (sur 150)",
+    color = "Genre de corail"
   ) +
   scale_color_ordinal()
 ```
 
-So far, we used the percent data calculated knowing that there are 150 points per site. We can calculate the cover in percent like this:
+Jusqu'à présent, nous avons utilisé les données en pourcentage calculées sachant qu'il y a 150 points par site. Nous pouvons calculer la couverture en pourcentage ainsi :
 
 ```{r}
 dat_coral <- dat_coral %>%
   mutate(percent = 100 * (points / 150))
 ```
 
-### Task 11
+### Tâche 11
 
-Why are linear models not suitable for this type of percent data? Think about the possible values your response variable could have and any limiting values.
+Pourquoi les modèles linéaires ne conviennent-ils pas à ce type de données en pourcentage ? Pensez aux valeurs possibles de la variable réponse et aux limites éventuelles.
 
-To see the implications, we can still fit a linear model.
+Pour voir les implications, nous pouvons ajuster tout de même un modèle linéaire.
 
-**Model 1: Normal distribution (incorrect)**
+**Modèle 1 : Distribution normale (incorrect)**
 
 ```{r}
 lm_coral <- lm(percent ~ coast * coral_genus, data = dat_coral)
@@ -304,9 +300,9 @@ lm_coral <- lm(percent ~ coast * coral_genus, data = dat_coral)
 check_model(lm_coral)
 ```
 
-Look at the diagnostic plots. The diagnostics might look relatively reasonable, but consider: **What are the predictions from this model? Can percentages be negative or exceed 100%?**
+Regardez les graphiques diagnostiques. Les diagnostics peuvent sembler relativement raisonnables, mais considérez : **Quelles sont les prédictions de ce modèle ? Les pourcentages peuvent-ils être négatifs ou dépasser 100 % ?**
 
-Let's visualise the predictions:
+Visualisons les prédictions :
 
 ```{r}
 estimate_means(lm_coral) %>%
@@ -314,21 +310,21 @@ estimate_means(lm_coral) %>%
   theme_light()
 ```
 
-Look carefully at the plot. Can you see predictions that are biologically impossible? Where would negative coral cover appear on this plot?
+Regardez attentivement le graphique. Pouvez-vous voir des prédictions biologiquement impossibles ? Où apparaîtraient des couvertures coralliennes négatives sur ce graphique ?
 
-### Task 12
+### Tâche 12
 
-**Model 2: GLM Using the appropriate distribution**
+**Modèle 2 : GLM avec la distribution appropriée**
 
-Let's now fit a model with the appropriate distribution. The most honest way to do so, so is by using the raw data, i.e. here, the points (coral: yes or no?) per transect. The precision to measure the cover differs between transects with only 10 points, or transects with 150 points. In binomial models, we can include this by using `cbind(success, failure)`. In the coral example, `success` is the number of points per transect with coral (column name `points`) and failure the number of points per transect without coral (150 - `points`).
+Ajustons maintenant un modèle avec la distribution appropriée. La manière la plus honnête consiste à utiliser les données brutes, c.-à-d. ici, les points (corail : oui/non) par transect. La précision de la mesure de la couverture diffère entre des transects avec seulement 10 points, ou des transects avec 150 points. Dans les modèles binomiaux, nous pouvons tenir compte de cela en utilisant `cbind(success, failure)`. Dans l'exemple de corail, `success` est le nombre de points par transect avec du corail (colonne `points`) et `failure` le nombre de points sans corail (150 - `points`).
 
-Now fit the correct model by replacing the `____` in `family =` with the appropriate distribution. Choose from:
+Ajustez maintenant le modèle correct en remplaçant `____` dans `family =` par la distribution appropriée. Choisissez parmi :
 
-- `poisson()` - for count data with equal mean and variance
-- `Gamma()` - for continuous positive data
-- `binomial()` - for binary (yes/no) data
+- `poisson()` - pour des données de comptage avec moyenne et variance égales
+- `Gamma()` - pour des données continues positives
+- `binomial()` - pour des données binaires (oui/non)
 
-If you decide for a binomial model, use `cbind(points, 150 - points)` as response, otherwise, the number of points (but think about if there is an upper limit of points per transect), or the calculated percent values.
+Si vous choisissez un modèle binomial, utilisez `cbind(points, 150 - points)` comme réponse, sinon le nombre de points (mais pensez s'il y a une limite supérieure de points par transect), ou les valeurs en pourcentage calculées.
 
 ```{r}
 glm_coral <- glm(
@@ -340,11 +336,13 @@ glm_coral <- glm(
 check_model(glm_coral)
 ```
 
-I hope you chose a binomial model here. In that case, `compare_performance()` does not work, since the response variable differs between both model (LM: percent, GLM: success vs. failure). But the decision for the correct model can here be done by thinking about the nature of the data.
+### Tâche 13
 
-We can also plot the predicted values of both model to see if a model can predict values that are not possible (here, percent values below 0% or above 100%).
+J'espère que vous avez choisi un modèle binomial ici. Dans ce cas, `compare_performance()` ne fonctionne pas, puisque la variable réponse diffère entre les deux modèles (LM : percent, GLM : success vs. failure). Mais la décision pour le modèle correct peut ici se faire en réfléchissant à la nature des données.
 
-Let's do so for the LM
+Nous pouvons aussi tracer les valeurs prédites des deux modèles pour voir si un modèle prédit des valeurs impossibles (ici, des pourcentages \< 0 % ou \> 100 %).
+
+Faisons-le pour le LM
 
 ```{r}
 estimate_means(lm_coral) %>%
@@ -352,7 +350,7 @@ estimate_means(lm_coral) %>%
   theme_light()
 ```
 
-And for the GLM
+Et pour le GLM
 
 ```{r}
 estimate_means(glm_coral) %>%
@@ -360,45 +358,41 @@ estimate_means(glm_coral) %>%
   theme_light()
 ```
 
-### Task 13
+Quelles différences remarquez-vous entre les deux graphiques de modèle :
 
-What differences do you notice between both plots models:
+- Les intervalles de confiance sont-ils différents ?
+- Toutes les prédictions restent-elles entre 0 et 100 % ?
 
-- Are the confidence intervals different?
-- Do all predictions fall between 0 and 100%?
+### Tâche 14
 
-### Task 14
-
-**Analyzing the results**
+**Analyse des résultats**
 
 ```{r}
 anova(glm_coral)
 ```
 
-Is there a significant interaction between coast and genus? What do the p-values tell you?
+Y a-t-il une interaction significative entre côte et genre ? Que vous indiquent les p-valeurs ?
 
-### Task 15
+### Tâche 15
 
-**Post-hoc comparisons**
+**Comparaisons post-hoc**
 
-Let's examine which genera differ significantly within each coast:
+Examinons maintenant quels genres diffèrent significativement au sein de chaque côte :
 
 ```{r}
 estimate_contrasts(glm_coral, p_adjust = "tukey", by = "coast")
 ```
 
-Based on the contrasts and the visualisation for the GLM you did further above
+En vous basant sur les contrastes et la visualisation du GLM que vous avez réalisée plus haut :
 
-- Which genera differ significantly within each coast?
-- Do the significant differences change between coasts?
-- How do these results compare to what the LM would suggest?
+- Quels genres diffèrent significativement au sein de chaque côte ?
+- Les différences significatives changent-elles entre les côtes ?
+- Comment ces résultats se comparent-ils à ceux suggérés par le LM ?
 
-### Task 16
-
-For comparison, here are the LM contrasts:
+Pour comparaison, voici les contrastes du LM :
 
 ```{r}
 estimate_contrasts(lm_coral, p_adjust = "tukey", by = "coast", )
 ```
 
-Notice the differences in which groups are considered as significantly different. This highlights why using the correct distribution matters - the statistical inference can change!
+Remarquez les différences dans les groupes considérés comme significativement différents. Cela illustre pourquoi l'utilisation de la distribution correcte est importante - l'inférence statistique peut changer !
