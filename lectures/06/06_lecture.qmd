@@ -1,6 +1,6 @@
 ---
 title: Distributions statistiques alternatives
-subtitle: Cours 5 
+subtitle: Cours 6 
 ---
 
 ```{r}
