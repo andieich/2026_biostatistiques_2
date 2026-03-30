@@ -172,7 +172,11 @@
     "href": "distr_overview.html",
     "title": "Aperçu des distributions de probabilité pour GLM",
     "section": "",
-    "text": "Nom\nParamètres\nDescription\nPropriétés\nCas d'usage (Type de données)\nGraphique\n\n\n\n\nNormale\nμ (moyenne)σ (écart-type)\nCourbe en cloche, symétrique. Définie sur \\((-\\infty, +\\infty)\\)\nSymétrique, variance constante. Moyenne = μ, Variance = σ²\nDonnées continues sans limites naturelles (ex: mesures, différences)\n\n\n\nPoisson\nλ (taux)\nDistribution discrète. Comptes pics à λ, décroissance exponentielle\nVariance = Moyenne = λ. Appropriée pour les événements rares et les comptes\nDonnées de comptage: nombre d’événements, abondance, occurrences\n\n\n\nBinomiale\nn (essais)p (probabilité)\nDistribution discrète. Symétrique (p=0.5) ou asymétrique (p≠0.5)\nDiscrète (0, 1, …, n). Variance = np(1-p)\nRésultats binaires: présence/absence, succès/échec, vivant/mort\n\n\n\nGamma\nforme, taux\nContinue, asymétrique à droite. Toujours positive\nAsymétrique à droite. Variance &gt; Moyenne. Forme flexible\nDonnées positives continues: concentrations, biomasse, temps jusqu’à événement\n\n\n\n\nDistributions standards utilisées dans les modèles linéaires généralisés (GLM) et la régression linéaire"
+    "text": "Nom\nParamètres\nDescription\nPropriétés\nCas d'usage (Type de données)\nGraphique\n\n\n\n\nNormale\nμ (moyenne)σ (écart-type)\nCourbe en cloche, symétrique. Définie sur \\((-\\infty, +\\infty)\\)\nSymétrique, variance constante. Moyenne = μ, Variance = σ²\nDonnées continues sans limites naturelles (ex: mesures, différences)\n\n\n\nPoisson\nλ (taux)\nDistribution discrète. Comptes pics à λ, décroissance exponentielle\nVariance = Moyenne = λ. Appropriée pour les événements rares et les comptes\nDonnées de comptage: nombre d’événements, abondance, occurrences\n\n\n\nBinomiale\nn (essais)p (probabilité)\nDistribution discrète. Symétrique (p=0.5) ou asymétrique (p≠0.5)\nDiscrète (0, 1, …, n). Variance = np(1-p)\nRésultats binaires: présence/absence, succès/échec, vivant/mort\n\n\n\nGamma\nforme, taux\nContinue, asymétrique à droite. Toujours positive\nAsymétrique à droite. Variance &gt; Moyenne. Forme flexible\nDonnées positives continues: concentrations, biomasse, temps jusqu’à événement\n\n\n\n\nDistributions standards utilisées dans les modèles linéaires généralisés (GLM) et la régression linéaire",
+    "crumbs": [
+      "Résumés",
+      "GLM distributions"
+    ]
   },
   {
     "objectID": "hints/hints_02/hints_02.html",
