@@ -29,7 +29,7 @@ Load `dat_sites`. This data set gives an overview of spawning at different parts
 
 ```{r}
 dat_sites <- read_csv(here(
-  "lectures/07/Porites_rus_spawning/data/prus_sites.csv"
+  "lectures/07/Porites_rus_spawning/data/clean/prus_sites.csv"
 ))
 ```
 
@@ -307,7 +307,7 @@ To better understand the variablity, lets investigate the impact of sex. The aut
 
 ```{r}
 dat_colony <- read_csv(here(
-  "lectures/07/Porites_rus_spawning/data/prus_colony.csv"
+  "lectures/07/Porites_rus_spawning/data/clean/prus_colony.csv"
 ))
 ```
 

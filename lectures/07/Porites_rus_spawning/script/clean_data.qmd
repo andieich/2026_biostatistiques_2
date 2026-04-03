@@ -19,7 +19,7 @@ library(tidyverse)
 ```{r}
 dat_colony <- read.csv(
   here(
-    "lectures/07/Porites_rus_spawning/data/SEANOE_ColonySpawning_Moritz.csv"
+    "lectures/07/Porites_rus_spawning/data/raw/SEANOE_ColonySpawning_Moritz.csv"
   ),
   sep = ";",
   dec = "."
@@ -45,7 +45,7 @@ dat_colony <- read.csv(
 write_csv(
   dat_colony,
   here(
-    "lectures/07/Porites_rus_spawning/data/prus_colony.csv"
+    "lectures/07/Porites_rus_spawning/data/clean/prus_colony.csv"
   )
 )
 ```
@@ -54,7 +54,7 @@ write_csv(
 ```{r}
 dat_sites <- read.csv(
   here(
-    "lectures/07/Porites_rus_spawning/data/SEANOE_SiteSpawning_Moritz.csv"
+    "lectures/07/Porites_rus_spawning/data/raw/SEANOE_SiteSpawning_Moritz.csv"
   ),
   sep = ";",
   dec = "."
@@ -80,7 +80,7 @@ dat_sites <- read.csv(
 write_csv(
   dat_sites,
   here(
-    "lectures/07/Porites_rus_spawning/data/prus_sites.csv"
+    "lectures/07/Porites_rus_spawning/data/clean/prus_sites.csv"
   )
 )
 ```
