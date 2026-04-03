@@ -4,6 +4,7 @@ subtitle: "A GLM Case Study"
 format: html
 ---
 
+
 ## Context
 
 This analysis explores coral (*Porites rus*) spawning timing patterns across different habitats and islands in French Polynesia. We'll investigate whether spawning behavior varies by environmental factors using generalized linear models.
@@ -12,545 +13,436 @@ This analysis explores coral (*Porites rus*) spawning timing patterns across dif
 
 **Data source**: SEANOE (10.17882/105886)
 
-```{r}
-#| label: setup
-#| message: false
-#| warning: false
 
+## Load Packages and Data
+
+Load packages needed
+
+```{r}
 library(tidyverse)
+library(here)
 library(performance)
 library(modelbased)
-library(see)
-library(lme4)
-library(here)
-library(lmerTest)
-
-# Set theme
-theme_set(theme_light(base_size = 12))
 ```
 
-## Load and Prepare Data
+Load `dat_sites`. This data set gives an overview of spawning at different parts of the word:
 
 ```{r}
-#| label: load-data
+dat_sites <- read_csv(here(
+  "lectures/07/Porites_rus_spawning/data/clean/prus_sites.csv"
+))
+```
 
-# Load site-level spawning data
-spawn_data <- read.csv(
-  here("lectures/07/Porites_rus_spawning/data/SEANOE_SiteSpawning_Moritz.csv"),
-  sep = ";",
-  dec = "."
-) |>
-  as_tibble() |>
-  mutate(
-    month = factor(
-      month,
-      levels = c("10", "11", "12", "1", "2", "3", "4"),
-      labels = c(
-        "October",
-        "November",
-        "December",
-        "January",
-        "February",
-        "March",
-        "April"
-      )
+## Figure 1B
+
+
+Have a look at the data set: Which columns exist? Remember, you can use `str()` to get an overview or click on the table in the environment tab to the right.
+
+No, let's recreate Figure 1B of the publication. We only focus on the exact data.
+
+1.  Make a new data set and filter it for the "Lagoon" habitat (`filter()`)
+2.  Create a summary data frame by grouping your lagoon data set by the column `island` and calculate with `summary()` the mean and standard deviation (`sd()`) of `h_after_sunrise` (the hours after sunrise).
+
+```{r}
+dat_lagoon <- dat_sites %>%
+  filter(habitat == "Lagoon")
+
+dat_lagoonS <- dat_lagoon %>%
+  group_by(island) %>%
+  summarise(
+    mean_h_after_sunrise = mean(h_after_sunrise),
+    sd_h_after_sunrise = sd(h_after_sunrise)
+  )
+```
+
+3.  Now the data is ready to be plotted. Plot the summarised data using `ggplot()` with the following configuration:
+
+    - `island` on x axis
+    - `geom_pointrange()` layer with the mean as `y`, and mean - SD as `ymin` and mean + SD as `ymax`
+    - add a horizontal line (`geom_hline()`) layer with the mean over all the mean values in your summary data frame as `yintercept`.
+
+```{r}
+dat_lagoonS %>%
+  ggplot(aes(x = island)) +
+  geom_pointrange(
+    aes(
+      y = mean_h_after_sunrise,
+      ymin = mean_h_after_sunrise - sd_h_after_sunrise,
+      ymax = mean_h_after_sunrise + sd_h_after_sunrise
     ),
-    spawning = !no.start # Convert to TRUE/FALSE for spawning presence
-  ) |>
-  filter(site != "AME Teva i uta") # Remove unclear data
-
-# Quick overview
-glimpse(spawn_data)
-```
-
-## Exploratory Analysis
-
-### Spawning Across Islands
-
-First, let's see how many sites per island observed spawning events:
-
-```{r}
-#| label: spawning-by-island
-
-spawn_data |>
-  group_by(island) |>
-  summarise(
-    n_sites = n_distinct(site),
-    n_spawning = sum(spawning, na.rm = TRUE),
-    pct_spawning = round(100 * n_spawning / n(), 1)
-  )
-```
-
-### Visualize Spawning Percentage by Island
-
-```{r}
-#| label: fig-spawn-percent
-#| fig-cap: "Percentage of sites where spawning was observed by island"
-
-spawn_summary <- spawn_data |>
-  group_by(island) |>
-  summarise(
-    n_sites = n(),
-    spawning_yes = sum(spawning, na.rm = TRUE),
-    spawning_no = n_sites - spawning_yes,
-    .groups = "drop"
-  ) |>
-  pivot_longer(
-    cols = starts_with("spawning"),
-    names_to = "status",
-    values_to = "count"
-  ) |>
-  mutate(status = ifelse(status == "spawning_yes", "yes", "no"))
-
-ggplot(spawn_summary, aes(x = island, y = count, fill = status)) +
-  geom_col() +
-  scale_fill_manual(values = c("grey20", "grey70"), labels = c("no", "yes")) +
-  labs(y = "Number of sites", x = NULL, fill = "Spawning observed") +
-  theme(legend.position = "bottom")
-```
-
-### Spawning Time by Habitat
-
-Focus on observations where spawning was recorded (exact or approximate time):
-
-```{r}
-#| label: data-with-spawning
-
-spawn_obs <- spawn_data |>
-  filter(spawning == TRUE) |>
-  mutate(
-    habitat = factor(
-      habitat,
-      levels = c("Lagoon", "Channel", "Inner slope", "Outer slope")
-    )
-  )
-
-# Summary statistics by habitat
-spawn_obs |>
-  group_by(habitat) |>
-  summarise(
-    n = n(),
-    mean_time = mean(start.decimal, na.rm = TRUE),
-    sd_time = sd(start.decimal, na.rm = TRUE),
-    mean_hours_after_sunrise = mean(STrSR, na.rm = TRUE),
-    sd_hours_after_sunrise = sd(STrSR, na.rm = TRUE),
-    .groups = "drop"
-  )
-```
-
-### Visualize Spawning Times
-
-```{r}
-#| label: fig-spawning-time
-#| fig-cap: "Distribution of spawning start times (decimal hours) by habitat"
-
-spawn_obs |>
-  ggplot(aes(x = habitat, y = start.decimal, fill = habitat)) +
-  geom_boxplot(alpha = 0.7) +
-  geom_jitter(width = 0.2, alpha = 0.4, size = 2) +
-  labs(
-    y = "Spawning start time (decimal hours)",
-    x = NULL,
-    title = "Spawning timing varies by habitat"
+    col = "royalblue3"
   ) +
-  theme(legend.position = "none")
-```
-
-### Time Relative to Sunrise
-
-```{r}
-#| label: fig-hours-after-sunrise
-#| fig-cap: "Hours between sunrise and spawning start by habitat"
-
-spawn_obs |>
-  ggplot(aes(x = habitat, y = STrSR, fill = habitat)) +
-  geom_boxplot(alpha = 0.7) +
-  geom_jitter(width = 0.2, alpha = 0.4, size = 2) +
-  labs(
-    y = "Hours after sunrise (decimal)",
-    x = NULL,
-    title = "Spawning timing relative to sunrise"
-  ) +
-  theme(legend.position = "none")
-```
-
-## Statistical Analysis
-
-### Test for Differences Among Habitats (ANOVA)
-
-```{r}
-#| label: anova-habitat
-
-# Traditional ANOVA
-m_habitat <- lm(start.decimal ~ habitat, data = spawn_obs)
-
-anova(m_habitat)
-
-summary(m_habitat)
-
-
-estimate_contrasts(m_habitat, p_adjust = "tukey")
-
-
-estimate_means(m_habitat) %>%
-  plot(show_data = TRUE, join_dots = FALSE) +
-  theme_light()
-```
-
-### Relationship Between Sunrise Time and Spawning Time
-
-Why might sunrise timing matter? Perhaps corals use light cues for synchronization.
-
-```{r}
-#| label: sunrise-spawning-relationship
-
-# Linear regression: Do corals spawn at consistent times relative to sunrise?
-spawn_obs |>
-  filter(!is.na(start.decimal), !is.na(ToSR.decimal)) |>
-  group_by(habitat) |>
-  summarise(
-    n = n(),
-    r_squared = cor(start.decimal, ToSR.decimal, use = "complete.obs")^2,
-    p_value = cor.test(start.decimal, ToSR.decimal)$p.value,
-    .groups = "drop"
-  )
-```
-
-### Visualize Relationship by Habitat
-
-```{r}
-#| label: fig-spawning-sunrise
-#| fig-cap: "Relationship between sunrise time and spawning time by habitat"
-
-spawn_obs |>
-  filter(!is.na(start.decimal), !is.na(ToSR.decimal)) |>
-  ggplot(aes(x = ToSR.decimal, y = start.decimal, color = habitat)) +
-  geom_smooth(method = "lm", se = TRUE, alpha = 0.15) +
-  geom_point(size = 3, alpha = 0.6) +
-  #facet_wrap(~habitat) +
-  labs(
-    x = "Time of sunrise (decimal hours)",
-    y = "Spawning start time (decimal hours)",
-    title = "Does spawning timing track sunrise timing?"
-  ) +
-  theme(legend.position = "bottom")
-```
-
-## Distribution Comparison: Gaussian vs Gamma
-
-Before fitting complex models, let's explore which distribution better describes spawning time variation. We'll aggregate data to site means (to meet independence assumptions) and compare Gaussian and Gamma GLMs.
-
-First, prepare the lagoon data with exact times:
-
-```{r}
-#| label: lagoon-prep
-
-lagoon_data <- spawn_obs |>
-  filter(habitat == "Lagoon", quality.start == "Exact") |>
-  drop_na(start.decimal, ToSR.decimal, month, year)
-```
-
-### Prepare Site-Level Data
-
-```{r}
-#| label: site-level-aggregation
-
-site_means <- lagoon_data |>
-  group_by(site, island, month) |>
-  summarise(
-    mean_spawn_time = mean(start.decimal, na.rm = TRUE),
-    n_obs = n(),
-    mean_sunrise = mean(ToSR.decimal, na.rm = TRUE),
-    mean_depth = mean(depth, na.rm = TRUE),
-    .groups = "drop"
-  ) |>
-  drop_na(mean_spawn_time)
-
-glimpse(site_means)
-```
-
-### Inspect Raw Distribution
-
-```{r}
-#| label: fig-dist-spawn-time
-#| fig-cap: "Distribution of site-mean spawning times"
-#| fig-height: 4
-
-p1 <- ggplot(site_means, aes(x = mean_spawn_time)) +
-  geom_histogram(bins = 15, alpha = 0.7, fill = "steelblue", color = "black") +
-  labs(
-    x = "Mean spawning time (hours)",
-    y = "Count",
-    title = "Spawning time distribution"
-  )
-
-p2 <- ggplot(site_means, aes(sample = mean_spawn_time)) +
-  geom_qq(color = "steelblue", size = 2) +
-  geom_qq_line(color = "red", linewidth = 1) +
-  labs(title = "Q-Q plot (Normal distribution)")
-
-gridExtra::grid.arrange(p1, p2, ncol = 2)
-```
-
-**Note**: The distribution shows slight right skew (tail toward later times). This suggests Gamma might fit better than Gaussian.
-
-### Fit Gaussian GLM
-
-```{r}
-#| label: glm-gaussian
-
-glm_gaussian <- glm(
-  mean_spawn_time ~ island + month + mean_sunrise,
-  data = site_means,
-  family = gaussian(link = "identity")
-)
-
-summary(glm_gaussian)
-```
-
-### Fit Gamma GLM
-
-```{r}
-#| label: glm-gamma
-
-glm_gamma <- glm(
-  mean_spawn_time ~ island + month + mean_sunrise,
-  data = site_means,
-  family = Gamma(link = "log")
-)
-
-summary(glm_gamma)
-```
-
-### Compare Diagnostics
-
-```{r}
-#| label: fig-diagnostics-compare
-#| fig-cap: "Model diagnostics: Gaussian (top) vs Gamma (bottom)"
-#| fig-height: 8
-
-p_gauss <- check_model(
-  glm_gaussian,
-  check = c("linearity", "homogeneity", "qq")
-)
-p_gamma <- check_model(glm_gamma, check = c("linearity", "homogeneity", "qq"))
-
-# Note: Gamma should show better homogeneity (constant variance) handling
-```
-
-### Model Comparison: AIC
-
-```{r}
-#| label: model-comparison-aic
-
-aic_comparison <- tibble(
-  Model = c("Gaussian", "Gamma"),
-  AIC = c(AIC(glm_gaussian), AIC(glm_gamma)),
-  `ΔAIC` = AIC(glm_gaussian) - AIC(glm_gamma)
-)
-
-aic_comparison
-
-# Negative ΔAIC favors Gamma; |ΔAIC| > 2 indicates meaningful improvement
-```
-
-### Why Gamma for Spawning Time?
-
-Gamma distribution is useful when: - ✓ Response is **positive and continuous** (spawning time is 6-12 hours) - ✓ **Variance increases with mean** (more variability at later spawn times) - ✓ Data shows **right skew** (occasional very late spawning) - ✓ Natural **log scale** interpretation (multiplicative effects)
-
-### Impact of Site Aggregation: What Random Effects Would Capture
-
-Now let's see what variation our site-level aggregation glossed over. Fit the same model on raw (non-aggregated) data using mixed effects:
-
-```{r}
-#| label: lmer-raw-data
-
-lmer_raw <- lmer(
-  start.decimal ~ island + month + ToSR.decimal + (1 | site),
-  data = lagoon_data
-)
-
-summary(lmer_raw)
-```
-
-### Extract Random Intercepts
-
-```{r}
-#| label: random-intercepts
-
-site_effects <- ranef(lmer_raw)$site |>
-  as_tibble(rownames = "site") |>
-  rename(intercept_adjustment = `(Intercept)`)
-
-site_effects
-```
-
-### Visualize Site-Specific Effects
-
-```{r}
-#| label: fig-site-effects
-#| fig-cap: "Deviations in spawning time by site from the overall average"
-
-site_effects |>
-  arrange(intercept_adjustment) |>
-  mutate(site = fct_reorder(site, intercept_adjustment)) |>
-  ggplot(aes(x = site, y = intercept_adjustment)) +
-  geom_col(fill = "steelblue", alpha = 0.7) +
-  geom_hline(yintercept = 0, linetype = "dashed", color = "red") +
-  labs(
-    y = "Adjustment to spawning time (hours)",
-    x = "Site",
-    title = "Some sites consistently spawn earlier/later than expected"
-  ) +
+  labs(y = "Hours after sunrise", x = NULL) +
+  geom_hline(yintercept = mean(dat_lagoonS$mean_h_after_sunrise)) +
+  theme_test(base_size = 16) +
   theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust = 1))
 ```
 
-**Interpretation**: Positive values = site spawns *later* than predicted by month/island/sunrise alone. Some sites ("Vairao 1", for example) are consistently early; others are consistently late. Random intercepts capture this site "personality."
+What do you see?
 
-------------------------------------------------------------------------
+## Figure 2A
 
-## Generalized Linear Models
+Now, lets try to better understand the variability by recreating Fig. 2A. Spawning is often synchronised by light intensity. Therefore above, the hours after sunrise were used. Spawning time may also be impacted by the habitat, i.e. Channel, Lagoon, or Outer slope. Now, let's verify this. Plot the start time (`h_start`, in "decimal hours") on the y axis against the time of sunrise on the y axis (`h_sunrise`).
 
-### Why GLM for Spawning?
-
-We have a **binary outcome**: spawning occurred (TRUE) or did not (FALSE).
-
-Linear regression assumes: - Continuous, unbounded response ❌ - Normally distributed errors ❌ - Constant variance ❌
-
-For binary data, we use a **logistic regression** (binomial GLM):
-
-$$\log\left(\frac{p}{1-p}\right) = \beta_0 + \beta_1 \cdot \text{habitat} + \ldots$$
-
-### Model 1: Does Habitat Predict Spawning?
+The data was collected at different habitats: Channel, Lagoon, Outer Slope. To see how this impacted spawning time use different colours for the different habitats in column `habitat`.
 
 ```{r}
-#| label: glm-habitat-spawn
 
-glm_habitat <- glm(
-  spawning ~ habitat,
-  data = spawn_data,
-  family = binomial(link = "logit")
+col_hab <- c(
+  "Channel" = "#401801",
+  "Lagoon" = "#3A848C",
+  "Outer slope" = "#465E8C"
 )
 
-summary(glm_habitat)
+dat_sites %>%
+  ggplot(aes(y = h_start, x = h_sunrise, fill = habitat)) +
+  geom_point(shape = 21) +
+  labs(y = "Time start", x = "Time sunrise", fill = "Habitat") +
+  scale_fill_manual(values = col_hab) +
+  theme_test(base_size = 16)
 ```
 
-### Check Model Assumptions
+This calls for a regression! 
+
+With an ANCOVA, we can see if the relationship differs between "Lagoon" and "Outer slope". There is only one observation for "Channel", so we have to ignore it. First, create another data set without (`!=`) the Channel habitat using `filter()`:
 
 ```{r}
-#| label: fig-glm-diagnostics
-#| fig-cap: "Diagnostic plots for the habitat GLM"
-
-check_model(glm_habitat)
+dat_sites_sel <- dat_sites %>%
+  filter(habitat != "Channel")
 ```
 
-### Model 2: Multi-factor Model (Lagoon only)
-
-Let's focus on lagoon sites where we have the most data, and examine what predicts spawning time in detail:
+Now, let's do a linear model, using `h_start` as response variable and the interaction of `h_sunrise` and `habitat` as explanatory variable. 
 
 ```{r}
-#| label: lagoon-data
-
-lagoon_data <- spawn_obs |>
-  filter(habitat == "Lagoon", quality.start == "Exact") |>
-  drop_na(start.decimal, ToSR.decimal, month, year)
-
-glimpse(lagoon_data)
+lm_sr_hab_int <- lm(h_start ~ h_sunrise * habitat, data = dat_sites_sel)
 ```
 
-### Continuous Response: Spawning Time in Lagoons
+Do the actual analysis. Use `anova()` to see if `h_sunrise`, `habitat`, and their interaction have a significant impact:
 
 ```{r}
-#| label: glm-spawning-time
+anova(lm_sr_hab_int)
+```
 
-glm_time <- glm(
-  start.decimal ~ island + month + ToSR.decimal + depth,
-  data = lagoon_data,
-  family = gaussian()
+Which explanatory varaibles have a signficant impact on `h_start`?
+
+What do you think, is it useful to keep the interaction in the model?
+
+Now, let's check the assumptions with `check_model()`:
+
+```{r}
+check_model(lm_sr_hab_int)
+```
+
+Do you think that the residuals are normally distributed?
+
+Now let's make a second model without the interaction and see if the residuals are normally distributed:
+
+```{r}
+lm_sr_hab <- lm(h_start ~ h_sunrise + habitat, data = dat_sites_sel)
+check_model(lm_sr_hab)
+```
+
+That still does not look good!
+
+But wait, all observations are positive, time cannot be negative! Which type of GLM would you use?
+
+Use `check_model()` to see if the residuals fit better to the distribution you chose. 
+
+First, use the interaction as explanatory variable, it could be that the change of the distributions leads to a change in p-values. If the interacion is not significant, I would use a model with the additive efects of `h_sunrise` and `habitat`. 
+
+```{r}
+glm_sr_hab_int <- glm(
+  h_start ~ h_sunrise * habitat,
+  data = dat_sites_sel,
+  family = Gamma()
 )
 
-summary(glm_time)
+anova(glm_sr_hab_int)
 ```
 
-### Model Diagnostics
 
 ```{r}
-#| label: fig-glm-time-diagnostics
-#| fig-cap: "Diagnostic plots for the spawning time model"
+glm_sr_hab <- glm(
+  h_start ~ h_sunrise + habitat,
+  data = dat_sites_sel,
+  family = Gamma()
+)
 
-check_model(glm_time)
+anova(glm_sr_hab)
+
 ```
 
-### Extract and Visualize Predictions
+
+Which model would you use in a publication? The linear model or the GLM? Interaction or addititve effects?
+
+We can now add the regression lines and the confidence intervalls to Fig 2A. To do so, first create a data frame with the model predictions using `estimate_relation()` and the model you chose:
 
 ```{r}
-#| label: predictions-by-month
+pred_glm_sr_hab <- estimate_relation(glm_sr_hab)
+```
 
-predictions <- estimate_expectation(glm_time, by = "month")
+We can now add this to the figure we created further above. Have a look at the prediction dataframe you just created. What column should be used for the regression line (in a `geom_line()` layer), what is is columns defining the confidence intervals (in a `geom_ribbon()` layer)? Add them to the ggplot function. Remember to use the summary data for these two layers.
 
-ggplot(predictions, aes(x = month, y = Predicted)) +
-  geom_point(size = 3, color = "steelblue") +
-  geom_errorbar(
-    aes(ymin = CI_low, ymax = CI_high),
-    width = 0.2,
-    color = "steelblue"
+```{r}
+dat_sites %>%
+  ggplot(aes(y = h_start, x = h_sunrise, fill = habitat)) +
+  geom_ribbon(
+    data = pred_glm_sr_hab,
+    aes(ymin = CI_low, ymax = CI_high, y = NULL),
+    alpha = .3,
+    show.legend = F
   ) +
+  geom_line(
+    data = pred_glm_sr_hab,
+    aes(y = Predicted, col = habitat),
+    show.legend = F
+  ) +
+  geom_point(shape = 21) +
   labs(
-    y = "Predicted spawning start time (decimal hours)",
-    x = "Month",
-    title = "Predicted spawning timing by month (Lagoon)"
+    y = "Time start",
+    x = "Time sunrise",
+    fill = "Habitat",
+    col = "Habitat",
   ) +
-  theme(axis.text.x = element_text(angle = 45, hjust = 1))
+  scale_colour_manual(values = col_hab) +
+  scale_fill_manual(values = col_hab) +
+  theme_test(base_size = 16)
 ```
 
-### Mixed Effects Model: Account for Site Variation
-
-Sites are not independent—multiple observations per site. Use a random intercept:
+So, as a summary, so far we learned that the time of spawing is around 1.6 h after sunrise. The spawning time is significantly correlated to the time of sunrise. This means that the later the sunrise, the later the spawnign time. This relation does not differ betwen Outer slope and Lagoon, although the spawning time is much later in the Outer slope than in the Lagoon. We can formally test this with a post-hoc test using `estimate_contrasts()`:
 
 ```{r}
-#| label: lmer-model
+estimate_contrasts(glm_sr_hab, p_adjust = "tukey")
+```
 
-lmer_model <- lmer(
-  start.decimal ~ month + ToSR.decimal + (1 | site),
-  data = lagoon_data
+Look what the p-value actually means, try to understand the yellow text: 
+"Predictors averaged: h_sunrise (5.5)". At which point on the regression line were the two habitats compared? How much later is the spawning on average in the Outer reef?
+
+To simplify things, we can concentrate on the the time after sunrise (`h_after_sunrise`), since we know that the spawnign time and sunrise is significantly correlated. This lets us visualise the difference like this:
+  
+```{r}
+dat_sites %>%
+  ggplot(aes(y = h_after_sunrise, x = habitat, fill = habitat)) +
+  geom_violin(alpha = .7, col = NULL) +
+  geom_jitter(shape = 21, width = .2, alpha = .7) +
+  labs(y = "Hours after sunrise", x = NULL) +
+  coord_flip() +
+  scale_fill_manual(values = col_hab) +
+  theme_test(base_size = 16) +
+  theme(legend.position = "none")
+```
+
+
+So let's test differences here with ANOVA, ie comparison of groups:
+
+Use the same dataset from the regression above (i.e. excluding the single Channel observation) and make a model using `h_after_sunrise` as response and `habitat` as explanatory variable. Consider what you learned above about a suitable distribution. Do this yourself:
+
+1.  Make model
+2.  Check assumptions with `check_model()`
+3.  Test if habitats differ significantly with `anova()`
+4.  Predict data using `estimate_means()`
+5.  Add the estimated mean and CIs as a `geom_pointrange()` layer
+
+
+```{r}
+glm_hab <- glm(
+  h_after_sunrise ~ habitat,
+  data = dat_sites_sel,
+  family = Gamma()
 )
 
-summary(lmer_model)
+check_model(glm_hab)
+
+anova(glm_hab)
+
+pred_glm_hab <- estimate_means(glm_hab)
+
+dat_sites %>%
+  ggplot(aes(y = h_after_sunrise, x = habitat, fill = habitat)) +
+  geom_violin(alpha = .7, col = NULL) +
+  geom_jitter(shape = 21, width = .2, alpha = .7) +
+  geom_pointrange(
+    data = pred_glm_hab,
+    shape = 21,
+    col = "grey30",
+    aes(y = Mean, ymin = CI_low, ymax = CI_high, col = habitat)
+  ) +
+  labs(y = "Hours after sunrise", x = NULL) +
+  coord_flip() +
+  scale_fill_manual(values = col_hab) +
+  scale_colour_manual(values = col_hab) +
+  theme_test(base_size = 16) +
+  theme(legend.position = "none")
 ```
 
-### Compare Models
+
+As before, you can use `estimate_contrast()` to calculate the difference of the spawning time between Lagoon and Outer slope:
 
 ```{r}
-#| label: model-comparison
-
-anova(glm_time, update(glm_time, ~ . + 1)) # Likelihood ratio test
+estimate_contrasts(glm_hab)
 ```
 
-## Interpretation & Summary
+Why does is slightly differ to the difference calcualted above?
 
-### Key Findings:
 
-1.  **Habitat matters**: Lagoon corals spawn at different times than outer-slope corals
+## Figure 2B
 
-    - Lagoon: earlier in the day (\~7 AM)
-    - Outer slope/Channel: later (\~9-10 AM)
+The spawning time may also be impacted by the depth. Let's plot it as in Fig. 2B. Use `depth` as x axis, `h_after_sunrise` as y axis, and use different colours for the habitats.
 
-2.  **Sunrise tracking**: Spawning time is strongly correlated with sunrise time, especially in lagoons (R² = 0.47, p \< 0.001)
+```{r}
+dat_sites %>%
+  ggplot(aes(y = h_after_sunrise, x = depth, fill = habitat)) +
+  geom_jitter(shape = 21, width = .2, alpha = .7) +
+  scale_fill_manual(values = col_hab) +
+  labs(y = "Hours after sunrise", x = "Depth (m)", fill = "Habitat") +
+  theme_test(base_size = 16)
+```
 
-    - Suggests light-dependent spawning synchrony
 
-3.  **Seasonal variation**: Spawning time varies by month, likely linked to seasonal changes in sunrise/sunset times
+Would you do a regression as in the publication? Why not? Think about indendence of the data! Do you think the habitat could have an impact besides the depth? Is it possible to consider the impact of habitat and depth?
 
-4.  **Random site effects**: Significant variation among sites even after accounting for fixed effects—sites have "personalities"
+## Figure 4B
 
-### Why GLM Was Appropriate:
+To better understand the variablity, lets investigate the impact of sex. The authour provided a more detailed dataset for this analysis for coral spawning observaitions in Vairao. Load it and have a look at it:
 
-- Binary outcome (spawning yes/no) → logistic regression
-- Continuous bounded outcome (time of day) → could use Gaussian, but accounting for constraints would be better
-- Mixed structure (observations nested in sites) → GLMM with random intercepts
-- Non-linear relationships possible → GLM link functions handle this
+```{r}
+dat_colony <- read_csv(here(
+  "lectures/07/Porites_rus_spawning/data/clean/prus_colony.csv"
+))
+```
 
-------------------------------------------------------------------------
+
+Now, plot it as follows:
+
+```{r}
+ggplot(data = dat_colony, aes(x = sex, y = h_after_sunrise, fill = sex)) +
+  geom_violin(alpha = .7, col = NULL) +
+  geom_jitter(shape = 21, width = .2, alpha = .7) +
+  labs(y = "Hours after sunrise", x = NULL) +
+  scale_fill_manual(values = c("#FFA500", "#551A8B")) +
+  coord_flip() +
+  theme_test(base_size = 16) +
+  theme(legend.position = "none")
+```
+
+How would you analyse this data? What type of model woudl you use? Try it out, you know the process by now:
+
+```{r}
+glm_sex <- glm(h_after_sunrise ~ sex, data = dat_colony, family = Gamma())
+
+check_model(glm_sex)
+
+anova(glm_sex)
+
+pred_glm_sex <- estimate_means(glm_sex)
+```
+
+If you're happy with the model, predict the results and add mean and CI to the visualistaion from above:
+
+```{r}
+
+col_sex <- c("MALE" = "#551A8B", "FEMALE" = "#FFA500")
+
+ggplot(data = dat_colony, aes(x = sex, y = h_after_sunrise, fill = sex)) +
+  geom_violin(alpha = .7, col = NULL) +
+  geom_jitter(shape = 21, width = .2, alpha = .7) +
+  geom_pointrange(
+    data = pred_glm_sex,
+    shape = 21,
+    col = "white",
+    aes(y = Mean, ymin = CI_low, ymax = CI_high),
+  ) +
+  labs(y = "Hours after sunrise", x = NULL) +
+  scale_fill_manual(values = col_sex) +
+  coord_flip() +
+  theme_test(base_size = 16) +
+  theme(legend.position = "none")
+```
+
+How much time lays between the mean male and femal spawning start? Use `estimate_contrasts()`:
+
+```{r}
+estimate_contrasts(glm_sex, p_adjust = "tukey")
+```
+
+## Figure 2F
+
+As you see, there is a difference, but still a lot of variablitiy. Maybe that has to do with the water temperature (`sst`)? As always, start with a plot. Use `sst` as x axis , `h_after_sunrise` as y axis, and different colours for `sex`:
+
+```{r}
+ggplot(data = dat_colony, aes(x = sst, y = h_after_sunrise, fill = sex)) +
+  geom_point(shape = 21) +
+  labs(y = "Hours after sunrise", x = "SST (°C)", fill = "Sex") +
+  scale_fill_manual(values = col_sex) +
+  theme_test(base_size = 16)
+```  
+
+  
+How would you test what you see?
+
+
+```{r}
+glm_sst_sex_int <- glm(
+  h_after_sunrise ~ sst * sex,
+  data = dat_colony,
+  family = Gamma()
+)
+
+check_model(glm_sst_sex_int)
+
+anova(glm_sst_sex_int)
+
+
+glm_sst_sex <- glm(
+  h_after_sunrise ~ sst + sex,
+  data = dat_colony,
+  family = Gamma()
+)
+
+check_model(glm_sst_sex)
+
+anova(glm_sst_sex)
+```
+
+
+If you're happy with your model, add the regressio line and CI to the plot above. Do so as before by first creating a data frame with the predictions using `estimate_relation()`:
+
+```{r}
+pred_glm_sst_sex <- estimate_relation(glm_sst_sex)
+
+ggplot(data = dat_colony, aes(x = sst, y = h_after_sunrise, fill = sex)) +
+  geom_ribbon(
+    data = pred_glm_sst_sex,
+    aes(y = NULL, ymin = CI_low, ymax = CI_high),
+    show.legend = F,
+    alpha = .3
+  ) +
+  geom_point(shape = 21) +
+  geom_line(
+    data = pred_glm_sst_sex,
+    aes(y = Predicted, col = sex),
+    show.legend = F
+  ) +
+  labs(y = "Hours after sunrise", x = "SST (°C)", fill = "Sex") +
+  scale_fill_manual(values = col_sex) +
+  scale_colour_manual(values = col_sex) +
+  theme_test(base_size = 16)
+```
+
+
+And how much does the spawnign time differ between male and female corals?
+
+```{r}
+estimate_contrasts(glm_sst_sex)
+```
+
+```{r}
+estimate_contrasts(
+  glm_sst_sex,
+  by = "sst = c(27, 28, 29)"
+)
+```
+
 
 ## References
 
