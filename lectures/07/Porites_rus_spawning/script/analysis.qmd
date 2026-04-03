@@ -4,15 +4,13 @@ subtitle: "A GLM Case Study"
 format: html
 ---
 
-
 ## Context
 
-This analysis explores coral (*Porites rus*) spawning timing patterns across different habitats and islands in French Polynesia. We'll investigate whether spawning behavior varies by environmental factors using generalized linear models.
+yposThis analysis explores coral (*Porites rus*) spawning timing patterns across different habitats and islands in French Polynesia. We'll investigate whether spawning behavior varies by environmental factors using generalised linear models.
 
 **Reference**: Moritz et al. (2025). Shining a light on daytime coral spawning synchrony across oceans. *Global Ecology and Biogeography*, 10.1111/geb.70072
 
 **Data source**: SEANOE (10.17882/105886)
-
 
 ## Load Packages and Data
 
@@ -34,7 +32,6 @@ dat_sites <- read_csv(here(
 ```
 
 ## Figure 1B
-
 
 Have a look at the data set: Which columns exist? Remember, you can use `str()` to get an overview or click on the table in the environment tab to the right.
 
@@ -102,7 +99,7 @@ dat_sites %>%
   theme_test(base_size = 16)
 ```
 
-This calls for a regression! 
+This calls for a regression!
 
 With an ANCOVA, we can see if the relationship differs between "Lagoon" and "Outer slope". There is only one observation for "Channel", so we have to ignore it. First, create another data set without (`!=`) the Channel habitat using `filter()`:
 
@@ -111,7 +108,7 @@ dat_sites_sel <- dat_sites %>%
   filter(habitat != "Channel")
 ```
 
-Now, let's do a linear model, using `h_start` as response variable and the interaction of `h_sunrise` and `habitat` as explanatory variable. 
+Now, let's do a linear model, using `h_start` as response variable and the interaction of `h_sunrise` and `habitat` as explanatory variable.
 
 ```{r}
 lm_sr_hab_int <- lm(h_start ~ h_sunrise * habitat, data = dat_sites_sel)
@@ -146,9 +143,9 @@ That still does not look good!
 
 But wait, all observations are positive, time cannot be negative! Which type of GLM would you use?
 
-Use `check_model()` to see if the residuals fit better to the distribution you chose. 
+Use `check_model()` to see if the residuals fit better to the distribution you chose.
 
-First, use the interaction as explanatory variable, it could be that the change of the distributions leads to a change in p-values. If the interacion is not significant, I would use a model with the additive efects of `h_sunrise` and `habitat`. 
+First, use the interaction as explanatory variable, it could be that the change of the distributions leads to a change in p-values. If the interacion is not significant, I would use a model with the additive efects of `h_sunrise` and `habitat`.
 
 ```{r}
 glm_sr_hab_int <- glm(
@@ -160,7 +157,6 @@ glm_sr_hab_int <- glm(
 anova(glm_sr_hab_int)
 ```
 
-
 ```{r}
 glm_sr_hab <- glm(
   h_start ~ h_sunrise + habitat,
@@ -171,7 +167,6 @@ glm_sr_hab <- glm(
 anova(glm_sr_hab)
 
 ```
-
 
 Which model would you use in a publication? The linear model or the GLM? Interaction or addititve effects?
 
@@ -215,11 +210,10 @@ So, as a summary, so far we learned that the time of spawing is around 1.6 h aft
 estimate_contrasts(glm_sr_hab, p_adjust = "tukey")
 ```
 
-Look what the p-value actually means, try to understand the yellow text: 
-"Predictors averaged: h_sunrise (5.5)". At which point on the regression line were the two habitats compared? How much later is the spawning on average in the Outer reef?
+Look what the p-value actually means, try to understand the yellow text: "Predictors averaged: h_sunrise (5.5)". At which point on the regression line were the two habitats compared? How much later is the spawning on average in the Outer reef?
 
 To simplify things, we can concentrate on the the time after sunrise (`h_after_sunrise`), since we know that the spawnign time and sunrise is significantly correlated. This lets us visualise the difference like this:
-  
+
 ```{r}
 dat_sites %>%
   ggplot(aes(y = h_after_sunrise, x = habitat, fill = habitat)) +
@@ -232,7 +226,6 @@ dat_sites %>%
   theme(legend.position = "none")
 ```
 
-
 So let's test differences here with ANOVA, ie comparison of groups:
 
 Use the same dataset from the regression above (i.e. excluding the single Channel observation) and make a model using `h_after_sunrise` as response and `habitat` as explanatory variable. Consider what you learned above about a suitable distribution. Do this yourself:
@@ -242,7 +235,6 @@ Use the same dataset from the regression above (i.e. excluding the single Channe
 3.  Test if habitats differ significantly with `anova()`
 4.  Predict data using `estimate_means()`
 5.  Add the estimated mean and CIs as a `geom_pointrange()` layer
-
 
 ```{r}
 glm_hab <- glm(
@@ -275,7 +267,6 @@ dat_sites %>%
   theme(legend.position = "none")
 ```
 
-
 As before, you can use `estimate_contrast()` to calculate the difference of the spawning time between Lagoon and Outer slope:
 
 ```{r}
@@ -283,7 +274,6 @@ estimate_contrasts(glm_hab)
 ```
 
 Why does is slightly differ to the difference calcualted above?
-
 
 ## Figure 2B
 
@@ -298,7 +288,6 @@ dat_sites %>%
   theme_test(base_size = 16)
 ```
 
-
 Would you do a regression as in the publication? Why not? Think about indendence of the data! Do you think the habitat could have an impact besides the depth? Is it possible to consider the impact of habitat and depth?
 
 ## Figure 4B
@@ -310,7 +299,6 @@ dat_colony <- read_csv(here(
   "lectures/07/Porites_rus_spawning/data/clean/prus_colony.csv"
 ))
 ```
-
 
 Now, plot it as follows:
 
@@ -375,11 +363,9 @@ ggplot(data = dat_colony, aes(x = sst, y = h_after_sunrise, fill = sex)) +
   labs(y = "Hours after sunrise", x = "SST (°C)", fill = "Sex") +
   scale_fill_manual(values = col_sex) +
   theme_test(base_size = 16)
-```  
+```
 
-  
 How would you test what you see?
-
 
 ```{r}
 glm_sst_sex_int <- glm(
@@ -403,7 +389,6 @@ check_model(glm_sst_sex)
 
 anova(glm_sst_sex)
 ```
-
 
 If you're happy with your model, add the regressio line and CI to the plot above. Do so as before by first creating a data frame with the predictions using `estimate_relation()`:
 
@@ -429,7 +414,6 @@ ggplot(data = dat_colony, aes(x = sst, y = h_after_sunrise, fill = sex)) +
   theme_test(base_size = 16)
 ```
 
-
 And how much does the spawnign time differ between male and female corals?
 
 ```{r}
@@ -442,7 +426,6 @@ estimate_contrasts(
   by = "sst = c(27, 28, 29)"
 )
 ```
-
 
 ## References
 
