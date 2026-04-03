@@ -1,0 +1,86 @@
+---
+title: "Untitled"
+format: html
+---
+
+## Context
+
+This analysis explores coral (*Porites rus*) spawning timing patterns across different habitats and islands in French Polynesia. We'll investigate whether spawning behavior varies by environmental factors using generalized linear models.
+
+**Reference**: Moritz et al. (2025). Shining a light on daytime coral spawning synchrony across oceans. *Global Ecology and Biogeography*, 10.1111/geb.70072
+
+
+```{r}
+library(here)
+library(janitor)
+library(tidyverse)
+```
+
+```{r}
+dat_colony <- read.csv(
+  here(
+    "lectures/07/Porites_rus_spawning/data/SEANOE_ColonySpawning_Moritz.csv"
+  ),
+  sep = ";",
+  dec = "."
+) %>%
+  clean_names() %>%
+  filter(
+    sex %in% c("MALE", "FEMALE"),
+    site == "Vairao",
+    spawning == "YES"
+  ) %>%
+  select(-date) %>%
+  mutate(
+    date = as_date(paste(year, month, day, sep = "-")),
+    h_after_sunrise = time - sunrise,
+  ) %>%
+  filter(!is.na(h_after_sunrise)) %>%
+  select(date, site, colony = number, sex, spawning, h_after_sunrise, sst) %>%
+  filter(!is.na(h_after_sunrise))
+
+```
+
+```{r}
+write_csv(
+  dat_colony,
+  here(
+    "lectures/07/Porites_rus_spawning/data/prus_colony.csv"
+  )
+)
+```
+
+
+```{r}
+dat_sites <- read.csv(
+  here(
+    "lectures/07/Porites_rus_spawning/data/SEANOE_SiteSpawning_Moritz.csv"
+  ),
+  sep = ";",
+  dec = "."
+) %>%
+  clean_names() %>%
+  mutate(date = as_date(date_us)) %>%
+  filter(quality_start == "Exact") %>%
+  select(
+    -date_us,
+    -year,
+    -month,
+    -quality_start,
+    -no_start,
+    -s_tr_sr,
+    -sst
+  ) %>%
+  rename(h_start = start_decimal, h_sunrise = to_sr_decimal) %>%
+  mutate(h_after_sunrise = h_start - h_sunrise) %>%
+  filter(!is.na(h_after_sunrise))
+```
+
+```{r}
+write_csv(
+  dat_sites,
+  here(
+    "lectures/07/Porites_rus_spawning/data/prus_sites.csv"
+  )
+)
+```

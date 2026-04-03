@@ -44,8 +44,8 @@ website:
               text: Modèles
             - href: summary_part1.qmd
               text: Part 1
-           # - href: distr_overview_fr.qmd
-           #  text: Distributions 
+            - href: distr_overview.qmd
+              text: GLM distributions             
         - href: course-links.qmd
           text: Liens utiles
 
