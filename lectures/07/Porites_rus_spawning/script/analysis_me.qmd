@@ -75,7 +75,8 @@ dat_lagoonS %>%
   ) +
   labs(y = "Hours after sunrise", x = NULL) +
   geom_hline(yintercept = mean(dat_lagoonS$mean_h_after_sunrise)) +
-  theme_test(base_size = 16)
+  theme_test(base_size = 16) +
+  theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust = 1))
 ```
 
 What do you see?
