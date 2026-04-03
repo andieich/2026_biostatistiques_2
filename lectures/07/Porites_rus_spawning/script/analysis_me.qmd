@@ -23,7 +23,6 @@ library(tidyverse)
 library(here)
 library(performance)
 library(modelbased)
-library(ggthemes)
 ```
 
 Load `dat_sites`. This data set gives an overview of spawning at different parts of the word:
@@ -179,7 +178,7 @@ Which model would you use in a publication? The linear model or the GLM? Interac
 We can now add the regression lines and the confidence intervalls to Fig 2A. To do so, first create a data frame with the model predictions using `estimate_relation()` and the model you chose:
 
 ```{r}
-pred_glm_sr_hab <- estimate_relation(glm_sr_hab, lenght = 1000)
+pred_glm_sr_hab <- estimate_relation(glm_sr_hab)
 ```
 
 We can now add this to the figure we created further above. Have a look at the prediction dataframe you just created. What column should be used for the regression line (in a `geom_line()` layer), what is is columns defining the confidence intervals (in a `geom_ribbon()` layer)? Add them to the ggplot function. Remember to use the summary data for these two layers.
