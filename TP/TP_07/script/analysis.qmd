@@ -1,0 +1,248 @@
+---
+title: "Mettre en lumière la synchronie de la ponte diurne du corail *Porites rus*"
+subtitle: "Étude de cas GLM"
+format: html
+---
+
+## Contexte
+
+Cette analyse explore les motifs de temps de ponte du corail (*Porites rus*) selon différents habitats et îles en Polynésie française. Nous allons étudier si le comportement de ponte varie selon des facteurs environnementaux en utilisant des modèles linéaires généralisés.
+
+**Référence** : Moritz et al. (2025). [Shining a light on daytime coral spawning synchrony across oceans](https://onlinelibrary.wiley.com/doi/10.1111/geb.70072). *Global Ecology and Biogeography*, 10.1111/geb.70072
+
+**Source des données** : SEANOE (10.17882/105886)
+
+## Charger les packages et les données
+
+Charger les packages nécessaires
+
+```{r}
+library(tidyverse)
+library(here)
+library(performance)
+library(modelbased)
+```
+
+Charger `dat_sites`. Ce jeu de données donne un aperçu des observations de ponte dans différentes parties du monde :
+
+```{r}
+dat_sites <- read_csv(here(
+  "lectures/07/Porites_rus_spawning/data/clean/prus_sites.csv"
+))
+```
+
+## Figure 1B
+
+Regardez le jeu de données : quelles colonnes existent ? Rappelez‑vous que vous pouvez utiliser `str()` pour obtenir un aperçu ou cliquer sur la table dans l'onglet Environnement à droite.
+
+Recréons la Figure 1B de la publication. Nous nous concentrons uniquement sur les données exactes.
+
+1.  Créez un nouveau jeu de données et filtrez pour l'habitat "Lagoon" (`filter()`)
+2.  Créez un tableau récapitulatif en groupant par `island` et calculez la moyenne et l'écart type (`sd()`) de `h_after_sunrise` (heures après le lever du soleil).
+
+```{r}
+
+```
+
+3.  Maintenant les données sont prêtes à être tracées. Tracez les données résumées avec `ggplot()` en :
+
+    - `island` en abscisse
+    - une couche `geom_pointrange()` avec la moyenne en `y`, et `mean - SD` en `ymin` et `mean + SD` en `ymax`
+    - ajoutez une ligne horizontale (`geom_hline()`) avec la moyenne de toutes les moyennes comme `yintercept`.
+
+```{r}
+
+```
+
+Que voyez‑vous ?
+
+## Figure 2A
+
+Essayons de mieux comprendre la variabilité en recréant la Fig. 2A. La ponte est souvent synchronisée par l'intensité lumineuse. C'est pourquoi ci‑dessus nous avons utilisé les heures après le lever du soleil. Le moment de la ponte peut aussi être influencé par l'habitat (Channel, Lagoon, Outer slope). Vérifions cela. Tracez `h_start` (heure de début en heures décimales) en ordonnée contre `h_sunrise` en abscisse.
+
+Les données ont été collectées dans différents habitats : Channel, Lagoon, Outer slope. Pour voir l'effet de l'habitat, utilisez des couleurs différentes pour la colonne `habitat`.
+
+```{r}
+
+```
+
+Ceci appelle une régression !
+
+Avec une ANCOVA, nous pouvons voir si la relation diffère entre "Lagoon" et "Outer slope". Il n'y a qu'une seule observation pour "Channel", il faut donc l'ignorer. D'abord, créez un jeu de données sans Channel :
+
+```{r}
+
+```
+
+Ensuite, faisons un modèle linéaire avec `h_start` en réponse et l'interaction `h_sunrise * habitat` en explicatives.
+
+```{r}
+
+```
+
+Faites l'analyse : utilisez `anova()` pour tester l'effet de `h_sunrise`, `habitat` et de leur interaction :
+
+```{r}
+
+```
+
+Quelles variables explicatives ont un effet significatif sur `h_start` ?
+
+Pensez‑vous qu'il soit utile de garder l'interaction dans le modèle ?
+
+Vérifiez les hypothèses avec `check_model()` :
+
+```{r}
+
+```
+
+Les résidus vous semblent‑ils normalement distribués ?
+
+Faisons un second modèle sans interaction et vérifions à nouveau :
+
+```{r}
+
+```
+
+Ce n'est toujours pas concluant !
+
+Mais attention : toutes les observations sont positives, le temps ne peut pas être négatif. Quel type de GLM utiliseriez‑vous ?
+
+Utilisez `check_model()` pour voir si les résidus s'ajustent mieux à la distribution choisie.
+
+D'abord, testez le modèle avec interaction, car le changement de distribution peut modifier les p‑valeurs. Si l'interaction n'est pas significative, j'utiliserais un modèle additif `h_sunrise + habitat`.
+
+```{r}
+
+```
+
+```{r}
+
+```
+
+Quel modèle utiliseriez‑vous pour une publication ? Le linéaire ou le GLM ? Interaction ou effets additifs ?
+
+Nous pouvons maintenant ajouter les lignes de régression et les intervalles de confiance à la Fig. 2A. Pour cela, créez d'abord un data.frame de prédictions avec `estimate_relation()` :
+
+```{r}
+
+```
+
+Ajoutez ces prédictions à la figure précédente. Regardez le tableau de prédictions : quelle colonne utiliser pour la ligne de régression (`geom_line()`), et quelles colonnes définissent les intervalles de confiance (`geom_ribbon()`)? Utilisez les données résumées pour ces deux couches.
+
+```{r}
+
+```
+
+En résumé : nous avons appris que le moment de la ponte est autour de 1,6 h après le lever du soleil. Le temps de ponte est significativement corrélé au temps du lever du soleil : plus le lever est tardif, plus la ponte a lieu tard. Cette relation ne diffère pas entre Outer slope et Lagoon, bien que la ponte soit en moyenne plus tardive sur l'Outer slope. Nous pouvons tester cela formellement avec un test post‑hoc en utilisant `estimate_contrasts()` :
+
+```{r}
+
+```
+
+Regardez ce que veut dire la p‑valeur : la mention "Predictors averaged: h_sunrise (5.5)" indique à quel point de la ligne de régression les habitats ont été comparés. Combien plus tard la ponte a‑t‑elle lieu en moyenne sur l'Outer reef ?
+
+Pour simplifier, on peut se concentrer sur le temps après le lever (`h_after_sunrise`), puisque nous savons que le temps de ponte et le lever du soleil sont corrélés. Ainsi on peut visualiser la différence comme ceci :
+
+```{r}
+
+```
+
+Testons les différences avec une ANOVA (comparaison de groupes) :
+
+Utilisez le même jeu de données que pour la régression précédente (excluant Channel) et ajustez un modèle avec `h_after_sunrise` comme réponse et `habitat` comme explicative. Réfléchissez au choix de la distribution. Procédez ainsi :
+
+1.  Ajuster le modèle
+2.  Vérifier les hypothèses avec `check_model()`
+3.  Tester si les habitats diffèrent avec `anova()`
+4.  Prédire avec `estimate_means()`
+5.  Ajouter la moyenne estimée et ses IC avec `geom_pointrange()`
+
+```{r}
+```
+
+Comme précédemment, `estimate_contrasts()` permet de calculer la différence entre Lagoon et Outer slope :
+
+```{r}
+
+```
+
+Pourquoi le résultat diffère‑t‑il légèrement de la comparaison précédente ?
+
+## Figure 2B
+
+Le moment de la ponte peut aussi être influencé par la profondeur. Traçons la figure 2B : `depth` en abscisse, `h_after_sunrise` en ordonnée, couleur par habitat.
+
+```{r}
+
+```
+
+Faut‑il ajuster une régression comme dans la publication ? Pourquoi pas ? Réfléchissez à l'indépendance des observations. L'habitat peut‑il avoir un effet en plus de la profondeur ? Peut‑on considérer habitat et profondeur ensemble ?
+
+## Figure 4B
+
+Pour mieux comprendre la variabilité, étudions l'effet du sexe. L'auteur a fourni un jeu de données plus détaillé pour les observations de ponte à Vairao. Chargez‑le et regardez‑le :
+
+```{r}
+
+```
+
+Tracez ensuite :
+
+```{r}
+
+```
+
+Comment analyseriez‑vous ces données ? Quel type de modèle utiliseriez‑vous ? Essayez :
+
+```{r}
+
+```
+
+Si le modèle vous convient, prédisez et ajoutez la moyenne et son IC à la visualisation :
+
+```{r}
+
+```
+
+Combien de temps sépare en moyenne le début de ponte des mâles et des femelles ? Utilisez `estimate_contrasts()` :
+
+```{r}
+
+```
+
+## Figure 2F
+
+Comme vous le voyez, il existe une différence mais une grande variabilité persiste. Peut‑être liée à la température de surface de la mer (`sst`)? Commencez par un graphique : `sst` en abscisse, `h_after_sunrise` en ordonnée, couleur par `sex`.
+
+```{r}
+
+```
+
+Comment testeriez‑vous ce que vous observez ?
+
+```{r}
+
+```
+
+Si le modèle vous convient, ajoutez la ligne de régression et l'IC au tracé ci‑dessus en créant d'abord les prédictions :
+
+```{r}
+
+```
+
+Et quelle est la différence moyenne entre mâles et femelles ?
+
+```{r}
+
+```
+
+```{r}
+
+```
+
+## Références
+
+Moritz C, et al. (2025). Shining a light on daytime coral spawning synchrony across oceans. *Global Ecology and Biogeography*, **34**(3):e70072. https://doi.org/10.1111/geb.70072
+
+Data: DOI 10.17882/105886
