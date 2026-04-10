@@ -1,0 +1,1422 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="fr" xml:lang="fr"><head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.9.35">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+<meta name="author" content="Andreas Eich">
+<title>Solution pour TP 06 – Biostatistiques 2</title>
+<style>
+/* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../">
+<link href="../../images/logo.png" rel="icon" type="image/png">
+<script src="../../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-10a99e03521ec9ce62a914b0d4603325.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../site_libs/bootstrap/bootstrap-75ce83c6a5fb92f52d02f478472523c6.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light"><script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "Pas de résultats",
+    "search-matching-documents-text": "documents trouvés",
+    "search-copy-link-title": "Copier le lien vers la recherche",
+    "search-hide-matches-text": "Cacher les correspondances additionnelles",
+    "search-more-match-text": "correspondance de plus dans ce document",
+    "search-more-matches-text": "correspondances de plus dans ce document",
+    "search-clear-button-title": "Effacer",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Annuler",
+    "search-submit-button-title": "Envoyer",
+    "search-label": "Recherche"
+  }
+}</script>
+<meta property="og:title" content="Solution pour TP 06 – Biostatistiques 2">
+<meta property="og:description" content="Page d’accueil pour UE 6.7 - Biostatistiques 2">
+<meta property="og:image" content="https://andieich.github.io/2026_biostatistiques_2/solutions/06/solution_06_files/figure-html/unnamed-chunk-3-1.png">
+<meta property="og:site_name" content="Biostatistiques 2">
+<meta property="og:image:height" content="960">
+<meta property="og:image:width" content="1344">
+</head>
+<body class="nav-sidebar docked quarto-light">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top"><nav class="quarto-secondary-nav"><div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Basculer la barre latérale" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item">Solution pour TP 06</li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Basculer la barre latérale" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+    </div>
+  </nav></header><!-- content --><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation docked overflow-auto"><div class="pt-lg-2 mt-2 text-center sidebar-header">
+      <a href="../../index.html" class="sidebar-logo-link">
+      <img src="../../images/logo.png" alt="" class="sidebar-logo light-content py-0 d-lg-inline d-none"><img src="../../images/logo.png" alt="" class="sidebar-logo dark-content py-0 d-lg-inline d-none"></a>
+      </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+<li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Calendrier</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../posit_cloud_access.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Accéder à Posit Cloud</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../course-team.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Équipe d’enseignement</span></a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="false">
+ <span class="menu-text">Résumés</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="false" aria-label="Basculer la section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 ">
+<li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../model_overview_fr.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Modèles</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../summary_part1.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Part 1</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../distr_overview.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">GLM distributions</span></a>
+  </div>
+</li>
+      </ul>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../course-links.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Liens utiles</span></a>
+  </div>
+</li>
+    </ul>
+</div>
+</nav><div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active"><h2 id="toc-title">Sur cette page</h2>
+   
+  <ul>
+<li>
+<a href="#recrutement-de-corail" id="toc-recrutement-de-corail" class="nav-link active" data-scroll-target="#recrutement-de-corail">Recrutement de corail</a>
+  <ul class="collapse">
+<li><a href="#t%C3%A2che-1" id="toc-tâche-1" class="nav-link" data-scroll-target="#t%C3%A2che-1">Tâche 1</a></li>
+  <li><a href="#t%C3%A2che-2" id="toc-tâche-2" class="nav-link" data-scroll-target="#t%C3%A2che-2">Tâche 2</a></li>
+  <li><a href="#t%C3%A2che-3" id="toc-tâche-3" class="nav-link" data-scroll-target="#t%C3%A2che-3">Tâche 3</a></li>
+  <li><a href="#t%C3%A2che-4" id="toc-tâche-4" class="nav-link" data-scroll-target="#t%C3%A2che-4">Tâche 4</a></li>
+  <li><a href="#t%C3%A2che-5" id="toc-tâche-5" class="nav-link" data-scroll-target="#t%C3%A2che-5">Tâche 5</a></li>
+  </ul>
+</li>
+  <li>
+<a href="#biomasse-de-poissons" id="toc-biomasse-de-poissons" class="nav-link" data-scroll-target="#biomasse-de-poissons">Biomasse de poissons</a>
+  <ul class="collapse">
+<li><a href="#t%C3%A2che-6" id="toc-tâche-6" class="nav-link" data-scroll-target="#t%C3%A2che-6">Tâche 6</a></li>
+  <li><a href="#t%C3%A2che-7" id="toc-tâche-7" class="nav-link" data-scroll-target="#t%C3%A2che-7">Tâche 7</a></li>
+  <li><a href="#t%C3%A2che-8" id="toc-tâche-8" class="nav-link" data-scroll-target="#t%C3%A2che-8">Tâche 8</a></li>
+  <li><a href="#t%C3%A2che-9" id="toc-tâche-9" class="nav-link" data-scroll-target="#t%C3%A2che-9">Tâche 9</a></li>
+  <li><a href="#t%C3%A2che-10" id="toc-tâche-10" class="nav-link" data-scroll-target="#t%C3%A2che-10">Tâche 10</a></li>
+  </ul>
+</li>
+  <li>
+<a href="#couverture-corallienne" id="toc-couverture-corallienne" class="nav-link" data-scroll-target="#couverture-corallienne">Couverture corallienne</a>
+  <ul class="collapse">
+<li><a href="#t%C3%A2che-11" id="toc-tâche-11" class="nav-link" data-scroll-target="#t%C3%A2che-11">Tâche 11</a></li>
+  <li><a href="#t%C3%A2che-12" id="toc-tâche-12" class="nav-link" data-scroll-target="#t%C3%A2che-12">Tâche 12</a></li>
+  <li><a href="#t%C3%A2che-13" id="toc-tâche-13" class="nav-link" data-scroll-target="#t%C3%A2che-13">Tâche 13</a></li>
+  <li><a href="#t%C3%A2che-14" id="toc-tâche-14" class="nav-link" data-scroll-target="#t%C3%A2che-14">Tâche 14</a></li>
+  <li><a href="#t%C3%A2che-15" id="toc-tâche-15" class="nav-link" data-scroll-target="#t%C3%A2che-15">Tâche 15</a></li>
+  </ul>
+</li>
+  </ul></nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block default"><div class="quarto-title">
+<h1 class="title">Solution pour TP 06</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    <div>
+    <div class="quarto-title-meta-heading">Auteur·rice</div>
+    <div class="quarto-title-meta-contents">
+             <p>Andreas Eich </p>
+          </div>
+  </div>
+    
+  
+    
+  </div>
+  
+
+
+</header><section id="recrutement-de-corail" class="level2"><h2 class="anchored" data-anchor-id="recrutement-de-corail">Recrutement de corail</h2>
+<p>Ces données proviennent des relevés du CRIOBE mesurant le recrutement de corail (c.-à-d.&nbsp;les larves qui se fixent). Le recrutement a été mesuré en plaçant des tuiles en terre cuite (environ 15 × 15 cm) sur trois sites différents comme substrats de colonisation. Vingt tuiles ont été déployées par site. Après un an, le nombre de recrues de corail ayant colonisé et survécu sur chaque tuile a été compté. Les données vont de 0 à 13 recrues par tuile.</p>
+<p>Structure des données :</p>
+<ul>
+<li>
+<strong>Variable réponse</strong> : Nombre de recrues de corail par tuile (données de comptage)</li>
+<li>
+<strong>Variable explicative</strong> : Site (3 modalités)</li>
+<li>
+<strong>Taille de l’échantillon</strong> : 60 tuiles au total (20 par site)</li>
+</ul>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">dat_recruits</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/utils/read.table.html">read.csv</a></span><span class="op">(</span><span class="fu">here</span><span class="op">(</span><span class="st">"TP/TP_06/data/recruitment.csv"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>Regardons les données</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu">ggplot</span><span class="op">(</span>data <span class="op">=</span> <span class="va">dat_recruits</span>, <span class="fu">aes</span><span class="op">(</span>x <span class="op">=</span> <span class="va">site</span>, y <span class="op">=</span> <span class="va">recruits</span>, col <span class="op">=</span> <span class="va">site</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">geom_jitter</span><span class="op">(</span>size <span class="op">=</span> <span class="fl">3</span>, alpha <span class="op">=</span> <span class="fl">.6</span>, height <span class="op">=</span> <span class="fl">0</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">theme_minimal</span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">theme</span><span class="op">(</span>legend.position <span class="op">=</span> <span class="st">"none"</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">labs</span><span class="op">(</span>x <span class="op">=</span> <span class="cn">NULL</span>, y <span class="op">=</span> <span class="st">"Nombre de recrues par tuile"</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">scale_color_ordinal</span><span class="op">(</span><span class="op">)</span></span></code></pre></div><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure"><p><img src="solution_06_files/figure-html/unnamed-chunk-3-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<section id="tâche-1" class="level3"><h3 class="anchored" data-anchor-id="tâche-1">Tâche 1</h3>
+<p>Pensez-vous que des données de comptage comme celles-ci peuvent être analysées en supposant une distribution normale ?</p>
+<p>Pourquoi pas ? Considérez les points suivants :</p>
+<ul>
+<li>Quelle est la valeur minimale possible ? Pouvons-nous observer des comptages de recrues négatifs ?</li>
+<li>Comment la variance se répartit-elle par rapport à la moyenne ?</li>
+</ul>
+<div class="callout callout-style-simple callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Solution
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Comme il s’agit de données de type « nombre », seules les valeurs positives et entières (sans décimales/vergules) sont autorisées. Une distribution normale prend en compte la probabilité des nombres compris entre -∞ et ∞ et est définie de manière continue, c’est-à-dire qu’elle tient compte de la probabilité des nombres décimaux (vergules).</p>
+</div>
+</div>
+<p>Quelle serait la distribution appropriée pour des données de comptage ? (Vous pouvez vous référer à la <a href="https://andieich.github.io/2026_biostatistiques_2/distr_overview.html">présentation des GLM</a> pour vous guider.)</p>
+<div class="callout callout-style-simple callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Solution
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>La distribution de Poisson s’adapte bien aux données de comptage</p>
+</div>
+</div>
+<p>Comparons maintenant deux modèles : l’un supposant une distribution normale (incorrect) et l’autre utilisant la distribution appropriée.</p>
+<p><strong>Modèle 1 : Distribution normale (incorrect)</strong></p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">lm_recruits</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html">lm</a></span><span class="op">(</span><span class="va">recruits</span> <span class="op">~</span> <span class="va">site</span>, data <span class="op">=</span> <span class="va">dat_recruits</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">check_model</span><span class="op">(</span><span class="va">lm_recruits</span><span class="op">)</span></span></code></pre></div><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure"><p><img src="solution_06_files/figure-html/unnamed-chunk-4-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Regardez les graphiques diagnostiques, en particulier :</p>
+<ul>
+<li>
+<strong>“Normalité des résidus”</strong> : la distribution semble-t-elle normale ? Quels problèmes observez-vous ?</li>
+<li>
+<strong>“Homogénéité de la variance”</strong> : les résidus sont-ils également répartis selon les valeurs ajustées ?</li>
+<li>
+<strong>Premier graphique (résidus vs ajustés)</strong> : le modèle peut-il prédire de façon fiable des comptages négatifs de recrues ?</li>
+</ul></section><section id="tâche-2" class="level3"><h3 class="anchored" data-anchor-id="tâche-2">Tâche 2</h3>
+<p><strong>Modèle 2 : Utiliser la distribution appropriée</strong></p>
+<p>Maintenant, ajustez le modèle correct en remplaçant <code>____</code> dans <code>family =</code> par la distribution appropriée. Choisissez parmi :</p>
+<ul>
+<li>
+<code><a href="https://rdrr.io/r/stats/family.html">poisson()</a></code> - pour des données de comptage où la moyenne et la variance sont égales</li>
+<li>
+<code><a href="https://rdrr.io/r/stats/family.html">Gamma()</a></code> - pour des données continues positives</li>
+<li>
+<code><a href="https://rdrr.io/r/stats/family.html">binomial()</a></code> - pour des données binaires (oui/non)</li>
+</ul>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb4"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">glm_recruits</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/glm.html">glm</a></span><span class="op">(</span><span class="va">recruits</span> <span class="op">~</span> <span class="va">site</span>, data <span class="op">=</span> <span class="va">dat_recruits</span>, family <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/family.html">poisson</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">check_model</span><span class="op">(</span><span class="va">glm_recruits</span><span class="op">)</span></span></code></pre></div><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure"><p><img src="solution_06_files/figure-html/unnamed-chunk-5-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+</section><section id="tâche-3" class="level3"><h3 class="anchored" data-anchor-id="tâche-3">Tâche 3</h3>
+<p>Vous pouvez utiliser la fonction <code>compare_performance()</code> (package <code>modelbased</code>) pour comparer les performances des deux modèles :</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb5"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu">compare_performance</span><span class="op">(</span><span class="va">lm_recruits</span>, <span class="va">glm_recruits</span><span class="op">)</span></span></code></pre></div><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># Comparison of Model Performance Indices
+
+Name         | Model | AIC (weights) | AICc (weights) | BIC (weights) |  RMSE
+-----------------------------------------------------------------------------
+lm_recruits  |    lm | 277.2 (&lt;.001) |  277.9 (&lt;.001) | 285.6 (&lt;.001) | 2.281
+glm_recruits |   glm | 219.8 (&gt;.999) |  220.3 (&gt;.999) | 226.1 (&gt;.999) | 2.281
+
+Name         | Sigma |    R2 | R2 (adj.) | Nagelkerke's R2 | Score_log | Score_spherical
+----------------------------------------------------------------------------------------
+lm_recruits  | 2.340 | 0.138 |     0.108 |                 |           |                
+glm_recruits | 1.000 |       |           |           0.600 |    -1.782 |           0.096</code></pre>
+</div>
+</div>
+<p>Regardez les valeurs de R² (vous vous souvenez de ce qu’elles indiquent ?). Pour le modèle linéaire “normal”, regardez la colonne “R2”, pour le GLM regardez la colonne “Nagelkerke’s R2”.</p>
+<p>Un autre indicateur utile est l’AIC (Akaike Information Criterion), qui décrit aussi la qualité d’un modèle. Plus la valeur est faible, meilleur est le modèle !</p>
+<p>Lequel des deux modèles s’ajuste le mieux et est le plus adapté à ce type de données ?</p>
+<div class="callout callout-style-simple callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Solution
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>La fonction <code>glm_recruits</code> est plus performante que <code>lm_recruits</code>, car elle tient compte du fait que les données ne peuvent être que nulles ou positives et qu’elles ne contiennent que des valeurs entières. La valeur R² est plus élevée, ce qui témoigne d’un meilleur pouvoir prédictif.</p>
+</div>
+</div>
+</section><section id="tâche-4" class="level3"><h3 class="anchored" data-anchor-id="tâche-4">Tâche 4</h3>
+<p><strong>Analyse des résultats</strong></p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb7"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/stats/anova.html">anova</a></span><span class="op">(</span><span class="va">glm_recruits</span><span class="op">)</span></span></code></pre></div><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Analysis of Deviance Table
+
+Model: poisson, link: log
+
+Response: recruits
+
+Terms added sequentially (first to last)
+
+     Df Deviance Resid. Df Resid. Dev  Pr(&gt;Chi)    
+NULL                    59     194.81              
+site  2   51.534        57     143.27 6.448e-12 ***
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
+</div>
+</div>
+<p>Y a-t-il une différence significative des taux de recrutement entre les trois sites ?</p>
+<div class="callout callout-style-simple callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Solution
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Oui, le site a une influence significative sur le recrutement des coraux (p &lt; 0,001)</p>
+</div>
+</div>
+<p>Pour comprendre ce que cela signifie biologiquement (par exemple, quel site est plus propice au recrutement ? Il pourrait être priorisé pour les AMP), nous pouvons tracer les résultats du modèle et effectuer un test post-hoc :</p>
+<p><strong>Visualisation des prédictions</strong></p>
+<p>Traçons les moyennes prédictes du modèle et les intervalles de confiance à 95 % avec les données brutes superposées.</p>
+<p><strong>Indice :</strong> J’ai trouvé une nouvelle fonctionnalité dans la fonction <code>plot</code> de <code>modelbased</code> permettant de superposer les données brutes (avec <code>show_data = TRUE</code>). J’ai aussi désactivé les lignes reliant les moyennes estimées (<code>join_dots = FALSE</code>), car, selon moi, cela donnerait l’impression d’une variable explicative numérique — c’est un choix personnel.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb9"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu">estimate_means</span><span class="op">(</span><span class="va">glm_recruits</span><span class="op">)</span> <span class="op">%&gt;%</span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span>show_data <span class="op">=</span> <span class="cn">TRUE</span>, join_dots <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">theme_light</span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">labs</span><span class="op">(</span>title <span class="op">=</span> <span class="st">"Recrutement de corail prédit par site"</span><span class="op">)</span></span></code></pre></div><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>We selected `by=c("site")`.</code></pre>
+</div>
+<div class="cell-output-display">
+<div>
+<figure class="figure"><p><img src="solution_06_files/figure-html/unnamed-chunk-8-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p><strong>Comparaisons post-hoc</strong></p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb11"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu">estimate_contrasts</span><span class="op">(</span><span class="va">glm_recruits</span>, p_adjust <span class="op">=</span> <span class="st">"tukey"</span><span class="op">)</span></span></code></pre></div><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>We selected `contrast=c("site")`.</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Marginal Contrasts Analysis
+
+Level1  | Level2  | Difference |   SE |        95% CI |    z |      p
+---------------------------------------------------------------------
+Tiahura | Haapiti |       1.80 | 0.32 | [ 1.18, 2.42] | 5.69 | &lt; .001
+Vaipahu | Haapiti |       2.05 | 0.34 | [ 1.39, 2.71] | 6.11 | &lt; .001
+Vaipahu | Tiahura |       0.25 | 0.45 | [-0.63, 1.13] | 0.56 |  0.844
+
+Variable predicted: recruits
+Predictors contrasted: site
+p-value adjustment method: Tukey
+Contrasts are on the response-scale.</code></pre>
+</div>
+</div>
+</section><section id="tâche-5" class="level3"><h3 class="anchored" data-anchor-id="tâche-5">Tâche 5</h3>
+<p>En vous basant sur les tests post-hoc :</p>
+<ul>
+<li>Quelles paires de sites diffèrent significativement ?</li>
+<li>Quelles paires ne diffèrent pas significativement ?</li>
+<li>Si vous ne pouviez protéger que deux des trois sites, lesquels choisiriez-vous ?</li>
+</ul>
+<div class="callout callout-style-simple callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Solution
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Le recrutement corallien à Tiahura et à Vaipahu est nettement plus élevé qu’à Haapiti. Ces sites pourraient être considérés comme prioritaires en matière de conservation. Aucune différence significative n’a été observée entre Tiahura et Vaipahu.</p>
+</div>
+</div>
+<p><strong>Pour une publication</strong> : vous rapporteriez typiquement le tableau ANOVA (avec la p-valeur), la figure avec les prédictions et les données brutes, la valeur de R², et placeriez le tableau des contrastes post-hoc en annexe.</p>
+</section></section><section id="biomasse-de-poissons" class="level2"><h2 class="anchored" data-anchor-id="biomasse-de-poissons">Biomasse de poissons</h2>
+<p>Ces données proviennent des relevés annuels de poissons du MCR LTER (station Gump à Moorea). Nous examinons la biomasse des consommateurs secondaires dans trois types d’habitats (Backreef, Forereef, Fringing) en 2024. Chaque observation représente la biomasse moyenne d’un site-habitat.</p>
+<p>Structure des données :</p>
+<ul>
+<li>
+<strong>Variable réponse</strong> : Biomasse moyenne des consommateurs secondaires par site (g)</li>
+<li>
+<strong>Variable explicative</strong> : Type d’habitat (3 modalités)</li>
+<li>
+<strong>Taille de l’échantillon</strong> : 18 observations (6 sites × 3 habitats)</li>
+</ul>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb14"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">fish_biomass</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/utils/read.table.html">read.csv</a></span><span class="op">(</span><span class="fu">here</span><span class="op">(</span><span class="st">"TP/TP_06/data/fish_biomass.csv"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>Visualisons les données :</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb15"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu">ggplot</span><span class="op">(</span>data <span class="op">=</span> <span class="va">fish_biomass</span>, <span class="fu">aes</span><span class="op">(</span>x <span class="op">=</span> <span class="va">habitat</span>, y <span class="op">=</span> <span class="va">biomass</span>, col <span class="op">=</span> <span class="va">habitat</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">geom_jitter</span><span class="op">(</span>size <span class="op">=</span> <span class="fl">3</span>, alpha <span class="op">=</span> <span class="fl">.6</span>, width <span class="op">=</span> <span class="fl">0.2</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">theme_minimal</span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">theme</span><span class="op">(</span>legend.position <span class="op">=</span> <span class="st">"none"</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">labs</span><span class="op">(</span>x <span class="op">=</span> <span class="st">"Habitat"</span>, y <span class="op">=</span> <span class="st">"Biomasse (g)"</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">scale_color_ordinal</span><span class="op">(</span><span class="op">)</span></span></code></pre></div><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure"><p><img src="solution_06_files/figure-html/unnamed-chunk-11-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<section id="tâche-6" class="level3"><h3 class="anchored" data-anchor-id="tâche-6">Tâche 6</h3>
+<p>Regardez le graphique et considérez :</p>
+<ul>
+<li>Les valeurs de biomasse peuvent-elles être négatives ?</li>
+<li>La variance (dispersion des points) semble-t-elle constante entre les habitats, ou augmente-t-elle avec des valeurs moyennes plus élevées ?</li>
+<li>Qu’est-ce que cela vous indique sur l’adéquation d’une distribution normale ?</li>
+</ul>
+<div class="callout callout-style-simple callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Solution
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Toutes les valeurs de biomasse sont supérieures à 0. La variance augmente probablement avec la valeur de la biomasse. Une distribution normale inclut la probabilité d’observer des valeurs négatives et ne convient pas. Un modèle linéaire suppose une variance constante et ne convient pas lorsque la variance augmente avec la biomasse.</p>
+</div>
+</div>
+<p><strong>Modèle 1 : Distribution normale (incorrect)</strong></p>
+<p>Essayons d’abord d’ajuster un modèle linéaire avec une distribution normale et voyons quels problèmes apparaissent :</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb16"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">lm_fish</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html">lm</a></span><span class="op">(</span><span class="va">biomass</span> <span class="op">~</span> <span class="va">habitat</span>, data <span class="op">=</span> <span class="va">fish_biomass</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">check_model</span><span class="op">(</span><span class="va">lm_fish</span><span class="op">)</span></span></code></pre></div><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure"><p><img src="solution_06_files/figure-html/unnamed-chunk-12-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Regardez les graphiques diagnostiques. Une hypothèse est-elle violée ?</p>
+<div class="callout callout-style-simple callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Solution
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Les résidus ne suivent pas une distribution normale et la variance augmente avec la biomasse.</p>
+</div>
+</div>
+</section><section id="tâche-7" class="level3"><h3 class="anchored" data-anchor-id="tâche-7">Tâche 7</h3>
+<p><strong>Modèle 2 : Utiliser la distribution appropriée</strong></p>
+<p>Ajustez maintenant le modèle correct en remplaçant <code>____</code> dans <code>family =</code> par la distribution appropriée. Choisissez parmi :</p>
+<ul>
+<li>
+<code><a href="https://rdrr.io/r/stats/family.html">poisson()</a></code> - pour des données de comptage avec moyenne et variance égales</li>
+<li>
+<code><a href="https://rdrr.io/r/stats/family.html">Gamma()</a></code> - pour des données continues positives</li>
+<li>
+<code><a href="https://rdrr.io/r/stats/family.html">binomial()</a></code> - pour des données binaires (oui/non)</li>
+</ul>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb17"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">m_fish</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/glm.html">glm</a></span><span class="op">(</span></span>
+<span>  <span class="va">biomass</span> <span class="op">~</span> <span class="va">habitat</span>,</span>
+<span>  data <span class="op">=</span> <span class="va">fish_biomass</span>,</span>
+<span>  family <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/family.html">Gamma</a></span><span class="op">(</span><span class="op">)</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">check_model</span><span class="op">(</span><span class="va">m_fish</span><span class="op">)</span></span></code></pre></div><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure"><p><img src="solution_06_files/figure-html/unnamed-chunk-13-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Examinez les graphiques diagnostiques. Dans quelle mesure les hypothèses semblent-elles satisfaites ?</p>
+<div class="callout callout-style-simple callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Solution
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Ce graphique de diagnostic est bien plus clair que celui de la fonction lm.</p>
+</div>
+</div>
+</section><section id="tâche-8" class="level3"><h3 class="anchored" data-anchor-id="tâche-8">Tâche 8</h3>
+<p>Comparez les deux modèles :</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb18"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu">compare_performance</span><span class="op">(</span><span class="va">lm_fish</span>, <span class="va">m_fish</span><span class="op">)</span></span></code></pre></div><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># Comparison of Model Performance Indices
+
+Name    | Model | AIC (weights) | AICc (weights) | BIC (weights) |    RMSE
+--------------------------------------------------------------------------
+lm_fish |    lm | 294.2 (0.017) |  297.3 (0.017) | 297.8 (0.017) | 686.903
+m_fish  |   glm | 286.1 (0.983) |  289.1 (0.983) | 289.6 (0.983) | 686.903
+
+Name    |   Sigma |    R2 | R2 (adj.) | Nagelkerke's R2
+-------------------------------------------------------
+lm_fish | 752.464 | 0.546 |     0.486 |                
+m_fish  |   0.289 |       |           |           0.615</code></pre>
+</div>
+</div>
+<p>Quel modèle est le plus approprié pour ces données et pourquoi ?</p>
+<div class="callout callout-style-simple callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Solution
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>m_fish est préférable à lm_fish car il tient compte du fait que les données ne peuvent être que positives et que la variance augmente avec la biomasse.</p>
+</div>
+</div>
+</section><section id="tâche-9" class="level3"><h3 class="anchored" data-anchor-id="tâche-9">Tâche 9</h3>
+<p><strong>Analyse des résultats</strong></p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb20"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/stats/anova.html">anova</a></span><span class="op">(</span><span class="va">m_fish</span><span class="op">)</span></span></code></pre></div><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Analysis of Deviance Table
+
+Model: Gamma, link: inverse
+
+Response: biomass
+
+Terms added sequentially (first to last)
+
+        Df Deviance Resid. Df Resid. Dev      F   Pr(&gt;F)    
+NULL                       17     3.2324                    
+habitat  2   1.9189        15     1.3134 11.474 0.000948 ***
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
+</div>
+</div>
+<p>Y a-t-il une différence significative de biomasse des consommateurs secondaires entre les habitats ? Quelle est la p-valeur ?</p>
+<div class="callout callout-style-simple callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Solution
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Oui, l’habitat a une incidence significative sur la biomasse piscicole (p &lt; 0.001).</p>
+</div>
+</div>
+</section><section id="tâche-10" class="level3"><h3 class="anchored" data-anchor-id="tâche-10">Tâche 10</h3>
+<p><strong>Visualisation des prédictions</strong></p>
+<p>Traçons les moyennes prédictes du modèle et les intervalles de confiance à 95 % avec les données brutes superposées :</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb22"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu">estimate_means</span><span class="op">(</span><span class="va">m_fish</span><span class="op">)</span> <span class="op">%&gt;%</span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span>show_data <span class="op">=</span> <span class="cn">TRUE</span>, join_dots <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">theme_light</span><span class="op">(</span><span class="op">)</span></span></code></pre></div><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>We selected `by=c("habitat")`.</code></pre>
+</div>
+<div class="cell-output-display">
+<div>
+<figure class="figure"><p><img src="solution_06_files/figure-html/unnamed-chunk-16-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p><strong>Comparaisons post-hoc</strong></p>
+<p>Testons formellement quelles habitats diffèrent significativement entre eux :</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb24"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu">estimate_contrasts</span><span class="op">(</span><span class="va">m_fish</span>, p_adjust <span class="op">=</span> <span class="st">"tukey"</span><span class="op">)</span></span></code></pre></div><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>We selected `contrast=c("habitat")`.</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Marginal Contrasts Analysis
+
+Level1   | Level2   | Difference |     SE |             95% CI | t(15) |     p
+------------------------------------------------------------------------------
+Forereef | Backreef |    -117.46 | 279.20 | [-712.57,  477.64] | -0.42 | 0.908
+Fringing | Backreef |    1537.07 | 436.43 | [ 606.84, 2467.31] |  3.52 | 0.008
+Fringing | Forereef |    1654.53 | 430.12 | [ 737.76, 2571.31] |  3.85 | 0.004
+
+Variable predicted: biomass
+Predictors contrasted: habitat
+p-value adjustment method: Tukey
+Contrasts are on the response-scale.</code></pre>
+</div>
+</div>
+<p>Quel habitat a la biomasse prédite la plus élevée ? Le plus faible ?</p>
+<div class="callout callout-style-simple callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Solution
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>La biomasse piscicole est nettement plus élevée (p &lt; 0,001) dans la frange du récif que dans les zones situées à l’arrière et à l’avant du récif.</p>
+</div>
+</div>
+</section></section><section id="couverture-corallienne" class="level2"><h2 class="anchored" data-anchor-id="couverture-corallienne">Couverture corallienne</h2>
+<p>Les données de couverture corallienne utilisées jusqu’à présent proviennent de transects par points d’interception. À chaque site, un ruban de transect a été posé sur le fond. Pour 150 points, on a vérifié s’il y a du corail en dessous (“oui”) ou non (“non”); cela a été fait pour les trois genres principaux <em>Acropora</em>, <em>Montipora</em> et <em>Pocillopora</em>.</p>
+<p>Lecture des données :</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb27"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">dat_coral</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/utils/read.table.html">read.csv</a></span><span class="op">(</span><span class="fu">here</span><span class="op">(</span><span class="st">"TP/TP_06/data/coral_2020.csv"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>Structure des données :</p>
+<ul>
+<li>
+<strong>Variable réponse</strong> : Couverture corallienne sous forme de nombre de points par genre (sur 150 points par site)</li>
+<li>
+<strong>Variables explicatives</strong> : Côte (3 modalités) et genre de corail (3 modalités), incluant l’interaction</li>
+<li>
+<strong>Taille de l’échantillon</strong> : 9 observations (3 côtes × 3 genres)</li>
+</ul>
+<p>Un tracé des données brutes</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb28"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">dat_coral</span> <span class="op">%&gt;%</span></span>
+<span>  <span class="fu">ggplot</span><span class="op">(</span><span class="fu">aes</span><span class="op">(</span>x <span class="op">=</span> <span class="va">coast</span>, y <span class="op">=</span> <span class="va">points</span>, col <span class="op">=</span> <span class="va">coral_genus</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">geom_point</span><span class="op">(</span></span>
+<span>    size <span class="op">=</span> <span class="fl">3</span>,</span>
+<span>    position <span class="op">=</span> <span class="fu">position_jitterdodge</span><span class="op">(</span>jitter.width <span class="op">=</span> <span class="fl">.2</span>, dodge.width <span class="op">=</span> <span class="fl">.5</span><span class="op">)</span></span>
+<span>  <span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">theme_minimal</span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">labs</span><span class="op">(</span></span>
+<span>    x <span class="op">=</span> <span class="st">"Côte"</span>,</span>
+<span>    y <span class="op">=</span> <span class="st">"Nombre de points (sur 150)"</span>,</span>
+<span>    color <span class="op">=</span> <span class="st">"Genre de corail"</span></span>
+<span>  <span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">scale_color_ordinal</span><span class="op">(</span><span class="op">)</span></span></code></pre></div><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure"><p><img src="solution_06_files/figure-html/unnamed-chunk-19-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Jusqu’à présent, nous avons utilisé les données en pourcentage calculées sachant qu’il y a 150 points par site. Nous pouvons calculer la couverture en pourcentage ainsi :</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb29"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">dat_coral</span> <span class="op">&lt;-</span> <span class="va">dat_coral</span> <span class="op">%&gt;%</span></span>
+<span>  <span class="fu">mutate</span><span class="op">(</span>percent <span class="op">=</span> <span class="fl">100</span> <span class="op">*</span> <span class="op">(</span><span class="va">points</span> <span class="op">/</span> <span class="fl">150</span><span class="op">)</span><span class="op">)</span></span></code></pre></div><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<section id="tâche-11" class="level3"><h3 class="anchored" data-anchor-id="tâche-11">Tâche 11</h3>
+<p>Pourquoi les modèles linéaires ne conviennent-ils pas à ce type de données en pourcentage ? Pensez aux valeurs possibles de la variable réponse et aux limites éventuelles.</p>
+<p>Pour voir les implications, nous pouvons ajuster tout de même un modèle linéaire.</p>
+<div class="callout callout-style-simple callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Solution
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>La couverture corallienne varie entre 0 % et 100 %, alors qu’une distribution normale prend en compte des valeurs allant de -∞ à ∞.</p>
+</div>
+</div>
+<p><strong>Modèle 1 : Distribution normale (incorrect)</strong></p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb30"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">lm_coral</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html">lm</a></span><span class="op">(</span><span class="va">percent</span> <span class="op">~</span> <span class="va">coast</span> <span class="op">*</span> <span class="va">coral_genus</span>, data <span class="op">=</span> <span class="va">dat_coral</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">check_model</span><span class="op">(</span><span class="va">lm_coral</span><span class="op">)</span></span></code></pre></div><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure"><p><img src="solution_06_files/figure-html/unnamed-chunk-21-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Regardez les graphiques diagnostiques. Les diagnostics peuvent sembler relativement raisonnables, mais considérez : <strong>Quelles sont les prédictions de ce modèle ? Les pourcentages peuvent-ils être négatifs ou dépasser 100 % ?</strong></p>
+<p>Visualisons les prédictions :</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb31"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu">estimate_means</span><span class="op">(</span><span class="va">lm_coral</span><span class="op">)</span> <span class="op">%&gt;%</span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span>show_data <span class="op">=</span> <span class="cn">TRUE</span>, join_dots <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">theme_light</span><span class="op">(</span><span class="op">)</span></span></code></pre></div><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>We selected `by=c("coast", "coral_genus")`.</code></pre>
+</div>
+<div class="cell-output-display">
+<div>
+<figure class="figure"><p><img src="solution_06_files/figure-html/unnamed-chunk-22-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Regardez attentivement le graphique. Pouvez-vous voir des prédictions biologiquement impossibles ? Où apparaîtraient des couvertures coralliennes négatives sur ce graphique ?</p>
+<div class="callout callout-style-simple callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Solution
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Le modèle prévoit une couverture corallienne négative, ce qui est biologiquement impossible !</p>
+</div>
+</div>
+</section><section id="tâche-12" class="level3"><h3 class="anchored" data-anchor-id="tâche-12">Tâche 12</h3>
+<p><strong>Modèle 2 : GLM avec la distribution appropriée</strong></p>
+<p>Ajustons maintenant un modèle avec la distribution appropriée. La manière la plus honnête consiste à utiliser les données brutes, c.-à-d.&nbsp;ici, les points (corail : oui/non) par transect. La précision de la mesure de la couverture diffère entre des transects avec seulement 10 points, ou des transects avec 150 points. Dans les modèles binomiaux, nous pouvons tenir compte de cela en utilisant <code>cbind(success, failure)</code>. Dans l’exemple de corail, <code>success</code> est le nombre de points par transect avec du corail (colonne <code>points</code>) et <code>failure</code> le nombre de points sans corail (150 - <code>points</code>).</p>
+<p>Ajustez maintenant le modèle correct en remplaçant <code>____</code> dans <code>family =</code> par la distribution appropriée. Choisissez parmi :</p>
+<ul>
+<li>
+<code><a href="https://rdrr.io/r/stats/family.html">poisson()</a></code> - pour des données de comptage avec moyenne et variance égales</li>
+<li>
+<code><a href="https://rdrr.io/r/stats/family.html">Gamma()</a></code> - pour des données continues positives</li>
+<li>
+<code><a href="https://rdrr.io/r/stats/family.html">binomial()</a></code> - pour des données binaires (oui/non)</li>
+</ul>
+<p>Si vous choisissez un modèle binomial, utilisez <code>cbind(points, 150 - points)</code> comme réponse, sinon le nombre de points (mais pensez s’il y a une limite supérieure de points par transect), ou les valeurs en pourcentage calculées.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb33"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">glm_coral</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/glm.html">glm</a></span><span class="op">(</span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/base/cbind.html">cbind</a></span><span class="op">(</span><span class="va">points</span>, <span class="fl">150</span> <span class="op">-</span> <span class="va">points</span><span class="op">)</span> <span class="op">~</span> <span class="va">coast</span> <span class="op">*</span> <span class="va">coral_genus</span>,</span>
+<span>  data <span class="op">=</span> <span class="va">dat_coral</span>,</span>
+<span>  family <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/family.html">binomial</a></span><span class="op">(</span><span class="op">)</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">check_model</span><span class="op">(</span><span class="va">glm_coral</span><span class="op">)</span></span></code></pre></div><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure"><p><img src="solution_06_files/figure-html/unnamed-chunk-23-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+</section><section id="tâche-13" class="level3"><h3 class="anchored" data-anchor-id="tâche-13">Tâche 13</h3>
+<p>J’espère que vous avez choisi un modèle binomial ici. Dans ce cas, <code>compare_performance()</code> ne fonctionne pas, puisque la variable réponse diffère entre les deux modèles (LM : percent, GLM : success vs.&nbsp;failure). Mais la décision pour le modèle correct peut ici se faire en réfléchissant à la nature des données.</p>
+<p>Nous pouvons aussi tracer les valeurs prédites des deux modèles pour voir si un modèle prédit des valeurs impossibles (ici, des pourcentages &lt; 0 % ou &gt; 100 %).</p>
+<p>Faisons-le pour le LM</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb34"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu">estimate_means</span><span class="op">(</span><span class="va">lm_coral</span><span class="op">)</span> <span class="op">%&gt;%</span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span>join_dots <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">theme_light</span><span class="op">(</span><span class="op">)</span></span></code></pre></div><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>We selected `by=c("coast", "coral_genus")`.</code></pre>
+</div>
+<div class="cell-output-display">
+<div>
+<figure class="figure"><p><img src="solution_06_files/figure-html/unnamed-chunk-24-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Et pour le GLM</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb36"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu">estimate_means</span><span class="op">(</span><span class="va">glm_coral</span><span class="op">)</span> <span class="op">%&gt;%</span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span>join_dots <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">theme_light</span><span class="op">(</span><span class="op">)</span></span></code></pre></div><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>We selected `by=c("coast", "coral_genus")`.</code></pre>
+</div>
+<div class="cell-output-display">
+<div>
+<figure class="figure"><p><img src="solution_06_files/figure-html/unnamed-chunk-25-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Quelles différences remarquez-vous entre les deux graphiques de modèle :</p>
+<ul>
+<li>Les intervalles de confiance sont-ils différents ?</li>
+<li>Toutes les prédictions restent-elles entre 0 et 100 % ?</li>
+</ul>
+<div class="callout callout-style-simple callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Solution
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Le modèle glm prend en compte les limites de 0 % et 100 %, tandis que le modèle lm prévoit une couverture corallienne négative.</p>
+</div>
+</div>
+</section><section id="tâche-14" class="level3"><h3 class="anchored" data-anchor-id="tâche-14">Tâche 14</h3>
+<p><strong>Analyse des résultats</strong></p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb38"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/stats/anova.html">anova</a></span><span class="op">(</span><span class="va">glm_coral</span><span class="op">)</span></span></code></pre></div><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Analysis of Deviance Table
+
+Model: binomial, link: logit
+
+Response: cbind(points, 150 - points)
+
+Terms added sequentially (first to last)
+
+                  Df Deviance Resid. Df Resid. Dev  Pr(&gt;Chi)    
+NULL                                 38     595.78              
+coast              2    45.52        36     550.25 1.303e-10 ***
+coral_genus        2   473.61        34      76.64 &lt; 2.2e-16 ***
+coast:coral_genus  4    30.45        30      46.19 3.957e-06 ***
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
+</div>
+</div>
+<p>Y a-t-il une interaction significative entre côte et genre ? Que vous indiquent les p-valeurs ?</p>
+<div class="callout callout-style-simple callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Solution
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Oui, l’interaction entre le littoral et les genres de coraux a un impact significatif sur le couvert corallien. Cela signifie que les différences entre les genres de coraux dépendent de l’orientation du littoral, et inversement.</p>
+</div>
+</div>
+</section><section id="tâche-15" class="level3"><h3 class="anchored" data-anchor-id="tâche-15">Tâche 15</h3>
+<p><strong>Comparaisons post-hoc</strong></p>
+<p>Examinons maintenant quels genres diffèrent significativement au sein de chaque côte :</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb40"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu">estimate_contrasts</span><span class="op">(</span><span class="va">glm_coral</span>, p_adjust <span class="op">=</span> <span class="st">"tukey"</span>, by <span class="op">=</span> <span class="st">"coast"</span><span class="op">)</span></span></code></pre></div><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>We selected `contrast=c("coast", "coral_genus")`.</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Marginal Contrasts Analysis
+
+Level1      | Level2    | coast | Difference |       SE |        95% CI |     z |      p
+----------------------------------------------------------------------------------------
+Montipora   | Acropora  | East  |       0.02 | 6.59e-03 | [ 0.01, 0.03] |  3.03 |  0.007
+Pocillopora | Acropora  | East  |       0.19 |     0.01 | [ 0.16, 0.22] | 12.74 | &lt; .001
+Pocillopora | Montipora | East  |       0.17 |     0.02 | [ 0.14, 0.20] | 10.76 | &lt; .001
+Montipora   | Acropora  | North |       0.01 | 8.56e-03 | [-0.01, 0.03] |  1.36 |  0.360
+Pocillopora | Acropora  | North |       0.23 |     0.02 | [ 0.19, 0.26] | 12.46 | &lt; .001
+Pocillopora | Montipora | North |       0.22 |     0.02 | [ 0.18, 0.25] | 11.51 | &lt; .001
+Montipora   | Acropora  | West  |       0.04 | 8.48e-03 | [ 0.03, 0.06] |  4.92 | &lt; .001
+Pocillopora | Acropora  | West  |       0.08 |     0.01 | [ 0.05, 0.10] |  6.91 | &lt; .001
+Pocillopora | Montipora | West  |       0.04 |     0.01 | [ 0.01, 0.06] |  2.54 |  0.030
+
+Variable predicted: points
+Predictors contrasted: coral_genus
+p-value adjustment method: Tukey
+Contrasts are on the response-scale.</code></pre>
+</div>
+</div>
+<p>En vous basant sur les contrastes et la visualisation du GLM que vous avez réalisée plus haut :</p>
+<ul>
+<li>Quels genres diffèrent significativement au sein de chaque côte ?</li>
+<li>Les différences significatives changent-elles entre les côtes ?</li>
+<li>Comment ces résultats se comparent-ils à ceux suggérés par le LM ?</li>
+</ul>
+<p>Pour comparaison, voici les contrastes du LM :</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb43"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu">estimate_contrasts</span><span class="op">(</span><span class="va">lm_coral</span>, p_adjust <span class="op">=</span> <span class="st">"tukey"</span>, by <span class="op">=</span> <span class="st">"coast"</span>, <span class="op">)</span></span></code></pre></div><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>We selected `contrast=c("coast", "coral_genus")`.</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Marginal Contrasts Analysis
+
+Level1      | Level2    | coast | Difference |   SE |         95% CI | t(30) |      p
+-------------------------------------------------------------------------------------
+Montipora   | Acropora  | East  |       2.00 | 1.60 | [-1.26,  5.26] |  1.25 |  0.432
+Pocillopora | Acropora  | East  |      18.80 | 1.60 | [15.54, 22.06] | 11.78 | &lt; .001
+Pocillopora | Montipora | East  |      16.80 | 1.60 | [13.54, 20.06] | 10.53 | &lt; .001
+Montipora   | Acropora  | North |       1.17 | 1.78 | [-2.48,  4.81] |  0.65 |  0.792
+Pocillopora | Acropora  | North |      22.83 | 1.78 | [19.19, 26.48] | 12.80 | &lt; .001
+Pocillopora | Montipora | North |      21.67 | 1.78 | [18.02, 25.31] | 12.14 | &lt; .001
+Montipora   | Acropora  | West  |       4.17 | 1.78 | [ 0.52,  7.81] |  2.34 |  0.066
+Pocillopora | Acropora  | West  |       7.67 | 1.78 | [ 4.02, 11.31] |  4.30 | &lt; .001
+Pocillopora | Montipora | West  |       3.50 | 1.78 | [-0.14,  7.14] |  1.96 |  0.139
+
+Variable predicted: percent
+Predictors contrasted: coral_genus
+p-value adjustment method: Tukey</code></pre>
+</div>
+</div>
+<p>Remarquez les différences dans les groupes considérés comme significativement différents. Cela illustre pourquoi l’utilisation de la distribution correcte est importante - l’inférence statistique peut changer !</p>
+<div class="callout callout-style-simple callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Solution
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Le modèle GLM binomial reflète mieux les caractéristiques des données. Comme il tient correctement compte de la limite inférieure de 0 %, les intervalles de confiance sont plus étroits (les prévisions sont plus précises) et davantage de comparaisons sont significatives lors du test post-hoc.</p>
+</div>
+</div>
+
+
+</section></section></main><!-- /main --><script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copié");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copié");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp("https:\/\/andieich\.github\.io\/2026_biostatistiques_2\/");
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+</div> <!-- /content -->
+<footer class="footer"><div class="nav-footer">
+    <div class="nav-footer-left">
+<p>© Droits d’auteur 2026, Andreas Eich</p>
+</div>   
+    <div class="nav-footer-center">
+      &nbsp;
+    </div>
+    <div class="nav-footer-right">
+<p>Cette page est créée avec 🤍 et <a href="https://quarto.org/">Quarto</a>.</p>
+</div>
+  </div>
+</footer>
+
+
+</body></html>
